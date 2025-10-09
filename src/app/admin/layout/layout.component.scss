@@ -1,0 +1,21 @@
+.dashboard {
+    min-height: 100vh;
+    background: #f7fafc;
+  }
+  
+  .main-content {
+    margin-left: 250px;
+    padding-top: 64px;
+    min-height: calc(100vh - 64px);
+    transition: margin-left 0.3s ease;
+  }
+  
+  .content-area {
+    padding: 24px;
+  }
+  
+  @media (max-width: 768px) {
+    .main-content {
+      margin-left: 0;
+    }
+  }

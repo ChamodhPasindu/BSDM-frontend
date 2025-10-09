@@ -1,0 +1,113 @@
+<div class="page-header">
+  <h1>RK TECH SYSTEMS</h1>
+  <p>Employee Management</p>
+</div>
+
+<div class="nav-menu-section">
+  <h2>Navigation</h2>
+  <div class="nav-buttons">
+    <button class="nav-btn">
+      <span class="nav-checkbox"></span>
+      Dashboard
+    </button>
+    <button class="nav-btn active">
+      <span class="nav-checkbox checked">✓</span>
+      Analytics
+    </button>
+    <button class="nav-btn">
+      <span class="nav-checkbox"></span>
+      Alerts
+    </button>
+    <button class="nav-btn">
+      <span class="nav-checkbox"></span>
+      Settings
+    </button>
+  </div>
+</div>
+
+<!-- Stats Cards -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-number">248</div>
+    <div class="stat-label">Total Employees</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-number">221</div>
+    <div class="stat-label">Active</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-number">27</div>
+    <div class="stat-label">Suspended</div>
+  </div>
+</div>
+
+<!-- Employee Directory -->
+<div class="section-header">
+  <h2>Employee Directory</h2>
+  <div class="section-actions">
+    <button class="btn-primary">Add Employee</button>
+    <button class="btn-secondary">Export</button>
+  </div>
+</div>
+
+<!-- Employee Table -->
+<div class="table-container">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Profile</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Status</th>
+        <th>Last Active</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let employee of employees">
+        <td>
+          <div class="profile-badge">{{employee.id}}</div>
+        </td>
+        <td>
+          <div class="employee-name">{{employee.name}}</div>
+        </td>
+        <td class="email-cell">{{employee.email}}</td>
+        <td>
+          <span class="role-badge">{{employee.role}}</span>
+        </td>
+        <td>
+          <div class="status-indicator">{{employee.status}}</div>
+        </td>
+        <td class="date-cell">{{employee.lastActive}}</td>
+        <td>
+          <div class="action-buttons">
+            <button class="btn-icon" title="Edit">
+              <span>✏️</span>
+            </button>
+            <button class="btn-icon" title="View">
+              <span>👁️</span>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Pagination -->
+<div class="pagination-section">
+  <div class="pagination-info">Showing 1-6 of 248</div>
+  <div class="pagination-controls">
+    <button class="pagination-btn" disabled>Previous</button>
+    <button class="pagination-btn active">1</button>
+    <button class="pagination-btn">2</button>
+    <button class="pagination-btn">3</button>
+    <button class="pagination-btn">Next</button>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="dashboard-footer">
+  <p>© RK TECH SYSTEMS</p>
+</footer>
