@@ -1,0 +1,130 @@
+// ===== COLOR PALETTE =====
+$colors: (
+  // Primary Colors (Your new colors)
+  primary: #06B6D4,        // Cyan accent
+  primary-dark: #0891B2,   // Darker cyan
+  primary-light: #E5F1FA,  // Light blue background
+  
+  // Background Colors
+  bg-dark: #0B1C20,        // Dark background
+  bg-darker: #07151A,      // Darker background
+  bg-light: #E5F1FA,       // Light background
+  
+  // Secondary
+  secondary: #64748B,
+  secondary-dark: #475569,
+  secondary-light: #F8FAFC,
+  
+  // Semantic Colors
+  success: #10B981,
+  warning: #F59E0B,
+  error: #EF4444,
+  info: #06B6D4,
+  
+  // Neutral Colors
+  white: #ffffff,
+  black: #000000,
+  gray-50: #F8FAFC,
+  gray-100: #F1F5F9,
+  gray-200: #E2E8F0,
+  gray-300: #CBD5E1,
+  gray-400: #94A3B8,
+  gray-500: #64748B,
+  gray-600: #475569,
+  gray-700: #334155,
+  gray-800: #1E293B,
+  gray-900: #0F172A,
+  
+  // Text Colors
+  text-primary: #0F172A,
+  text-secondary: #334155,
+  text-muted: #64748B,
+  text-light: #94A3B8,
+  
+  // Background Colors
+  bg-primary: #ffffff,
+  bg-secondary: #F8FAFC,
+  bg-sidebar: #0B1C20
+);
+
+// ===== TYPOGRAPHY =====
+$font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+$font-sizes: (
+  xs: 12px,
+  sm: 14px,
+  base: 16px,
+  lg: 18px,
+  xl: 20px,
+  '2xl': 24px,
+  '3xl': 28px,
+  '4xl': 32px
+);
+
+$font-weights: (
+  light: 300,
+  normal: 400,
+  medium: 500,
+  semibold: 600,
+  bold: 700
+);
+
+$line-heights: (
+  tight: 1.25,
+  normal: 1.5,
+  relaxed: 1.75
+);
+
+// ===== SPACING =====
+$spacing: (
+  0: 0,
+  1: 4px,
+  2: 8px,
+  3: 12px,
+  4: 16px,
+  5: 20px,
+  6: 24px,
+  8: 32px,
+  10: 40px,
+  12: 48px,
+  16: 64px
+);
+
+// ===== BORDER RADIUS =====
+$border-radius: (
+  none: 0,
+  sm: 4px,
+  base: 6px,
+  md: 8px,
+  lg: 12px,
+  xl: 16px,
+  full: 9999px
+);
+
+// ===== SHADOWS =====
+$shadows: (
+  sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05),
+  base: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+  md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+  lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+  xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1)
+);
+
+// ===== BREAKPOINTS =====
+$breakpoints: (
+  sm: 640px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px
+);
+
+// ===== Z-INDEX =====
+$z-index: (
+  dropdown: 1000,
+  sticky: 1020,
+  fixed: 1030,
+  modal-backdrop: 1040,
+  modal: 1050,
+  popover: 1060,
+  tooltip: 1070
+);

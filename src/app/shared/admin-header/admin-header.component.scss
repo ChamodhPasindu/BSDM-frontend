@@ -1,31 +1,31 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 24px;
+  @include flex-between;
+  padding: 0 map-get($spacing, 6);
   height: 64px;
-  background: white;
-  border-bottom: 1px solid #e1e5e9;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background: map-get($colors, white);
+  border-bottom: 1px solid map-get($colors, gray-200);
+  box-shadow: map-get($shadows, sm);
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
+  z-index: 1030; // Fixed value instead of map-get
 
   .header-left {
-    display: flex;
-    align-items: center;
-    gap: 16px;
+    @include flex-center;
+    gap: map-get($spacing, 4);
   }
 
   .hamburger-menu {
     display: none;
-    flex-direction: column;
+    @include flex-column;
     background: none;
     border: none;
     cursor: pointer;
-    padding: 4px;
+    padding: map-get($spacing, 1);
     width: 24px;
     height: 24px;
     justify-content: space-between;
@@ -34,48 +34,44 @@
       display: block;
       height: 2px;
       width: 100%;
-      background: #4a5568;
+      background: map-get($colors, gray-600);
       transition: all 0.3s ease;
     }
   }
 
   .logo {
     margin: 0;
-    color: #1a365d;
-    font-size: 20px;
-    font-weight: 700;
+    color: map-get($colors, gray-800);
+    font-size: map-get($font-sizes, xl);
+    font-weight: map-get($font-weights, bold);
   }
 
   .user-menu {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+    @include flex-center;
+    gap: map-get($spacing, 3);
     cursor: pointer;
 
     .user-name {
-      color: #4a5568;
-      font-weight: 500;
+      color: map-get($colors, gray-600);
+      font-weight: map-get($font-weights, medium);
     }
 
     .user-avatar {
+      @include flex-center;
       width: 36px;
       height: 36px;
-      background: #0066FF;
-      color: white;
+      background: map-get($colors, primary);
+      color: map-get($colors, white);
       border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-      font-size: 14px;
+      font-weight: map-get($font-weights, semibold);
+      font-size: map-get($font-sizes, sm);
     }
   }
 }
 
-// Mobile styles
-@media (max-width: 768px) {
+@include mobile {
   .header {
-    padding: 0 16px;
+    padding: 0 map-get($spacing, 4);
 
     .hamburger-menu {
       display: flex;
