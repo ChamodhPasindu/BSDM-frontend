@@ -1,0 +1,8 @@
+@use 'variable' as *;
+
+:root {
+   @each $name, $color in $colors {
+    // --#{$name}: nth($color, 1);
+    #{$name}: nth($color, 1);
+  }
+}

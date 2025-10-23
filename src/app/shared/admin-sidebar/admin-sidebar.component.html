@@ -1,46 +1,84 @@
-<div class="sidebar-overlay" (click)="closeSidebar()"></div>
-<nav class="sidebar">
-  <div class="sidebar-header">
-    <h3>Navigation</h3>
-    <button class="close-sidebar" (click)="closeSidebar()">×</button>
-  </div>
-  <div class="sidebar-content">
-    <ul class="nav-menu">
-      <li class="nav-item">
-        <a routerLink="/admin/post-login/dashboard" routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }" class="nav-link" (click)="closeSidebarOnMobile()">
-          <span class="nav-icon"><mat-icon>dashboard</mat-icon></span>
-          <span class="nav-text">Dashboard</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a routerLink="/admin/post-login/employees" routerLinkActive="active" class="nav-link"
-          (click)="closeSidebarOnMobile()">
-          <span class="nav-icon"><mat-icon>people</mat-icon></span>
-          <span class="nav-text">Employees</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a routerLink="/admin/post-login/billings" routerLinkActive="active" class="nav-link"
-          (click)="closeSidebarOnMobile()">
-          <span class="nav-icon"><mat-icon>payments</mat-icon></span>
-          <span class="nav-text">Billings</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a routerLink="/admin/post-login/analytics" routerLinkActive="active" class="nav-link"
-          (click)="closeSidebarOnMobile()">
-          <span class="nav-icon"><mat-icon>trending_up</mat-icon></span>
-          <span class="nav-text">Analytics</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a routerLink="/admin/post-login/settings" routerLinkActive="active" class="nav-link"
-          (click)="closeSidebarOnMobile()">
-          <span class="nav-icon"><mat-icon>settings</mat-icon></span>
-          <span class="nav-text">Settings</span>
-        </a>
-      </li>
-    </ul>
-  </div>
-</nav>
+<div class="navigation-bar-container">
+
+    <!-- Dashboard ------------------------------------------------------------->
+    <div class="menu-option-container">
+        <button class="menu-option" [class.selected]="selectedMenu==='home'" (click)="selectedMenu = 'home'">
+            <div class="right">
+                <span class="material-symbols-outlined">home</span>
+                Home
+            </div>
+            <span class="material-symbols-outlined">keyboard_arrow_right</span>
+        </button>
+    </div>
+
+    <!-- Employees ------------------------------------------------------------->
+    <!-- menu-option-container indicates one single option where sub option are also avaible -->
+    <div class="menu-option-container">
+        <button class="menu-option" [class.selected]="selectedMenu==='Invoices'" (click)="selectedMenu = 'Invoices'">
+            <div class="right">
+                <span class="material-symbols-outlined">assignment_ind
+                </span>
+                Employees
+            </div>
+            <span class="material-symbols-outlined" *ngIf="selectedMenu != 'Invoices'">keyboard_arrow_right</span>
+            <span class="material-symbols-outlined" *ngIf="selectedMenu == 'Invoices'">keyboard_arrow_down</span>
+        </button>
+        <div class="sub-option-container" *ngIf="selectedMenu === 'Invoices'">
+
+            <div class="sub-option-right"></div>
+
+            <div class="sub-option-left">
+                <button class="sub-options" [class.selected]="selectedSub==='Create Invoice'"
+                    (click)="selectedSub = 'Create Invoice'">
+                    Create Invoice
+                </button>
+
+                <button class="sub-options" [class.selected]="selectedSub==='Invoice List'"
+                    (click)="selectedSub = 'Invoice List'">
+                    Invoice List
+                </button>
+
+                <button class="sub-options" [class.selected]="selectedSub==='Invoice Payment'"
+                    (click)="selectedSub = 'Invoice Payment'">
+                    Invoice Payment
+                </button>
+
+                <button class="sub-options" [class.selected]="selectedSub==='Payment List'"
+                    (click)="selectedSub = 'Payment List'">
+                    Payment List
+                </button>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Entity Compliance ------------------------------------------------------------->
+    <div class="menu-option-container">
+        <button class="menu-option" [class.selected]="selectedMenu==='Entity'" (click)="selectedMenu = 'Entity'">
+            <div class="right">
+                <span class="material-symbols-outlined">groups</span>
+                Entity Compliance
+            </div>
+            <span class="material-symbols-outlined" *ngIf="selectedMenu != 'Entity'">keyboard_arrow_right</span>
+            <span class="material-symbols-outlined" *ngIf="selectedMenu == 'Entity'">keyboard_arrow_down</span>
+        </button>
+        <div class="sub-option-container" *ngIf="selectedMenu === 'Entity'">
+
+            <div class="sub-option-right"></div>
+
+            <div class="sub-option-left">
+                <button class="sub-options" [class.selected]="selectedSub==='Add New Entity'"
+                    (click)="selectedSub = 'Add New Entity'">
+                    Add New Entity
+                </button>
+
+                <button class="sub-options" [class.selected]="selectedSub==='Entity List'"
+                    (click)="selectedSub = 'Entity List'">
+                    Entity List
+                </button>
+
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,13 +1,51 @@
-<div class="dashboard">
-  <app-admin-header></app-admin-header>
-  <app-admin-sidebar></app-admin-sidebar>
+<app-admin-header />
+<div class="body-container">
+  <app-admin-sidebar />
+  <div class="body-content">
 
-  <main class="main-content">
-    <div class="content-area">
-      <router-outlet></router-outlet>
-    </div>
-  </main>
-  <footer class="dashboard-footer">
-    <p>© RK TECH SYSTEMS</p>
-  </footer>
+    <!-- home -->
+    <router-outlet></router-outlet>
+
+
+    <!-- invoice -->
+    <!-- <app-create-invoice /> -->
+    <!-- <app-invoice-list/> -->
+    <!-- <app-invoice-payment/> -->
+    <!-- <app-payment-list /> -->
+
+    <!-- Entity Compliance -->
+    <!-- <app-new-entity/> -->
+    <!-- <app-entity-list/> -->
+
+    <!-- Customer -->
+    <!-- <app-new-customer/> -->
+    <!-- <app-customer-list/> -->
+
+    <!-- Product -->
+    <!-- <app-product-list /> -->
+    <!-- <app-add-product /> -->
+    <!-- <app-stock-update /> -->
+    <!-- <app-product-category /> -->
+
+    <!-- sales rep -->
+    <!-- <app-sales-rep-list /> -->
+    <!-- <app-new-sales-rep /> -->
+
+    <!-- Expense -->
+    <!-- <app-expense-list /> -->
+    <!-- <app-new-expense /> -->
+    <!-- <app-expense-category /> -->
+
+    <!-- report -->
+    <!-- <app-report /> -->
+
+    <!-- user -->
+    <!-- <app-add-user /> -->
+    <!-- <app-user-list /> -->
+
+    <!-- settings -->
+    <!-- <app-my-profile/> -->
+
+  </div>
 </div>
+<app-footer />

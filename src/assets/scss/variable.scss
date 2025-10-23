@@ -1,0 +1,221 @@
+// Color Variables
+
+$white: #ffffff;
+$black: #000000;
+
+// Primary
+$primary-50: #EFF8FF;
+$primary-100: #DBEEFE;
+$primary-200: #BFE2FE;
+$primary-300: #92D1FE;
+$primary-400: #5FB7FB;
+$primary-500: #a8c4e0;
+$primary-600: #3b5d89;
+$primary-700: #091936;
+$primary-800: #020f20;
+
+// Secondary
+$secondary-50: #FFFCFC;
+$secondary-100: #FFF6F3;
+$secondary-200: #FFF2EE;
+$secondary-300: #FFE1D6;
+$secondary-400: #FFC8B6;
+$secondary-500: #FFA487;
+$secondary-600: #FF8156;
+$secondary-700: #FE632F;
+
+// Neutral
+$gray-50: #FAFAFA;
+$gray-100: #F5F5F5;
+$gray-200: #EEEEEE;
+$gray-300: #E1E1E1;
+$gray-400: #CACACA;
+$gray-500: #8E8E8E;
+$gray-600: #4B4B4B;
+$gray-700: #1F1F1F;
+
+// Success
+$success-50: #FBFEFC;
+$success-100: #F2FAF6;
+$success-200: #E5F5EC;
+$success-300: #C0E5D1;
+$success-400: #97D4B4;
+$success-500: #6BC497;
+$success-600: #47B881;
+$success-700: #0C9D61;
+
+// Warning
+$warning-50: #FFFDFA;
+$warning-100: #FFF9EE;
+$warning-200: #FFF7E1;
+$warning-300: #FFEAB3;
+$warning-400: #FFDD82;
+$warning-500: #FFC62B;
+$warning-600: #FFAD0D;
+$warning-700: #FE9B0E;
+
+// Danger
+$error-50: #FFFBFB;
+$error-100: #FEF2F2;
+$error-200: #FFEBEE;
+$error-300: #FFCCD2;
+$error-400: #F49898;
+$error-500: #EB6F70;
+$error-600: #F64C4C;
+$error-700: #EC2D30;
+
+// Info
+$info-50: #F8FCFF;
+$info-100: #F1F8FF;
+$info-200: #E4F2FF;
+$info-300: #BDDDFF;
+$info-400: #93C8FF;
+$info-500: #4BA1FF;
+$info-600: #3B82F6;
+$info-700: #3A70E2;
+
+// box-shadows
+
+$shadow-1: box-shadow(0px 1px 1px 0px rgba(0, 0, 0, 0.02), 0px 2px 4px 0px rgba(0, 0, 0, 0.04));
+$shadow-2: box-shadow(0px 1px 4px 0px rgba(0, 0, 0, 0.04), 0px 4px 10px 0px rgba(0, 0, 0, 0.08));
+$shadow-3: box-shadow(0px 2px 20px 0px rgba(0, 0, 0, 0.04), 0px 8px 32px 0px rgba(0, 0, 0, 0.08));
+$shadow-4: box-shadow(0px 8px 20px 0px rgba(0, 0, 0, 0.06), 0px 24px 60px 0px rgba(0, 0, 0, 0.12));
+
+// ------------------------------------------------
+
+// Brakpoints
+$breakpoints: (
+  'phone': 400px,
+  'phone-wide': 480px,
+  'phablet': 560px,
+  'tablet-small': 640px,
+  'tablet': 768px,
+  'tablet-medium': 896px,
+  'bootstrap-lg': 992px,
+  'tablet-wide': 1024px,
+  'desktop': 1148px,
+  'desktop-mid': 1284px,
+  'desktop-wide': 1367px,
+);
+
+@mixin mq($width, $type: min) {
+  @if map_has_key($breakpoints, $width) {
+    $width: map_get($breakpoints, $width);
+
+    @if $type==max {
+      $width: $width - 1px;
+    }
+
+    @media only screen and (#{$type}-width: $width) {
+      @content;
+    }
+  }
+}
+
+/*
+
+Sample query
+
+@include mq("desktop", max) {
+  
+}
+
+*/
+
+// ------------------------------------------------
+
+// Color varaiable define
+
+$colors: (
+  //Main Colors
+
+  --black: ($black ),
+  --white: ($white ),
+
+
+  // Primary
+  --primary-800: ($primary-800 ),
+  --primary-700: ($primary-700 ),
+  --primary-600: ($primary-600 ),
+  --primary-500: ($primary-500 ),
+  --primary-400: ($primary-400 ),
+  --primary-300: ($primary-300 ),
+  --primary-200: ($primary-200 ),
+  --primary-100: ($primary-100 ),
+  --primary-50: ($primary-50 ),
+
+  //secondary
+
+  --secondary: ($secondary-500 ),
+  --secondary-50: ($secondary-50 ),
+  --secondary-100: ($secondary-100 ),
+  --secondary-200: ($secondary-200 ),
+  --secondary-300: ($secondary-300 ),
+  --secondary-400: ($secondary-400 ),
+  --secondary-500: ($secondary-500 ),
+  --secondary-600: ($secondary-600 ),
+  --secondary-700: ($secondary-700 ),
+
+  //gray
+
+  --gray-700: ($gray-700 ),
+  --gray-600: ($gray-600 ),
+  --gray-500: ($gray-500 ),
+  --gray-400: ($gray-400 ),
+  --gray-300: ($gray-300 ),
+  --gray-200: ($gray-200 ),
+  --gray-100: ($gray-100 ),
+  --gray-50: ($gray-50 ),
+
+  //success
+
+  --success-50: ($success-50 ),
+  --success-100: ($success-100 ),
+  --success-200: ($success-200 ),
+  --success-300: ($success-300 ),
+  --success-400: ($success-400 ),
+  --success-500: ($success-500 ),
+  --success-600: ($success-600 ),
+  --success-700: ($success-700 ),
+
+  //danger
+
+  --error-50: ($error-50 ),
+  --error-100: ($error-100 ),
+  --error-200: ($error-200 ),
+  --error-300: ($error-300 ),
+  --error-400: ($error-400 ),
+  --error-500: ($error-500 ),
+  --error-600: ($error-600 ),
+  --error-700: ($error-700 ),
+
+  //warning
+
+  --warning-50: ($warning-50 ),
+  --warning-100: ($warning-100 ),
+  --warning-200: ($warning-200 ),
+  --warning-300: ($warning-300 ),
+  --warning-400: ($warning-400 ),
+  --warning-500: ($warning-500 ),
+  --warning-600: ($warning-600 ),
+  --warning-700: ($warning-700 ),
+
+  //info
+
+  --info-50: ($info-50 ),
+  --info-100: ($info-100 ),
+  --info-200: ($info-200 ),
+  --info-300: ($info-300 ),
+  --info-400: ($info-400 ),
+  --info-500: ($info-500 ),
+  --info-600: ($info-600 ),
+  --info-700: ($info-700 ),
+
+    //shadow
+
+  --shadow-1: ($shadow-1 ),
+  --shadow-2: ($shadow-2 ),
+  --shadow-3: ($shadow-3 ),
+  --shadow-4: ($shadow-4 ),
+
+);

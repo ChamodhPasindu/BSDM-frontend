@@ -1,16 +1,24 @@
-<header class="header">
-  <div class="header-left">
-    <button class="hamburger-menu" (click)="toggleSidebar()">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-    <h1 class="logo">BKTECH SYSTEMS</h1>
+<div class="header-container">
+  <div class="logo">
+      <img src="../../../assets/images/company-logo.jpeg" alt="prime logo" />
   </div>
-  <div class="header-right">
-    <div class="user-menu">
-      <span class="user-name">Admin User</span>
-      <div class="user-avatar">AU</div>
-    </div>
+  <div class="header-right-container">
+      <button class="icon-button">
+          <span class="material-symbols-outlined">settings</span>
+      </button>
+
+      <div class="header-profile-container">
+          <div class="profile-image">PD</div>
+          <div class="profile-detail">
+              <div class="name">Hasala Kumarasiri</div>
+              <div class="role">System Admin</div>
+          </div>
+          <span class="see-more material-symbols-outlined">arrow_forward_ios</span>
+      </div>
+
+      <button class="icon-button logout">
+          <span class="material-symbols-outlined">logout</span>
+      </button>
+
   </div>
-</header>
+</div>

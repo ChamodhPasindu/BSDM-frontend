@@ -6,7 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./admin-sidebar.component.scss']
 })
 export class AdminSidebarComponent implements OnInit {
-
+  selectedMenu:string ="home";
+  selectedSub:string ="1";
   constructor() { }
 
   ngOnInit() {

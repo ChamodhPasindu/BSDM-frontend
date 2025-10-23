@@ -1,85 +1,96 @@
 <div class="login-container">
-  <div class="login-card">
-    <!-- Header -->
-    <div class="header">
-      <h1>Sign in to Acme</h1>
+    <div class="login-content">
+        <div class="logo">
+            <img src="../../../assets/images/company-logo.jpeg" alt="prime logo" />
+        </div>
+        <div class="login-body">
+
+            <ng-container *ngIf="screen=='main'">
+                <form class="login-form">
+                    <div class="form-group">
+                        <label for="firstName">Owner’s First Name<span class="required">*</span></label>
+                        <input type="text" id="firstName" placeholder="Enter First Name" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="companyName">Password</label>
+                        <div class="with-icon-right">
+                            <input type="text" id="companyName" placeholder="Enter Password" />
+                            <span class="input-icon material-symbols-outlined">visibility_off</span>
+                        </div>
+                        <div class="bottom-text-btn">Forgot Password</div>
+                    </div>
+
+                    <button class="button primary full-width">
+                        Login
+                    </button>
+                </form>
+
+            </ng-container>
+
+            <ng-container *ngIf="screen=='Recovery'">
+                <div class="login-subtitle">Password Recovery</div>
+                <div class="login-text">Enter the Email address you provide when you registered. A new temporary
+                    password will be provided will be sent to your email address</div>
+
+                <form class="login-form">
+                    <div class="form-group">
+                        <label for="email">Email<span class="required">*</span></label>
+                        <input type="text" id="email" placeholder="username@gmail.com" />
+                    </div>
+
+                    <button class="button primary full-width">
+                        Send Password
+                    </button>
+                </form>
+
+            </ng-container>
+
+            <ng-container *ngIf="screen=='Recovery_2'">
+                <div class="login-subtitle">
+                    <span class="input-icon material-symbols-outlined">arrow_left_alt</span>
+                    Password Recovery
+                </div>
+                <div class="login-text">Enter the temporary password along with the New password for the user;
+                    <b>PasanD</b> .</div>
+
+                <form class="login-form">
+                    <div class="form-group">
+                        <label for="tempPassword">Temporary Password</label>
+                        <div class="with-icon-right">
+                            <input type="text" id="tempPassword" placeholder="Enter Temporary Password" />
+                            <span class="input-icon material-symbols-outlined">visibility_off</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newPassword">New Password</label>
+                        <div class="with-icon-right">
+                            <input type="text" id="newPassword" placeholder="Enter New Password" />
+                            <span class="input-icon material-symbols-outlined">visibility_off</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <div class="with-icon-right">
+                            <input type="text" id="confirmPassword" placeholder="Enter Confirm Password" />
+                            <span class="input-icon material-symbols-outlined">visibility_off</span>
+                        </div>
+                    </div>
+
+                    <button class="button primary full-width">
+                        Confirm
+                    </button>
+                </form>
+
+            </ng-container>
+
+        </div>
+        <div class="poweredby-logo">
+            System powered by
+            <img src="../../../assets/images/code_launch_full.svg" alt="code launch">
+        </div>
     </div>
-
-    <div class="content-wrapper">
-      <!-- Left Section - Contact & FAQ -->
-      <div class="info-section">
-        <section class="contact-section">
-          <h2>Contact Us</h2>
-          <p>We usually respond within 1 business day.</p>
-          
-          <div class="contact-info">
-            <p><strong>Email:</strong> support@acme.com</p>
-            <p><strong>Phone:</strong> +1 (555) 123-4567</p>
-            <p><strong>Hours:</strong> Mon-Fri, 9am-6pm</p>
-          </div>
-        </section>
-
-        <div class="divider"></div>
-
-        <section class="faq-section">
-          <h2>FAQ</h2>
-          
-          <div class="faq-item">
-            <p class="faq-question">How do I reset my password?</p>
-            <p class="faq-answer">Use the "Forgot Password" link on the right and follow the instructions.</p>
-          </div>
-          
-          <div class="faq-item">
-            <p class="faq-question">Which roles can access the dashboard?</p>
-            <p class="faq-answer">Admins, Managers, and HR can access role-based areas after login.</p>
-          </div>
-          
-          <div class="faq-item">
-            <p class="faq-question">Is multi-factor authentication supported?</p>
-            <p class="faq-answer">Yes, you can enable it in your profile after signing in.</p>
-          </div>
-        </section>
-      </div>
-
-      <!-- Right Section - Login Form -->
-      <div class="login-section">
-        <h2>Login</h2>
-        
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
-          <div class="form-group">
-            <label for="username">Username</label>
-            <input
-              type="text"
-              id="username"
-              formControlName="username"
-              placeholder="Enter your username"
-              class="form-control"
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              formControlName="password"
-              placeholder="Enter your password"
-              class="form-control"
-            />
-          </div>
-
-          <div class="form-actions">
-            <a href="#" class="forgot-password">Forgot Password</a>
-            <button type="submit" class="login-btn" [disabled]="!loginForm.valid">
-              Sign In
-            </button>
-          </div>
-        </form>
-
-        <p class="login-note">
-          After login you will be redirected to your dashboard.
-        </p>
-      </div>
-    </div>
-  </div>
 </div>
+<app-footer />
