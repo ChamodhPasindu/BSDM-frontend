@@ -1,6 +1,6 @@
 .material-symbols-outlined {
     &.icon-red {
-        color: var(error-700);
+        color: var(--error-700);
     }
     
     &.icon-yellow {
@@ -18,7 +18,5 @@
     &.icon-orange {
         color: var(--secondary-700);
     }
-    
-   
 }
 

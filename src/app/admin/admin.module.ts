@@ -30,17 +30,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     CommonModule,
     AdminRoutingModule,
     ReactiveFormsModule,
-    SharedModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    MatIconModule,
-    MatTooltipModule,
-    MatCardModule,
-    MatProgressSpinnerModule,
+    SharedModule
   ],
 })
 export class AdminModule {}

@@ -1,8 +1,12 @@
 // @import 'assets/scss/common';
 // @import 'assets/scss/theme';
 @import 'assets/scss/common';
+@import 'assets/scss/modal';
 @import 'assets/scss/theme';
 @import './node_modules/ngx-toastr/toastr';
+
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/scss/bootstrap';
 
 
 // Font families
@@ -41,3 +45,15 @@
     transition: 0.3s;
   }
 }
+
+*,
+*::before,
+*::after {
+  box-sizing: content-box !important;
+}
+
+
+p{
+  margin: 0;
+}
+

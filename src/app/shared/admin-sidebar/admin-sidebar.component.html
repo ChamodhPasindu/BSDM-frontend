@@ -2,54 +2,37 @@
 
     <!-- Dashboard ------------------------------------------------------------->
     <div class="menu-option-container">
-        <button class="menu-option" [class.selected]="selectedMenu==='home'" (click)="selectedMenu = 'home'">
+        <button routerLink="/admin/post-login/dashboard" routerLinkActive="selected" class="menu-option" 
+            >
             <div class="right">
                 <span class="material-symbols-outlined">home</span>
                 Home
             </div>
-            <span class="material-symbols-outlined">keyboard_arrow_right</span>
         </button>
     </div>
 
     <!-- Employees ------------------------------------------------------------->
-    <!-- menu-option-container indicates one single option where sub option are also avaible -->
     <div class="menu-option-container">
-        <button class="menu-option" [class.selected]="selectedMenu==='Invoices'" (click)="selectedMenu = 'Invoices'">
+        <button routerLink="/admin/post-login/employees" routerLinkActive="selected" class="menu-option"
+             >
             <div class="right">
                 <span class="material-symbols-outlined">assignment_ind
                 </span>
                 Employees
             </div>
-            <span class="material-symbols-outlined" *ngIf="selectedMenu != 'Invoices'">keyboard_arrow_right</span>
-            <span class="material-symbols-outlined" *ngIf="selectedMenu == 'Invoices'">keyboard_arrow_down</span>
         </button>
-        <div class="sub-option-container" *ngIf="selectedMenu === 'Invoices'">
+    </div>
 
-            <div class="sub-option-right"></div>
-
-            <div class="sub-option-left">
-                <button class="sub-options" [class.selected]="selectedSub==='Create Invoice'"
-                    (click)="selectedSub = 'Create Invoice'">
-                    Create Invoice
-                </button>
-
-                <button class="sub-options" [class.selected]="selectedSub==='Invoice List'"
-                    (click)="selectedSub = 'Invoice List'">
-                    Invoice List
-                </button>
-
-                <button class="sub-options" [class.selected]="selectedSub==='Invoice Payment'"
-                    (click)="selectedSub = 'Invoice Payment'">
-                    Invoice Payment
-                </button>
-
-                <button class="sub-options" [class.selected]="selectedSub==='Payment List'"
-                    (click)="selectedSub = 'Payment List'">
-                    Payment List
-                </button>
-
+    <!-- Customer & Routes ------------------------------------------------------------->
+    <div class="menu-option-container">
+        <button routerLink="/admin/post-login/customer-routes" routerLinkActive="selected" class="menu-option"
+             >
+            <div class="right">
+                <span class="material-symbols-outlined">Route
+                </span>
+                Customer & Routes
             </div>
-        </div>
+        </button>
     </div>
 
     <!-- Entity Compliance ------------------------------------------------------------->
@@ -80,5 +63,4 @@
             </div>
         </div>
     </div>
-
 </div>

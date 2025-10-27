@@ -1,108 +1,126 @@
-<div class="page-header">
-  <h1>RK TECH SYSTEMS</h1>
-  <p>Employee Management</p>
-</div>
+<div class="page-container">
+  <div class="card-container">
+    <div class="card">
+      <div class="card-icon">
+        <span class="material-symbols-outlined icon-blue">group</span>
+      </div>
+      <div class="card-content">
+        <div class="card-value">100</div>
+        <div class="card-label">Total Employees</div>
+      </div>
+    </div>
 
-<div class="nav-menu-section">
-  <h2>Navigation</h2>
-  <div class="nav-buttons">
-    <button class="nav-btn">
-      <span class="nav-checkbox"></span>
-      Dashboard
-    </button>
-    <button class="nav-btn active">
-      <span class="nav-checkbox checked">✓</span>
-      Analytics
-    </button>
-    <button class="nav-btn">
-      <span class="nav-checkbox"></span>
-      Alerts
-    </button>
-    <button class="nav-btn">
-      <span class="nav-checkbox"></span>
-      Settings
-    </button>
-  </div>
-</div>
+    <div class="card">
+      <div class="card-icon">
+        <span class="material-symbols-outlined icon-green">person_check</span>
+      </div>
+      <div class="card-content">
+        <div class="card-value">900</div>
+        <div class="card-label">Active Employees</div>
+      </div>
+    </div>
 
-<!-- Stats Cards -->
-<div class="stats-grid">
-  <div class="stat-card">
-    <div class="stat-number">248</div>
-    <div class="stat-label">Total Employees</div>
+    <div class="card">
+      <div class="card-icon">
+        <span class="material-symbols-outlined icon-red">error</span>
+      </div>
+      <div class="card-content">
+        <div class="card-value">100</div>
+        <div class="card-label">Suspended Employees</div>
+      </div>
+    </div>
   </div>
-  <div class="stat-card">
-    <div class="stat-number">221</div>
-    <div class="stat-label">Active</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-number">27</div>
-    <div class="stat-label">Suspended</div>
-  </div>
-</div>
 
-<!-- Employee Directory -->
-<div class="section-header">
-  <h2>Employee Directory</h2>
-  <div class="section-actions">
-    <button class="btn-primary">Add Employee</button>
-    <button class="btn-secondary">Export</button>
-  </div>
-</div>
+  <div class="section-container">
+    <div class="section-title">
+      Customer List
+    </div>
+    <div class="section-content">
+      <div class="form-container">
+        <div class="form-side-container">
+          <form>
+            <div class="dual-fields">
+              <div class="form-group">
+                <label for="companyName">Search Company Name or ID</label>
+                <div class="with-icon-right">
+                  <input type="text" id="companyName" placeholder="Search Company Name or ID" />
+                  <span class="input-icon material-symbols-outlined">search</span>
+                </div>
+              </div>
 
-<!-- Employee Table -->
-<div class="table-container">
-  <table class="data-table">
-    <thead>
-      <tr>
-        <th>Profile</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Role</th>
-        <th>Status</th>
-        <th>Last Active</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let employee of employees">
-        <td>
-          <div class="profile-badge">{{employee.id}}</div>
-        </td>
-        <td>
-          <div class="employee-name">{{employee.name}}</div>
-        </td>
-        <td class="email-cell">{{employee.email}}</td>
-        <td>
-          <span class="role-badge">{{employee.role}}</span>
-        </td>
-        <td>
-          <div class="status-indicator">{{employee.status}}</div>
-        </td>
-        <td class="date-cell">{{employee.lastActive}}</td>
-        <td>
-          <div class="action-buttons">
-            <button class="btn-icon" title="Edit">
-              <span><mat-icon>edit</mat-icon></span>
-            </button>
-            <button class="btn-icon" title="View">
-              <span> <mat-icon>visibility</mat-icon></span>
-            </button>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+              <button type="button" class="button primary" (click)="openEmployeeView()">
+                + Add Customer
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
 
-<!-- Pagination -->
-<div class="pagination-section">
-  <div class="pagination-info">Showing 1-6 of 248</div>
-  <div class="pagination-controls">
-    <button class="pagination-btn" disabled>Previous</button>
-    <button class="pagination-btn active">1</button>
-    <button class="pagination-btn">2</button>
-    <button class="pagination-btn">3</button>
-    <button class="pagination-btn">Next</button>
+      <table class="universal-table">
+        <thead>
+          <tr>
+            <th class="action triple"></th>
+            <th class="fixed-width width-100">Shop ID</th>
+            <th class="fill">Name</th>
+            <th class="fixed-width width-180">Mobile</th>
+            <th class="fill">Email</th>
+            <th class="fill">Location</th>
+            <th class="fixed-width width-180 ">Add Time</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr class="highlight">
+            <td class="action triple">
+              <span (click)="openEmployeeView()" class=" material-symbols-outlined">edit</span>
+              <span class=" delete material-symbols-outlined">delete</span>
+              <span class=" delete material-symbols-outlined">block</span>
+            </td>
+            <td class="fixed-width width-100">9187</td>
+            <td class="fill">Company Name</td>
+            <td class="fixed-width width-180">07773784823</td>
+            <td class="fill">Emailgmail.com</td>
+            <td class="fill">NEGAMBO</td>
+            <td class="fixed-width width-180 ">2024-02-12 05:59:25 PM</td>
+          </tr>
+
+          <tr>
+            <td class="action triple">
+              <span (click)="openEmployeeView()" class=" material-symbols-outlined">edit</span>
+              <span class=" delete material-symbols-outlined">delete</span>
+              <span class=" success material-symbols-outlined">check</span>
+            </td>
+            <td class="fixed-width width-100">9187</td>
+            <td class="fill">Company Name</td>
+            <td class="fixed-width width-180">07773784823</td>
+            <td class="fill">Emailgmail.com</td>
+            <td class="fill">NEGAMBO</td>
+            <td class="fixed-width width-180 ">2024-02-12 05:59:25 PM</td>
+          </tr>
+
+        </tbody>
+      </table>
+
+      <div class="pagination-container">
+        <div class="pagination-info">1-12 of 85 items</div>
+        <div class="pagination-buttons">
+          <button class="page-btn" disabled>
+            <span class="material-symbols-outlined">
+              chevron_left
+            </span>
+          </button>
+          <button class="page-btn">1</button>
+          <button class="page-btn active">2</button>
+          <button class="page-btn">3</button>
+          <button class="page-btn">4</button>
+          <button class="page-btn">5</button>
+          <span class="dots">...</span>
+          <button class="page-btn">50</button>
+          <button class="page-btn"><span class="material-symbols-outlined">
+              chevron_right
+            </span></button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
