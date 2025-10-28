@@ -1,3 +1,307 @@
-<p>
-  product works!
-</p>
+<div class="page-container">
+  <div class="card-container">
+    <div class="card">
+      <div class="card-icon">
+        <span class="material-symbols-outlined icon-green">stat_2</span>
+      </div>
+      <div class="card-content">
+        <div class="card-value">Bread</div>
+        <div class="card-label">Most Selling Product</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">
+        <span class="material-symbols-outlined icon-red">stat_minus_2</span>
+      </div>
+      <div class="card-content">
+        <div class="card-value">Cake</div>
+        <div class="card-label">Lowest Selling Product</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">
+        <span class="material-symbols-outlined icon-blue">list_alt</span>
+      </div>
+      <div class="card-content">
+        <div class="card-value">5</div>
+        <div class="card-label">Total item Count</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">
+        <span class="material-symbols-outlined icon-yellow">library_add</span>
+      </div>
+      <div class="card-content">
+        <div class="card-value">10</div>
+        <div class="card-label">Total Batch Count</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-container">
+    <div class="section-title">
+      Products
+    </div>
+    <div class="section-content">
+      <div class="form-container">
+        <div class="form-side-container">
+          <form>
+            <div class="dual-fields">
+              <div class="form-group">
+                <label for="companyName">Search Item Name or ID</label>
+                <div class="with-icon-right">
+                  <input type="text" id="companyName" placeholder="Search Company Name or ID" />
+                  <span class="input-icon material-symbols-outlined">search</span>
+                </div>
+              </div>
+
+              <button type="button" class="button primary" (click)="openProductView()">
+                + Add Product
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <table class="universal-table">
+        <thead>
+          <tr>
+            <th class="action triple"></th>
+            <th class="fixed-width width-100">Item ID</th>
+            <th class="fixed-width width-100">Batch ID</th>
+            <th class="fill">Quantity</th>
+            <th class="fixed-width width-180">Max Price</th>
+            <th class="fill">Min Price</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr class="highlight">
+            <td class="action triple">
+              <span class=" material-symbols-outlined">edit</span>
+              <span class=" delete material-symbols-outlined">delete</span>
+              <span class=" delete material-symbols-outlined">block</span>
+            </td>
+            <td class="fixed-width width-100">9187</td>
+            <td class="fill">Company Name</td>
+            <td class="fixed-width width-180">07773784823</td>
+            <td class="fill">Emailgmail.com</td>
+            <td class="fill">Emailgmail.com</td>
+          </tr>
+
+          <tr>
+            <td class="action triple">
+              <span class=" material-symbols-outlined">edit</span>
+              <span class=" delete material-symbols-outlined">delete</span>
+              <span class=" success material-symbols-outlined">check</span>
+            </td>
+            <td class="fixed-width width-100">9187</td>
+            <td class="fill">Company Name</td>
+            <td class="fixed-width width-180">07773784823</td>
+            <td class="fill">Emailgmail.com</td>
+            <td class="fill">Emailgmail.com</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="pagination-container">
+        <div class="pagination-info">1-12 of 85 items</div>
+        <div class="pagination-buttons">
+          <button class="page-btn" disabled>
+            <span class="material-symbols-outlined">
+              chevron_left
+            </span>
+          </button>
+          <button class="page-btn">1</button>
+          <button class="page-btn active">2</button>
+          <button class="page-btn">3</button>
+          <button class="page-btn">4</button>
+          <button class="page-btn">5</button>
+          <span class="dots">...</span>
+          <button class="page-btn">50</button>
+          <button class="page-btn"><span class="material-symbols-outlined">
+              chevron_right
+            </span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-container">
+    <div class="sub-section-title">
+      Items
+    </div>
+    <div class="section-content">
+      <div class="form-container">
+        <div class="form-side-container">
+          <form>
+            <div class="dual-fields">
+              <div class="form-group">
+                <label for="companyName">Search Item Name or ID</label>
+                <div class="with-icon-right">
+                  <input type="text" id="companyName" placeholder="Search Company Name or ID" />
+                  <span class="input-icon material-symbols-outlined">search</span>
+                </div>
+              </div>
+
+              <button type="button" class="button secondary" (click)="openItemView()">
+                + Add Item
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <table class="universal-table">
+        <thead>
+          <tr>
+            <th class="action triple"></th>
+            <th class="fixed-width width-100">Item ID</th>
+            <th class="fill">Name</th>
+            <th class="fixed-width width-180">Description</th>
+            <th class="fill">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr class="highlight">
+            <td class="action triple">
+              <span class=" material-symbols-outlined">edit</span>
+              <span class=" delete material-symbols-outlined">delete</span>
+              <span class=" delete material-symbols-outlined">block</span>
+            </td>
+            <td class="fixed-width width-100">9187</td>
+            <td class="fill">Company Name</td>
+            <td class="fixed-width width-180">07773784823</td>
+            <td class="fill">Emailgmail.com</td>
+          </tr>
+
+          <tr>
+            <td class="action triple">
+              <span class=" material-symbols-outlined">edit</span>
+              <span class=" delete material-symbols-outlined">delete</span>
+              <span class=" success material-symbols-outlined">check</span>
+            </td>
+            <td class="fixed-width width-100">9187</td>
+            <td class="fill">Company Name</td>
+            <td class="fixed-width width-180">07773784823</td>
+            <td class="fill">Emailgmail.com</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="pagination-container">
+        <div class="pagination-info">1-12 of 85 items</div>
+        <div class="pagination-buttons">
+          <button class="page-btn" disabled>
+            <span class="material-symbols-outlined">
+              chevron_left
+            </span>
+          </button>
+          <button class="page-btn">1</button>
+          <button class="page-btn active">2</button>
+          <button class="page-btn">3</button>
+          <button class="page-btn">4</button>
+          <button class="page-btn">5</button>
+          <span class="dots">...</span>
+          <button class="page-btn">50</button>
+          <button class="page-btn"><span class="material-symbols-outlined">
+              chevron_right
+            </span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-container">
+    <div class="sub-section-title">
+      Product Batches
+    </div>
+    <div class="section-content">
+      <div class="form-container">
+        <div class="form-side-container">
+          <form>
+            <div class="dual-fields">
+              <div class="form-group">
+                <label for="companyName">Search Batch Name or ID</label>
+                <div class="with-icon-right">
+                  <input type="text" id="companyName" placeholder="Search Company Name or ID" />
+                  <span class="input-icon material-symbols-outlined">search</span>
+                </div>
+              </div>
+
+              <button type="button" class="button secondary" (click)="openBatchView()">
+                + Add Batch
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <table class="universal-table">
+        <thead>
+          <tr>
+            <th class="action triple"></th>
+            <th class="fixed-width width-100">Batch ID</th>
+            <th class="fill">Name</th>
+            <th class="fixed-width width-180">Manufacture Date</th>
+            <th class="fill">Expire Date</th>
+            <th class="fill">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr class="highlight">
+            <td class="action triple">
+              <span class=" material-symbols-outlined">edit</span>
+              <span class=" delete material-symbols-outlined">delete</span>
+              <span class=" delete material-symbols-outlined">block</span>
+            </td>
+            <td class="fixed-width width-100">9187</td>
+            <td class="fill">Company Name</td>
+            <td class="fixed-width width-180">07773784823</td>
+            <td class="fill">Emailgmail.com</td>
+            <td class="fill">NEGAMBO</td>
+          </tr>
+
+          <tr>
+            <td class="action triple">
+              <span class=" material-symbols-outlined">edit</span>
+              <span class=" delete material-symbols-outlined">delete</span>
+              <span class=" success material-symbols-outlined">check</span>
+            </td>
+            <td class="fixed-width width-100">9187</td>
+            <td class="fill">Company Name</td>
+            <td class="fixed-width width-180">07773784823</td>
+            <td class="fill">Emailgmail.com</td>
+            <td class="fill">NEGAMBO</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="pagination-container">
+        <div class="pagination-info">1-12 of 85 items</div>
+        <div class="pagination-buttons">
+          <button class="page-btn" disabled>
+            <span class="material-symbols-outlined">
+              chevron_left
+            </span>
+          </button>
+          <button class="page-btn">1</button>
+          <button class="page-btn active">2</button>
+          <button class="page-btn">3</button>
+          <button class="page-btn">4</button>
+          <button class="page-btn">5</button>
+          <span class="dots">...</span>
+          <button class="page-btn">50</button>
+          <button class="page-btn"><span class="material-symbols-outlined">
+              chevron_right
+            </span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

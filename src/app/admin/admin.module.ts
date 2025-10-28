@@ -11,6 +11,8 @@ import { LayoutComponent } from './layout/layout.component';
 import { NgChartsModule } from 'ng2-charts';
 import { AlertManagementComponent } from './alert-management/alert-management.component';
 import { CustomerRoutesComponent } from './customer-routes/customer-routes.component';
+import { StockComponent } from './inventory-management/stock/stock.component';
+import { ProductComponent } from './inventory-management/product/product.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { CustomerRoutesComponent } from './customer-routes/customer-routes.compo
     DashboardComponent,
     CustomerRoutesComponent,
     AlertManagementComponent,
-    EmployeeManagementComponent
+    EmployeeManagementComponent,
+    StockComponent,
+    ProductComponent,
   ],
   imports: [
     CommonModule,
