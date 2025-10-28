@@ -8,29 +8,25 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { SharedModule } from '../shared/shared.module';
 import { EmployeeManagementComponent } from './employee-management/employee-management.component';
 import { LayoutComponent } from './layout/layout.component';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatCardModule } from '@angular/material/card';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NgChartsModule } from 'ng2-charts';
+import { AlertManagementComponent } from './alert-management/alert-management.component';
+import { CustomerRoutesComponent } from './customer-routes/customer-routes.component';
 
 @NgModule({
   declarations: [
     LoginComponent,
     LayoutComponent,
     DashboardComponent,
-    EmployeeManagementComponent,
+    CustomerRoutesComponent,
+    AlertManagementComponent,
+    EmployeeManagementComponent
   ],
   imports: [
     CommonModule,
     AdminRoutingModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    NgChartsModule,
   ],
 })
 export class AdminModule {}

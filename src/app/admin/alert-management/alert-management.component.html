@@ -1,50 +1,11 @@
 <div class="page-container">
-
-  <div class="card-container">
-    <div class="card">
-      <div class="card-icon">
-        <span class="material-symbols-outlined icon-blue">conversion_path</span>
-      </div>
-      <div class="card-content">
-        <div class="card-value">100</div>
-        <div class="card-label">Total Routes Count</div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-icon">
-        <span class="material-symbols-outlined icon-blue">group</span>
-      </div>
-      <div class="card-content">
-        <div class="card-value">900</div>
-        <div class="card-label">Total Customer Count</div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-icon">
-        <span class="material-symbols-outlined icon-green">diagonal_line</span>
-      </div>
-      <div class="card-content">
-        <div class="card-value">100</div>
-        <div class="card-label">Active Route Count</div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-icon">
-        <span class="material-symbols-outlined icon-green">person_check</span>
-      </div>
-      <div class="card-content">
-        <div class="card-value">100</div>
-        <div class="card-label">Active Customer Count</div>
-      </div>
-    </div>
-  </div>
+  <button type="button" class="button primary" (click)="openAlertView()">
+    + Add Alert
+  </button>
 
   <div class="section-container">
     <div class="section-title">
-      Routes
+      Common Alerts
     </div>
     <div class="section-content">
       <div class="form-container">
@@ -59,9 +20,7 @@
                 </div>
               </div>
 
-              <button type="button" class="button primary" (click)="openRouteView()">
-                + Add Route
-              </button>
+
             </div>
           </form>
         </div>
@@ -135,12 +94,9 @@
     </div>
   </div>
 
-  <app-admin-report-explore title="Route"></app-admin-report-explore>
-
   <div class="section-container">
-
     <div class="section-title">
-      Customers
+      Stock Alerts
     </div>
     <div class="section-content">
       <div class="form-container">
@@ -154,10 +110,6 @@
                   <span class="input-icon material-symbols-outlined">search</span>
                 </div>
               </div>
-
-              <button type="button" class="button primary" (click)="openCustomerView()">
-                + Add Customer
-              </button>
             </div>
           </form>
         </div>
@@ -231,5 +183,5 @@
     </div>
   </div>
 
-  <app-admin-report-explore title="Customer"></app-admin-report-explore>
+  <app-admin-report-explore title="Alert"></app-admin-report-explore>
 </div>

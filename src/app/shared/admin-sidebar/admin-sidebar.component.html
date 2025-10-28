@@ -2,8 +2,8 @@
 
     <!-- Dashboard ------------------------------------------------------------->
     <div class="menu-option-container">
-        <button routerLink="/admin/post-login/dashboard" routerLinkActive="selected" class="menu-option" 
-            >
+        <button routerLink="/admin/post-login/dashboard" routerLinkActive="selected" (click)="selectedMenu = 'Home'"
+            class="menu-option">
             <div class="right">
                 <span class="material-symbols-outlined">home</span>
                 Home
@@ -13,8 +13,8 @@
 
     <!-- Employees ------------------------------------------------------------->
     <div class="menu-option-container">
-        <button routerLink="/admin/post-login/employees" routerLinkActive="selected" class="menu-option"
-             >
+        <button routerLink="/admin/post-login/employees" routerLinkActive="selected"
+            (click)="selectedMenu = 'Employees'" class="menu-option">
             <div class="right">
                 <span class="material-symbols-outlined">assignment_ind
                 </span>
@@ -25,18 +25,57 @@
 
     <!-- Customer & Routes ------------------------------------------------------------->
     <div class="menu-option-container">
-        <button routerLink="/admin/post-login/customer-routes" routerLinkActive="selected" class="menu-option"
-             >
+        <button routerLink="/admin/post-login/customer-routes" routerLinkActive="selected"
+            (click)="selectedMenu = 'CustomerRoutes'" class="menu-option">
             <div class="right">
-                <span class="material-symbols-outlined">Route
+                <span class="material-symbols-outlined">route
                 </span>
                 Customer & Routes
             </div>
         </button>
     </div>
 
-    <!-- Entity Compliance ------------------------------------------------------------->
+    <!-- Alerts ------------------------------------------------------------->
     <div class="menu-option-container">
+        <button routerLink="/admin/post-login/alerts" routerLinkActive="selected" (click)="selectedMenu = 'Alerts'"
+            class="menu-option">
+            <div class="right">
+                <span class="material-symbols-outlined">Notifications
+                </span>
+                Alerts
+            </div>
+        </button>
+    </div>
+
+    <!-- Inventory -->
+    <div class="menu-option-container">
+        <button class="menu-option" [class.selected]="selectedMenu==='Inventory'" (click)="selectedMenu = 'Inventory'">
+            <div class="right">
+                <span class="material-symbols-outlined">Inventory</span>
+                Inventory
+            </div>
+            <span class="material-symbols-outlined" *ngIf="selectedMenu !== 'Inventory'">keyboard_arrow_right</span>
+            <span class="material-symbols-outlined" *ngIf="selectedMenu === 'Inventory'">keyboard_arrow_down</span>
+        </button>
+        <div class="sub-option-container" *ngIf="selectedMenu === 'Inventory'">
+            <div class="sub-option-right"></div>
+
+            <div class="sub-option-left">
+                <button class="sub-options" routerLink="/admin/post-login/inventory/product"
+                    routerLinkActive="selected">
+                    Product Management
+                </button>
+
+                <button class="sub-options" routerLink="/admin/post-login/inventory/stock" routerLinkActive="selected">
+                    Stock Management
+                </button>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Entity Compliance ------------------------------------------------------------->
+    <!-- <div class="menu-option-container">
         <button class="menu-option" [class.selected]="selectedMenu==='Entity'" (click)="selectedMenu = 'Entity'">
             <div class="right">
                 <span class="material-symbols-outlined">groups</span>
@@ -62,5 +101,5 @@
 
             </div>
         </div>
-    </div>
+    </div> -->
 </div>

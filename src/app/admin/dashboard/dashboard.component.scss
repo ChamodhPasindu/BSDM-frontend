@@ -2,15 +2,15 @@
     &.icon-red {
         color: var(--error-700);
     }
-    
+
     &.icon-yellow {
         color: var(--warning-700);
     }
-    
+
     &.icon-green {
         color: var(--success-600);
     }
-    
+
     &.icon-blue {
         color: var(--info-700);
     }
@@ -20,3 +20,12 @@
     }
 }
 
+.chart-behavior {
+    display: flex;
+    justify-content: center;
+}
+
+.chart-canvas {
+    height: 280px !important;
+    width: 280px !important;
+}

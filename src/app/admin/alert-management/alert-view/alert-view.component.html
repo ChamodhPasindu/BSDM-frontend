@@ -1,0 +1,115 @@
+<div class="page-container">
+
+  <div class="section-container">
+    <div class="section-title">
+      Add New Alert
+    </div>
+    <div class="section-content">
+
+      <div class="subheading">
+        <p>Personal Information</p>
+        <div class="line"></div>
+      </div>
+
+      <div class="form-container">
+        <div class="form-side-container">
+          <form>
+            <div class="form-group">
+              <label for="companyName">Company Name <span class="required">*</span></label>
+              <input type="text" id="companyName" placeholder="Enter Company Name" />
+            </div>
+
+            <div class="dual-fields">
+
+              <div class="form-group">
+                <label for="registrationID">Registration ID<span class="required">*</span></label>
+                <input type="text" id="registrationID" placeholder="Enter Registration ID" />
+              </div>
+
+              <div class="form-group">
+                <label for="location">Location</label>
+                <select id="location">
+                  <option disabled selected class="placholder-text">Empty</option>
+                  <option value="entity1">Location 1</option>
+                  <option value="entity2">Location 2</option>
+                </select>
+              </div>
+
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+
+      <div class="subheading">
+        <p>Employee Details</p>
+        <div class="line"></div>
+      </div>
+
+      <div class="form-container">
+        <div class="form-side-container">
+          <form>
+
+            <div class="dual-fields">
+
+              <div class="form-group">
+                <label for="firstName">Owner’s First Name<span class="required">*</span></label>
+                <input type="text" id="firstName" placeholder="Enter First Name" />
+              </div>
+
+              <div class="form-group">
+                <label for="lastName">Owner’s Last Name<span class="required">*</span></label>
+                <input type="text" id="lastName" placeholder="Enter Last Name" />
+              </div>
+
+            </div>
+
+            <div class="dual-fields">
+
+              <div class="form-group">
+                <label for="mobile">Mobile Number<span class="required">*</span></label>
+                <input type="text" id="mobile" placeholder="Enter Mobile Number" />
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email<span class="required">*</span></label>
+                <input type="text" id="email" placeholder="Enter Email" />
+              </div>
+
+            </div>
+
+            <div class="form-group">
+              <label for="address">Address <span class="required">*</span></label>
+              <div class="textarea">
+                <textarea id="address" placeholder="Enter Address" maxlength="1000"
+                  oninput="updateCharCount(this)"></textarea>
+                <div class="char-count" id="address-count">0/1000</div>
+              </div>
+            </div>
+
+            <div class="dual-fields">
+
+              <div class="form-group">
+                <label for="nic">NIC number<span class="required">*</span></label>
+                <input type="text" id="nic" placeholder="Enter Mobile Number" />
+              </div>
+
+            </div>
+
+
+            <div class="dual-btn">
+
+              <button class="button primary">
+                Add Customer
+              </button>
+
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+  </div>

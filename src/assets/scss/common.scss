@@ -251,6 +251,13 @@ p {
         border-bottom: 4px solid var(--primary-700);
     }
 
+    .sub-section-title {
+        padding: 16px 24px;
+        @extend .subtitle-semibold;
+        color: var(--gray-500);
+        border-bottom: 4px solid var(--gray-500);
+    }
+
     .section-content {
         padding: 16px 24px;
     }
@@ -262,6 +269,7 @@ p {
     flex-wrap: wrap;
     gap: 24px;
     width: 100%;
+    justify-content: space-around;
 
     .card {
         background-color: var(--white);
@@ -303,6 +311,20 @@ p {
                 color: var(--gray-600);
             }
         }
+    }
+}
+
+// Charts -------------------------------------
+.chart-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 24px;
+    width: 100%;
+    justify-content: space-between;
+
+    .section-container {
+        width: 48%;
     }
 }
 
@@ -872,7 +894,7 @@ p {
 
 .error {
     color: red;
-    margin-top: .25rem;   
+    margin-top: .25rem;
     font-family: sboFont;
     font-size: 14px;
 }
@@ -881,15 +903,15 @@ p {
     &.icon-red {
         color: var(--error-700);
     }
-    
+
     &.icon-yellow {
         color: var(--warning-700);
     }
-    
+
     &.icon-green {
         color: var(--success-600);
     }
-    
+
     &.icon-blue {
         color: var(--info-700);
     }
