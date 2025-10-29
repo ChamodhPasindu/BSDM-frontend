@@ -13,6 +13,8 @@ import { AlertManagementComponent } from './alert-management/alert-management.co
 import { CustomerRoutesComponent } from './customer-routes/customer-routes.component';
 import { StockComponent } from './inventory-management/stock/stock.component';
 import { ProductComponent } from './inventory-management/product/product.component';
+import { VehicleManagementComponent } from './vehicle-management/vehicle-management.component';
+import { SalesStockComponent } from './inventory-management/sales-stock/sales-stock.component';
 
 @NgModule({
   declarations: [
@@ -22,8 +24,10 @@ import { ProductComponent } from './inventory-management/product/product.compone
     CustomerRoutesComponent,
     AlertManagementComponent,
     EmployeeManagementComponent,
+    VehicleManagementComponent,
     StockComponent,
     ProductComponent,
+    SalesStockComponent
   ],
   imports: [
     CommonModule,

@@ -23,6 +23,18 @@
         </button>
     </div>
 
+     <!-- vehicles ------------------------------------------------------------->
+     <div class="menu-option-container">
+        <button routerLink="/admin/post-login/vehicles" routerLinkActive="selected" (click)="selectedMenu = 'Vehicles'"
+            class="menu-option">
+            <div class="right">
+                <span class="material-symbols-outlined">local_shipping
+                </span>
+                Vehicles
+            </div>
+        </button>
+    </div>
+
     <!-- Customer & Routes ------------------------------------------------------------->
     <div class="menu-option-container">
         <button routerLink="/admin/post-login/customer-routes" routerLinkActive="selected"
@@ -40,7 +52,7 @@
         <button routerLink="/admin/post-login/alerts" routerLinkActive="selected" (click)="selectedMenu = 'Alerts'"
             class="menu-option">
             <div class="right">
-                <span class="material-symbols-outlined">Notifications
+                <span class="material-symbols-outlined">notifications
                 </span>
                 Alerts
             </div>
@@ -70,6 +82,13 @@
                     Stock Management
                 </button>
 
+                <button class="sub-options" routerLink="/admin/post-login/inventory/sales-stock" routerLinkActive="selected">
+                   Sales Stock Assign
+                </button>
+
+                <button class="sub-options" routerLink="/admin/post-login/inventory/stock-return" routerLinkActive="selected">
+                    Sales Return
+                 </button>
             </div>
         </div>
     </div>

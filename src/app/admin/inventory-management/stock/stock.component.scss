@@ -6,14 +6,14 @@
 }
 
 .detail-view {
-    max-width: 550px;
+    max-width: 100%;
     margin-bottom: 15px;
 }
 
 .table-wrapper {
     max-height: 585px;
     overflow-y: auto;
-    overflow-x: hidden;
+    overflow-x: auto;
     border-radius: 8px;
 }
 

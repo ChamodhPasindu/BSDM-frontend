@@ -8,6 +8,8 @@ import { CustomerRoutesComponent } from './customer-routes/customer-routes.compo
 import { AlertManagementComponent } from './alert-management/alert-management.component';
 import { ProductComponent } from './inventory-management/product/product.component';
 import { StockComponent } from './inventory-management/stock/stock.component';
+import { VehicleManagementComponent } from './vehicle-management/vehicle-management.component';
+import { SalesStockComponent } from './inventory-management/sales-stock/sales-stock.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -19,9 +21,11 @@ const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'employees', component: EmployeeManagementComponent },
       { path: 'customer-routes', component: CustomerRoutesComponent },
+      { path: 'vehicles', component: VehicleManagementComponent },
       { path: 'alerts', component: AlertManagementComponent },
       { path: 'inventory/product', component: ProductComponent },
       { path: 'inventory/stock', component: StockComponent },
+      { path: 'inventory/sales-stock', component: SalesStockComponent },
     ],
   },
 ];
