@@ -1,3 +1,416 @@
-<p>
-  stock works!
-</p>
+<div class="page-container">
+  <div class="card-container">
+    <div class="card">
+      <div class="card-icon">
+        <span class="material-symbols-outlined icon-green">inventory_2</span>
+      </div>
+      <div class="card-content">
+        <div class="card-value">23</div>
+        <div class="card-label">Total Stock Count</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">
+        <span class="material-symbols-outlined icon-red">block</span>
+      </div>
+      <div class="card-content">
+        <div class="card-value">20</div>
+        <div class="card-label">Expired Product Quantity</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">
+        <span class="material-symbols-outlined icon-yellow">alarm</span>
+      </div>
+      <div class="card-content">
+        <div class="card-value">5</div>
+        <div class="card-label">Expiring Soon (3 Days)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-container">
+    <div class="section-title">
+      Stocks
+    </div>
+    <div class="section-content">
+      <div class="form-container">
+        <div class="form-side-container">
+          <form>
+            <div class="dual-fields">
+              <div class="form-group">
+                <label for="companyName">Search Item Name or ID</label>
+                <div class="with-icon-right">
+                  <input type="text" id="companyName" placeholder="Search Company Name or ID" />
+                  <span class="input-icon material-symbols-outlined">search</span>
+                </div>
+              </div>
+
+              <!-- <button type="button" class="button primary" (click)="openProductView()">
+                + Add Product
+              </button> -->
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="table-scroll-x ">
+        <table class="universal-table">
+          <thead>
+            <tr>
+              <th class="action triple"></th>
+              <th class="fixed-width width-100">Item ID</th>
+              <th class="fixed-width width-100">Batch ID</th>
+              <th class="fill">Quantity</th>
+              <th class="fixed-width width-180">Max Price</th>
+              <th class="fill">Min Price</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr class="highlight">
+              <td class="action triple">
+                <span class=" material-symbols-outlined">edit</span>
+                <span class=" delete material-symbols-outlined">delete</span>
+                <span class=" delete material-symbols-outlined">block</span>
+              </td>
+              <td class="fixed-width width-100">9187</td>
+              <td class="fill">Company Name</td>
+              <td class="fixed-width width-180">07773784823</td>
+              <td class="fill">Emailgmail.com</td>
+              <td class="fill">Emailgmail.com</td>
+            </tr>
+
+            <tr>
+              <td class="action triple">
+                <span class=" material-symbols-outlined">edit</span>
+                <span class=" delete material-symbols-outlined">delete</span>
+                <span class=" success material-symbols-outlined">check</span>
+              </td>
+              <td class="fixed-width width-100">9187</td>
+              <td class="fill">Company Name</td>
+              <td class="fixed-width width-180">07773784823</td>
+              <td class="fill">Emailgmail.com</td>
+              <td class="fill">Emailgmail.com</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pagination-container">
+        <div class="pagination-info">1-12 of 85 items</div>
+        <div class="pagination-buttons">
+          <button class="page-btn" disabled>
+            <span class="material-symbols-outlined">
+              chevron_left
+            </span>
+          </button>
+          <button class="page-btn">1</button>
+          <button class="page-btn active">2</button>
+          <button class="page-btn">3</button>
+          <button class="page-btn">4</button>
+          <button class="page-btn">5</button>
+          <span class="dots">...</span>
+          <button class="page-btn">50</button>
+          <button class="page-btn"><span class="material-symbols-outlined">
+              chevron_right
+            </span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-container">
+    <div class="sub-section-title">
+      Select Products & Quantities
+    </div>
+    <div class="section-content">
+      <div class="dual">
+        <div class="detail-view">
+          <div class="subheading">
+            <p>Product List</p>
+            <div class="line"></div>
+          </div>
+
+          
+
+          <div class="form-container">
+            <div class="form-side-container">
+              <form>
+                <div class="dual-fields">
+                  <div class="form-group">
+                    <label for="companyName">Search Product Name or ID</label>
+                    <div class="with-icon-right">
+                      <input type="text" id="companyName" placeholder="Search Company Name or ID" />
+                      <span class="input-icon material-symbols-outlined">search</span>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="info">
+            <span class=" material-symbols-outlined">info</span>
+            Search and pick products from the available list.Enter quantity to add them to the temporary list
+          </div>
+
+          <div class="table-wrapper ">
+            <table class="universal-table">
+              <thead>
+                <tr>
+                  <th class="fixed-width width-100">Product Name</th>
+                  <th class="fill">Batch ID</th>
+                  <th class="fixed-width width-180">Quantity</th>
+                  <th class="fill">Status</th>
+                  <th class="action triple"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="highlight">
+                  <td class="fixed-width width-100">9187</td>
+                  <td class="fill">Company Name</td>
+                  <td class="fixed-width width-180">07773784823</td>
+                  <td class="fill">Emailgmail.com</td>
+                  <td class="action triple">
+                    <span class="material-symbols-outlined">select_check_box</span>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td class="fixed-width width-100">9187</td>
+                  <td class="fill">Company Name</td>
+                  <td class="fixed-width width-180">07773784823</td>
+                  <td class="fill">Emailgmail.com</td>
+                  <td class="action triple">
+                    <span class="material-symbols-outlined">select_check_box</span>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td class="fixed-width width-100">9187</td>
+                  <td class="fill">Company Name</td>
+                  <td class="fixed-width width-180">07773784823</td>
+                  <td class="fill">Emailgmail.com</td>
+                  <td class="action triple">
+                    <span class="material-symbols-outlined">select_check_box</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="fixed-width width-100">9187</td>
+                  <td class="fill">Company Name</td>
+                  <td class="fixed-width width-180">07773784823</td>
+                  <td class="fill">Emailgmail.com</td>
+                  <td class="action triple">
+                    <span class="material-symbols-outlined">select_check_box</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="fixed-width width-100">9187</td>
+                  <td class="fill">Company Name</td>
+                  <td class="fixed-width width-180">07773784823</td>
+                  <td class="fill">Emailgmail.com</td>
+                  <td class="action triple">
+                    <span class="material-symbols-outlined">select_check_box</span>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td class="fixed-width width-100">9187</td>
+                  <td class="fill">Company Name</td>
+                  <td class="fixed-width width-180">07773784823</td>
+                  <td class="fill">Emailgmail.com</td>
+                  <td class="action triple">
+                    <span class="material-symbols-outlined">select_check_box</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="fixed-width width-100">9187</td>
+                  <td class="fill">Company Name</td>
+                  <td class="fixed-width width-180">07773784823</td>
+                  <td class="fill">Emailgmail.com</td>
+                  <td class="action triple">
+                    <span class="material-symbols-outlined">select_check_box</span>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td class="fixed-width width-100">9187</td>
+                  <td class="fill">Company Name</td>
+                  <td class="fixed-width width-180">07773784823</td>
+                  <td class="fill">Emailgmail.com</td>
+                  <td class="action triple">
+                    <span class="material-symbols-outlined">select_check_box</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="fixed-width width-100">9187</td>
+                  <td class="fill">Company Name</td>
+                  <td class="fixed-width width-180">07773784823</td>
+                  <td class="fill">Emailgmail.com</td>
+                  <td class="action triple">
+                    <span class="material-symbols-outlined">select_check_box</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="detail-view">
+          <div class="subheading">
+            <p>Selected Product</p>
+            <div class="line"></div>
+          </div>
+
+          <div class="form-container">
+            <div class="form-side-container">
+              <form>
+                <div class="dual-fields">
+                  <div class="form-group">
+                    <label for="companyName">Quantity to Add <span class="required">*</span></label>
+                    <input type="text" id="companyName" placeholder="Enter Company Name" />
+                  </div>
+                </div>
+
+                <div class="dual-fields">
+                  <div class="form-group">
+                    <label for="registrationID">Min Price<span class="required">*</span></label>
+                    <input type="text" id="registrationID" placeholder="Enter Registration ID" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="registrationID">Max Price<span class="required">*</span></label>
+                    <input type="text" id="registrationID" placeholder="Enter Registration ID" />
+                  </div>
+                </div>
+
+                <div class="dual-fields">
+                  <div class="form-group">
+                    <label for="registrationID">Location<span class="required">*</span></label>
+                    <input type="text" id="registrationID" placeholder="Enter Registration ID" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="registrationID">Batch ID<span class="required">*</span></label>
+                    <input type="text" id="registrationID" placeholder="Enter Registration ID" />
+                  </div>
+                </div>
+
+                <div class="dual-fields">
+                  <div class="form-group">
+                    <label for="registrationID">Expire Date<span class="required">*</span></label>
+                    <input type="text" id="registrationID" placeholder="Enter Registration ID" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="registrationID">Remarks<span class="required">*</span></label>
+                    <input type="text" id="registrationID" placeholder="Enter Registration ID" />
+                  </div>
+                </div>
+
+                <div class="dual-btn">
+                  <button class="button secondary">
+                    Add to List
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-content">
+      <div class="subheading">
+        <p>Temporary List</p>
+        <div class="line"></div>
+      </div>
+
+      <div class="info">
+        <span class=" material-symbols-outlined">info</span>
+        Items you will add to stock in this list
+      </div>
+
+      <div class="form-container">
+        <div class="table-scroll-x ">
+          <table class="universal-table">
+            <thead>
+              <tr>
+                <th class="action triple"></th>
+                <th class="fixed-width width-100">Item ID</th>
+                <th class="fixed-width width-100">Batch ID</th>
+                <th class="fill">Quantity</th>
+                <th class="fixed-width width-180">Max Price</th>
+                <th class="fill">Min Price</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr class="highlight">
+                <td class="action triple">
+                  <span class=" material-symbols-outlined">edit</span>
+                  <span class=" delete material-symbols-outlined">delete</span>
+                  <span class=" delete material-symbols-outlined">block</span>
+                </td>
+                <td class="fixed-width width-100">9187</td>
+                <td class="fill">Company Name</td>
+                <td class="fixed-width width-180">07773784823</td>
+                <td class="fill">Emailgmail.com</td>
+                <td class="fill">Emailgmail.com</td>
+              </tr>
+
+              <tr>
+                <td class="action triple">
+                  <span class=" material-symbols-outlined">edit</span>
+                  <span class=" delete material-symbols-outlined">delete</span>
+                  <span class=" success material-symbols-outlined">check</span>
+                </td>
+                <td class="fixed-width width-100">9187</td>
+                <td class="fill">Company Name</td>
+                <td class="fixed-width width-180">07773784823</td>
+                <td class="fill">Emailgmail.com</td>
+                <td class="fill">Emailgmail.com</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <hr>
+        <div class="side-container">
+          <div class="dark-container">
+            <div class="lable-group">
+              <label>Batch Code</label>
+              <div class="info">B/1101</div>
+            </div>
+            <div class="lable-group">
+              <label>Manufacture Date</label>
+              <div class="info">2021/01/01</div>
+            </div>
+            <div class="lable-group">
+              <label>Expire Date</label>
+              <div class="info">2022/01/01</div>
+            </div>
+            <div class="lable-group">
+              <label>Duration</label>
+              <div class="info">10 Days</div>
+            </div>
+          </div>
+
+          <div class="dual-btn no-top-space">
+            <button class="button primary">
+              Confirm
+            </button>
+
+            <button class="button outline">
+              Clear
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>

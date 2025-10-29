@@ -643,6 +643,25 @@ p {
     }
 }
 
+.table-scroll-x {
+    overflow-x: auto;
+    overflow-y: hidden;
+    width: 100%;
+    border-radius: 8px;
+    padding: 5px;
+
+    table {
+        width: max-content;
+        min-width: 100%;
+        border-collapse: collapse;
+    }
+
+    th,
+    td {
+        white-space: nowrap; // Prevent text wrapping
+    }
+}
+
 //pagination ----------------------------------------------------
 
 .pagination-container {
@@ -732,6 +751,18 @@ p {
     }
 }
 
+.info {
+    color: var(--gray-500);
+    @extend .caption-regular;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+
+    span {
+        font-size: 24px;
+        margin-right: 8px;
+    }
+}
 
 // option -container ----------------
 
