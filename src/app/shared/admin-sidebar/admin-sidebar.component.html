@@ -47,18 +47,6 @@
         </button>
     </div>
 
-    <!-- Alerts ------------------------------------------------------------->
-    <div class="menu-option-container">
-        <button routerLink="/admin/post-login/alerts" routerLinkActive="selected" (click)="selectedMenu = 'Alerts'"
-            class="menu-option">
-            <div class="right">
-                <span class="material-symbols-outlined">notifications
-                </span>
-                Alerts
-            </div>
-        </button>
-    </div>
-
     <!-- Inventory -->
     <div class="menu-option-container">
         <button class="menu-option" [class.selected]="selectedMenu==='Inventory'" (click)="selectedMenu = 'Inventory'">
@@ -91,6 +79,30 @@
                  </button>
             </div>
         </div>
+    </div>
+
+     <!-- Alerts ------------------------------------------------------------->
+     <div class="menu-option-container">
+        <button routerLink="/admin/post-login/alerts" routerLinkActive="selected" (click)="selectedMenu = 'Alerts'"
+            class="menu-option">
+            <div class="right">
+                <span class="material-symbols-outlined">notifications
+                </span>
+                Alerts
+            </div>
+        </button>
+    </div>
+
+     <!-- Audit ------------------------------------------------------------->
+     <div class="menu-option-container">
+        <button routerLink="/admin/post-login/audit-trail" routerLinkActive="selected" (click)="selectedMenu = 'AduitTrail'"
+            class="menu-option">
+            <div class="right">
+                <span class="material-symbols-outlined">policy
+                </span>
+                Audit Trail
+            </div>
+        </button>
     </div>
 
     <!-- Entity Compliance ------------------------------------------------------------->

@@ -1,0 +1,126 @@
+<div class="page-container">
+
+  <div class="card-container">
+    <div class="card">
+      <div class="card-icon">
+        <span class="material-symbols-outlined icon-red">vital_signs</span>
+      </div>
+      <div class="card-content">
+        <div class="card-value">100</div>
+        <div class="card-label">Total Actions</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">
+        <span class="material-symbols-outlined icon-blue">user_attributes</span>
+      </div>
+      <div class="card-content">
+        <div class="card-value">900</div>
+        <div class="card-label">Unique Users</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">
+        <span class="material-symbols-outlined icon-yellow">brightness_alert</span>
+      </div>
+      <div class="card-content">
+        <div class="card-value">100</div>
+        <div class="card-label">Flagged Events</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-container">
+    <div class="section-title">
+      Audit Trail & Logs
+    </div>
+    <div class="section-content">
+      <div class="form-container">
+        <div class="form-side-container">
+          <form>
+            <div class="dual-fields">
+              <div class="form-group">
+                <label for="companyName">Search Route Name or ID</label>
+                <div class="with-icon-right">
+                  <input type="text" id="companyName" placeholder="Search Company Name or ID" />
+                  <span class="input-icon material-symbols-outlined">search</span>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="table-scroll-x">
+        <table class="universal-table">
+          <thead>
+            <tr>
+              <th class="action triple"></th>
+              <th class="fixed-width width-100">Shop ID</th>
+              <th class="fill">Name</th>
+              <th class="fixed-width width-180">Mobile</th>
+              <th class="fill">Email</th>
+              <th class="fill">Location</th>
+              <th class="fixed-width width-180 ">Add Time</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr class="highlight">
+              <td class="action triple">
+                <span (click)="openAuditView()" class=" material-symbols-outlined">edit</span>
+                <span class=" delete material-symbols-outlined">delete</span>
+                <span class=" delete material-symbols-outlined">block</span>
+              </td>
+              <td class="fixed-width width-100">9187</td>
+              <td class="fill">Company Name</td>
+              <td class="fixed-width width-180">07773784823</td>
+              <td class="fill">Emailgmail.com</td>
+              <td class="fill">NEGAMBO</td>
+              <td class="fixed-width width-180 ">2024-02-12 05:59:25 PM</td>
+            </tr>
+
+            <tr>
+              <td class="action triple">
+                <span class=" material-symbols-outlined">edit</span>
+                <span class=" delete material-symbols-outlined">delete</span>
+                <span class=" success material-symbols-outlined">check</span>
+              </td>
+              <td class="fixed-width width-100">9187</td>
+              <td class="fill">Company Name</td>
+              <td class="fixed-width width-180">07773784823</td>
+              <td class="fill">Emailgmail.com</td>
+              <td class="fill">NEGAMBO</td>
+              <td class="fixed-width width-180 ">2024-02-12 05:59:25 PM</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pagination-container">
+        <div class="pagination-info">1-12 of 85 items</div>
+        <div class="pagination-buttons">
+          <button class="page-btn" disabled>
+            <span class="material-symbols-outlined">
+              chevron_left
+            </span>
+          </button>
+          <button class="page-btn">1</button>
+          <button class="page-btn active">2</button>
+          <button class="page-btn">3</button>
+          <button class="page-btn">4</button>
+          <button class="page-btn">5</button>
+          <span class="dots">...</span>
+          <button class="page-btn">50</button>
+          <button class="page-btn"><span class="material-symbols-outlined">
+              chevron_right
+            </span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-admin-report-explore title="Audit Trail"></app-admin-report-explore>
+</div>
