@@ -1,0 +1,443 @@
+<div class="page-container">
+  <div class="card-container">
+    <div class="card">
+      <div class="card-icon">
+        <span class="material-symbols-outlined">hand_package</span>
+      </div>
+      <div class="card-content">
+        <div class="card-value">23</div>
+        <div class="card-label">Total Return Stock</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">
+        <span class="material-symbols-outlined icon-red">request_page</span>
+      </div>
+      <div class="card-content">
+        <div class="card-value">20</div>
+        <div class="card-label">Total Return Stock Value</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">
+        <span class="material-symbols-outlined icon-orange">timer_off</span>
+      </div>
+      <div class="card-content">
+        <div class="card-value">5</div>
+        <div class="card-label">Expired Return Stock</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-container">
+    <div class="section-title">
+      Returned Sales Stock
+    </div>
+    <div class="section-content">
+      <div class="form-container">
+        <div class="form-side-container">
+          <form>
+            <div class="dual-fields">
+              <div class="form-group">
+                <label for="companyName">Search Item Name or ID</label>
+                <div class="with-icon-right">
+                  <input type="text" id="companyName" placeholder="Search Company Name or ID" />
+                  <span class="input-icon material-symbols-outlined">search</span>
+                </div>
+              </div>
+
+              <!-- <button type="button" class="button primary" (click)="openProductView()">
+                + Add Product
+              </button> -->
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="table-scroll-x ">
+        <table class="universal-table">
+          <thead>
+            <tr>
+              <th class="action triple"></th>
+              <th class="fixed-width width-100">Item ID</th>
+              <th class="fixed-width width-100">Batch ID</th>
+              <th class="fill">Quantity</th>
+              <th class="fixed-width width-180">Max Price</th>
+              <th class="fill">Min Price</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr class="highlight">
+              <td class="action triple">
+                <span class=" material-symbols-outlined">edit</span>
+                <span class=" delete material-symbols-outlined">delete</span>
+                <span class=" delete material-symbols-outlined">block</span>
+              </td>
+              <td class="fixed-width width-100">9187</td>
+              <td class="fill">Company Name</td>
+              <td class="fixed-width width-180">07773784823</td>
+              <td class="fill">Emailgmail.com</td>
+              <td class="fill">Emailgmail.com</td>
+            </tr>
+
+            <tr>
+              <td class="action triple">
+                <span class=" material-symbols-outlined">edit</span>
+                <span class=" delete material-symbols-outlined">delete</span>
+                <span class=" success material-symbols-outlined">check</span>
+              </td>
+              <td class="fixed-width width-100">9187</td>
+              <td class="fill">Company Name</td>
+              <td class="fixed-width width-180">07773784823</td>
+              <td class="fill">Emailgmail.com</td>
+              <td class="fill">Emailgmail.com</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pagination-container">
+        <div class="pagination-info">1-12 of 85 items</div>
+        <div class="pagination-buttons">
+          <button class="page-btn" disabled>
+            <span class="material-symbols-outlined">
+              chevron_left
+            </span>
+          </button>
+          <button class="page-btn">1</button>
+          <button class="page-btn active">2</button>
+          <button class="page-btn">3</button>
+          <button class="page-btn">4</button>
+          <button class="page-btn">5</button>
+          <span class="dots">...</span>
+          <button class="page-btn">50</button>
+          <button class="page-btn"><span class="material-symbols-outlined">
+              chevron_right
+            </span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-admin-report-explore title="Stock"></app-admin-report-explore>
+
+  <div class="section-container">
+    <div class="sub-section-title">
+      Add Stock Return
+    </div>
+    <div class="section-content">
+      <div class="subheading">
+        <p>Stock Load & Context</p>
+        <div class="line"></div>
+      </div>
+
+      <div class="form-container gap-0">
+        <div class="form-side-container">
+          <form>
+            <div class="dual-fields margin-0">
+              <div class="form-group">
+                <label for="location">Sale Stock Load</label>
+                <select id="location">
+                  <option disabled selected class="placholder-text">Empty</option>
+                  <option value="entity1">Item 1</option>
+                  <option value="entity2">Item 2</option>
+                </select>
+              </div>
+              <div class="info">
+                <span class=" material-symbols-outlined">info</span>
+                Selecting a load will auto fill employee,route,vehicle and product list
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="subheading">
+          <p>Employee Information</p>
+          <div class="line"></div>
+        </div>
+
+        <div class="side-container">
+          <div class="dark-container">
+            <div class="lable-group">
+              <label>Product Code</label>
+              <div class="info">P/1101</div>
+            </div>
+            <div class="lable-group">
+              <label>Product Name</label>
+              <div class="info">Bread</div>
+            </div>
+            <div class="lable-group">
+              <label>Product Name</label>
+              <div class="info">Bread</div>
+            </div>
+            <div class="lable-group">
+              <label>Product Name</label>
+              <div class="info">Bread</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="subheading">
+          <p>Vehicle Information</p>
+          <div class="line"></div>
+        </div>
+
+        <div class="side-container">
+          <div class="dark-container">
+            <div class="lable-group">
+              <label>Product Code</label>
+              <div class="info">P/1101</div>
+            </div>
+            <div class="lable-group">
+              <label>Product Name</label>
+              <div class="info">Bread</div>
+            </div>
+            <div class="lable-group">
+              <label>Product Name</label>
+              <div class="info">Bread</div>
+            </div>
+            <div class="lable-group">
+              <label>Product Name</label>
+              <div class="info">Bread</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="subheading">
+          <p>Route Information</p>
+          <div class="line"></div>
+        </div>
+
+        <div class="side-container">
+          <div class="dark-container">
+            <div class="lable-group">
+              <label>Product Code</label>
+              <div class="info">P/1101</div>
+            </div>
+            <div class="lable-group">
+              <label>Product Name</label>
+              <div class="info">Bread</div>
+            </div>
+            <div class="lable-group">
+              <label>Product Name</label>
+              <div class="info">Bread</div>
+            </div>
+            <div class="lable-group">
+              <label>Product Name</label>
+              <div class="info">Bread</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-content">
+      <div class="subheading">
+        <p>Products in Load</p>
+        <div class="line"></div>
+      </div>
+
+      <div class="info">
+        <span class=" material-symbols-outlined">info</span>
+        Validation: Return Qty must be > 0 and ≤ Assign Qty; Product must exist in selected load.
+      </div>
+
+      <div class="form-container">
+        <div class="table-scroll-x ">
+          <table class="universal-table">
+            <thead>
+              <tr>
+                <th class="action triple"></th>
+                <th class="fixed-width width-100">Item ID</th>
+                <th class="fixed-width width-100">Batch ID</th>
+                <th class="fill">Quantity</th>
+                <th class="fixed-width width-180">Max Price</th>
+                <th class="fill">Min Price</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr class="highlight">
+                <td class="action triple">
+                  <span class=" material-symbols-outlined">edit</span>
+                  <span class=" delete material-symbols-outlined">delete</span>
+                  <span class=" delete material-symbols-outlined">block</span>
+                </td>
+                <td class="fixed-width width-100">9187</td>
+                <td class="fill">Company Name</td>
+                <td class="fixed-width width-180">07773784823</td>
+                <td class="fill">Emailgmail.com</td>
+                <td class="fill">Emailgmail.com</td>
+              </tr>
+
+              <tr>
+                <td class="action triple">
+                  <span class=" material-symbols-outlined">edit</span>
+                  <span class=" delete material-symbols-outlined">delete</span>
+                  <span class=" success material-symbols-outlined">check</span>
+                </td>
+                <td class="fixed-width width-100">9187</td>
+                <td class="fill">Company Name</td>
+                <td class="fixed-width width-180">07773784823</td>
+                <td class="fill">Emailgmail.com</td>
+                <td class="fill">Emailgmail.com</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="section-content">
+      <div class="subheading">
+        <p>Returned Product Temporary List</p>
+        <div class="line"></div>
+      </div>
+
+      <div class="form-container">
+        <div class="table-scroll-x ">
+          <table class="universal-table">
+            <thead>
+              <tr>
+                <th class="action triple"></th>
+                <th class="fixed-width width-100">Item ID</th>
+                <th class="fixed-width width-100">Batch ID</th>
+                <th class="fill">Quantity</th>
+                <th class="fixed-width width-180">Max Price</th>
+                <th class="fill">Min Price</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr class="highlight">
+                <td class="action triple">
+                  <span (click)="openQtyChangeModal()" class=" material-symbols-outlined">edit</span>
+                  <span class=" delete material-symbols-outlined">delete</span>
+                  <span class=" delete material-symbols-outlined">block</span>
+                </td>
+                <td class="fixed-width width-100">9187</td>
+                <td class="fill">Company Name</td>
+                <td class="fixed-width width-180">07773784823</td>
+                <td class="fill">Emailgmail.com</td>
+                <td class="fill">Emailgmail.com</td>
+              </tr>
+              <tr>
+                <td class="action triple">
+                  <span class=" material-symbols-outlined">edit</span>
+                  <span class=" delete material-symbols-outlined">delete</span>
+                  <span class=" success material-symbols-outlined">check</span>
+                </td>
+                <td class="fixed-width width-100">9187</td>
+                <td class="fill">Company Name</td>
+                <td class="fixed-width width-180">07773784823</td>
+                <td class="fill">Emailgmail.com</td>
+                <td class="fill">Emailgmail.com</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="info">
+          <span class=" material-symbols-outlined">info</span>
+          Totals auto calculate as you enter Return Quantities
+        </div>
+
+        <div class="side-container">
+          <div class="dark-container">
+            <div class="lable-group">
+              <label>Batch Code</label>
+              <div class="info">B/1101</div>
+            </div>
+            <div class="lable-group">
+              <label>Manufacture Date</label>
+              <div class="info">2021/01/01</div>
+            </div>
+            <div class="lable-group">
+              <label>Expire Date</label>
+              <div class="info">2022/01/01</div>
+            </div>
+            <div class="lable-group">
+              <label>Duration</label>
+              <div class="info">10 Days</div>
+            </div>
+          </div>
+
+          <form>
+            <div class="form-group">
+              <label for="discount">Remark</label>
+              <input type="text" id="discount" placeholder="Enter Remark" />
+            </div>
+            <div class="dual-btn no-top-space">
+              <button class="button primary">
+                Confirm
+              </button>
+
+              <button class="button outline">
+                Clear
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #qtyChangeModal let-modal>
+  <div class="page-container">
+
+    <div class="section-container">
+      <div class="section-title">
+        Selected Product Details
+      </div>
+      <div class="section-content">
+
+        <div class="subheading">
+          <p>Product Information</p>
+          <div class="line"></div>
+        </div>
+
+        <div class="form-container">
+          <div class="side-container">
+            <div class="dark-container default-dark-container">
+              <div class="lable-group">
+                <label>Batch Code</label>
+                <div class="info">B/1101</div>
+              </div>
+              <div class="lable-group">
+                <label>Manufacture Date</label>
+                <div class="info">2021/01/01</div>
+              </div>
+              <div class="lable-group">
+                <label>Expire Date</label>
+                <div class="info">2022/01/01</div>
+              </div>
+              <div class="lable-group">
+                <label>Duration</label>
+                <div class="info">10 Days</div>
+              </div>
+            </div>
+
+            <form>
+              <div class="form-group">
+                <label for="discount">Quantity</label>
+                <input type="text" id="discount" placeholder="Enter Quantity" />
+              </div>
+              <div class="dual-btn no-top-space">
+                <button class="button primary">
+                  Add
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</ng-template>

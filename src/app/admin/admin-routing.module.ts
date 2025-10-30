@@ -10,6 +10,7 @@ import { ProductComponent } from './inventory-management/product/product.compone
 import { StockComponent } from './inventory-management/stock/stock.component';
 import { VehicleManagementComponent } from './vehicle-management/vehicle-management.component';
 import { SalesStockComponent } from './inventory-management/sales-stock/sales-stock.component';
+import { ReturnStockComponent } from './inventory-management/return-stock/return-stock.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -26,6 +27,7 @@ const routes: Routes = [
       { path: 'inventory/product', component: ProductComponent },
       { path: 'inventory/stock', component: StockComponent },
       { path: 'inventory/sales-stock', component: SalesStockComponent },
+      { path: 'inventory/return-stock', component: ReturnStockComponent },
     ],
   },
 ];

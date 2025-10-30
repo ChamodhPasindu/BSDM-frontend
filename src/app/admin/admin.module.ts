@@ -15,6 +15,7 @@ import { StockComponent } from './inventory-management/stock/stock.component';
 import { ProductComponent } from './inventory-management/product/product.component';
 import { VehicleManagementComponent } from './vehicle-management/vehicle-management.component';
 import { SalesStockComponent } from './inventory-management/sales-stock/sales-stock.component';
+import { ReturnStockComponent } from './inventory-management/return-stock/return-stock.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { SalesStockComponent } from './inventory-management/sales-stock/sales-st
     VehicleManagementComponent,
     StockComponent,
     ProductComponent,
-    SalesStockComponent
+    SalesStockComponent,
+    ReturnStockComponent,
   ],
   imports: [
     CommonModule,
