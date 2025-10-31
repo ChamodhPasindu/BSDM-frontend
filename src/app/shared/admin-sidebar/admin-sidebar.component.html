@@ -16,20 +16,18 @@
         <button routerLink="/admin/post-login/employees" routerLinkActive="selected"
             (click)="selectedMenu = 'Employees'" class="menu-option">
             <div class="right">
-                <span class="material-symbols-outlined">assignment_ind
-                </span>
+                <span class="material-symbols-outlined">assignment_ind</span>
                 Employees
             </div>
         </button>
     </div>
 
-     <!-- vehicles ------------------------------------------------------------->
-     <div class="menu-option-container">
+    <!-- vehicles ------------------------------------------------------------->
+    <div class="menu-option-container">
         <button routerLink="/admin/post-login/vehicles" routerLinkActive="selected" (click)="selectedMenu = 'Vehicles'"
             class="menu-option">
             <div class="right">
-                <span class="material-symbols-outlined">local_shipping
-                </span>
+                <span class="material-symbols-outlined">local_shipping</span>
                 Vehicles
             </div>
         </button>
@@ -40,8 +38,7 @@
         <button routerLink="/admin/post-login/customer-routes" routerLinkActive="selected"
             (click)="selectedMenu = 'CustomerRoutes'" class="menu-option">
             <div class="right">
-                <span class="material-symbols-outlined">route
-                </span>
+                <span class="material-symbols-outlined">route</span>
                 Customer & Routes
             </div>
         </button>
@@ -70,36 +67,47 @@
                     Stock Management
                 </button>
 
-                <button class="sub-options" routerLink="/admin/post-login/inventory/sales-stock" routerLinkActive="selected">
-                   Sales Stock Assign
+                <button class="sub-options" routerLink="/admin/post-login/inventory/sales-stock"
+                    routerLinkActive="selected">
+                    Sales Stock Assign
                 </button>
 
-                <button class="sub-options" routerLink="/admin/post-login/inventory/return-stock" routerLinkActive="selected">
+                <button class="sub-options" routerLink="/admin/post-login/inventory/return-stock"
+                    routerLinkActive="selected">
                     Stock Return
-                 </button>
+                </button>
             </div>
         </div>
     </div>
 
-     <!-- Alerts ------------------------------------------------------------->
-     <div class="menu-option-container">
+    <!-- Payments ------------------------------------------------------------->
+    <div class="menu-option-container">
+        <button routerLink="/admin/post-login/payments" routerLinkActive="selected" (click)="selectedMenu = 'Payments'"
+            class="menu-option">
+            <div class="right">
+                <span class="material-symbols-outlined">account_balance</span>
+                Payments
+            </div>
+        </button>
+    </div>
+
+    <!-- Alerts ------------------------------------------------------------->
+    <div class="menu-option-container">
         <button routerLink="/admin/post-login/alerts" routerLinkActive="selected" (click)="selectedMenu = 'Alerts'"
             class="menu-option">
             <div class="right">
-                <span class="material-symbols-outlined">notifications
-                </span>
+                <span class="material-symbols-outlined">notifications</span>
                 Alerts
             </div>
         </button>
     </div>
 
-     <!-- Audit ------------------------------------------------------------->
-     <div class="menu-option-container">
-        <button routerLink="/admin/post-login/audit-trail" routerLinkActive="selected" (click)="selectedMenu = 'AduitTrail'"
-            class="menu-option">
+    <!-- Audit ------------------------------------------------------------->
+    <div class="menu-option-container">
+        <button routerLink="/admin/post-login/audit-trail" routerLinkActive="selected"
+            (click)="selectedMenu = 'AduitTrail'" class="menu-option">
             <div class="right">
-                <span class="material-symbols-outlined">policy
-                </span>
+                <span class="material-symbols-outlined">policy</span>
                 Audit Trail
             </div>
         </button>

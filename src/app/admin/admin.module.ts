@@ -17,6 +17,7 @@ import { VehicleManagementComponent } from './vehicle-management/vehicle-managem
 import { SalesStockComponent } from './inventory-management/sales-stock/sales-stock.component';
 import { ReturnStockComponent } from './inventory-management/return-stock/return-stock.component';
 import { AuditTrailComponent } from './audit-trail/audit-trail.component';
+import { PaymentsComponent } from './payments/payments.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { AuditTrailComponent } from './audit-trail/audit-trail.component';
     ProductComponent,
     SalesStockComponent,
     ReturnStockComponent,
-    AuditTrailComponent
+    AuditTrailComponent,
+    PaymentsComponent
   ],
   imports: [
     CommonModule,

@@ -1,13 +1,45 @@
 <div class="page-container">
+  <div class="card-container">
+    <div class="card">
+      <div class="card-icon">
+        <span class="material-symbols-outlined icon-yellow">file_copy</span>
+      </div>
+      <div class="card-content">
+        <div class="card-value">100</div>
+        <div class="card-label">Bill Count (Not Settled)</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">
+        <span class="material-symbols-outlined icon-blue">attach_money</span>
+      </div>
+      <div class="card-content">
+        <div class="card-value">LKR 1,205,000</div>
+        <div class="card-label">Pending Total Amount</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">
+        <span class="material-symbols-outlined icon-green">price_check</span>
+      </div>
+      <div class="card-content">
+        <div class="card-value">100</div>
+        <div class="card-label">Total Payment Received</div>
+      </div>
+    </div>
+  </div>
+
   <div class="dual-btn">
-    <button type="button" class="button primary" (click)="openAlertView()">
-      + Add Alert
+    <button type="button" class="button primary" (click)="openPaymentView()">
+      + Add Payment
     </button>
   </div>
 
   <div class="section-container">
     <div class="section-title">
-      Common Alerts
+      Pending Payments
     </div>
     <div class="section-content">
       <div class="form-container">
@@ -15,14 +47,16 @@
           <form>
             <div class="dual-fields">
               <div class="form-group">
-                <label for="companyName">Search Route Name or ID</label>
+                <label for="companyName">Search Company Name or ID</label>
                 <div class="with-icon-right">
                   <input type="text" id="companyName" placeholder="Search Company Name or ID" />
                   <span class="input-icon material-symbols-outlined">search</span>
                 </div>
               </div>
 
-
+              <!-- <button type="button" class="button primary" (click)="openPaymentView()">
+                + Add Customer
+              </button> -->
             </div>
           </form>
         </div>
@@ -42,7 +76,7 @@
             </tr>
           </thead>
           <tbody>
-  
+
             <tr class="highlight">
               <td class="action triple">
                 <span class=" material-symbols-outlined">edit</span>
@@ -56,7 +90,7 @@
               <td class="fill">NEGAMBO</td>
               <td class="fixed-width width-180 ">2024-02-12 05:59:25 PM</td>
             </tr>
-  
+
             <tr>
               <td class="action triple">
                 <span class=" material-symbols-outlined">edit</span>
@@ -96,10 +130,12 @@
       </div>
     </div>
   </div>
+
+  <app-admin-report-explore title="Pending Payments"></app-admin-report-explore>
 
   <div class="section-container">
     <div class="section-title">
-      Stock Alerts
+      Half Payment Bills
     </div>
     <div class="section-content">
       <div class="form-container">
@@ -107,12 +143,16 @@
           <form>
             <div class="dual-fields">
               <div class="form-group">
-                <label for="companyName">Search Customer Name or ID</label>
+                <label for="companyName">Search Company Name or ID</label>
                 <div class="with-icon-right">
                   <input type="text" id="companyName" placeholder="Search Company Name or ID" />
                   <span class="input-icon material-symbols-outlined">search</span>
                 </div>
               </div>
+
+              <!-- <button type="button" class="button primary" (click)="openPaymentView()">
+                + Add Customer
+              </button> -->
             </div>
           </form>
         </div>
@@ -132,6 +172,7 @@
             </tr>
           </thead>
           <tbody>
+
             <tr class="highlight">
               <td class="action triple">
                 <span class=" material-symbols-outlined">edit</span>
@@ -163,8 +204,6 @@
         </table>
       </div>
 
-
-
       <div class="pagination-container">
         <div class="pagination-info">1-12 of 85 items</div>
         <div class="pagination-buttons">
@@ -188,5 +227,56 @@
     </div>
   </div>
 
-  <app-admin-report-explore title="Alert"></app-admin-report-explore>
+  <app-admin-report-explore title="Half Payment Bills"></app-admin-report-explore>
+
+  <div class="chart-container">
+    <div class="section-container">
+      <div class="section-title">
+       Payment Collection
+      </div>
+      <div class="section-content">
+        <div style="display: block;">
+          <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="'bar'">
+          </canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-container">
+      <div class="section-title">
+        Bill Wise Collection
+      </div>
+      <div class="section-content">
+        <div class="chart-behavior">
+          <canvas class="chart-canvas" baseChart [data]="pieChartData" [options]="pieChartOptions" [type]="'pie'">
+          </canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-container">
+      <div class="section-title">
+       Route Wise Collection
+      </div>
+      <div class="section-content">
+        <div class="chart-behavior">
+          <canvas class="chart-canvas" baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="'line'">
+          </canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-container">
+      <div class="section-title">
+       Collection by Payment Mode
+      </div>
+      <div class="section-content">
+        <div class="chart-behavior">
+          <canvas class="chart-canvas" baseChart [data]="doughnutChartData" [options]="doughnutChartOptions" [type]="'doughnut'">
+          </canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>

@@ -12,6 +12,7 @@ import { VehicleManagementComponent } from './vehicle-management/vehicle-managem
 import { SalesStockComponent } from './inventory-management/sales-stock/sales-stock.component';
 import { ReturnStockComponent } from './inventory-management/return-stock/return-stock.component';
 import { AuditTrailComponent } from './audit-trail/audit-trail.component';
+import { PaymentsComponent } from './payments/payments.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -26,6 +27,7 @@ const routes: Routes = [
       { path: 'vehicles', component: VehicleManagementComponent },
       { path: 'alerts', component: AlertManagementComponent },
       { path: 'audit-trail', component: AuditTrailComponent },
+      { path: 'payments', component: PaymentsComponent },
       { path: 'inventory/product', component: ProductComponent },
       { path: 'inventory/stock', component: StockComponent },
       { path: 'inventory/sales-stock', component: SalesStockComponent },
