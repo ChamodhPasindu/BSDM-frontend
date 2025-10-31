@@ -13,6 +13,7 @@ import { SalesStockComponent } from './inventory-management/sales-stock/sales-st
 import { ReturnStockComponent } from './inventory-management/return-stock/return-stock.component';
 import { AuditTrailComponent } from './audit-trail/audit-trail.component';
 import { PaymentsComponent } from './payments/payments.component';
+import { SalesDeliveryTrackingComponent } from './sales-delivery-tracking/sales-delivery-tracking.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -28,6 +29,10 @@ const routes: Routes = [
       { path: 'alerts', component: AlertManagementComponent },
       { path: 'audit-trail', component: AuditTrailComponent },
       { path: 'payments', component: PaymentsComponent },
+      {
+        path: 'sales-delivery-tracking',
+        component: SalesDeliveryTrackingComponent,
+      },
       { path: 'inventory/product', component: ProductComponent },
       { path: 'inventory/stock', component: StockComponent },
       { path: 'inventory/sales-stock', component: SalesStockComponent },
