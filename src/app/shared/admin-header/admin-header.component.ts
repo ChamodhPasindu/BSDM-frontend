@@ -1,29 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { ClassToggleService, HeaderComponent } from '@coreui/angular';
+
 
 @Component({
   selector: 'app-admin-header',
   templateUrl: './admin-header.component.html',
   styleUrls: ['./admin-header.component.scss']
 })
-export class AdminHeaderComponent implements OnInit {
-  isSidebarOpen = false;
-  constructor() { }
+export class AdminHeaderComponent extends HeaderComponent {
 
-  ngOnInit() {
-  }
+  @Input() sidebarId: string = "sidebar";
 
-  toggleSidebar() {
-    this.isSidebarOpen = !this.isSidebarOpen;
-    const sidebar = document.querySelector('.sidebar') as HTMLElement;
-    const overlay = document.querySelector('.sidebar-overlay') as HTMLElement;
+  public newMessages = new Array(4)
+  public newTasks = new Array(5)
+  public newNotifications = new Array(5)
 
-    if (this.isSidebarOpen) {
-      sidebar.classList.add('active');
-      if (overlay) overlay.classList.add('active');
-    } else {
-      sidebar.classList.remove('active');
-      if (overlay) overlay.classList.remove('active');
-    }
+  constructor(private classToggler: ClassToggleService) {
+    super();
   }
 
 }

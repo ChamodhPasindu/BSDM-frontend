@@ -1,115 +1,60 @@
-<div class="page-container">
-
-  <div class="section-container">
-    <div class="section-title">
-      Add New Vehicle
-    </div>
-    <div class="section-content">
-
-      <div class="subheading">
-        <p>Personal Information</p>
-        <div class="line"></div>
-      </div>
-
-      <div class="form-container">
-        <div class="form-side-container">
-          <form>
-            <div class="form-group">
-              <label for="companyName">Company Name <span class="required">*</span></label>
-              <input type="text" id="companyName" placeholder="Enter Company Name" />
-            </div>
-
-            <div class="dual-fields">
-
-              <div class="form-group">
-                <label for="registrationID">Registration ID<span class="required">*</span></label>
-                <input type="text" id="registrationID" placeholder="Enter Registration ID" />
-              </div>
-
-              <div class="form-group">
-                <label for="location">Location</label>
-                <select id="location">
-                  <option disabled selected class="placholder-text">Empty</option>
-                  <option value="entity1">Location 1</option>
-                  <option value="entity2">Location 2</option>
-                </select>
-              </div>
-
-            </div>
-
-          </form>
-        </div>
-
-      </div>
-
-      <div class="subheading">
-        <p>Employee Details</p>
-        <div class="line"></div>
-      </div>
-
-      <div class="form-container">
-        <div class="form-side-container">
-          <form>
-
-            <div class="dual-fields">
-
-              <div class="form-group">
-                <label for="firstName">Owner’s First Name<span class="required">*</span></label>
-                <input type="text" id="firstName" placeholder="Enter First Name" />
-              </div>
-
-              <div class="form-group">
-                <label for="lastName">Owner’s Last Name<span class="required">*</span></label>
-                <input type="text" id="lastName" placeholder="Enter Last Name" />
-              </div>
-
-            </div>
-
-            <div class="dual-fields">
-
-              <div class="form-group">
-                <label for="mobile">Mobile Number<span class="required">*</span></label>
-                <input type="text" id="mobile" placeholder="Enter Mobile Number" />
-              </div>
-
-              <div class="form-group">
-                <label for="email">Email<span class="required">*</span></label>
-                <input type="text" id="email" placeholder="Enter Email" />
-              </div>
-
-            </div>
-
-            <div class="form-group">
-              <label for="address">Address <span class="required">*</span></label>
-              <div class="textarea">
-                <textarea id="address" placeholder="Enter Address" maxlength="1000"
-                  oninput="updateCharCount(this)"></textarea>
-                <div class="char-count" id="address-count">0/1000</div>
-              </div>
-            </div>
-
-            <div class="dual-fields">
-
-              <div class="form-group">
-                <label for="nic">NIC number<span class="required">*</span></label>
-                <input type="text" id="nic" placeholder="Enter Mobile Number" />
-              </div>
-
-            </div>
-
-
-            <div class="dual-btn">
-
-              <button class="button primary">
-                Add Vehicle
-              </button>
-
-            </div>
-
-          </form>
-        </div>
-
-      </div>
-
-    </div>
-  </div>
+<c-modal id="liveDemoModal" size="lg" alignment="center" class="modal-scrollable" [visible]="visible"
+  (visibleChange)="changeModalVisibility($event)">
+  <c-modal-header>
+    <h5 cModalTitle> Add New Vehicle</h5>
+    <button (click)="closeModal()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <form cForm class="row g-3">
+      <h6 class="mb-3">Personal Information</h6>
+      <c-col [md]="6">
+        <label cLabel for="inputEmail4">Email</label>
+        <input cFormControl id="inputEmail4" type="email" />
+      </c-col>
+      <c-col [md]="6">
+        <label cLabel for="inputPassword4">Password</label>
+        <input cFormControl id="inputPassword4" type="password" />
+      </c-col>
+      <c-col [xs]="12">
+        <label cLabel for="inputAddress">Address</label>
+        <input cFormControl id="inputAddress" placeholder="1234 Main St" />
+      </c-col>
+      <c-col [xs]="12">
+        <label cLabel for="inputAddress2">Address 2</label>
+        <input cFormControl id="inputAddress2" placeholder="Apartment, studio, or floor" />
+      </c-col>
+      <c-col [md]="6">
+        <label cLabel for="inputCity">City</label>
+        <input cFormControl id="inputCity" />
+      </c-col>
+      <hr />
+      <h6 class="mb-3 mt-3">Employee Details</h6>
+      <c-col [md]="6">
+        <label cLabel for="inputEmail4">Email</label>
+        <input cFormControl id="inputEmail4" type="email" />
+      </c-col>
+      <c-col [md]="6">
+        <label cLabel for="inputPassword4">Password</label>
+        <input cFormControl id="inputPassword4" type="password" />
+      </c-col>
+      <c-col [xs]="12">
+        <label cLabel for="inputAddress">Address</label>
+        <input cFormControl id="inputAddress" placeholder="1234 Main St" />
+      </c-col>
+      <c-col [xs]="12">
+        <label cLabel for="inputAddress2">Address 2</label>
+        <input cFormControl id="inputAddress2" placeholder="Apartment, studio, or floor" />
+      </c-col>
+      <c-col [md]="6">
+        <label cLabel for="inputCity">City</label>
+        <input cFormControl id="inputCity" />
+      </c-col>
+    </form>
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="closeModal()" cButton color="secondary">
+      Close
+    </button>
+    <button cButton color="primary">Add Vehicle</button>
+  </c-modal-footer>
+</c-modal>

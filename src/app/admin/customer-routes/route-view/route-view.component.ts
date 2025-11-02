@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-route-view',
@@ -7,9 +7,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RouteViewComponent implements OnInit {
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  @Input() route: any;
+  public visible = false;
+
+  protected closeModal(): void {
+    this.visible = !this.visible;
   }
+
+  protected changeModalVisibility(event: boolean): void {
+    this.visible = event;
+  }
+
 
 }

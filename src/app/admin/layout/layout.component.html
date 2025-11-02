@@ -1,51 +1,52 @@
-<app-admin-header />
-<div class="body-container">
-  <app-admin-sidebar />
-  <div class="body-content">
-
-    <!-- home -->
-    <router-outlet></router-outlet>
 
 
-    <!-- invoice -->
-    <!-- <app-create-invoice /> -->
-    <!-- <app-invoice-list/> -->
-    <!-- <app-invoice-payment/> -->
-    <!-- <app-payment-list /> -->
+<!--sidebar-->
+<c-sidebar
+  #sidebar="cSidebar"
+  class="d-print-none sidebar sidebar-fixed"
+  colorScheme="dark"
+  id="sidebar"
+  visible
+>
+  <c-sidebar-brand
+    [brandFull]="{
+      src: '../../../assets/images/new-company-logo.png',
+      width: 200,
+      height: 46,
+      alt: 'Visco Logo'
+    }"
+    [brandNarrow]="{
+      src: '../../../assets/images/new-company-logo.png',
+      width: 46,
+      height: 46,
+      alt: 'Visco Logo'
+    }"
+    routerLink="./"
+  />
 
-    <!-- Entity Compliance -->
-    <!-- <app-new-entity/> -->
-    <!-- <app-entity-list/> -->
+  <ng-scrollbar pointerEventsMethod="scrollbar">
+    <c-sidebar-nav
+      [navItems]="navItems"
+      dropdownMode="close"
+    />
+  </ng-scrollbar>
+  <c-sidebar-toggler
+    *ngIf="!sidebar.narrow"
+    toggle="unfoldable"
+    cSidebarToggle="sidebar"
+  />
+</c-sidebar>
 
-    <!-- Customer -->
-    <!-- <app-new-customer/> -->
-    <!-- <app-customer-list/> -->
-
-    <!-- Product -->
-    <!-- <app-product-list /> -->
-    <!-- <app-add-product /> -->
-    <!-- <app-stock-update /> -->
-    <!-- <app-product-category /> -->
-
-    <!-- sales rep -->
-    <!-- <app-sales-rep-list /> -->
-    <!-- <app-new-sales-rep /> -->
-
-    <!-- Expense -->
-    <!-- <app-expense-list /> -->
-    <!-- <app-new-expense /> -->
-    <!-- <app-expense-category /> -->
-
-    <!-- report -->
-    <!-- <app-report /> -->
-
-    <!-- user -->
-    <!-- <app-add-user /> -->
-    <!-- <app-user-list /> -->
-
-    <!-- settings -->
-    <!-- <app-my-profile/> -->
-
+<!--main-->
+<div class="wrapper d-flex flex-column min-vh-100 bg-light dark:bg-transparent">
+  <!--app-header-->
+<app-admin-header  class="mb-4 d-print-none header header-sticky" position="sticky" sidebarId="sidebar" />
+  <!--app-body-->
+  <div class="body flex-grow-1 px-3">
+    <c-container breakpoint="lg" class="h-auto">
+      <router-outlet />
+    </c-container>
   </div>
+  <!--app footer-->
+  <app-footer />
 </div>
-<app-footer />

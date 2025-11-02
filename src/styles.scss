@@ -1,59 +1,89 @@
-// @import 'assets/scss/common';
-// @import 'assets/scss/theme';
-@import 'assets/scss/common';
-@import 'assets/scss/modal';
-@import 'assets/scss/theme';
-@import './node_modules/ngx-toastr/toastr';
+@import 'assets/scss/variables';
+
+$enable-ltr: true;
+$enable-rtl: true;
+
+// Import styles with default layout.
+@import "@coreui/coreui/scss/coreui";
+
+// Import Chart.js custom tooltips styles
+@import "@coreui/chartjs/scss/coreui-chartjs";
+@import 'assets/scss/layout';
+@import 'assets/scss/fixes';
+
+@import 'assets/scss/examples';
+@import 'assets/scss/custom';
+
 
 /* Importing Bootstrap SCSS file. */
-@import 'bootstrap/scss/bootstrap';
+// @import "./node_modules/bootstrap/scss/bootstrap";
 
+/* Importing Datepicker SCSS file. */
+@import "node_modules/ngx-bootstrap/datepicker/bs-datepicker";
 
-// Font families
-
-@font-face {
-  font-family: rFont;
-  src: url('assets/font/Inter_18pt-Regular.ttf');
+.bs-datepicker {
+  background-color: white !important;
+  /* calendar main background */
+  color: #000 !important;
+  /* text color */
 }
 
-@font-face {
-  font-family: mFont;
-  src: url('assets/font/Inter_18pt-Medium.ttf');
+.bs-datepicker-body {
+  background-color: white !important;
 }
 
-@font-face {
-  font-family: sboFont;
-  src: url('assets/font/Inter_18pt-SemiBold.ttf');
+.bs-datepicker-head {
+  background-color: #0d6efd !important;
+  /* top header bar (e.g. month & year area) */
+  color: white !important;
 }
 
-// ------------------------------------------------
-
-.body-content {
-  &::-webkit-scrollbar-track {
-    background-color: var(--primary-200);
-    transition: 0.3s;
-  }
-
-  &::-webkit-scrollbar {
-    width: 6px;
-    background-color: var(--gray-50);
-    transition: 0.3s;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: var(--primary-500);
-    transition: 0.3s;
-  }
+.bs-datepicker .btn-default,
+.bs-datepicker .btn-secondary {
+  background-color: transparent !important;
+  color: #000 !important;
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: content-box !important;
+.modal-scrollable .modal-body {
+  max-height: 60vh;
+  /* adjust as needed */
+  overflow-y: auto;
+  /* enables vertical scrolling */
 }
 
-
-p{
-  margin: 0;
+/* CoreUI-styled SweetAlert2 popup */
+.coreui-popup {
+  border-radius: 0.75rem;
+  font-family: var(--cui-font-sans-serif, 'Inter', sans-serif);
+  color: var(--cui-body-color, #4f5d73);
+  background-color: var(--cui-body-bg, #fff);
+  box-shadow: 0 0.5rem 1rem rgba(44, 56, 74, 0.15);
 }
 
+.swal2-title {
+  color: var(--cui-body-color, #4f5d73);
+  font-weight: 600;
+}
+
+.swal2-confirm.btn-danger {
+  background-color: var(--cui-danger, #d93737);
+  border-color: var(--cui-danger, #d93737);
+  color: #fff;
+}
+
+.swal2-cancel.btn-secondary {
+  background-color: var(--cui-secondary, #6c757d);
+  border-color: var(--cui-secondary, #6c757d);
+  color: #fff;
+}
+
+.swal2-confirm.btn-primary {
+  background-color: var(--cui-primary, #321fdb);
+  border-color: var(--cui-primary, #321fdb);
+  color: #fff;
+}
+
+.swal2-icon.swal2-warning {
+  border-color: var(--cui-warning, #f9b115) !important;
+  color: var(--cui-warning, #f9b115) !important;
+}

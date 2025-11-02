@@ -1,130 +1,147 @@
-<div class="page-container">
-  <div class="card-container">
-    <div class="card">
-      <div class="card-icon">
-        <span class="material-symbols-outlined icon-blue">group</span>
-      </div>
-      <div class="card-content">
-        <div class="card-value">100</div>
-        <div class="card-label">Total Employees</div>
-      </div>
-    </div>
+<h6 cTextColor="secondary">OVERVIEW</h6>
 
-    <div class="card">
-      <div class="card-icon">
-        <span class="material-symbols-outlined icon-green">person_check</span>
-      </div>
-      <div class="card-content">
-        <div class="card-value">900</div>
-        <div class="card-label">Active Employees</div>
-      </div>
-    </div>
+<c-row>
+  <c-col>
+    <c-widget-stat-f [title]="'Total'" class="mb-3" color="primary" padding value="100">
+      <ng-template cTemplateId="widgetIconTemplate">
+        <svg cIcon name="cilGroup" size="xl" width="24"></svg>
+      </ng-template>
+    </c-widget-stat-f>
+  </c-col>
 
-    <div class="card">
-      <div class="card-icon">
-        <span class="material-symbols-outlined icon-red">error</span>
-      </div>
-      <div class="card-content">
-        <div class="card-value">100</div>
-        <div class="card-label">Suspended Employees</div>
-      </div>
-    </div>
-  </div>
+  <c-col>
+    <c-widget-stat-f [title]="'Active'" class="mb-3" color="success" padding value="50">
+      <ng-template cTemplateId="widgetIconTemplate">
+        <svg cIcon name="cilUser" size="xl" width="24"></svg>
+      </ng-template>
+    </c-widget-stat-f>
+  </c-col>
+  
+  <c-col>
+    <c-widget-stat-f [title]="'Suspended'" class="mb-3" color="danger" padding value="75">
+      <ng-template cTemplateId="widgetIconTemplate">
+        <svg cIcon name="cilUserUnfollow" size="xl" width="24"></svg>
+      </ng-template>
+    </c-widget-stat-f>
+  </c-col>
+</c-row>
 
-  <div class="section-container">
-    <div class="section-title">
-      Customer List
-    </div>
-    <div class="section-content">
-      <div class="form-container">
-        <div class="form-side-container">
-          <form>
-            <div class="dual-fields">
-              <div class="form-group">
-                <label for="companyName">Search Company Name or ID</label>
-                <div class="with-icon-right">
-                  <input type="text" id="companyName" placeholder="Search Company Name or ID" />
-                  <span class="input-icon material-symbols-outlined">search</span>
-                </div>
-              </div>
+<c-card class="mb-4">
+  <c-card-body>
+    <c-row class="justify-content-between">
+      <c-col sm="5">
+        <h4 class="card-title mb-4" id="employee-list">Employee List</h4>
+      </c-col>
+      <c-col xs="auto">
+        <button cButton type="button" (click)="openEmployeeView()">+ Add Employee</button>
+      </c-col>
+    </c-row>
+    <form cRow class="align-items-end mb-4">
+      <c-col xs="auto" class="mb-2">
+        <label cLabel for="inputEmail4">Search Customer</label>
+        <input cFormControl id="inputEmail4" type="email" />
+      </c-col>
 
-              <button type="button" class="button primary" (click)="openEmployeeView()">
-                + Add Customer
-              </button>
-            </div>
-          </form>
+      <c-col xs="auto" class="mb-2">
+        <label cLabel for="datepicker">From Date</label>
+        <div class="input-group">
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker />
+          <span class="input-group-text bg-white">
+            <svg cIcon name="cilCalendar" class="text-secondary"></svg>
+          </span>
         </div>
-      </div>
+      </c-col>
 
-      <div class="table-scroll-x">
-        <table class="universal-table">
-          <thead>
-            <tr>
-              <th class="action triple"></th>
-              <th class="fixed-width width-100">Shop ID</th>
-              <th class="fill">Name</th>
-              <th class="fixed-width width-180">Mobile</th>
-              <th class="fill">Email</th>
-              <th class="fill">Location</th>
-              <th class="fixed-width width-180 ">Add Time</th>
-            </tr>
-          </thead>
-          <tbody>
-  
-            <tr class="highlight">
-              <td class="action triple">
-                <span (click)="openEmployeeView()" class=" material-symbols-outlined">edit</span>
-                <span class=" delete material-symbols-outlined">delete</span>
-                <span class=" delete material-symbols-outlined">block</span>
-              </td>
-              <td class="fixed-width width-100">9187</td>
-              <td class="fill">Company Name</td>
-              <td class="fixed-width width-180">07773784823</td>
-              <td class="fill">Emailgmail.com</td>
-              <td class="fill">NEGAMBO</td>
-              <td class="fixed-width width-180 ">2024-02-12 05:59:25 PM</td>
-            </tr>
-  
-            <tr>
-              <td class="action triple">
-                <span (click)="openEmployeeView()" class=" material-symbols-outlined">edit</span>
-                <span class=" delete material-symbols-outlined">delete</span>
-                <span class=" success material-symbols-outlined">check</span>
-              </td>
-              <td class="fixed-width width-100">9187</td>
-              <td class="fill">Company Name</td>
-              <td class="fixed-width width-180">07773784823</td>
-              <td class="fill">Emailgmail.com</td>
-              <td class="fill">NEGAMBO</td>
-              <td class="fixed-width width-180 ">2024-02-12 05:59:25 PM</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <c-col xs="auto" class="mb-2">
+        <label cLabel for="datepicker">To Date</label>
+        <div class="input-group">
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker />
+          <span class="input-group-text bg-white">
+            <svg cIcon name="cilCalendar" class="text-secondary"></svg>
+          </span>
+        </div>
+      </c-col>
+
+      <c-col xs="auto" class="mb-2 d-flex align-items-center gap-2 flex-wrap">
+        <button cButton type="button" variant="outline" color="secondary">
+          <svg cIcon name="cilSearch" class="me-2"></svg>Search
+        </button>
       
-      <div class="pagination-container">
-        <div class="pagination-info">1-12 of 85 items</div>
-        <div class="pagination-buttons">
-          <button class="page-btn" disabled>
-            <span class="material-symbols-outlined">
-              chevron_left
-            </span>
-          </button>
-          <button class="page-btn">1</button>
-          <button class="page-btn active">2</button>
-          <button class="page-btn">3</button>
-          <button class="page-btn">4</button>
-          <button class="page-btn">5</button>
-          <span class="dots">...</span>
-          <button class="page-btn">50</button>
-          <button class="page-btn"><span class="material-symbols-outlined">
-              chevron_right
-            </span></button>
-        </div>
-      </div>
-    </div>
-  </div>
+        <button cButton type="button" variant="outline" color="info">
+          <svg cIcon name="cilCloudDownload" class="me-2"></svg>Export
+        </button>
+      </c-col>
+    </form>
 
-  <app-admin-report-explore title="Employee"></app-admin-report-explore>
+    <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
+      <thead cTableColor="light">
+        <tr>
+          <th class="text-center">
+            <svg cIcon name="cilPeople"></svg>
+          </th>
+          <th class="text-center">
+            Employee ID
+          </th>
+          <th>Name</th>
+          <th>NIC</th>
+          <th class="text-center">License</th>
+          <th class="text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users; index as i">
+          <td class="text-center">
+            <c-avatar size="md" src="./assets/images/customer-logo.png"></c-avatar>
+          </td>
+          <td class="text-center">
+            EMP12
+          </td>
+          <td>
+            <div>{{ user.name }}</div>
+            <div class="small text-medium-emphasis text-nowrap">
+              <span>
+                Route | Battaramulle
+              </span>
+            </div>
+          </td>
+          <td>
+            Supun Perera
+          </td>
+          <td class="text-center">
+            <div class="fw-semibold text-nowrap">LKR 12,500</div>
+          </td>
+          <td class="text-center">
+            <!-- View -->
+            <button cButton color="info" size="sm" variant="ghost" class="me-2" title="View">
+              <svg cIcon name="cilCommand"></svg>
+            </button>
 
-</div>
+            <!-- Edit -->
+            <button cButton color="warning" size="sm" variant="ghost" class="me-2" title="Edit">
+              <svg cIcon name="cilPencil"></svg>
+            </button>
+
+            <!-- Delete -->
+            <button (click)="delete()" cButton color="danger" size="sm" variant="ghost" title="Delete">
+              <svg cIcon name="cilTrash"></svg>
+            </button>
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+  </c-card-body>
+
+  <c-pagination align="center" aria-label="Page navigation example">
+    <li cPageItem [disabled]="true">
+      <a cPageLink>Previous</a>
+    </li>
+    <li cPageItem><a cPageLink>1</a></li>
+    <li cPageItem><a cPageLink>2</a></li>
+    <li cPageItem><a cPageLink>3</a></li>
+    <li cPageItem><a cPageLink>Next</a></li>
+  </c-pagination>
+</c-card>
+
+
+<app-employee-view #employeeModal></app-employee-view>

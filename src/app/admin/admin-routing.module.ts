@@ -20,23 +20,74 @@ const routes: Routes = [
   {
     path: 'post-login',
     component: LayoutComponent,
+    data: {
+      title: 'Home',
+    },
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, // Add this
-      { path: 'dashboard', component: DashboardComponent },
-      { path: 'employees', component: EmployeeManagementComponent },
-      { path: 'customer-routes', component: CustomerRoutesComponent },
-      { path: 'vehicles', component: VehicleManagementComponent },
-      { path: 'alerts', component: AlertManagementComponent },
-      { path: 'audit-trail', component: AuditTrailComponent },
-      { path: 'payments', component: PaymentsComponent },
+      {
+        path: 'dashboard',
+        component: DashboardComponent,
+        data: {
+          title: 'Dashboard',
+        },
+      },
+      {
+        path: 'employees',
+        component: EmployeeManagementComponent,
+        data: {
+          title: 'Employee',
+        },
+      },
+      {
+        path: 'customer-routes',
+        component: CustomerRoutesComponent,
+        data: {
+          title: 'Customer & Routes',
+        },
+      },
+      {
+        path: 'vehicles',
+        component: VehicleManagementComponent,
+        data: {
+          title: 'Vehicle',
+        },
+      },
+      {
+        path: 'alerts',
+        component: AlertManagementComponent,
+        data: {
+          title: 'Alert',
+        },
+      },
+      {
+        path: 'audit-trail',
+        component: AuditTrailComponent,
+        data: {
+          title: 'Audit Trail',
+        },
+      },
+      {
+        path: 'payments',
+        component: PaymentsComponent,
+        data: {
+          title: 'Payment',
+        },
+      },
       {
         path: 'sales-delivery-tracking',
         component: SalesDeliveryTrackingComponent,
+        data: {
+          title: 'Sales & Delivery',
+        },
       },
-      { path: 'inventory/product', component: ProductComponent },
-      { path: 'inventory/stock', component: StockComponent },
-      { path: 'inventory/sales-stock', component: SalesStockComponent },
-      { path: 'inventory/return-stock', component: ReturnStockComponent },
+      {
+        path: 'inventory',
+        loadChildren: () =>
+          import('./inventory-management/inventory-management.module').then(
+            (m) => m.InventoryManagementModule
+          ),
+      },
     ],
   },
 ];
