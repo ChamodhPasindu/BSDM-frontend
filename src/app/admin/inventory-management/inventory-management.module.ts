@@ -50,6 +50,7 @@ import { ViewProductComponent } from './product/view-product/view-product.compon
 import { ViewStockComponent } from './stock/view-stock/view-stock.component';
 import { ViewSaleStockComponent } from './sales-stock/view-sale-stock/view-sale-stock.component';
 import { ViewReturnStockComponent } from './return-stock/view-return-stock/view-return-stock.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,7 @@ import { ViewReturnStockComponent } from './return-stock/view-return-stock/view-
     ViewProductComponent,
     ViewStockComponent,
     ViewSaleStockComponent,
-    ViewReturnStockComponent
+    ViewReturnStockComponent,
   ],
   imports: [
     CommonModule,
@@ -105,6 +106,7 @@ import { ViewReturnStockComponent } from './return-stock/view-return-stock/view-
     AccordionComponent,
     AccordionItemComponent,
     AccordionModule,
+    NgSelectModule,
     BsDatepickerModule.forRoot(),
   ],
 })

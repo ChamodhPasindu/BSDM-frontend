@@ -8,22 +8,21 @@
   <c-modal-body>
     <c-row class="mb-3">
       <c-col [md]="6">
-        <label cLabel for="assignSelect">Select Assigned Stock</label>
-        <select id="assignSelect" class="form-select" [(ngModel)]="selectedAssign" (change)="onAssignChange()">
-          <option value="" disabled selected>Select Assigned Stock</option>
-          <option *ngFor="let assign of assignedStocks" [ngValue]="assign">
-            {{ assign.driver.name }} - {{ assign.vehicle.number }} ({{ assign.route.name }})
-          </option>
-        </select>
+        <label cLabel for="assignStock">Select Assigned Stock</label>
+        <ng-select [(ngModel)]="selectedAssign" [searchable]="true" [clearable]="true"
+          placeholder="Search or select stock...">
+          <ng-option *ngFor="let assign of assignedStocks" [value]="assign"> {{ assign.driver.name }} - {{
+            assign.vehicle.number }}</ng-option>
+        </ng-select>
       </c-col>
     </c-row>
 
     <div *ngIf="selectedAssign" class="border rounded p-3 bg-light mb-3">
       <h6 class="fw-bold mb-2 text-dark">Assigned Stock Details</h6>
-      <p><strong>Driver:</strong> {{ selectedAssign.driver.name }}</p>
-      <p><strong>Vehicle:</strong> {{ selectedAssign.vehicle.number }}</p>
-      <p><strong>Route:</strong> {{ selectedAssign.route.name }}</p>
-      <p><strong>Date:</strong> {{ selectedAssign.date }}</p>
+      <p><strong>Driver:</strong> {{ selectedAssign?.driver?.name }}</p>
+      <p><strong>Vehicle:</strong> {{ selectedAssign?.vehicle?.number }}</p>
+      <p><strong>Route:</strong> {{ selectedAssign?.route?.name }}</p>
+      <p><strong>Date:</strong> {{ selectedAssign?.date }}</p>
     </div>
 
     <hr />
@@ -33,7 +32,7 @@
       <c-row>
         <c-col [md]="6">
           <div>
-            <c-accordion *ngIf="selectedAssign.products.length > 0; else noProducts">
+            <c-accordion *ngIf="selectedAssign?.products.length > 0; else noProducts">
               <c-accordion-item *ngFor="let product of selectedAssign.products; let i = index" [visible]="i === 0">
                 <ng-template cTemplateId="accordionHeader">
                   <div class="d-flex justify-content-between align-items-center w-100 me-2">
@@ -55,7 +54,7 @@
                 <li cPageItem>
                   <a cPageLink>Previous</a>
                 </li>
-  
+
                 <li cPageItem>
                   <a cPageLink>Next</a>
                 </li>

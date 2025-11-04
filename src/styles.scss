@@ -21,6 +21,8 @@ $enable-rtl: true;
 /* Importing Datepicker SCSS file. */
 @import "node_modules/ngx-bootstrap/datepicker/bs-datepicker";
 
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
 .bs-datepicker {
   background-color: white !important;
   /* calendar main background */
@@ -87,3 +89,5 @@ $enable-rtl: true;
   border-color: var(--cui-warning, #f9b115) !important;
   color: var(--cui-warning, #f9b115) !important;
 }
+
+

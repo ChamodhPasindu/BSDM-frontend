@@ -31,13 +31,23 @@
 
         <c-header-nav class="d-none d-lg-flex me-auto">
             <c-nav-item>
-                <a cNavLink routerLink="/dashboard" routerLinkActive="active">
+                <a cNavLink routerLink="/admin/post-login/dashboard" routerLinkActive="active">
                     Dashboard
+                </a>
+            </c-nav-item>
+            <c-nav-item>
+                <a cNavLink routerLink="/admin/post-login/employees" routerLinkActive="active">
+                    Employee
+                </a>
+            </c-nav-item>
+            <c-nav-item>
+                <a cNavLink routerLink="/admin/post-login/vehicles" routerLinkActive="active">
+                    Vehicle
                 </a>
             </c-nav-item>
         </c-header-nav>
 
-        <c-header-nav class="d-none d-lg-flex">
+        <c-header-nav class="d-lg-flex">
             <c-nav-item>
                 <a routerLink="./" cNavLink>
                     <svg cIcon name="cilBell" size="lg"></svg>
@@ -60,7 +70,7 @@
         </c-header-nav>
         <c-header-nav class="d-none d-lg-flex">
             <c-nav-item>
-              System Admin
+                System Admin
             </c-nav-item>
         </c-header-nav>
     </c-container>
@@ -165,3 +175,4 @@
         </ul>
     </c-dropdown>
 </ng-template>
+
