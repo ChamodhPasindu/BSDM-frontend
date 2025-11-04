@@ -10,7 +10,7 @@ import { iconSubset } from 'src/utils/icons/icon-subset';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'BSMS-frontend';
+  title = 'Visco BSDM Solution';
 
   constructor(
     private router: Router,

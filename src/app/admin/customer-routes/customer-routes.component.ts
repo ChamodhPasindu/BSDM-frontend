@@ -146,7 +146,7 @@ export class CustomerRoutesComponent implements OnInit {
     },
   ];
 
-  constructor(private readonly modal: NgbModal) {}
+  constructor() {}
 
   ngOnInit() {}
 

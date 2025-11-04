@@ -41,6 +41,10 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-layers' },
     children: [
       {
+        name: 'Item & Batch',
+        url: '/admin/post-login/inventory/item-batch',
+      },
+      {
         name: 'Product ',
         url: '/admin/post-login/inventory/product',
       },

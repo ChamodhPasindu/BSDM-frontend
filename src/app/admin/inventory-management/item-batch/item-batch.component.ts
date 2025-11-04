@@ -1,18 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { ViewItemComponent } from './view-item/view-item.component';
+import { ViewBatchComponent } from './view-batch/view-batch.component';
 import Swal from 'sweetalert2';
-import { ViewStockComponent } from './view-stock/view-stock.component';
 
 @Component({
-  selector: 'app-stock',
-  templateUrl: './stock.component.html',
-  styleUrls: ['./stock.component.scss'],
+  selector: 'app-item-batch',
+  templateUrl: './item-batch.component.html',
+  styleUrls: ['./item-batch.component.scss'],
 })
-export class StockComponent implements OnInit {
-  @ViewChild('stockModal') stockModal!: ViewStockComponent;
-
-  constructor() {}
-  ngOnInit() {}
-  selectedDate: Date | null = null;
+export class ItemBatchComponent implements OnInit {
+  @ViewChild('itemModal') itemModal!: ViewItemComponent;
+  @ViewChild('batchModal') batchModal!: ViewBatchComponent;
 
   public users: any[] = [
     {
@@ -147,7 +145,11 @@ export class StockComponent implements OnInit {
     },
   ];
 
-  protected delete() {
+  constructor() {}
+
+  ngOnInit() {}
+
+  protected deleteBatch() {
     Swal.fire({
       title: 'Confirm Delete',
       text: 'message',
@@ -169,9 +171,34 @@ export class StockComponent implements OnInit {
       }
     });
   }
-
-  protected openStockView(stock?: any) {
-    this.stockModal.stock = stock;
-    this.stockModal.visible = true;
+  protected openBatchView(batch?: any) {
+    this.batchModal.batch = batch;
+    this.batchModal.visible = true;
+  }
+  protected deleteItem() {
+    Swal.fire({
+      title: 'Confirm Delete',
+      text: 'message',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Delete',
+      cancelButtonText: 'Cancel',
+      reverseButtons: true,
+      customClass: {
+        popup: 'coreui-popup',
+        confirmButton: 'btn btn-danger ms-2',
+        cancelButton: 'btn btn-secondary',
+      },
+      buttonsStyling: false,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // your delete logic
+        Swal.fire('Deleted!', 'The record has been deleted.', 'success');
+      }
+    });
+  }
+  protected openItemView(item?: any) {
+    this.itemModal.item = item;
+    this.itemModal.visible = true;
   }
 }

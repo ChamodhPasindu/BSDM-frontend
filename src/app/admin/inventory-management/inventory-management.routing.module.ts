@@ -4,6 +4,7 @@ import { ProductComponent } from './product/product.component';
 import { StockComponent } from './stock/stock.component';
 import { ReturnStockComponent } from './return-stock/return-stock.component';
 import { SalesStockComponent } from './sales-stock/sales-stock.component';
+import { ItemBatchComponent } from './item-batch/item-batch.component';
 
 const routes: Routes = [
   {
@@ -13,9 +14,11 @@ const routes: Routes = [
     },
     children: [
       {
-        path: '',
-        pathMatch: 'full',
-        redirectTo: 'product',
+        path: 'item-batch',
+        component: ItemBatchComponent,
+        data: {
+          title: 'Item & Batch',
+        },
       },
       {
         path: 'product',

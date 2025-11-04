@@ -1,26 +1,26 @@
-<h6 cTextColor="secondary">ROUTES OVERVIEW</h6>
+<h6 cTextColor="secondary">ITEMS OVERVIEW</h6>
 
 <c-row>
   <c-col>
-    <c-widget-stat-f [title]="'Total Routes'" class="mb-3" color="primary" padding value="100">
+    <c-widget-stat-f [title]="'Total Items'" class="mb-3" color="primary" padding value="100">
       <ng-template cTemplateId="widgetIconTemplate">
-        <svg cIcon name="cilStream" size="xl" width="24"></svg>
+        <svg cIcon name="cilList" size="xl" width="24"></svg>
       </ng-template>
     </c-widget-stat-f>
   </c-col>
 
   <c-col>
-    <c-widget-stat-f [title]="'Active Routes'" class="mb-3" color="success" padding value="50">
+    <c-widget-stat-f [title]="'Active Items'" class="mb-3" color="success" padding value="50">
       <ng-template cTemplateId="widgetIconTemplate">
-        <svg cIcon name="cilStream" size="xl" width="24"></svg>
+        <svg cIcon name="cilList" size="xl" width="24"></svg>
       </ng-template>
     </c-widget-stat-f>
   </c-col>
 
   <c-col>
-    <c-widget-stat-f [title]="'Suspended Routes'" class="mb-3" color="danger" padding value="75">
+    <c-widget-stat-f [title]="'Suspended Items'" class="mb-3" color="danger" padding value="75">
       <ng-template cTemplateId="widgetIconTemplate">
-        <svg cIcon name="cilStream" size="xl" width="24"></svg>
+        <svg cIcon name="cilList" size="xl" width="24"></svg>
       </ng-template>
     </c-widget-stat-f>
   </c-col>
@@ -30,15 +30,15 @@
   <c-card-body>
     <c-row class="justify-content-between">
       <c-col sm="5">
-        <h4 class="card-title mb-4" id="employee-list">Route List</h4>
+        <h4 class="card-title mb-4" id="employee-list">Item List</h4>
       </c-col>
       <c-col xs="auto">
-        <button cButton type="button" (click)="openRouteView()">+ Add Route</button>
+        <button cButton type="button" (click)="openItemView()">+ Add Item</button>
       </c-col>
     </c-row>
     <form cRow class="align-items-end mb-4">
       <c-col xs="auto" class="mb-2">
-        <label cLabel for="inputEmail4">Search Route</label>
+        <label cLabel for="inputEmail4">Search Item</label>
         <input cFormControl id="inputEmail4" type="email" />
       </c-col>
 
@@ -77,11 +77,10 @@
       <thead cTableColor="light">
         <tr>
           <th class="text-center">
-            Route ID
+            Item ID
           </th>
           <th>Name</th>
-          <th>City</th>
-          <th class="text-center">District</th>
+          <th>Description</th>
           <th class="text-center">Action</th>
         </tr>
       </thead>
@@ -102,9 +101,6 @@
             Supun Perera
           </td>
           <td class="text-center">
-            <div class="fw-semibold text-nowrap">LKR 12,500</div>
-          </td>
-          <td class="text-center">
             <!-- View -->
             <button cButton color="info" size="sm" variant="ghost" class="me-2" title="View">
               <svg cIcon name="cilCommand"></svg>
@@ -116,11 +112,10 @@
             </button>
 
             <!-- Delete -->
-            <button (click)="deleteRoute()" cButton color="danger" size="sm" variant="ghost" title="Delete">
+            <button (click)="deleteItem()" cButton color="danger" size="sm" variant="ghost" title="Delete">
               <svg cIcon name="cilTrash"></svg>
             </button>
           </td>
-
         </tr>
       </tbody>
     </table>
@@ -139,29 +134,29 @@
 
 <hr>
 
-<h6 cTextColor="secondary">CUSTOMERS OVERVIEW</h6>
+<h6 cTextColor="secondary">BATCHES OVERVIEW</h6>
 
 <c-row>
   <c-col>
-    <c-widget-stat-f [title]="'Total Customers'" class="mb-3" color="primary" padding value="100">
+    <c-widget-stat-f [title]="'Total Batches'" class="mb-3" color="primary" padding value="100">
       <ng-template cTemplateId="widgetIconTemplate">
-        <svg cIcon name="cilGroup" size="xl" width="24"></svg>
+        <svg cIcon name="cilObjectGroup" size="xl" width="24"></svg>
       </ng-template>
     </c-widget-stat-f>
   </c-col>
 
   <c-col>
-    <c-widget-stat-f [title]="'Active Customers'" class="mb-3" color="success" padding value="50">
+    <c-widget-stat-f [title]="'Active Batches'" class="mb-3" color="success" padding value="50">
       <ng-template cTemplateId="widgetIconTemplate">
-        <svg cIcon name="cilUser" size="xl" width="24"></svg>
+        <svg cIcon name="cilObjectGroup" size="xl" width="24"></svg>
       </ng-template>
     </c-widget-stat-f>
   </c-col>
 
   <c-col>
-    <c-widget-stat-f [title]="'Suspended Customers'" class="mb-3" color="danger" padding value="75">
+    <c-widget-stat-f [title]="'Suspended Batches'" class="mb-3" color="danger" padding value="75">
       <ng-template cTemplateId="widgetIconTemplate">
-        <svg cIcon name="cilUserUnfollow" size="xl" width="24"></svg>
+        <svg cIcon name="cilObjectGroup" size="xl" width="24"></svg>
       </ng-template>
     </c-widget-stat-f>
   </c-col>
@@ -171,15 +166,15 @@
   <c-card-body>
     <c-row class="justify-content-between">
       <c-col sm="5">
-        <h4 class="card-title mb-4" id="employee-list">Customer List</h4>
+        <h4 class="card-title mb-4" id="employee-list">Batches List</h4>
       </c-col>
       <c-col xs="auto">
-        <button cButton type="button" (click)="openCustomerView()">+ Add Customer</button>
+        <button cButton type="button" (click)="openBatchView()">+ Add Batch</button>
       </c-col>
     </c-row>
     <form cRow class="align-items-end mb-4">
       <c-col xs="auto" class="mb-2">
-        <label cLabel for="inputEmail4">Search Customer</label>
+        <label cLabel for="inputEmail4">Search Batch</label>
         <input cFormControl id="inputEmail4" type="email" />
       </c-col>
 
@@ -218,26 +213,24 @@
       <thead cTableColor="light">
         <tr>
           <th class="text-center">
-            <svg cIcon name="cilPeople"></svg>
+            Batch Code
           </th>
-          <th class="text-center">
-            Employee ID
-          </th>
-          <th>Name</th>
-          <th>NIC</th>
-          <th class="text-center">License</th>
+          <th>Manufacture Date</th>
+          <th>Expire Date</th>
+          <th class="text-center">Usable Days</th>
+          <th class="text-center">Warehouse</th>
           <th class="text-center">Action</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let user of users; index as i">
           <td class="text-center">
-            <c-avatar size="md" src="./assets/images/customer-logo.png"></c-avatar>
-          </td>
-          <td class="text-center">
             EMP12
           </td>
           <td>
+            EMP12
+          </td>
+          <td >
             <div>{{ user.name }}</div>
             <div class="small text-medium-emphasis text-nowrap">
               <span>
@@ -245,7 +238,7 @@
               </span>
             </div>
           </td>
-          <td>
+          <td class="text-center">
             Supun Perera
           </td>
           <td class="text-center">
@@ -263,7 +256,7 @@
             </button>
 
             <!-- Delete -->
-            <button (click)="deleteCustomer()" cButton color="danger" size="sm" variant="ghost" title="Delete">
+            <button (click)="deleteBatch()" cButton color="danger" size="sm" variant="ghost" title="Delete">
               <svg cIcon name="cilTrash"></svg>
             </button>
           </td>
@@ -285,5 +278,5 @@
 </c-card>
 
 
-<app-customer-view #customerModal></app-customer-view>
-<app-route-view #routeModal></app-route-view>
+<app-view-batch #batchModal></app-view-batch>
+<app-view-item #itemModal></app-view-item>

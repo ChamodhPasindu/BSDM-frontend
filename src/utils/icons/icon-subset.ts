@@ -107,7 +107,14 @@ import {
   cilAudioSpectrum,
   cilBoltCircle,
   cilFace,
-  cilBellExclamation
+  cilBellExclamation,
+  cilObjectGroup,
+  cil3d,
+  cilBan,
+  cilHandPointUp,
+  cilCart,
+  cilMoney,
+  cilContact
 } from '@coreui/icons';
 
 export const iconSubset = {
@@ -219,7 +226,14 @@ export const iconSubset = {
   cilAudioSpectrum,
   cilBoltCircle,
   cilFace,
-  cilBellExclamation
+  cilBellExclamation,
+  cilObjectGroup,
+  cil3d,
+  cilBan,
+  cilHandPointUp,
+  cilCart,
+  cilMoney,
+  cilContact
 };
 
 export enum IconSubset {
@@ -325,11 +339,18 @@ export enum IconSubset {
   cilClipboard = 'cilClipboard',
   cilCheckCircle = 'cilCheckCircle',
   cilCash = 'cilCash',
-  cilSearch = 'cilSearch' ,
+  cilSearch = 'cilSearch',
   cilCommand = 'cilCommand',
   cilBadge = 'cilBadge',
   cilAudioSpectrum = 'cilAudioSpectrum',
   cilBoltCircle = 'cilBoltCircle',
   cilFace = 'cilFace',
-  cilBellExclamation = 'cilBellExclamation'
+  cilBellExclamation = 'cilBellExclamation',
+  cilObjectGroup = 'cilObjectGroup',
+  cil3d = 'cil3d',
+  cilBan = 'cilBan',
+  cilHandPointUp = 'cilHandPointUp',
+  cilCart = 'cilCart',
+  cilMoney = 'cilMoney',
+  cilContact = 'cilContact'
 }
