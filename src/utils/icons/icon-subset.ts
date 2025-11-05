@@ -116,7 +116,8 @@ import {
   cilMoney,
   cilContact,
   cilClone,
-  cilPowerStandby
+  cilPowerStandby,
+  cilAccountLogout
 } from '@coreui/icons';
 
 export const iconSubset = {
@@ -237,7 +238,8 @@ export const iconSubset = {
   cilMoney,
   cilContact,
   cilClone,
-  cilPowerStandby
+  cilPowerStandby,
+  cilAccountLogout
 };
 
 export enum IconSubset {
@@ -358,5 +360,6 @@ export enum IconSubset {
   cilMoney = 'cilMoney',
   cilContact = 'cilContact',
   cilClone = 'cilClone',
-  cilPowerStandby = 'cilPowerStandby'
+  cilPowerStandby = 'cilPowerStandby',
+  cilAccountLogout = 'cilAccountLogout'
 }

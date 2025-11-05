@@ -30,12 +30,14 @@ import {
 } from '@coreui/angular';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { FormsModule } from '@angular/forms';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [	
+    AppComponent,
+      LandingPageComponent
+   ],
   imports: [
     BrowserModule,
     AppRoutingModule,

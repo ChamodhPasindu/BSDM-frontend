@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 const routes: Routes = [
   {
@@ -15,8 +16,9 @@ const routes: Routes = [
     loadChildren: () =>
       import('./sales/sales.module').then((m) => m.SalesModule),
   },
-  { path: '', redirectTo: 'admin', pathMatch: 'full' },
-  { path: '**', redirectTo: 'admin' },
+  { path: '', component: LandingPageComponent },
+  // { path: '', redirectTo: 'admin', pathMatch: 'full' },
+  // { path: '**', redirectTo: 'admin' },
 ];
 
 @NgModule({

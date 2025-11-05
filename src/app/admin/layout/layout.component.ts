@@ -4,13 +4,11 @@ import { navItems } from 'src/utils/icons/_nav';
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss']
+  styleUrls: ['./layout.component.scss'],
 })
 export class LayoutComponent implements OnInit {
-  public navItems = navItems
-  constructor() { }
+  public navItems = navItems;
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }
