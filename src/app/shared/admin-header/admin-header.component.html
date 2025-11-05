@@ -22,18 +22,28 @@
             </c-nav-item>
         </c-header-nav>
 
-        <c-header-nav class="d-lg-flex">
+        <c-header-nav class="d-lg-flex me-2">
             <ng-container *ngTemplateOutlet="notificationDropdown"></ng-container>
         </c-header-nav>
 
-        <c-header-nav class="ms-3">
+        <c-header-nav class="ms-auto ms-md-0">
+            <div class="nav-item py-1">
+                <div class="vr h-100 mx-2 text-body text-opacity-75"></div>
+            </div>
+            <ng-container *ngTemplateOutlet="themeDropdown" />
+            <div class="nav-item py-1">
+                <div class="vr h-100 mx-2 text-body text-opacity-75"></div>
+            </div>
+        </c-header-nav>
+
+        <!-- <c-header-nav class="ms-3">
             <button cButton color="dark" variant="ghost" (click)="toggleTheme()">
                 <svg *ngIf="isDarkMode; else lightModeIcon" cIcon name="cilSun" size="lg"></svg>
                 <ng-template #lightModeIcon>
                     <svg cIcon name="cilMoon"></svg>
                 </ng-template>
             </button>
-        </c-header-nav>
+        </c-header-nav> -->
 
         <c-header-nav class="ms-3">
             <ng-container *ngTemplateOutlet="userDropdown"></ng-container>
@@ -64,6 +74,30 @@
         <c-breadcrumb-router class="ms-2"></c-breadcrumb-router>
     </c-container>
 </ng-container>
+
+<ng-template #themeDropdown>
+    <c-dropdown alignment="end" variant="nav-item">
+        <button cDropdownToggle cButton color="" [caret]="false" cDropdownToggle class="py-0">
+            <svg cIcon [name]="isDarkMode ? 'cilMoon' : 'cilSun'" size="lg"></svg>
+        </button>
+        <ul cDropdownMenu>
+            <li>
+                <button cDropdownItem class="d-flex align-items-center" (click)="setTheme(false)"
+                    [class.active]="!isDarkMode">
+                    <svg cIcon class="me-2" name="cilSun" size="lg"></svg>
+                    Light
+                </button>
+            </li>
+            <li>
+                <button cDropdownItem class="d-flex align-items-center" (click)="setTheme(true)"
+                    [class.active]="isDarkMode">
+                    <svg cIcon class="me-2" name="cilMoon" size="lg"></svg>
+                    Dark
+                </button>
+            </li>
+        </ul>
+    </c-dropdown>
+</ng-template>
 
 <ng-template #userDropdown>
     <c-dropdown alignment="end" variant="nav-item">

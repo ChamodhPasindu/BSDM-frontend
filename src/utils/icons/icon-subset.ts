@@ -117,7 +117,9 @@ import {
   cilContact,
   cilClone,
   cilPowerStandby,
-  cilAccountLogout
+  cilAccountLogout,
+  cilActionUndo,
+  cilBalanceScale
 } from '@coreui/icons';
 
 export const iconSubset = {
@@ -239,7 +241,9 @@ export const iconSubset = {
   cilContact,
   cilClone,
   cilPowerStandby,
-  cilAccountLogout
+  cilAccountLogout,
+  cilActionUndo,
+  cilBalanceScale
 };
 
 export enum IconSubset {
@@ -361,5 +365,7 @@ export enum IconSubset {
   cilContact = 'cilContact',
   cilClone = 'cilClone',
   cilPowerStandby = 'cilPowerStandby',
-  cilAccountLogout = 'cilAccountLogout'
+  cilAccountLogout = 'cilAccountLogout',
+  cilActionUndo = 'cilActionUndo',
+  cilBalanceScale = 'cilBalanceScale'
 }

@@ -55,6 +55,7 @@ import { CustomerViewComponent } from './customer-routes/customer-view/customer-
 import { RouteViewComponent } from './customer-routes/route-view/route-view.component';
 import { ViewAuditComponent } from './audit-trail/view-audit/view-audit.component';
 import { AlertViewComponent } from './alert-management/alert-view/alert-view.component';
+import { ViewPaymentComponent } from './payments/view-payment/view-payment.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +74,8 @@ import { AlertViewComponent } from './alert-management/alert-view/alert-view.com
     CustomerViewComponent,
     RouteViewComponent,
     ViewAuditComponent,
-    AlertViewComponent
+    AlertViewComponent,
+    ViewPaymentComponent
   ],
   imports: [
     CommonModule,

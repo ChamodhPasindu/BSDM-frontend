@@ -1,72 +1,15 @@
-<div class="page-container">
-  <div class="section-container">
-    <div class="section-title">
-      Payment Detail
-    </div>
-    
-    <div class="section-content">
-      <div class="form-container">
-        <div class="form-side-container">
-          <form>
-            <div class="dual-fields">
-              <div class="form-group">
-                <label for="registrationID">Customer<span class="required">*</span></label>
-                <input type="text" id="registrationID" placeholder="Enter Registration ID" />
-              </div>
-
-              <div class="form-group">
-                <label for="date">Bill Date</label>
-                <div class="with-icon-left">
-                  <span class="input-icon material-symbols-outlined">calendar_today</span>
-                  <input type="text" id="date" placeholder="Select date" />
-                </div>
-              </div>
-            </div>
-
-            <div class="dual-fields">
-              <div class="form-group">
-                <label for="registrationID">Total Amount<span class="required">*</span></label>
-                <input type="text" id="registrationID" placeholder="Enter Registration ID" />
-              </div>
-
-              <div class="form-group">
-                <label for="registrationID">Pending Amount<span class="required">*</span></label>
-                <input type="text" id="registrationID" placeholder="Enter Registration ID" />
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="address">Address <span class="required">*</span></label>
-              <div class="textarea">
-                <textarea id="address" placeholder="Enter Address" maxlength="1000"
-                  oninput="updateCharCount(this)"></textarea>
-                <div class="char-count" id="address-count">0/1000</div>
-              </div>
-            </div>
-
-            <div class="dual-fields">
-              <div class="form-group">
-                <label for="registrationID">Update Payment<span class="required">*</span></label>
-                <input type="text" id="registrationID" placeholder="Enter Registration ID" />
-              </div>
-
-              <div class="form-group">
-                <label for="location">Location</label>
-                <select id="location">
-                  <option disabled selected class="placholder-text">Empty</option>
-                  <option value="entity1">Location 1</option>
-                  <option value="entity2">Location 2</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="dual-btn">
-              <button class="button primary">
-                Add Payment
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+<c-modal id="liveDemoModal" size="lg" alignment="center" class="modal-scrollable" [visible]="visible"
+  (visibleChange)="changeModalVisibility($event)">
+  <c-modal-header>
+    <h5 cModalTitle> Add New Payment</h5>
+    <button (click)="closeModal()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="closeModal()" cButton color="secondary">
+      Close
+    </button>
+    <button cButton color="primary">Payment</button>
+  </c-modal-footer>
+</c-modal>

@@ -1,19 +1,18 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ClassToggleService, HeaderComponent } from '@coreui/angular';
 
-
 @Component({
   selector: 'app-admin-header',
   templateUrl: './admin-header.component.html',
-  styleUrls: ['./admin-header.component.scss']
+  styleUrls: ['./admin-header.component.scss'],
 })
-export class AdminHeaderComponent extends HeaderComponent implements OnInit{
+export class AdminHeaderComponent extends HeaderComponent implements OnInit {
   isDarkMode = false;
-  @Input() sidebarId: string = "sidebar";
+  @Input() sidebarId: string = 'sidebar';
 
-  public newMessages = new Array(4)
-  public newTasks = new Array(5)
-  public newNotifications = new Array(5)
+  public newMessages = new Array(4);
+  public newTasks = new Array(5);
+  public newNotifications = new Array(5);
 
   constructor(private classToggler: ClassToggleService) {
     super();
@@ -21,12 +20,7 @@ export class AdminHeaderComponent extends HeaderComponent implements OnInit{
 
   ngOnInit() {
     this.isDarkMode = localStorage.getItem('dark-theme') === '1';
-
-    if (this.isDarkMode) {
-      document.body.classList.add('dark-theme');
-    } else {
-      document.body.classList.remove('dark-theme');
-    }
+    this.applyTheme();
   }
 
   messages = [
@@ -78,5 +72,19 @@ export class AdminHeaderComponent extends HeaderComponent implements OnInit{
 
     // Save preference
     localStorage.setItem('dark-theme', this.isDarkMode ? '1' : '0');
+  }
+
+  setTheme(dark: boolean): void {
+    this.isDarkMode = dark;
+    localStorage.setItem('dark-theme', dark ? '1' : '0');
+    this.applyTheme();
+  }
+
+  private applyTheme(): void {
+    if (this.isDarkMode) {
+      document.body.classList.add('dark-theme');
+    } else {
+      document.body.classList.remove('dark-theme');
+    }
   }
 }
