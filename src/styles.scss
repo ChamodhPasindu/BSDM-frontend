@@ -90,4 +90,9 @@ $enable-rtl: true;
   color: var(--cui-warning, #f9b115) !important;
 }
 
+@import 'assets/scss/dark-theme';
+
+body, .card, .nav, .sidebar, .header, .ng-select {
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
 

@@ -48,29 +48,31 @@
         </c-header-nav>
 
         <c-header-nav class="d-lg-flex">
-            <c-nav-item>
-                <a routerLink="./" cNavLink>
-                    <svg cIcon name="cilBell" size="lg"></svg>
-                </a>
-            </c-nav-item>
-            <c-nav-item>
-                <a routerLink="./" cNavLink>
-                    <svg cIcon name="cilList" size="lg"></svg>
-                </a>
-            </c-nav-item>
-            <c-nav-item>
-                <a routerLink="./" cNavLink>
-                    <svg cIcon name="cilEnvelopeOpen" size="lg"></svg>
-                </a>
-            </c-nav-item>
+            <ng-container *ngTemplateOutlet="notificationDropdown"></ng-container>
         </c-header-nav>
 
+        <c-header-nav class="ms-3">
+            <button cButton color="dark" variant="ghost" (click)="toggleTheme()">
+                <svg *ngIf="isDarkMode; else lightModeIcon" cIcon name="cilSun" size="lg"></svg>
+                <ng-template #lightModeIcon>
+                    <svg cIcon name="cilMoon"></svg>
+                </ng-template>
+            </button>
+        </c-header-nav>
+        
         <c-header-nav class="ms-3">
             <ng-container *ngTemplateOutlet="userDropdown"></ng-container>
         </c-header-nav>
         <c-header-nav class="d-none d-lg-flex">
             <c-nav-item>
                 System Admin
+            </c-nav-item>
+        </c-header-nav>
+        <c-header-nav class="ms-3">
+            <c-nav-item>
+                <button cButton color="danger" size="sm">
+                    <svg cIcon name="cilPowerStandby"></svg>
+                </button>
             </c-nav-item>
         </c-header-nav>
     </c-container>
@@ -176,3 +178,45 @@
     </c-dropdown>
 </ng-template>
 
+<ng-template #notificationDropdown>
+    <c-dropdown variant="nav-item" alignment="end">
+        <button cDropdownToggle cButton color="" [caret]="false" cDropdownToggle class="py-0">
+            <svg cIcon name="cilBell" size="lg" class="text-body"></svg>
+            <c-badge color="danger" position="top-end" shape="rounded-pill">{{ messages.length }}</c-badge>
+        </button>
+
+
+        <div cDropdownMenu class="pt-0 ">
+            <li>
+                <h6 cDropdownHeader class="bg-light fw-semibold py-2">You have {{ messages.length }} messages</h6>
+            </li>
+
+            <li class="notification-panel">
+                <a *ngFor="let msg of messages" cDropdownItem href="#" class="dropdown-item">
+                    <div class="d-flex">
+                        <c-avatar class="flex-shrink-0 my-3 me-3" [src]="msg.avatar" size="md">
+                            <span class="avatar-status" [ngClass]="msg.status"></span>
+                        </c-avatar>
+
+                        <div class="message text-wrap">
+                            <div class="d-flex justify-content-between small text-body-secondary mt-1">
+                                <div>{{ msg.sender }}</div>
+                                <div>{{ msg.time }}</div>
+                            </div>
+                            <div class="fw-semibold">
+                                <span *ngIf="msg.urgent" class="text-danger me-1">!</span>{{ msg.subject }}
+                            </div>
+                            <div class="small text-body-secondary">{{ msg.preview }}</div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+
+            <hr cDropdownDivider />
+            <a cDropdownItem class="dropdown-item text-center fw-semibold" href="#">
+                View all messages
+            </a>
+        </div>
+    </c-dropdown>
+
+</ng-template>

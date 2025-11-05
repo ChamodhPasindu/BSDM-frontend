@@ -1,7 +1,14 @@
 ::ng-deep c-breadcrumb-router a {
-    pointer-events: none;
-    color: inherit;
-    text-decoration: none;
-    cursor: default;
-  }
-  
+  pointer-events: none;
+  color: inherit;
+  text-decoration: none;
+  cursor: default;
+}
+
+.notification-panel {
+  max-height: 400px;
+  overflow-y: auto;
+  width: 90vw;
+  max-width: 380px;
+  min-width: 280px;
+}

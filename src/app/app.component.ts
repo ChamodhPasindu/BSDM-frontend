@@ -7,7 +7,7 @@ import { iconSubset } from 'src/utils/icons/icon-subset';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   title = 'Visco BSDM Solution';
@@ -28,5 +28,11 @@ export class AppComponent {
         return;
       }
     });
+
+    const isDarkMode = localStorage.getItem('dark-theme') === '1';
+
+    if (isDarkMode) {
+      document.body.classList.add('dark-theme');
+    }
   }
 }
