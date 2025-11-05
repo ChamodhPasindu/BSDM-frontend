@@ -5,9 +5,6 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 const routes: Routes = [
   {
     path: 'admin',
-    data: {
-      title: 'Home',
-    },
     loadChildren: () =>
       import('./admin/admin.module').then((m) => m.AdminModule),
   },
@@ -16,9 +13,8 @@ const routes: Routes = [
     loadChildren: () =>
       import('./sales/sales.module').then((m) => m.SalesModule),
   },
-  { path: '', component: LandingPageComponent },
-  // { path: '', redirectTo: 'admin', pathMatch: 'full' },
-  // { path: '**', redirectTo: 'admin' },
+  { path: '', component: LandingPageComponent, pathMatch: 'full' },
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({
