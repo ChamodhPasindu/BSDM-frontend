@@ -3,43 +3,31 @@ import { CommonModule } from '@angular/common';
 
 import { SalesRoutingModule } from './sales-routing.module';
 import { LoginComponent } from './login/login.component';
-import {
-  ButtonModule,
-  CardModule,
-  FormModule,
-  GridModule,
-  SidebarModule,
-  AlertComponent,
-  WidgetStatFComponent,
-  UtilitiesModule,
-  WidgetModule,
-  DropdownModule,
-  ProgressModule,
-  TemplateIdDirective,
-  ButtonGroupModule,
-  TableModule,
-  AvatarModule,
-  BadgeModule,
-  PaginationComponent,
-  PageItemDirective,
-  PageLinkDirective,
-  ButtonCloseDirective,
-  ButtonDirective,
-  ModalBodyComponent,
-  ModalComponent,
-  ModalHeaderComponent,
-  ModalTitleDirective,
-  ModalFooterComponent,
-} from '@coreui/angular';
+import { ButtonModule, CardModule, FormModule, GridModule, SidebarModule, AlertComponent, WidgetStatFComponent, UtilitiesModule, WidgetModule, DropdownModule, ProgressModule, TemplateIdDirective, ButtonGroupModule, TableModule, AvatarModule, BadgeModule, PaginationComponent, PageItemDirective, PageLinkDirective, ButtonCloseDirective, ButtonDirective, ModalBodyComponent, ModalComponent, ModalHeaderComponent, ModalTitleDirective, ModalFooterComponent, NavbarComponent, CarouselComponent, CarouselItemComponent } from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { ChartjsModule } from '@coreui/angular-chartjs';
 import { IconDirective } from '@coreui/icons-angular';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { FormsModule } from '@angular/forms';
+import { LayoutComponent } from './layout/layout.component';
+import { SharedModule } from '../shared/shared.module';
+import { HomeComponent } from './home/home.component';
+import { ProductComponent } from './product/product.component';
+import { SettingsComponent } from './settings/settings.component';
+import { RouteComponent } from './route/route.component';
+import { AddBillComponent } from './add-bill/add-bill.component';
 
 @NgModule({
-  declarations: [LoginComponent],
+  declarations: [
+    LoginComponent,
+    LayoutComponent,
+    HomeComponent,
+    ProductComponent,
+    RouteComponent,
+    SettingsComponent,
+    AddBillComponent
+  ],
   imports: [
     CommonModule,
     SalesRoutingModule,
@@ -74,7 +62,11 @@ import { FormsModule } from '@angular/forms';
     ModalHeaderComponent,
     ModalTitleDirective,
     ModalFooterComponent,
-    IconDirective
-  ],
+    IconDirective,
+    NavbarComponent,
+    SharedModule,
+    CarouselComponent,
+    CarouselItemComponent
+],
 })
 export class SalesModule {}

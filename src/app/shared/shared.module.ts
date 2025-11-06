@@ -28,6 +28,8 @@ import {
 } from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
 import { NgScrollbarModule } from 'ngx-scrollbar';
+import { SalesHeaderComponent } from './sales-header/sales-header.component';
+import { SalesBottomNavComponent } from './sales-bottom-nav/sales-bottom-nav.component';
 
 @NgModule({
   imports: [
@@ -56,7 +58,17 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
     NgScrollbarModule,
     NavbarTextComponent,
   ],
-  declarations: [AdminHeaderComponent, Footer],
-  exports: [AdminHeaderComponent, Footer],
+  declarations: [
+    AdminHeaderComponent,
+    Footer,
+    SalesHeaderComponent,
+    SalesBottomNavComponent,
+  ],
+  exports: [
+    AdminHeaderComponent,
+    Footer,
+    SalesHeaderComponent,
+    SalesBottomNavComponent
+  ],
 })
 export class SharedModule {}

@@ -11,8 +11,7 @@ export class LandingPageComponent {
   constructor(private router: Router) {}
 
   navigateTo(role: string) {
-    if (role === 'admin') this.router.navigate(['admin']);
-    else this.router.navigate(['/sales/login']);
+    this.router.navigate([role]);
   }
 
 }
