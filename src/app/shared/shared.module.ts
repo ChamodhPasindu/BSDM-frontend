@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { AdminHeaderComponent } from './admin-header/admin-header.component';
 import { RouterModule } from '@angular/router';
 import { Footer } from './footer/footer';
-import { AdminReportExploreComponent } from './admin-report-explore/admin-report-explore.component';
 import {
   BadgeComponent,
   NavItemComponent,
@@ -57,7 +56,7 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
     NgScrollbarModule,
     NavbarTextComponent,
   ],
-  declarations: [AdminHeaderComponent, Footer, AdminReportExploreComponent],
-  exports: [AdminHeaderComponent, Footer, AdminReportExploreComponent],
+  declarations: [AdminHeaderComponent, Footer],
+  exports: [AdminHeaderComponent, Footer],
 })
 export class SharedModule {}

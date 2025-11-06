@@ -1,26 +1,9 @@
-.login-container {
-    max-width: 320px;
-    margin: 100px auto;
-    padding: 20px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  }
-  
-  input {
-    display: block;
-    width: 100%;
-    margin: 10px 0;
-    padding: 8px;
-  }
-  
-  button {
-    width: 100%;
-    padding: 8px;
-    background: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-  }
-  
+.logo {
+  max-width: 250px;
+}
+
+.bg-light {
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.9)),
+    url('../../../assets/images/login-background.jpg') center/cover no-repeat;
+}

@@ -35,16 +35,7 @@
                 <div class="vr h-100 mx-2 text-body text-opacity-75"></div>
             </div>
         </c-header-nav>
-
-        <!-- <c-header-nav class="ms-3">
-            <button cButton color="dark" variant="ghost" (click)="toggleTheme()">
-                <svg *ngIf="isDarkMode; else lightModeIcon" cIcon name="cilSun" size="lg"></svg>
-                <ng-template #lightModeIcon>
-                    <svg cIcon name="cilMoon"></svg>
-                </ng-template>
-            </button>
-        </c-header-nav> -->
-
+       
         <c-header-nav class="ms-3">
             <ng-container *ngTemplateOutlet="userDropdown"></ng-container>
         </c-header-nav>
@@ -62,7 +53,7 @@
 
         <c-header-nav class="ms-3">
             <c-nav-item>
-                <button cButton color="danger" size="sm">
+                <button routerLink="/landing-page" cButton color="danger" size="sm">
                     <svg cIcon name="cilPowerStandby"></svg>
                 </button>
             </c-nav-item>
