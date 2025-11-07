@@ -123,6 +123,12 @@ import {
   cilPlus,
   cilX,
   cilUserPlus,
+  cilStorage,
+  cilBuilding,
+  cilXCircle,
+  cilChevronBottom,
+  cilChevronTop,
+  cilArrowLeft
 } from '@coreui/icons';
 
 export const iconSubset = {
@@ -250,6 +256,12 @@ export const iconSubset = {
   cilPlus,
   cilX,
   cilUserPlus,
+  cilStorage,
+  cilBuilding,
+  cilXCircle,
+  cilChevronBottom,
+  cilChevronTop,
+  cilArrowLeft
 };
 
 export enum IconSubset {
@@ -377,4 +389,10 @@ export enum IconSubset {
   cilPlus = 'cilPlus',
   cilX = 'cilX',
   cilUserPlus = 'cilUserPlus',
+  cilStorage = 'cilStorage',
+  cilBuilding = 'cilBuilding',
+  cilXCircle = 'cilXCircle',
+  cilChevronBottom = 'cilChevronBottom',
+  cilChevronTop = 'cilChevronTop',
+  cilArrowLeft = 'cilArrowLeft'
 }

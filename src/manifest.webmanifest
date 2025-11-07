@@ -1,6 +1,6 @@
 {
-  "name": "APP",
-  "short_name": "APP",
+  "name": "BSDM Application",
+  "short_name": "BSDM Application",
   "theme_color": "#000000",
   "background_color": "#fafafa",
   "display": "standalone",

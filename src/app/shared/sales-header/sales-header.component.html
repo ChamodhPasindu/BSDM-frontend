@@ -1,11 +1,24 @@
-<header class="sales-header d-flex justify-content-between align-items-center px-3 py-2 shadow-sm bg-white">
-  <!-- Left: user info -->
+<header
+  class="position-fixed w-100 sales-header d-flex justify-content-between align-items-center px-3 py-2 shadow-sm bg-white">
   <div class="d-flex align-items-center">
-    <img src="./assets/images/user-img.jpg" alt="User" class="rounded-circle me-2" width="36" height="36">
-    <span class="fw-semibold">Hi, Chamodh</span>
+    <!-- Logo or Back Button -->
+    <img *ngIf="!isSubPage" src="./assets/images/company-logo-short.png" alt="Logo" width="32" height="32" />
+
+    <button *ngIf="isSubPage" class="btn p-0 border-0 bg-transparent" (click)="goBack()">
+      <svg cIcon name="cilArrowLeft" size="lg"></svg>
+    </button>
   </div>
 
-  <!-- Right: Notification Dropdown -->
+  <!-- Center title -->
+  <div class="d-flex align-items-center flex-column text-center">
+    <div class="d-flex align-items-center">
+      <img src="./assets/images/user-img.jpg" alt="User" class="rounded-circle me-2" width="36" height="36"
+        *ngIf="!isSubPage" />
+      <span class="fw-semibold fs-5">{{ pageTitle }}</span>
+    </div>
+  </div>
+
+
   <c-dropdown alignment="end">
     <button cDropdownToggle cButton color="transparent" class="position-relative p-0 border-0 bg-transparent"
       aria-label="Notifications">
@@ -45,7 +58,6 @@
         </button>
       </li>
 
-      <!-- Footer -->
       <hr cDropdownDivider />
       <a cDropdownItem class="dropdown-item text-center text-primary fw-semibold" href="#">
         View all

@@ -70,3 +70,15 @@ a {
     border-color: var(--cui-warning, #f9b115) !important;
     color: var(--cui-warning, #f9b115) !important;
 }
+
+.overflow-x-hide::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari */
+}
+
+.overflow-x-hide {
+    -ms-overflow-style: none;
+    /* IE and old Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
