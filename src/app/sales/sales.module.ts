@@ -3,7 +3,40 @@ import { CommonModule } from '@angular/common';
 
 import { SalesRoutingModule } from './sales-routing.module';
 import { LoginComponent } from './login/login.component';
-import { ButtonModule, CardModule, FormModule, GridModule, SidebarModule, AlertComponent, WidgetStatFComponent, UtilitiesModule, WidgetModule, DropdownModule, ProgressModule, TemplateIdDirective, ButtonGroupModule, TableModule, AvatarModule, BadgeModule, PaginationComponent, PageItemDirective, PageLinkDirective, ButtonCloseDirective, ButtonDirective, ModalBodyComponent, ModalComponent, ModalHeaderComponent, ModalTitleDirective, ModalFooterComponent, NavbarComponent, CarouselComponent, CarouselItemComponent, CollapseModule, AccordionModule } from '@coreui/angular';
+import {
+  ButtonModule,
+  CardModule,
+  FormModule,
+  GridModule,
+  SidebarModule,
+  AlertComponent,
+  WidgetStatFComponent,
+  UtilitiesModule,
+  WidgetModule,
+  DropdownModule,
+  ProgressModule,
+  TemplateIdDirective,
+  ButtonGroupModule,
+  TableModule,
+  AvatarModule,
+  BadgeModule,
+  PaginationComponent,
+  PageItemDirective,
+  PageLinkDirective,
+  ButtonCloseDirective,
+  ButtonDirective,
+  ModalBodyComponent,
+  ModalComponent,
+  ModalHeaderComponent,
+  ModalTitleDirective,
+  ModalFooterComponent,
+  NavbarComponent,
+  CarouselComponent,
+  CarouselItemComponent,
+  CollapseModule,
+  AccordionModule,
+  
+} from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { ChartjsModule } from '@coreui/angular-chartjs';
@@ -17,6 +50,8 @@ import { ProductComponent } from './product/product.component';
 import { SettingsComponent } from './settings/settings.component';
 import { RouteComponent } from './route/route.component';
 import { AddBillComponent } from './add-bill/add-bill.component';
+import { NewComponent } from './customer/new/new.component';
+import { ExistingComponent } from './customer/existing/existing.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +62,8 @@ import { AddBillComponent } from './add-bill/add-bill.component';
     RouteComponent,
     SettingsComponent,
     AddBillComponent,
+    NewComponent,
+    ExistingComponent,
   ],
   imports: [
     CommonModule,
@@ -68,7 +105,7 @@ import { AddBillComponent } from './add-bill/add-bill.component';
     CarouselComponent,
     CarouselItemComponent,
     CollapseModule,
-    AccordionModule
-],
+    AccordionModule,
+  ],
 })
 export class SalesModule {}

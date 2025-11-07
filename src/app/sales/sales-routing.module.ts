@@ -7,6 +7,8 @@ import { ProductComponent } from './product/product.component';
 import { AddBillComponent } from './add-bill/add-bill.component';
 import { RouteComponent } from './route/route.component';
 import { SettingsComponent } from './settings/settings.component';
+import { NewComponent } from './customer/new/new.component';
+import { ExistingComponent } from './customer/existing/existing.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -30,6 +32,20 @@ const routes: Routes = [
         component: ProductComponent,
         data: {
           title: 'Product',
+        },
+      },
+      {
+        path: 'new',
+        component: NewComponent,
+        data: {
+          title: 'New Customer',
+        },
+      },
+      {
+        path: 'existing',
+        component: ExistingComponent,
+        data: {
+          title: 'Existing Customer',
         },
       },
       {

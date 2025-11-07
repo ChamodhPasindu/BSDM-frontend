@@ -37,6 +37,12 @@ export class SalesHeaderComponent implements OnInit {
     } else if (url.includes('/sales/post-login/settings')) {
       this.pageTitle = 'Settings';
       this.isSubPage = true;
+    } else if (url.includes('/sales/post-login/new')) {
+      this.pageTitle = 'New Customer';
+      this.isSubPage = true;
+    } else if (url.includes('/sales/post-login/existing')) {
+      this.pageTitle = 'Existing Customer';
+      this.isSubPage = true;
     } else {
       this.pageTitle = 'Hi ,Chamodh';
       this.isSubPage = false;

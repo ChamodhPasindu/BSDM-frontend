@@ -1,0 +1,146 @@
+<div class="flex-column align-items-center">
+
+  <!-- Step Card -->
+  <div class="card w-100">
+
+    <!-- Card Header / Stepper -->
+    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+      <div class="d-flex flex-column align-items-center flex-fill">
+        <div class="rounded-circle d-flex align-items-center justify-content-center mb-1 progress-bar-circle"
+          [class.bg-success]="currentStep === 1" [class.bg-light]="currentStep !== 1">
+          <span class="fw-bold" [class.text-white]="currentStep === 1">1</span>
+        </div>
+        <small class="text-muted">Route</small>
+      </div>
+      <div class="d-flex flex-column align-items-center flex-fill">
+        <div class="rounded-circle d-flex align-items-center justify-content-center mb-1 progress-bar-circle"
+          [class.bg-success]="currentStep === 2" [class.bg-light]="currentStep !== 2">
+          <span class="fw-bold" [class.text-white]="currentStep === 2">2</span>
+        </div>
+        <small class="text-muted">Customer</small>
+      </div>
+      <div class="d-flex flex-column align-items-center flex-fill">
+        <div class="rounded-circle d-flex align-items-center justify-content-center mb-1 progress-bar-circle"
+          [class.bg-success]="currentStep === 3" [class.bg-light]="currentStep !== 3">
+          <span class="fw-bold" [class.text-white]="currentStep === 3">3</span>
+        </div>
+        <small class="text-muted">Products</small>
+      </div>
+    </div>
+
+    <!-- Progress Bar-->
+    <div class="progress" style="height: 4px;">
+      <div class="progress-bar bg-success" role="progressbar" [style.width.%]="currentStep * 33.33"
+        style="transition: width 0.4s;"></div>
+    </div>
+
+    <!-- Card Body / Step Content -->
+    <div class="card-body">
+
+      <div *ngIf="currentStep === 1" class="d-flex flex-column">
+        <!-- Step 1: Select Route -->
+        <h6 class="mb-3 fw-bold">Select Route</h6>
+
+        <!-- Search Input -->
+        <input type="text" class="form-control mb-3" placeholder="Search route..." [(ngModel)]="routeSearchTerm"
+          (ngModelChange)="filterRoutes()" />
+
+        <!-- Route List Card -->
+        <div class="d-flex flex-column">
+          <div *ngFor="let route of filteredRoutes"
+            class="route-card mb-2 p-3 d-flex justify-content-between align-items-center"
+            [class.selected]="selectedRoute === route" (click)="nextStep()">
+            <span class="fw-medium">{{ route }}</span>
+            <span class="fw-medium">{{ route }}</span>
+            <svg cIcon name="cilArrowRight" size="sm" class="text-muted"></svg>
+          </div>
+          <div *ngIf="filteredRoutes.length === 0" class="text-center text-muted py-3">
+            No routes found
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Customer Details -->
+      <div *ngIf="currentStep === 2" class="d-flex flex-column">
+        <h6 class="mb-3 fw-bold">Select Customer</h6>
+
+        <input type="text" class="form-control mb-3" placeholder="Search customer..." [(ngModel)]="customerSearchTerm"
+          (ngModelChange)="filterCustomers()">
+        <div class="d-flex flex-column">
+          <div *ngFor="let customer of filteredCustomers"
+            class="route-card mb-2 p-3 d-flex justify-content-between align-items-center"
+            [class.selected]="selectedCustomer?.id === customer.id" (click)="selectCustomer(customer)">
+
+            <div class="d-flex align-items-center">
+              <!-- Avatar -->
+              <c-avatar color="primary" textColor="white" class="me-3">
+                CA
+              </c-avatar>
+              <!-- Name and Shop/Address -->
+              <div class="d-flex flex-column">
+                <div class="fw-medium">{{ customer.name }}</div>
+                <small class="text-muted">{{ customer.shopName }} - {{ customer.address }}</small>
+              </div>
+            </div>
+            <svg cIcon name="cilArrowRight" size="sm" class="text-muted"></svg>
+          </div>
+          <div *ngIf="filteredCustomers.length === 0" class="text-center text-muted py-3">No customers found</div>
+        </div>
+      </div>
+
+      <div *ngIf="currentStep === 3" class="d-flex flex-column">
+
+        <h6 class="fw-bold mb-3">Select Products</h6>
+
+        <!-- Search Bar -->
+        <input type="text" class="form-control mb-3" placeholder="Search product..." [(ngModel)]="productSearchTerm"
+          (ngModelChange)="filterProducts()">
+
+        <div class="d-flex flex-column gap-2">
+          <div *ngFor="let product of filteredProducts"
+            class="product-card p-3 d-flex justify-content-between align-items-start">
+
+            <!-- Left: Checkbox + Name + Description + Min-Max Price -->
+            <div class="flex-fill">
+              <div class="d-flex align-items-center mb-1">
+                <input type="checkbox" class="form-check-input me-2" [(ngModel)]="product.selected">
+                <span class="fw-medium">{{ product.name }}</span>
+              </div>
+              <div class="text-muted small">{{ product.description }}</div>
+              <div class="text-muted small">Price: {{ product.minPrice }} - {{ product.maxPrice }} LKR</div>
+            </div>
+
+            <!-- Right: Quantity + Sell Price -->
+            <div class="d-flex flex-column align-items-end gap-1 ms-3">
+              <div class="d-flex align-items-center gap-1">
+                <button class="btn btn-outline-secondary btn-sm" (click)="decreaseQty(product)"
+                  [disabled]="product.qty <= 0">-</button>
+                <input type="number" class="form-control form-control-sm text-center" style="width:60px"
+                  [(ngModel)]="product.qty" [disabled]="!product.selected" placeholder="Qty">
+                <button class="btn btn-outline-secondary btn-sm" (click)="increaseQty(product)"
+                  [disabled]="!product.selected">+</button>
+              </div>
+              <!-- Sell Price Input aligned with quantity -->
+              <input type="number" class="form-control form-control-sm text-center" style="width:120px"
+                [(ngModel)]="product.maxPrice" [disabled]="!product.selected" placeholder="Sell Price">
+            </div>
+
+          </div>
+
+          <div *ngIf="filteredProducts.length === 0" class="text-center text-muted py-3">
+            No products found
+          </div>
+        </div>
+
+        <!-- Confirm Order Button -->
+        <button class="btn btn-primary w-100 mt-3" [disabled]="!hasSelectedProducts()" (click)="confirmOrder()">
+          Confirm Order
+        </button>
+
+      </div>
+
+
+
+    </div>
+  </div>
+</div>
