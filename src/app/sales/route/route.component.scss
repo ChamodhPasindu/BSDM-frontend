@@ -1,0 +1,33 @@
+.route-card {
+    overflow: hidden;
+  
+    .route-header {
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+  
+      &:hover {
+        background-color: rgba(0, 123, 255, 0.05);
+      }
+    }
+  
+    .transition-icon {
+      transition: transform 0.3s ease;
+    }
+  
+    .customer-list {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transform: translateY(-5px);
+      transition: all 0.3s ease-in-out;
+      background-color: #f9f9f9;
+      border-top: 1px solid #eee;
+    }
+  
+    .customer-list.expanded {
+      max-height: 500px; // enough for 4–5 customers
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  

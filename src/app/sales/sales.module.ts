@@ -3,38 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { SalesRoutingModule } from './sales-routing.module';
 import { LoginComponent } from './login/login.component';
-import {
-  ButtonModule,
-  CardModule,
-  FormModule,
-  GridModule,
-  SidebarModule,
-  AlertComponent,
-  WidgetStatFComponent,
-  UtilitiesModule,
-  WidgetModule,
-  DropdownModule,
-  ProgressModule,
-  TemplateIdDirective,
-  ButtonGroupModule,
-  TableModule,
-  AvatarModule,
-  BadgeModule,
-  PaginationComponent,
-  PageItemDirective,
-  PageLinkDirective,
-  ButtonCloseDirective,
-  ButtonDirective,
-  ModalBodyComponent,
-  ModalComponent,
-  ModalHeaderComponent,
-  ModalTitleDirective,
-  ModalFooterComponent,
-  NavbarComponent,
-  CarouselComponent,
-  CarouselItemComponent,
-  CollapseModule
-} from '@coreui/angular';
+import { ButtonModule, CardModule, FormModule, GridModule, SidebarModule, AlertComponent, WidgetStatFComponent, UtilitiesModule, WidgetModule, DropdownModule, ProgressModule, TemplateIdDirective, ButtonGroupModule, TableModule, AvatarModule, BadgeModule, PaginationComponent, PageItemDirective, PageLinkDirective, ButtonCloseDirective, ButtonDirective, ModalBodyComponent, ModalComponent, ModalHeaderComponent, ModalTitleDirective, ModalFooterComponent, NavbarComponent, CarouselComponent, CarouselItemComponent, CollapseModule, AccordionModule } from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { ChartjsModule } from '@coreui/angular-chartjs';
@@ -98,7 +67,8 @@ import { AddBillComponent } from './add-bill/add-bill.component';
     SharedModule,
     CarouselComponent,
     CarouselItemComponent,
-    CollapseModule
-  ],
+    CollapseModule,
+    AccordionModule
+],
 })
 export class SalesModule {}

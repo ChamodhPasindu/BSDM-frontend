@@ -32,7 +32,7 @@ export class SalesHeaderComponent implements OnInit {
       this.pageTitle = 'Products';
       this.isSubPage = true;
     } else if (url.includes('/sales/post-login/route')) {
-      this.pageTitle = 'Routes';
+      this.pageTitle = 'Routes & Customers';
       this.isSubPage = true;
     } else if (url.includes('/sales/post-login/settings')) {
       this.pageTitle = 'Settings';
