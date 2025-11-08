@@ -128,7 +128,7 @@ import {
   cilXCircle,
   cilChevronBottom,
   cilChevronTop,
-  cilArrowLeft
+  cilArrowLeft,
 } from '@coreui/icons';
 
 export const iconSubset = {

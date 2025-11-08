@@ -1,38 +1,36 @@
-<div class="card  border-0">
-  <!-- Header -->
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h6 class="fw-semibold mb-0">Notifications</h6>
-    <button cButton color="danger" variant="outline" size="sm" (click)="clearAll()"
-      [disabled]="notifications.length === 0">
-      <svg cIcon name="cilTrash" class="me-1"></svg>
-      Delete All
-    </button>
-  </div>
+<!-- Header -->
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h6 class="fw-semibold mb-0">Notifications</h6>
+  <button cButton color="danger" variant="outline" size="sm" (click)="clearAll()"
+    [disabled]="notifications.length === 0">
+    <svg cIcon name="cilTrash" class="me-1"></svg>
+    Delete All
+  </button>
+</div>
 
-  <!-- Empty State -->
-  <div *ngIf="notifications.length === 0" class="text-center text-muted py-4">
-    No notifications available
-  </div>
+<!-- Empty State -->
+<div *ngIf="notifications.length === 0" class="text-center text-muted py-4">
+  No notifications available
+</div>
 
-  <!-- Notification List -->
-  <div class="d-flex flex-column gap-2">
-    <c-card *ngFor="let note of notifications" class="shadow-sm notification-card">
-      <c-card-body class="d-flex align-items-center py-2 card-body">
-        <div class="icon-circle me-3" [ngClass]="{
+<!-- Notification List -->
+<div class="d-flex flex-column gap-2">
+  <c-card *ngFor="let note of notifications" class="shadow-sm notification-card">
+    <c-card-body class="d-flex align-items-center py-2 card-body">
+      <div class="icon-circle me-3" [ngClass]="{
               'bg-success-subtle text-success': note.type === 'stock',
               'bg-primary-subtle text-primary': note.type === 'payment',
               'bg-warning-subtle text-warning': note.type === 'print',
               'bg-info-subtle text-info': note.type === 'return'
             }">
-          <svg cIcon name="cil-bolt-circle" size="xl"></svg>
-        </div>
+        <svg cIcon name="cil-bolt-circle" size="xl"></svg>
+      </div>
 
-        <div class="flex-grow-1">
-          <div class="fw-semibold">{{ note.title }}</div>
-          <small class="text-muted">{{ note.time | date: 'short' }}</small>
-        </div>
+      <div class="flex-grow-1">
+        <div class="fw-semibold">{{ note.title }}</div>
+        <small class="text-muted">{{ note.time | date: 'short' }}</small>
+      </div>
 
-      </c-card-body>
-    </c-card>
-  </div>
+    </c-card-body>
+  </c-card>
 </div>

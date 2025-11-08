@@ -30,9 +30,7 @@ export class SalesBottomNavComponent implements OnInit {
 @Component({
   selector: 'app-my-custom-component',
   template: `
-    <div
-      class="d-flex flex-column justify-content-center align-items-center p-2"
-    >
+    <div class="card border-0  p-3">
       <div class="text-center mb-3 mt-2">
         <h6 class="fw-bold">Quick Access Menu</h6>
       </div>
@@ -66,7 +64,7 @@ export class SalesBottomNavComponent implements OnInit {
             class="btn btn-dark w-100 py-3 d-flex flex-column align-items-center justify-content-center"
             type="button"
           >
-            <c-icon name="cil-dollar" size="xl" class="mb-2"></c-icon>
+            <c-icon name="cilCreditCard" size="xl" class="mb-2"></c-icon>
             <span class="fw-semibold">Payment</span>
           </button>
         </div>

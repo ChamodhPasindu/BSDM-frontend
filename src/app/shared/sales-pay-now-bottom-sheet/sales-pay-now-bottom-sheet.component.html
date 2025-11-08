@@ -1,4 +1,4 @@
-<div class="card shadow-sm border-0 rounded-4 p-3 mt-1">
+<div class="card border-0 p-3">
 
   <!-- Customer + Bill Info -->
   <div class="d-flex align-items-start mb-3">
@@ -34,13 +34,12 @@
 
   <div class="mb-3">
     <label class="form-label small text-muted mb-1">Enter Payment Amount</label>
-    <input type="number" class="form-control" [(ngModel)]="paymentAmount" (input)="checkPaymentType()" placeholder="Enter amount">
+    <input type="number" class="form-control" [(ngModel)]="paymentAmount" (input)="checkPaymentType()"
+      placeholder="Enter amount">
   </div>
 
   <div *ngIf="paymentStatus" class="mb-2">
-    <div
-      class="alert py-2 small text-center rounded-3"
-      [ngClass]="{
+    <div class="alert py-2 small text-center rounded-3" [ngClass]="{
         'alert-success': paymentStatus === 'Full Payment',
         'alert-warning': paymentStatus === 'Partial Payment'
       }">
@@ -53,7 +52,8 @@
     <textarea class="form-control" rows="2" [(ngModel)]="note" placeholder="Enter any note..."></textarea>
   </div>
 
-  <button class="btn btn-primary w-100 py-2 fw-semibold rounded-3" [disabled]="!paymentAmount" (click)="markAsSettled()">
+  <button class="btn btn-primary w-100 py-2 fw-semibold rounded-3" [disabled]="!paymentAmount"
+    (click)="markAsSettled()">
     Mark as Settled
   </button>
 </div>
