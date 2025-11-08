@@ -21,7 +21,7 @@
       </c-card-body>
 
       <div [visible]="totalCollapseVisible" cCollapse>
-        <div class="bg-light text-dark px-3 py-2">
+        <div class="bg-light text-dark px-3 py-2 rounded">
           <div class="d-flex justify-content-between small mb-1">
             <span>Yesterday</span>
             <span class="fw-semibold">LKR 25,000</span>
@@ -120,7 +120,7 @@
 
 <h6 class="mb-2 fw-semibold">Latest Payments</h6>
 <div class="d-flex flex-column gap-2 mb-3">
-  <c-card class="shadow-sm">
+  <c-card (click)="openLatestPayment()" class="shadow-sm">
     <c-card-body class="d-flex justify-content-between align-items-center">
       <div>
         <div class="fw-semibold">ABC Super</div>
@@ -133,7 +133,7 @@
     </c-card-body>
   </c-card>
 
-  <c-card class="shadow-sm">
+  <c-card (click)="openLatestPayment()" class="shadow-sm">
     <c-card-body class="d-flex justify-content-between align-items-center">
       <div>
         <div class="fw-semibold">Lanka Grocery</div>

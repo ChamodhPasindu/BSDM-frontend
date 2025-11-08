@@ -3,10 +3,10 @@ import { NgxBottomSheetService } from 'ngx-bottom-sheet';
 
 @Component({
   selector: 'app-sales-payment-summary',
-  templateUrl: './sales-payment-summary.component.html',
-  styleUrls: ['./sales-payment-summary.component.scss']
+  templateUrl: './sales-payment-summary-bottom-sheet.component.html',
+  styleUrls: ['./sales-payment-summary-bottom-sheet.component.scss']
 })
-export class SalesPaymentSummaryComponent implements OnInit {
+export class SalesPaymentSummaryBottomSheetComponent implements OnInit {
 
   constructor(private bottomSheetService: NgxBottomSheetService) { }
 

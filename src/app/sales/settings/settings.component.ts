@@ -3,16 +3,20 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+  styleUrls: ['./settings.component.scss'],
 })
-export class SettingsComponent {
-
+export class SettingsComponent implements OnInit {
   activeTab: string;
   isEditing = false;
-  darkMode = false;
+  isDarkMode = false;
 
-  constructor(){
-    this.activeTab = 'profile'
+  constructor() {
+    this.activeTab = 'profile';
+  }
+
+  ngOnInit() {
+    this.isDarkMode = localStorage.getItem('dark-theme') === '1';
+    this.applyTheme();
   }
 
   user = {
@@ -21,7 +25,7 @@ export class SettingsComponent {
     nic: '991234567V',
     license: 'B1234567',
     email: 'chamodh@example.com',
-    mobile: '0771234567'
+    mobile: '0771234567',
   };
 
   password = { current: '', new: '', confirm: '' };
@@ -30,7 +34,7 @@ export class SettingsComponent {
     model: 'Panda Cross 2016',
     brand: 'Geely',
     noPlate: 'CBA-4567',
-    licenseExpiry: '2027-08-15'
+    licenseExpiry: '2027-08-15',
   };
 
   enableEdit() {
@@ -64,8 +68,25 @@ export class SettingsComponent {
     this.password = { current: '', new: '', confirm: '' };
   }
 
+
   toggleDarkMode() {
-    document.body.classList.toggle('dark-theme', this.darkMode);
+    document.body.classList.toggle('dark-theme', this.isDarkMode);
+
+    // Save preference
+    localStorage.setItem('dark-theme', this.isDarkMode ? '1' : '0');
   }
 
+  setTheme(dark: boolean): void {
+    this.isDarkMode = dark;
+    localStorage.setItem('dark-theme', dark ? '1' : '0');
+    this.applyTheme();
+  }
+
+  private applyTheme(): void {
+    if (this.isDarkMode) {
+      document.body.classList.add('dark-theme');
+    } else {
+      document.body.classList.remove('dark-theme');
+    }
+  }
 }

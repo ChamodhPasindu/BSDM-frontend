@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxBottomSheetService } from 'ngx-bottom-sheet';
 import { SalesPayNowBottomSheetComponent } from 'src/app/shared/sales-pay-now-bottom-sheet/sales-pay-now-bottom-sheet.component';
-import { SalesPaymentSummaryComponent } from 'src/app/shared/sales-payment-summary/sales-payment-summary.component';
+import { SalesPaymentSummaryBottomSheetComponent } from 'src/app/shared/sales-payment-summary-bottom-sheet/sales-payment-summary-bottom-sheet.component';
 
 @Component({
   selector: 'app-select-bill',
@@ -35,7 +35,7 @@ export class SelectBillComponent  {
         backgroundColor: '#fff',
       });
     }else{
-      this.bottomSheetService.open(SalesPaymentSummaryComponent, {
+      this.bottomSheetService.open(SalesPaymentSummaryBottomSheetComponent, {
         height: 'top',
         showCloseButton: false,
         backgroundColor: '#fff',

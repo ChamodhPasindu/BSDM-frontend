@@ -3,14 +3,38 @@ import { CommonModule } from '@angular/common';
 import { AdminHeaderComponent } from './admin-header/admin-header.component';
 import { RouterModule } from '@angular/router';
 import { Footer } from './footer/footer';
-import { BadgeComponent, NavItemComponent, BreadcrumbRouterComponent, ButtonGroupModule, GridModule, DropdownModule, AvatarModule, ButtonModule, HeaderModule, SidebarModule, BadgeModule, BreadcrumbModule, CardModule, FooterModule, FormModule, ListGroupModule, NavModule, ProgressModule, TabsModule, UtilitiesModule, NavbarTextComponent, AlertComponent } from '@coreui/angular';
+import {
+  BadgeComponent,
+  NavItemComponent,
+  BreadcrumbRouterComponent,
+  ButtonGroupModule,
+  GridModule,
+  DropdownModule,
+  AvatarModule,
+  ButtonModule,
+  HeaderModule,
+  SidebarModule,
+  BadgeModule,
+  BreadcrumbModule,
+  CardModule,
+  FooterModule,
+  FormModule,
+  ListGroupModule,
+  NavModule,
+  ProgressModule,
+  TabsModule,
+  UtilitiesModule,
+  NavbarTextComponent,
+  AlertComponent,
+} from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { SalesHeaderComponent } from './sales-header/sales-header.component';
 import { SalesBottomNavComponent } from './sales-bottom-nav/sales-bottom-nav.component';
 import { SalesPayNowBottomSheetComponent } from './sales-pay-now-bottom-sheet/sales-pay-now-bottom-sheet.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SalesPaymentSummaryComponent } from './sales-payment-summary/sales-payment-summary.component';
+import { SalesPaymentSummaryBottomSheetComponent } from './sales-payment-summary-bottom-sheet/sales-payment-summary-bottom-sheet.component';
+import { SalesQuickMenuBottomSheetComponent } from './sales-quick-menu-bottom-sheet/sales-quick-menu-bottom-sheet.component';
 
 @NgModule({
   imports: [
@@ -40,15 +64,16 @@ import { SalesPaymentSummaryComponent } from './sales-payment-summary/sales-paym
     NavbarTextComponent,
     FormsModule,
     ReactiveFormsModule,
-    AlertComponent
-],
+    AlertComponent,
+  ],
   declarations: [
     AdminHeaderComponent,
     Footer,
     SalesHeaderComponent,
     SalesBottomNavComponent,
     SalesPayNowBottomSheetComponent,
-    SalesPaymentSummaryComponent
+    SalesPaymentSummaryBottomSheetComponent,
+    SalesQuickMenuBottomSheetComponent
   ],
   exports: [
     AdminHeaderComponent,
@@ -56,7 +81,8 @@ import { SalesPaymentSummaryComponent } from './sales-payment-summary/sales-paym
     SalesHeaderComponent,
     SalesBottomNavComponent,
     SalesPayNowBottomSheetComponent,
-    SalesPaymentSummaryComponent
+    SalesPaymentSummaryBottomSheetComponent,
+    SalesQuickMenuBottomSheetComponent
   ],
 })
 export class SharedModule {}

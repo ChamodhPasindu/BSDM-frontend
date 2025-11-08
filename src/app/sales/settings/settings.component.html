@@ -39,8 +39,8 @@
             <input type="file" accept="image/*" #fileInput (change)="onImageChange($event)" class="d-none" />
 
             <!-- Edit Icon Overlay -->
-            <button *ngIf="isEditing" type="button" class="btn btn-sm btn-primary rounded-circle position-absolute edit-icon"
-              (click)="fileInput.click()">
+            <button *ngIf="isEditing" type="button"
+              class="btn btn-sm btn-primary rounded-circle position-absolute edit-icon" (click)="fileInput.click()">
               <svg cIcon name="cilPencil"></svg>
             </button>
           </div>
@@ -135,14 +135,21 @@
 
       <!-- OTHER -->
       <div *ngSwitchCase="'other'" class="fade-in">
-        <div class="form-check form-switch mt-2">
-          <input class="form-check-input" type="checkbox" role="switch" id="darkModeSwitch" [(ngModel)]="darkMode"
+        <div class="form-check form-switch mt-2 mb-4">
+          <input class="form-check-input" type="checkbox" role="switch" id="darkModeSwitch" [(ngModel)]="isDarkMode"
             (change)="toggleDarkMode()" />
           <label class="form-check-label fw-semibold" for="darkModeSwitch">
             Enable Dark Mode
           </label>
         </div>
+
+        <div class="text-center mt-4">
+          <button cButton color="danger" variant="outline" class="rounded-3 px-4 fw-semibold" routerLink="/landing-page">
+            <svg cIcon name="cilAccountLogout" class="me-2"></svg> Logout
+          </button>
+        </div>
       </div>
+
     </div>
   </div>
 </div>

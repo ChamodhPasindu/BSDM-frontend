@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgxBottomSheetService } from 'ngx-bottom-sheet';
-import { SalesPaymentSummaryComponent } from '../sales-payment-summary/sales-payment-summary.component';
+import { SalesPaymentSummaryBottomSheetComponent } from '../sales-payment-summary-bottom-sheet/sales-payment-summary-bottom-sheet.component';
 
 @Component({
   selector: 'app-pay-now-bottom-sheet',
@@ -53,7 +53,7 @@ export class SalesPayNowBottomSheetComponent implements OnInit {
     });
 
     this.bottomSheetService.close();
-    this.bottomSheetService.open(SalesPaymentSummaryComponent, {
+    this.bottomSheetService.open(SalesPaymentSummaryBottomSheetComponent, {
       height: 'top',
       backgroundColor: '#fff',
       showCloseButton:false
