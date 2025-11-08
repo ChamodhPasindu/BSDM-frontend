@@ -1,8 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { SalesRoutingModule } from './sales-routing.module';
-import { LoginComponent } from './login/login.component';
+import { PaymentComponent } from './payment.component';
+import { PaymentRoutingModule } from './payment-routing.module';
+import { SelectCustomerComponent } from './select-customer/select-customer.component';
+import { SelectBillComponent } from './select-bill/select-bill.component';
+import { SelectRouteComponent } from './select-route/select-route.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   ButtonModule,
   CardModule,
@@ -35,40 +38,19 @@ import {
   CarouselItemComponent,
   CollapseModule,
   AccordionModule,
-  
 } from '@coreui/angular';
-import { IconModule } from '@coreui/icons-angular';
+import { IconDirective, IconModule } from '@coreui/icons-angular';
 import { NgScrollbarModule } from 'ngx-scrollbar';
-import { ChartjsModule } from '@coreui/angular-chartjs';
-import { IconDirective } from '@coreui/icons-angular';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import { FormsModule } from '@angular/forms';
-import { LayoutComponent } from './layout/layout.component';
-import { SharedModule } from '../shared/shared.module';
-import { HomeComponent } from './home/home.component';
-import { ProductComponent } from './product/product.component';
-import { SettingsComponent } from './settings/settings.component';
-import { RouteComponent } from './route/route.component';
-import { NotificationComponent } from './notification/notification.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
-  declarations: [
-    LoginComponent,
-    LayoutComponent,
-    HomeComponent,
-    ProductComponent,
-    RouteComponent,
-    SettingsComponent,
-    NotificationComponent
-  ],
   imports: [
     CommonModule,
-    SalesRoutingModule,
+    PaymentRoutingModule,
+    CommonModule,
     FormsModule,
     IconModule,
     NgScrollbarModule,
-    BsDatepickerModule,
-    ChartjsModule,
     ButtonModule,
     CardModule,
     FormModule,
@@ -103,5 +85,11 @@ import { NotificationComponent } from './notification/notification.component';
     CollapseModule,
     AccordionModule,
   ],
+  declarations: [
+    PaymentComponent,
+    SelectRouteComponent,
+    SelectCustomerComponent,
+    SelectBillComponent,
+  ],
 })
-export class SalesModule {}
+export class PaymentModule {}

@@ -1,7 +1,5 @@
 <h6 class="fw-semibold mb-3">Products You Have</h6>
 
-
-
 <div class="row row-cols-1 g-2">
   <div class="col">
     <button cButton color="danger" variant="outline"
@@ -10,8 +8,6 @@
       Return All
     </button>
   </div>
-
-
 
   <div class="col" *ngFor="let product of products">
     <c-card class="shadow-sm" [color]="product.quantity <= 5 ? 'danger' : 'light'"

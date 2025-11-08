@@ -33,14 +33,14 @@ export class SalesBottomNavComponent implements OnInit {
     <div
       class="d-flex flex-column justify-content-center align-items-center p-2"
     >
-      <div class="text-center mb-4">
+      <div class="text-center mb-3 mt-2">
         <h6 class="fw-bold">Quick Access Menu</h6>
       </div>
 
       <div class="row w-100 gx-3">
         <div class="col-4">
           <button
-            (click)="navigate('new')"
+            (click)="navigateToBill('new')"
             class="btn btn-primary w-100 py-3 d-flex flex-column align-items-center justify-content-center"
             type="button"
           >
@@ -51,7 +51,7 @@ export class SalesBottomNavComponent implements OnInit {
 
         <div class="col-4">
           <button
-            (click)="navigate('existing')"
+            (click)="navigateToBill('existing')"
             class="btn btn-warning w-100 py-3 d-flex flex-column align-items-center justify-content-center"
             type="button"
           >
@@ -62,7 +62,7 @@ export class SalesBottomNavComponent implements OnInit {
 
         <div class="col-4">
           <button
-            (click)="navigate('bill')"
+            (click)="navigateToPayment()"
             class="btn btn-dark w-100 py-3 d-flex flex-column align-items-center justify-content-center"
             type="button"
           >
@@ -83,10 +83,17 @@ export class MyCustomComponent {
     private route: ActivatedRoute
   ) {}
 
-  protected navigate(context: string) {
+  protected navigateToBill(context: string) {
     this.router.navigate(['/sales/post-login/bill'], {
       relativeTo: this.route,
       queryParams: { context: context },
+    });
+    this.bottomSheetService.close();
+  }
+
+  protected navigateToPayment() {
+    this.router.navigate(['/sales/post-login/payment'], {
+      relativeTo: this.route,
     });
     this.bottomSheetService.close();
   }

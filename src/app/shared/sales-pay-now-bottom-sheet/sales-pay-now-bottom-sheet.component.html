@@ -1,0 +1,59 @@
+<div class="card shadow-sm border-0 rounded-4 p-3 mt-1">
+
+  <!-- Customer + Bill Info -->
+  <div class="d-flex align-items-start mb-3">
+    <c-avatar color="primary" textColor="white" class="me-3">
+      {{ customer.name.charAt(0) }}
+    </c-avatar>
+    <div class="flex-fill">
+      <div class="fw-semibold">{{ customer.name }}</div>
+      <small class="text-muted d-block">{{ customer.shopName }}</small>
+      <small class="text-muted d-block">{{ customer.address }}</small>
+      <small class="text-danger fw-semibold d-block">Overdue: {{ customer.overdueAmount | currency:'LKR' }}</small>
+    </div>
+  </div>
+
+  <!-- Bill Info -->
+  <div class="bg-light rounded-3 p-2 mb-3">
+    <div class="d-flex justify-content-between small mb-1">
+      <span class="text-muted">Bill ID</span>
+      <span class="fw-semibold">{{ bill.id }}</span>
+    </div>
+    <div class="d-flex justify-content-between small mb-1">
+      <span class="text-muted">Bill Date</span>
+      <span class="fw-semibold">{{ bill.date | date: 'mediumDate' }}</span>
+    </div>
+    <div class="d-flex justify-content-between small">
+      <span class="text-muted">Total Amount</span>
+      <span class="fw-semibold text-dark">{{ bill.total | currency:'LKR' }}</span>
+    </div>
+  </div>
+
+  <!-- Payment Section -->
+  <h6 class="fw-bold mb-2">Payment Details</h6>
+
+  <div class="mb-3">
+    <label class="form-label small text-muted mb-1">Enter Payment Amount</label>
+    <input type="number" class="form-control" [(ngModel)]="paymentAmount" (input)="checkPaymentType()" placeholder="Enter amount">
+  </div>
+
+  <div *ngIf="paymentStatus" class="mb-2">
+    <div
+      class="alert py-2 small text-center rounded-3"
+      [ngClass]="{
+        'alert-success': paymentStatus === 'Full Payment',
+        'alert-warning': paymentStatus === 'Partial Payment'
+      }">
+      {{ paymentStatus }}
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label small text-muted mb-1">Note</label>
+    <textarea class="form-control" rows="2" [(ngModel)]="note" placeholder="Enter any note..."></textarea>
+  </div>
+
+  <button class="btn btn-primary w-100 py-2 fw-semibold rounded-3" [disabled]="!paymentAmount" (click)="markAsSettled()">
+    Mark as Settled
+  </button>
+</div>

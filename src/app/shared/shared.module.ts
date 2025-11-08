@@ -3,33 +3,14 @@ import { CommonModule } from '@angular/common';
 import { AdminHeaderComponent } from './admin-header/admin-header.component';
 import { RouterModule } from '@angular/router';
 import { Footer } from './footer/footer';
-import {
-  BadgeComponent,
-  NavItemComponent,
-  BreadcrumbRouterComponent,
-  ButtonGroupModule,
-  GridModule,
-  DropdownModule,
-  AvatarModule,
-  ButtonModule,
-  HeaderModule,
-  SidebarModule,
-  BadgeModule,
-  BreadcrumbModule,
-  CardModule,
-  FooterModule,
-  FormModule,
-  ListGroupModule,
-  NavModule,
-  ProgressModule,
-  TabsModule,
-  UtilitiesModule,
-  NavbarTextComponent,
-} from '@coreui/angular';
+import { BadgeComponent, NavItemComponent, BreadcrumbRouterComponent, ButtonGroupModule, GridModule, DropdownModule, AvatarModule, ButtonModule, HeaderModule, SidebarModule, BadgeModule, BreadcrumbModule, CardModule, FooterModule, FormModule, ListGroupModule, NavModule, ProgressModule, TabsModule, UtilitiesModule, NavbarTextComponent, AlertComponent } from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { SalesHeaderComponent } from './sales-header/sales-header.component';
 import { SalesBottomNavComponent } from './sales-bottom-nav/sales-bottom-nav.component';
+import { SalesPayNowBottomSheetComponent } from './sales-pay-now-bottom-sheet/sales-pay-now-bottom-sheet.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SalesPaymentSummaryComponent } from './sales-payment-summary/sales-payment-summary.component';
 
 @NgModule({
   imports: [
@@ -57,18 +38,25 @@ import { SalesBottomNavComponent } from './sales-bottom-nav/sales-bottom-nav.com
     CardModule,
     NgScrollbarModule,
     NavbarTextComponent,
-  ],
+    FormsModule,
+    ReactiveFormsModule,
+    AlertComponent
+],
   declarations: [
     AdminHeaderComponent,
     Footer,
     SalesHeaderComponent,
     SalesBottomNavComponent,
+    SalesPayNowBottomSheetComponent,
+    SalesPaymentSummaryComponent
   ],
   exports: [
     AdminHeaderComponent,
     Footer,
     SalesHeaderComponent,
-    SalesBottomNavComponent
+    SalesBottomNavComponent,
+    SalesPayNowBottomSheetComponent,
+    SalesPaymentSummaryComponent
   ],
 })
 export class SharedModule {}

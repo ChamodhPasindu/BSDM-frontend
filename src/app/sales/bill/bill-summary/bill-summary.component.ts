@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxBottomSheetService } from 'ngx-bottom-sheet';
+import { SalesPayNowBottomSheetComponent } from 'src/app/shared/sales-pay-now-bottom-sheet/sales-pay-now-bottom-sheet.component';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -9,7 +10,11 @@ import Swal from 'sweetalert2';
   styleUrls: ['./bill-summary.component.scss'],
 })
 export class BillSummaryComponent implements OnInit {
-  constructor(private bottomSheetService: NgxBottomSheetService,private router:Router,private route:ActivatedRoute) {}
+  constructor(
+    private bottomSheetService: NgxBottomSheetService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {}
   // 🧍 Dummy Customer
@@ -51,7 +56,7 @@ export class BillSummaryComponent implements OnInit {
   // ✅ Confirm submit event
   confirmOrder() {
     this.bottomSheetService.close();
-    this.router.navigate(['sales/post-login'],{relativeTo:this.route})
+    this.router.navigate(['sales/post-login'], { relativeTo: this.route });
 
     Swal.fire({
       title: 'Bill Added Successfully!',
@@ -61,6 +66,7 @@ export class BillSummaryComponent implements OnInit {
       confirmButtonText: 'Yes, Now',
       cancelButtonText: 'No, Later',
       reverseButtons: true,
+      allowOutsideClick: false,
       customClass: {
         popup: 'coreui-popup',
         confirmButton: 'btn btn-success ms-2',
@@ -68,8 +74,12 @@ export class BillSummaryComponent implements OnInit {
       },
       buttonsStyling: false,
     }).then((result) => {
-
       if (result.isConfirmed) {
+        this.bottomSheetService.open(SalesPayNowBottomSheetComponent, {
+          height: 'mid',
+          showCloseButton: true,
+          backgroundColor: '#fff',
+        });
       }
     });
   }

@@ -6,6 +6,7 @@ import { HomeComponent } from './home/home.component';
 import { ProductComponent } from './product/product.component';
 import { RouteComponent } from './route/route.component';
 import { SettingsComponent } from './settings/settings.component';
+import { NotificationComponent } from './notification/notification.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -39,6 +40,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'payment',
+        loadChildren: () =>
+          import('./payment/payment.module').then(
+            (m) => m.PaymentModule
+          ),
+      },
+      {
         path: 'route',
         component: RouteComponent,
         data: {
@@ -48,6 +56,13 @@ const routes: Routes = [
       {
         path: 'settings',
         component: SettingsComponent,
+        data: {
+          title: 'Settings',
+        },
+      },
+      {
+        path: 'notification',
+        component: NotificationComponent,
         data: {
           title: 'Settings',
         },
