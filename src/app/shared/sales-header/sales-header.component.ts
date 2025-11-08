@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-sales-header',
@@ -11,10 +12,14 @@ export class SalesHeaderComponent implements OnInit {
   pageTitle = 'Hi ,Chamodh';
   isSubPage = false;
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private location: Location
+  ) {}
 
   ngOnInit(): void {
-    this.updateHeader(this.router.url); // 👈 Run once on load
+    this.updateHeader(this.router.url);
 
     this.router.events
       .pipe(
@@ -37,11 +42,8 @@ export class SalesHeaderComponent implements OnInit {
     } else if (url.includes('/sales/post-login/settings')) {
       this.pageTitle = 'Settings';
       this.isSubPage = true;
-    } else if (url.includes('/sales/post-login/new')) {
-      this.pageTitle = 'New Customer';
-      this.isSubPage = true;
-    } else if (url.includes('/sales/post-login/existing')) {
-      this.pageTitle = 'Existing Customer';
+    } else if (url.includes('/sales/post-login/bill')) {
+      this.pageTitle = 'Add Bill';
       this.isSubPage = true;
     } else {
       this.pageTitle = 'Hi ,Chamodh';
@@ -50,6 +52,6 @@ export class SalesHeaderComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['/sales/post-login/'], { relativeTo: this.route });
+    this.location.back();
   }
 }

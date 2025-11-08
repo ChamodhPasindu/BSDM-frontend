@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxBottomSheetService } from 'ngx-bottom-sheet';
 import { IconModule } from '@coreui/icons-angular';
 
@@ -62,7 +62,7 @@ export class SalesBottomNavComponent implements OnInit {
 
         <div class="col-4">
           <button
-            (click)="navigate('existing')"
+            (click)="navigate('bill')"
             class="btn btn-dark w-100 py-3 d-flex flex-column align-items-center justify-content-center"
             type="button"
           >
@@ -77,13 +77,17 @@ export class SalesBottomNavComponent implements OnInit {
   standalone: true,
 })
 export class MyCustomComponent {
-
-  constructor(private bottomSheetService: NgxBottomSheetService,private router:Router) {
-  }
+  constructor(
+    private bottomSheetService: NgxBottomSheetService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   protected navigate(context: string) {
-    this.router.navigate(['/sales/post-login/', context]);
+    this.router.navigate(['/sales/post-login/bill'], {
+      relativeTo: this.route,
+      queryParams: { context: context },
+    });
     this.bottomSheetService.close();
   }
-
 }

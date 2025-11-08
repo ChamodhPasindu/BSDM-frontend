@@ -6,8 +6,6 @@ import { HomeComponent } from './home/home.component';
 import { ProductComponent } from './product/product.component';
 import { RouteComponent } from './route/route.component';
 import { SettingsComponent } from './settings/settings.component';
-import { NewComponent } from './customer/new/new.component';
-import { ExistingComponent } from './customer/existing/existing.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -34,18 +32,11 @@ const routes: Routes = [
         },
       },
       {
-        path: 'new',
-        component: NewComponent,
-        data: {
-          title: 'New Customer',
-        },
-      },
-      {
-        path: 'existing',
-        component: ExistingComponent,
-        data: {
-          title: 'Existing Customer',
-        },
+        path: 'bill',
+        loadChildren: () =>
+          import('./bill/bill.module').then(
+            (m) => m.BillModule
+          ),
       },
       {
         path: 'route',

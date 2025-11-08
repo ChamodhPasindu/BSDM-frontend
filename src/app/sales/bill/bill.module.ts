@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { SalesRoutingModule } from './sales-routing.module';
-import { LoginComponent } from './login/login.component';
+import { BillComponent } from './bill.component';
+import { BillRoutingModule } from './bill-routing.module';
 import {
   ButtonModule,
   CardModule,
@@ -35,38 +34,25 @@ import {
   CarouselItemComponent,
   CollapseModule,
   AccordionModule,
-  
 } from '@coreui/angular';
-import { IconModule } from '@coreui/icons-angular';
-import { NgScrollbarModule } from 'ngx-scrollbar';
-import { ChartjsModule } from '@coreui/angular-chartjs';
-import { IconDirective } from '@coreui/icons-angular';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { FormsModule } from '@angular/forms';
-import { LayoutComponent } from './layout/layout.component';
-import { SharedModule } from '../shared/shared.module';
-import { HomeComponent } from './home/home.component';
-import { ProductComponent } from './product/product.component';
-import { SettingsComponent } from './settings/settings.component';
-import { RouteComponent } from './route/route.component';
+import { NgScrollbarModule } from 'ngx-scrollbar';
+import { IconModule } from '@coreui/icons-angular';
+import { IconDirective } from '@coreui/icons-angular';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { SelectRouteComponent } from './select-route/select-route.component';
+import { SelectExistingCustomerComponent } from './select-existing-customer/select-existing-customer.component';
+import { SelectNewCustomerComponent } from './select-new-customer/select-new-customer.component';
+import { SelectProductComponent } from './select-product/select-product.component';
+import { BillSummaryComponent } from './bill-summary/bill-summary.component';
 
 @NgModule({
-  declarations: [
-    LoginComponent,
-    LayoutComponent,
-    HomeComponent,
-    ProductComponent,
-    RouteComponent,
-    SettingsComponent,
-  ],
   imports: [
     CommonModule,
-    SalesRoutingModule,
+    BillRoutingModule,
     FormsModule,
     IconModule,
     NgScrollbarModule,
-    BsDatepickerModule,
-    ChartjsModule,
     ButtonModule,
     CardModule,
     FormModule,
@@ -101,5 +87,13 @@ import { RouteComponent } from './route/route.component';
     CollapseModule,
     AccordionModule,
   ],
+  declarations: [
+    BillComponent,
+    SelectRouteComponent,
+    SelectExistingCustomerComponent,
+    SelectNewCustomerComponent,
+    SelectProductComponent,
+    BillSummaryComponent
+  ],
 })
-export class SalesModule {}
+export class BillModule {}

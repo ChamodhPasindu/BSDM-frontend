@@ -1,0 +1,12 @@
+<h6 class="mb-3 fw-bold">Customer Details</h6>
+<input type="text" class="form-control mb-3" placeholder="Customer Name" [(ngModel)]="customerName">
+<input type="text" class="form-control mb-3" placeholder="Customer Phone" [(ngModel)]="customerPhone">
+<input type="text" class="form-control mb-3" placeholder="Customer Address" [(ngModel)]="customerAddress">
+<input type="text" class="form-control mb-3" placeholder="Shop Name" [(ngModel)]="customerAddress">
+<input type="text" class="form-control mb-3" placeholder="Remarks" [(ngModel)]="customerAddress">
+<div class="d-flex justify-content-center">
+    <button class="btn btn-primary fw-semibold" [disabled]="!customerName || !customerPhone || !customerAddress"
+        (click)="navigateNext()">
+        Save Customer and Next
+    </button>
+</div>
