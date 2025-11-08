@@ -49,9 +49,9 @@ import { HomeComponent } from './home/home.component';
 import { ProductComponent } from './product/product.component';
 import { SettingsComponent } from './settings/settings.component';
 import { RouteComponent } from './route/route.component';
-import { AddBillComponent } from './add-bill/add-bill.component';
 import { NewComponent } from './customer/new/new.component';
 import { ExistingComponent } from './customer/existing/existing.component';
+import { BillSummaryComponent } from './customer/bill-summary/bill-summary.component';
 
 @NgModule({
   declarations: [
@@ -61,9 +61,9 @@ import { ExistingComponent } from './customer/existing/existing.component';
     ProductComponent,
     RouteComponent,
     SettingsComponent,
-    AddBillComponent,
     NewComponent,
     ExistingComponent,
+    BillSummaryComponent
   ],
   imports: [
     CommonModule,

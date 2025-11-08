@@ -1,0 +1,21 @@
+.confirmation-card {
+    background: #fff;
+    backdrop-filter: blur(8px);
+  
+    h6.fw-semibold {
+      font-size: 0.9rem;
+    }
+  
+    .border-bottom {
+      border-color: rgba(0, 0, 0, 0.05) !important;
+    }
+  
+    .fw-medium {
+      font-size: 0.88rem;
+    }
+  
+    button[cButton][color='success'] {
+      box-shadow: 0 3px 6px rgba(25, 135, 84, 0.25);
+    }
+  }
+  

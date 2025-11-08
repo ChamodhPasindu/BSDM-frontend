@@ -34,11 +34,11 @@ export class SalesBottomNavComponent implements OnInit {
       class="d-flex flex-column justify-content-center align-items-center p-2"
     >
       <div class="text-center mb-4">
-        <h6 class="fw-bold">Select Customer Type</h6>
+        <h6 class="fw-bold">Quick Access Menu</h6>
       </div>
 
       <div class="row w-100 gx-3">
-        <div class="col-6">
+        <div class="col-4">
           <button
             (click)="navigate('new')"
             class="btn btn-primary w-100 py-3 d-flex flex-column align-items-center justify-content-center"
@@ -49,7 +49,7 @@ export class SalesBottomNavComponent implements OnInit {
           </button>
         </div>
 
-        <div class="col-6">
+        <div class="col-4">
           <button
             (click)="navigate('existing')"
             class="btn btn-warning w-100 py-3 d-flex flex-column align-items-center justify-content-center"
@@ -57,6 +57,17 @@ export class SalesBottomNavComponent implements OnInit {
           >
             <c-icon name="cil-user" size="xl" class="mb-2"></c-icon>
             <span class="fw-semibold">Existing</span>
+          </button>
+        </div>
+
+        <div class="col-4">
+          <button
+            (click)="navigate('existing')"
+            class="btn btn-dark w-100 py-3 d-flex flex-column align-items-center justify-content-center"
+            type="button"
+          >
+            <c-icon name="cil-dollar" size="xl" class="mb-2"></c-icon>
+            <span class="fw-semibold">Payment</span>
           </button>
         </div>
       </div>

@@ -1,4 +1,18 @@
+<h6 class="fw-semibold mb-3">Products You Have</h6>
+
+
+
 <div class="row row-cols-1 g-2">
+  <div class="col">
+    <button cButton color="danger" variant="outline"
+      class="w-100 fw-semibold mb-2 d-flex align-items-center justify-content-center gap-2">
+      <svg cIcon name="cilActionUndo" size="sm"></svg>
+      Return All
+    </button>
+  </div>
+
+
+
   <div class="col" *ngFor="let product of products">
     <c-card class="shadow-sm" [color]="product.quantity <= 5 ? 'danger' : 'light'"
       [textColor]="product.quantity <= 5 ? 'white' : 'dark'">
@@ -20,7 +34,7 @@
           </div>
           <div class="text-end">
             <small class="d-block">Price</small>
-            <span class="fw-semibold text-dark" >
+            <span class="fw-semibold text-dark">
               LKR {{ product.price | number }}
             </span>
           </div>

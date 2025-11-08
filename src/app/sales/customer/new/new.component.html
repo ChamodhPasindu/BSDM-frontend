@@ -27,26 +27,31 @@
         style="transition: width 0.4s;"></div>
     </div>
 
-    <!-- Card Body / Step Content -->
     <div class="card-body">
 
       <div *ngIf="currentStep === 1" class="d-flex flex-column">
-        <!-- Step 1: Select Route -->
         <h6 class="mb-3 fw-bold">Select Route</h6>
 
-        <!-- Search Input -->
+        <!-- Search Field -->
         <input type="text" class="form-control mb-3" placeholder="Search route..." [(ngModel)]="routeSearchTerm"
           (ngModelChange)="filterRoutes()" />
 
-        <!-- Route List Card -->
+        <!-- Route List -->
         <div class="d-flex flex-column">
-          <div *ngFor="let route of filteredRoutes"
-            class="route-card mb-2 p-3 d-flex justify-content-between align-items-center"
+          <c-card *ngFor="let route of filteredRoutes" class="shadow-sm route-card mb-2"
             [class.selected]="selectedRoute === route" (click)="nextStep()">
-            <span class="fw-medium">{{ route }}</span>
-            <span class="fw-medium">{{ route }}</span>
-            <svg cIcon name="cilArrowRight" size="sm" class="text-muted"></svg>
-          </div>
+            <c-card-body class="d-flex justify-content-between align-items-center py-2">
+              <div class="d-flex align-items-center">
+                <div>
+                  <h6 class="fw-semibold mb-0">{{ route }}</h6>
+                  <small class="text-muted">Tap to add customer</small>
+                </div>
+              </div>
+              <svg cIcon name="cilChevronRight" class="text-secondary"></svg>
+            </c-card-body>
+          </c-card>
+
+          <!-- No routes message -->
           <div *ngIf="filteredRoutes.length === 0" class="text-center text-muted py-3">
             No routes found
           </div>
@@ -54,7 +59,6 @@
       </div>
 
 
-      <!-- Step 2: Customer Details -->
       <div *ngIf="currentStep === 2" class="d-flex flex-column">
         <h6 class="mb-3 fw-bold">Customer Details</h6>
         <input type="text" class="form-control mb-3" placeholder="Customer Name" [(ngModel)]="customerName">

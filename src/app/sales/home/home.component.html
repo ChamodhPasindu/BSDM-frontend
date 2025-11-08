@@ -1,11 +1,12 @@
-<div class="greeting-card-glass p-3 mb-3 rounded-4 text-dark">
-  <div class="d-flex justify-content-between align-items-center">
-    <div>
-      <h5 class="fw-semibold mb-1">Good Morning</h5>
-      <small class="text-muted">June 09, 2025 | 09:23 AM</small>
-    </div>
+<div class="greeting-card p-3 mb-3 rounded-4 bg-light d-flex align-items-center justify-content-between shadow-sm">
+  <div>
+    <h5 class="fw-semibold mb-1">Good Morning!</h5>
+    <small class="text-muted">June 09, 2025 | 09:23 AM</small>
   </div>
+  <img src="assets/images/morning-greetings.png" alt="Morning" width="80" class="rounded-3" />
 </div>
+
+
 
 <div class="row mb-2">
   <div class="col">
@@ -146,7 +147,7 @@
   </c-card>
 </div>
 
-<h6 class="mb-2 fw-semibold">Assigned Products</h6>
+<h6 class="mb-2 fw-semibold">Remaining Products</h6>
 <div class="d-flex gap-2 overflow-auto mb-3 pb-1 overflow-x-hide">
   <c-card *ngFor="let product of products" class="flex-shrink-0 shadow-sm" style="min-width: 200px;">
     <c-card-body class="p-2">

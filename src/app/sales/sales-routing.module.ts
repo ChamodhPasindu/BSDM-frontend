@@ -4,7 +4,6 @@ import { LoginComponent } from './login/login.component';
 import { LayoutComponent } from './layout/layout.component';
 import { HomeComponent } from './home/home.component';
 import { ProductComponent } from './product/product.component';
-import { AddBillComponent } from './add-bill/add-bill.component';
 import { RouteComponent } from './route/route.component';
 import { SettingsComponent } from './settings/settings.component';
 import { NewComponent } from './customer/new/new.component';
@@ -46,13 +45,6 @@ const routes: Routes = [
         component: ExistingComponent,
         data: {
           title: 'Existing Customer',
-        },
-      },
-      {
-        path: 'add-bill',
-        component: AddBillComponent,
-        data: {
-          title: 'Add Bill',
         },
       },
       {
