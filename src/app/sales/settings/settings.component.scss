@@ -1,0 +1,23 @@
+.position-relative {
+    display: inline-block;
+  }
+  
+  .edit-icon {
+    bottom: 0;
+    right: 0;
+    transform: translate(30%, 30%);
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    transition: all 0.25s ease;
+  }
+  
+  .edit-icon:hover {
+    background-color: #0d6efd;
+    transform: translate(30%, 30%) scale(1.05);
+  }
+  

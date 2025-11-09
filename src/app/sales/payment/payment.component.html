@@ -1,0 +1,46 @@
+<div class="flex-column align-items-center">
+
+  <!-- Stepper -->
+  <div class="card w-100">
+    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+      <!-- Step 1 -->
+      <div class="d-flex flex-column align-items-center flex-fill">
+        <div class="rounded-circle d-flex align-items-center justify-content-center mb-1 progress-bar-circle"
+          [class.bg-success]="currentStep >= 1" [class.bg-light]="currentStep < 1">
+          <span class="fw-bold" [class.text-white]="currentStep >= 1">1</span>
+        </div>
+        <small class="text-muted">Route</small>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="d-flex flex-column align-items-center flex-fill">
+        <div class="rounded-circle d-flex align-items-center justify-content-center mb-1 progress-bar-circle"
+          [class.bg-success]="currentStep >= 2" [class.bg-light]="currentStep < 2">
+          <span class="fw-bold" [class.text-white]="currentStep >= 2">2</span>
+        </div>
+        <small class="text-muted">Customer</small>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="d-flex flex-column align-items-center flex-fill">
+        <div class="rounded-circle d-flex align-items-center justify-content-center mb-1 progress-bar-circle"
+          [class.bg-success]="currentStep >= 3" [class.bg-light]="currentStep < 3">
+          <span class="fw-bold" [class.text-white]="currentStep >= 3">3</span>
+        </div>
+        <small class="text-muted">Bills</small>
+      </div>
+    </div>
+
+
+    <div class="progress" style="height: 4px;">
+      <div class="progress-bar bg-success" role="progressbar" [style.width.%]="currentStep * 33.33"
+        style="transition: width 0.4s;"></div>
+    </div>
+
+    <div class="card-body">
+      <div class="d-flex flex-column">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>

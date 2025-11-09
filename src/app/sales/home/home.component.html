@@ -1,0 +1,270 @@
+<div class="p-3 mb-3 rounded-4 bg-light d-flex align-items-center justify-content-between shadow-sm">
+  <div>
+    <h5 class="fw-semibold mb-1">{{ greetingText }}</h5>
+    <small class="text-muted">{{ currentDateTime }}</small>
+  </div>
+  <img src="assets/images/morning-greetings.png" alt="Morning" width="80" class="rounded-3" />
+</div>
+
+
+
+<div class="row mb-2">
+  <div class="col">
+    <c-card color="primary" textColor="white">
+      <c-card-body class="d-flex align-items-center justify-content-between py-3 px-3" role="button"
+        (click)="toggleTotalCollapse()" [attr.aria-expanded]="totalCollapseVisible">
+        <div>
+          <h6 class="fw-semibold mb-1">Total Amount</h6>
+          <h4 class="mb-0">LKR 145,000</h4>
+        </div>
+        <svg cIcon name="cilCash" size="xl" class="opacity-75"></svg>
+      </c-card-body>
+
+      <div [visible]="totalCollapseVisible" cCollapse>
+        <div class="bg-light text-dark px-3 py-2 rounded">
+          <div class="d-flex justify-content-between small mb-1">
+            <span>Yesterday</span>
+            <span class="fw-semibold">LKR 25,000</span>
+          </div>
+          <div class="d-flex justify-content-between small mb-1">
+            <span>This Week</span>
+            <span class="fw-semibold">LKR 95,000</span>
+          </div>
+          <div class="d-flex justify-content-between small">
+            <span>This Month</span>
+            <span class="fw-semibold">LKR 320,000</span>
+          </div>
+        </div>
+      </div>
+    </c-card>
+  </div>
+</div>
+
+
+<div class="row row-cols-2 g-2 mb-3">
+  <div class="col">
+    <c-card color="secondary" textColor="white">
+      <c-card-body class="d-flex align-items-center justify-content-between py-3 px-3" (click)="toggleBillCollapse()"
+        [attr.aria-expanded]="billCollapseVisible">
+        <div>
+          <h6 class="fw-semibold mb-1">Total Bills</h6>
+          <h4 class="mb-0">12</h4>
+        </div>
+        <svg cIcon name="cilDescription" size="lg" class="opacity-75"></svg>
+      </c-card-body>
+      <div [visible]="billCollapseVisible" cCollapse>
+        <div class="bg-light text-dark px-3 py-2 rounded">
+          <div class="d-flex justify-content-between small mb-1">
+            <span>Yesterday</span>
+            <span class="fw-semibold">1</span>
+          </div>
+          <div class="d-flex justify-content-between small mb-1">
+            <span>This Week</span>
+            <span class="fw-semibold">56</span>
+          </div>
+          <div class="d-flex justify-content-between small">
+            <span>This Month</span>
+            <span class="fw-semibold">170</span>
+          </div>
+        </div>
+      </div>
+    </c-card>
+  </div>
+
+  <div class="col">
+    <c-card color="warning" textColor="white">
+      <c-card-body class="d-flex align-items-center justify-content-between py-3 px-3" (click)="togglePendingCollapse()"
+        [attr.aria-expanded]="pendingCollapseVisible">
+        <div>
+          <h6 class="fw-semibold mb-1">Pending</h6>
+          <h4 class="mb-0">LKR 45,000</h4>
+        </div>
+        <svg cIcon name="cilClock" size="lg" class="opacity-75"></svg>
+      </c-card-body>
+      <div [visible]="pendingCollapseVisible" cCollapse>
+        <div class="bg-light text-dark px-3 py-2 rounded">
+          <div class="d-flex justify-content-between small mb-1">
+            <span>Yesterday</span>
+            <span class="fw-semibold">1</span>
+          </div>
+          <div class="d-flex justify-content-between small mb-1">
+            <span>This Week</span>
+            <span class="fw-semibold">56</span>
+          </div>
+          <div class="d-flex justify-content-between small">
+            <span>This Month</span>
+            <span class="fw-semibold">170</span>
+          </div>
+        </div>
+      </div>
+    </c-card>
+  </div>
+
+  <div class="col">
+    <c-card color="danger" textColor="white">
+      <c-card-body class="d-flex align-items-center justify-content-between py-3 px-3"
+        (click)="toggleStockLeftCollapse()" [attr.aria-expanded]="stockLeftCollapseVisible">
+        <div>
+          <h6 class="fw-semibold mb-1">Stock Left</h6>
+          <h4 class="mb-0">8</h4>
+        </div>
+        <svg cIcon name="cilStorage" size="lg" class="opacity-75"></svg>
+      </c-card-body>
+      <div [visible]="stockLeftCollapseVisible" cCollapse>
+        <div class="bg-light text-dark px-3 py-2 rounded">
+          <div class="d-flex justify-content-between small mb-1">
+            <span>Yesterday</span>
+            <span class="fw-semibold">1</span>
+          </div>
+          <div class="d-flex justify-content-between small mb-1">
+            <span>This Week</span>
+            <span class="fw-semibold">56</span>
+          </div>
+          <div class="d-flex justify-content-between small">
+            <span>This Month</span>
+            <span class="fw-semibold">170</span>
+          </div>
+        </div>
+      </div>
+    </c-card>
+  </div>
+
+  <div class="col">
+    <c-card color="success" textColor="white">
+      <c-card-body class="d-flex align-items-center justify-content-between py-3 px-3"
+        (click)="toggleCoveredShopCollapse()" [attr.aria-expanded]="coveredShopCollapseVisible">
+        <div>
+          <h6 class="fw-semibold mb-1">Covered Shops</h6>
+          <h4 class="mb-0">2</h4>
+        </div>
+        <svg cIcon name="cilBuilding" size="lg" class="opacity-75"></svg>
+      </c-card-body>
+      <div [visible]="coveredShopCollapseVisible" cCollapse>
+        <div class="bg-light text-dark px-3 py-2 rounded">
+          <div class="d-flex justify-content-between small mb-1">
+            <span>Yesterday</span>
+            <span class="fw-semibold">1</span>
+          </div>
+          <div class="d-flex justify-content-between small mb-1">
+            <span>This Week</span>
+            <span class="fw-semibold">56</span>
+          </div>
+          <div class="d-flex justify-content-between small">
+            <span>This Month</span>
+            <span class="fw-semibold">170</span>
+          </div>
+        </div>
+      </div>
+    </c-card>
+  </div>
+</div>
+
+<h6 class="mb-2 fw-semibold">Route Details</h6>
+<c-card class="mb-3 shadow-sm">
+  <c-card-body>
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <h6 class="text-medium-emphasis mb-1">Active Route</h6>
+        <h5 class="mb-0 fw-semibold">Route 05 - Galle Area</h5>
+      </div>
+      <c-badge color="success">Active</c-badge>
+    </div>
+    <p class="small text-body-secondary mt-2 mb-0">10 Shops | 25 Products Assigned</p>
+  </c-card-body>
+</c-card>
+
+<c-card class="mb-3 shadow-sm">
+  <c-card-body>
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <h6 class="text-medium-emphasis mb-1">Active Route</h6>
+        <h5 class="mb-0 fw-semibold">Route 05 - Galle Area</h5>
+      </div>
+      <c-badge color="success">Active</c-badge>
+    </div>
+    <p class="small text-body-secondary mt-2 mb-0">10 Shops | 25 Products Assigned</p>
+  </c-card-body>
+</c-card>
+
+<h6 class="mb-2 fw-semibold">Latest Payments</h6>
+<div class="d-flex flex-column gap-2 mb-3">
+  <c-card (click)="openLatestPayment()" class="shadow-sm">
+    <c-card-body class="d-flex justify-content-between align-items-center">
+      <div>
+        <div class="fw-semibold">ABC Super</div>
+        <small class="text-body-secondary">Nov 06, 2025</small>
+      </div>
+      <div class="text-end">
+        <div class="fw-semibold text-secondary">LKR 25,000</div>
+        <c-badge color="danger">Partially</c-badge>
+      </div>
+    </c-card-body>
+  </c-card>
+
+  <c-card (click)="openLatestPayment()" class="shadow-sm">
+    <c-card-body class="d-flex justify-content-between align-items-center">
+      <div>
+        <div class="fw-semibold">Lanka Grocery</div>
+        <small class="text-body-secondary">Nov 05, 2025</small>
+      </div>
+      <div class="text-end">
+        <div class="fw-semibold text-secondary">LKR 14,500</div>
+        <c-badge color="primary">Fully</c-badge>
+      </div>
+    </c-card-body>
+  </c-card>
+</div>
+
+<h6 class="mb-2 fw-semibold">Remaining Products</h6>
+<div class="d-flex gap-2 overflow-auto mb-3 pb-1 overflow-x-hide">
+  <c-card *ngFor="let product of products" class="flex-shrink-0 shadow-sm sliding-card">
+    <c-card-body class="p-2">
+      <div class="d-flex justify-content-between align-items-start mb-1">
+        <h6 class="fw-semibold mb-0">{{ product.name }}</h6>
+      </div>
+      <p class="text-muted small mb-0">{{ product.description }}</p>
+      <span class="fw-semibold text-secondary">&times; {{ product.quantity }}</span>
+    </c-card-body>
+  </c-card>
+</div>
+
+
+<h6 class="mb-3 fw-semibold">Performance Metrics</h6>
+
+<div class="d-flex gap-2 overflow-auto pb-1 overflow-x-hide">
+  <!-- Monthly Progress -->
+  <c-card color="info" textColor="white" class="sliding-card shadow-sm flex-shrink-0">
+    <c-card-body class="text-center py-3 d-flex flex-column align-items-center justify-content-center">
+      <svg cIcon name="cilChart" size="xl" class="mb-2"></svg>
+      <h6 class="fw-semibold mb-1">Monthly Progress</h6>
+      <h4 class="mb-0">72%</h4>
+    </c-card-body>
+  </c-card>
+
+  <!-- Average Sale -->
+  <c-card color="success" textColor="white" class="sliding-card flex-shrink-0">
+    <c-card-body class="text-center py-3 d-flex flex-column align-items-center justify-content-center">
+      <svg cIcon name="cilDollar" size="xl" class="mb-2"></svg>
+      <h6 class="fw-semibold mb-1">Average Sale</h6>
+      <h4 class="mb-0">LKR 12,083</h4>
+    </c-card-body>
+  </c-card>
+
+  <!-- Top Product -->
+  <c-card color="warning" textColor="white" class="sliding-card flex-shrink-0">
+    <c-card-body class="text-center py-3 d-flex flex-column align-items-center justify-content-center">
+      <svg cIcon name="cilStar" size="xl" class="mb-2"></svg>
+      <h6 class="fw-semibold mb-1">Top Product</h6>
+      <h4 class="mb-0">Soap</h4>
+    </c-card-body>
+  </c-card>
+
+  <!-- Shops Covered -->
+  <c-card color="primary" textColor="white" class="sliding-card flex-shrink-0">
+    <c-card-body class="text-center py-3 d-flex flex-column align-items-center justify-content-center">
+      <svg cIcon name="cilBurn" size="xl" class="mb-2"></svg>
+      <h6 class="fw-semibold mb-1">Monthly Best</h6>
+      <h4 class="mb-0">LKR 1,000</h4>
+    </c-card-body>
+  </c-card>
+</div>

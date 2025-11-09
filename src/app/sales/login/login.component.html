@@ -1,9 +1,49 @@
-<div class="login-container">
-    <h2>Sales Rep Login</h2>
-    <form>
-      <input type="email" placeholder="Email" />
-      <input type="password" placeholder="Password" />
-      <button type="button">Login</button>
-    </form>
-  </div>
-  
+<div class="bg-light min-vh-100 d-flex flex-row align-items-center justify-content-center">
+  <c-container>
+    <c-row class="justify-content-center">
+      <c-col md="6" lg="5">
+        <c-card class="shadow border-0">
+          <c-card-body class="p-5 text-center">
+
+            <img src="assets/images/new-company-logo.png" alt="Company Logo" class="mb-4 logo" />
+
+            <h3 class="mb-2 fw-semibold text-success">Sales Portal Login</h3>
+            <p class="text-medium-emphasis mb-4">
+              Access your sales dashboard and delivery tracking tools
+            </p>
+
+            <form cForm>
+              <c-input-group class="mb-3">
+                <span cInputGroupText>
+                  <svg cIcon name="cilUser"></svg>
+                </span>
+                <input autoComplete="username" cFormControl placeholder="Sales ID or Email" type="text" />
+              </c-input-group>
+
+              <c-input-group class="mb-4">
+                <span cInputGroupText>
+                  <svg cIcon name="cilLockLocked"></svg>
+                </span>
+                <input autoComplete="current-password" cFormControl placeholder="Password" type="password" />
+              </c-input-group>
+
+              <div class="d-grid mb-3">
+                <button cButton color="success" class="px-4 py-2" routerLink="post-login">
+                  Login
+                </button>
+              </div>
+
+              <div class="d-flex justify-content-center">
+                <a href="#" class="text-decoration-none small">Forgot password?</a>
+                <!-- <a routerLink="/register-sales" class="text-decoration-none small text-success fw-semibold">
+                  Register New Sales Account
+                </a> -->
+              </div>
+            </form>
+            <small class="text-muted d-block mt-3">Version {{version}}</small>
+          </c-card-body>
+        </c-card>
+      </c-col>
+    </c-row>
+  </c-container>
+</div>

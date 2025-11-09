@@ -1,0 +1,153 @@
+<c-modal id="liveDemoModal" size="xl" alignment="center" class="modal-scrollable" [visible]="visible"
+  (visibleChange)="changeModalVisibility($event)">
+  <c-modal-header>
+    <h5 cModalTitle> Add New Stock</h5>
+    <button (click)="closeModal()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <h6 class="mb-3">Product Information</h6>
+    <c-row class="mb-1">
+      <c-col [md]="6">
+        <input type="text" class="form-control" placeholder="Search product..." [(ngModel)]="searchText"
+          (input)="filterProducts()" />
+      </c-col>
+      <!-- LEFT SIDE: Product Search & Accordion -->
+      <c-col md="8" class="mt-4">
+        <div *ngIf="filteredProducts.length > 0; else emptyList">
+          <c-accordion>
+            <c-accordion-item *ngFor="let product of filteredProducts">
+              <ng-template cTemplateId="accordionHeader">
+                <div class="d-flex justify-content-between align-items-center w-100 me-2">
+                  <span>{{ product.name }}</span>
+                  <button cButton color="danger" variant="outline" size="sm" (click)="selectProduct(product)">
+                    <svg cIcon name="cilHandPointUp" ></svg> Pick
+                  </button>
+                </div>
+              </ng-template>
+              <ng-template cTemplateId="accordionBody">
+                <div>
+                  <p><strong>Category:</strong> {{ product.category }}</p>
+                  <p><strong>Stock:</strong> {{ product.stock }}</p>
+                </div>
+              </ng-template>
+            </c-accordion-item>
+          </c-accordion>
+
+          <div class="d-flex justify-content-center mt-3">
+            <c-pagination align="center" aria-label="Product pagination">
+              <li cPageItem [class.disabled]="currentPage === 1">
+                <a cPageLink (click)="changePage(currentPage - 1)">Previous</a>
+              </li>
+
+              <li *ngFor="let page of [].constructor(totalPages); let i = index" cPageItem
+                [class.active]="currentPage === i + 1">
+                <a cPageLink (click)="changePage(i + 1)">{{ i + 1 }}</a>
+              </li>
+
+              <li cPageItem [class.disabled]="currentPage === totalPages">
+                <a cPageLink (click)="changePage(currentPage + 1)">Next</a>
+              </li>
+            </c-pagination>
+          </div>
+        </div>
+
+        <!-- 🕳 Empty State -->
+        <ng-template #emptyList>
+          <c-alert color="secondary" class="text-center border-0">
+            <div class="d-flex flex-column align-items-center p-3">
+              <svg cIcon name="cilBan" size="4xl" class="mb-2 text-secondary"></svg>
+              <h6 class="fw-semibold mb-1 text-dark">No products found</h6>
+              <small class="text-muted">Please add or search for a product to get started</small>
+            </div>
+          </c-alert>
+        </ng-template>
+
+      </c-col>
+
+      <!-- RIGHT SIDE: Selected Product Details -->
+
+      <c-col md="4" class="mt-4">
+        <div *ngIf="selectedProduct; else noSelection">
+          <div class="border rounded p-3 bg-light mb-3">
+            <h6 class="fw-bold text-dark">{{ selectedProduct.name }}</h6>
+            <p class="mb-1">
+              <strong>Category:</strong> {{ selectedProduct.category }}
+            </p>
+            <p class="mb-1">
+              <strong>Available Stock:</strong> {{ selectedProduct.stock }}
+            </p>
+          </div>
+
+          <div class="mb-3">
+            <label cLabel for="qty">Quantity</label>
+            <input id="qty" type="number" class="form-control" [(ngModel)]="selectedQuantity" />
+          </div>
+
+          <div class="mb-3">
+            <label cLabel for="remark">Remark</label>
+            <input id="remark" type="text" class="form-control" [(ngModel)]="selectedRemark" />
+          </div>
+
+          <button cButton type="button" variant="outline" color="primary" class="w-100" (click)="addToCart()"
+            [disabled]="!selectedQuantity">
+            Add to Cart
+          </button>
+        </div>
+
+        <ng-template #noSelection>
+          <c-alert color="secondary" class="text-center border-0">
+            <div class="d-flex flex-column align-items-center p-3">
+              <svg cIcon name="cilBan" size="4xl" class="mb-2 text-secondary"></svg>
+              <h6 class="fw-semibold mb-1 text-dark">No product selected</h6>
+              <small class="text-muted">Select a product to view details</small>
+            </div>
+          </c-alert>
+        </ng-template>
+      </c-col>
+    </c-row>
+
+    <hr />
+
+    <!-- CART TABLE -->
+    <div *ngIf="cartItems.length > 0" class="mt-3">
+      <h6 class="mb-3">Added Products</h6>
+      <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
+        <thead cTableColor="light">
+          <tr>
+            <th class="text-center">Product</th>
+            <th>Quantity</th>
+            <th class="text-center">Remark</th>
+            <th class="text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of cartItems; let i = index">
+            <td class="text-center">{{ item.name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td class="text-center">{{ item.remark }}</td>
+            <td class="text-center">
+              <button cButton color="warning" size="sm" variant="ghost" class="me-2" title="Edit">
+                <svg cIcon name="cilPencil"></svg>
+              </button>
+              <button (click)="removeFromCart(i)" cButton color="danger" size="sm" variant="ghost" title="Delete">
+                <svg cIcon name="cilTrash"></svg>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- STOCK REMARK -->
+    <div class="mt-3">
+      <label cLabel for="stockRemark">Stock Remark</label>
+      <textarea id="stockRemark" rows="2" class="form-control" [(ngModel)]="stockRemark"></textarea>
+    </div>
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="closeModal()" cButton color="secondary">
+      Close
+    </button>
+    <button cButton color="primary">Add Stock</button>
+  </c-modal-footer>
+</c-modal>

@@ -1,0 +1,155 @@
+<div class="card shadow-sm">
+  <div class="card-body">
+
+    <!-- Compact Tab Buttons -->
+    <div class="d-flex justify-content-between mb-3 gap-2">
+      <button cButton size="sm" class="flex-fill fw-semibold rounded-3"
+        [color]="activeTab === 'profile' ? 'primary' : 'light'" (click)="activeTab = 'profile'">
+        Profile
+      </button>
+      <button cButton size="sm" class="flex-fill fw-semibold rounded-3"
+        [color]="activeTab === 'password' ? 'primary' : 'light'" (click)="activeTab = 'password'">
+        Password
+      </button>
+      <button cButton size="sm" class="flex-fill fw-semibold rounded-3"
+        [color]="activeTab === 'vehicle' ? 'primary' : 'light'" (click)="activeTab = 'vehicle'">
+        Vehicle
+      </button>
+      <button cButton size="sm" class="flex-fill fw-semibold rounded-3"
+        [color]="activeTab === 'other' ? 'primary' : 'light'" (click)="activeTab = 'other'">
+        Others
+      </button>
+    </div>
+
+    <div class="border-top mb-3"></div>
+
+    <!-- Tab Content -->
+    <div [ngSwitch]="activeTab">
+
+      <!-- PROFILE DETAILS -->
+      <div *ngSwitchCase="'profile'" class="fade-in">
+        <h6 class="fw-semibold mb-4">Your Profile Details</h6>
+
+        <div class="text-center mb-3">
+          <div class="position-relative d-inline-block">
+            <img width="100" height="100" [src]="user.image || 'assets/images/user-img.jpg'" alt="User"
+              class="rounded-circle border border-2 border-primary shadow-sm" />
+
+            <!-- Hidden File Input -->
+            <input type="file" accept="image/*" #fileInput (change)="onImageChange($event)" class="d-none" />
+
+            <!-- Edit Icon Overlay -->
+            <button *ngIf="isEditing" type="button"
+              class="btn btn-sm btn-primary rounded-circle position-absolute edit-icon" (click)="fileInput.click()">
+              <svg cIcon name="cilPencil"></svg>
+            </button>
+          </div>
+        </div>
+
+
+        <div class="row mb-2">
+          <div class="col-12 mb-2">
+            <label class="form-label small text-muted">Full Name</label>
+            <input type="text" class="form-control" [(ngModel)]="user.name" [readonly]="!isEditing" />
+          </div>
+          <div class="col-12 mb-2">
+            <label class="form-label small text-muted">Email</label>
+            <input type="email" class="form-control" [(ngModel)]="user.email" [readonly]="!isEditing" />
+          </div>
+          <div class="col-12 mb-2">
+            <label class="form-label small text-muted">Mobile No</label>
+            <input type="text" class="form-control" [(ngModel)]="user.mobile" [readonly]="!isEditing" />
+          </div>
+          <div class="col-12 mb-2">
+            <label class="form-label small text-muted">NIC</label>
+            <input type="text" class="form-control" [(ngModel)]="user.nic" readonly />
+          </div>
+          <div class="col-12 mb-2">
+            <label class="form-label small text-muted">License No</label>
+            <input type="text" class="form-control" [(ngModel)]="user.license" readonly />
+          </div>
+        </div>
+
+        <div class="text-center mt-3">
+          <button *ngIf="!isEditing" cButton color="primary" class="px-4 rounded-3" (click)="enableEdit()">
+            Edit
+          </button>
+          <div *ngIf="isEditing">
+            <button cButton color="primary" class="me-2 rounded-3" (click)="saveChanges()">
+              Save
+            </button>
+            <button cButton color="secondary" variant="outline" class="rounded-3" (click)="cancelEdit()">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PASSWORD -->
+      <div *ngSwitchCase="'password'" class="fade-in">
+        <h6 class="fw-semibold mb-4">Change Password</h6>
+
+        <div class="mb-3">
+          <label class="form-label small text-muted">Current Password</label>
+          <input type="password" class="form-control" [(ngModel)]="password.current" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label small text-muted">New Password</label>
+          <input type="password" class="form-control" [(ngModel)]="password.new" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label small text-muted">Confirm Password</label>
+          <input type="password" class="form-control" [(ngModel)]="password.confirm" />
+        </div>
+        <div class="text-end">
+          <button cButton color="primary" class="rounded-3" (click)="changePassword()">
+            Update Password
+          </button>
+        </div>
+      </div>
+
+      <!-- VEHICLE -->
+      <div *ngSwitchCase="'vehicle'" class="fade-in">
+        <h6 class="fw-semibold mb-4">Your Assigned Vehicle Details</h6>
+
+        <div class="card p-3 border-0 bg-light">
+          <div class="mb-2">
+            <span class="text-muted small d-block">Vehicle Model</span>
+            <span class="fw-semibold">{{ vehicle.model || 'N/A' }}</span>
+          </div>
+          <div class="mb-2">
+            <span class="text-muted small d-block">Brand</span>
+            <span class="fw-semibold">{{ vehicle.brand || 'N/A' }}</span>
+          </div>
+          <div class="mb-2">
+            <span class="text-muted small d-block">Number Plate</span>
+            <span class="fw-semibold">{{ vehicle.noPlate || 'N/A' }}</span>
+          </div>
+          <div>
+            <span class="text-muted small d-block">License Expiry</span>
+            <span class="fw-semibold text-danger">{{ vehicle.licenseExpiry || 'N/A' }}</span>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- OTHER -->
+      <div *ngSwitchCase="'other'" class="fade-in">
+        <div class="form-check form-switch mt-2 mb-4">
+          <input class="form-check-input" type="checkbox" role="switch" id="darkModeSwitch" [(ngModel)]="isDarkMode"
+            (change)="toggleDarkMode()" />
+          <label class="form-check-label fw-semibold" for="darkModeSwitch">
+            Enable Dark Mode
+          </label>
+        </div>
+
+        <div class="text-center mt-4">
+          <button cButton color="danger" variant="outline" class="rounded-3 px-4 fw-semibold" routerLink="/landing-page">
+            <svg cIcon name="cilAccountLogout" class="me-2"></svg> Logout
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

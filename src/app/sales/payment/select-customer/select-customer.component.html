@@ -1,0 +1,30 @@
+<!-- STEP 2: SELECT CUSTOMER -->
+<h6 class="mb-3 fw-bold">Select Customer</h6>
+
+<input type="text" class="form-control mb-3" placeholder="Search customer..." [(ngModel)]="customerSearchTerm"
+  (ngModelChange)="filterCustomers()" />
+
+<div class="d-flex flex-column">
+  <c-card *ngFor="let customer of filteredCustomers" class="shadow-sm route-card mb-2"
+    [class.selected]="selectedCustomer?.id === customer.id" (click)="navigateNext()">
+    <c-card-body class="d-flex justify-content-between align-items-center py-2">
+      <div class="d-flex align-items-center">
+        <c-avatar color="primary" textColor="white" class="me-3">
+          {{ customer.name.charAt(0) }}
+        </c-avatar>
+        <div class="d-flex flex-column">
+          <div class="fw-medium">{{ customer.name }}</div>
+          <small class="text-muted">{{ customer.shopName }} - {{ customer.address }}</small>
+          <small class="text-danger fw-semibold">
+            Overdue: LKR 12,345
+          </small>
+        </div>
+      </div>
+      <svg cIcon name="cilChevronRight" class="text-secondary"></svg>
+    </c-card-body>
+  </c-card>
+
+  <div *ngIf="filteredCustomers.length === 0" class="text-center text-muted py-3">
+    No customers found
+  </div>
+</div>

@@ -1,0 +1,56 @@
+<h6 class="mb-3 fw-bold">Bill List</h6>
+
+<input
+  type="text"
+  class="form-control mb-3"
+  placeholder="Search bill..."
+  [(ngModel)]="billSearchTerm"
+  (ngModelChange)="filterBills()"
+/>
+
+<div class="d-flex flex-column">
+  <c-card
+    *ngFor="let bill of filteredBills"
+    class="shadow-sm route-card mb-2"
+  >
+    <c-card-body (click)="viewBill(bill)" class="d-flex justify-content-between align-items-center py-2">
+      <!-- Left Section -->
+      <div class="d-flex flex-column">
+        <div class="fw-semibold">Bill ID: {{ bill.id }}</div>
+        <small class="text-muted">Date: {{ bill.date | date:'mediumDate' }}</small>
+        <small class="text-muted fw-semibold">Amount: LKR12,200</small>
+        <!-- Payment Status -->
+        
+      </div>
+
+      <!-- Right Section -->
+      <div class="d-flex align-items-center gap-2">
+        <div class="mt-1">
+          <span
+            *ngIf="bill.status === 'Full Paid'"
+            class="badge bg-primary text-white px-2 py-1 "
+          >
+            Full Paid
+          </span>
+          <span
+            *ngIf="bill.status === 'Partial Paid'"
+            class="badge bg-warning text-dark px-2 py-1 "
+          >
+            Partial Paid
+          </span>
+          <span
+            *ngIf="bill.status === 'Not Paid'"
+            class="badge bg-danger text-white px-2 py-1"
+          >
+            Not Paid
+          </span>
+        </div>
+        <svg cIcon name="cilChevronRight" class="text-secondary"></svg>
+      </div>
+    </c-card-body>
+  </c-card>
+
+  <div *ngIf="filteredBills.length === 0" class="text-center text-muted py-3">
+    No bills found
+  </div>
+</div>

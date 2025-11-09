@@ -1,0 +1,28 @@
+.dual {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.detail-view {
+    max-width: 100%;
+    margin-bottom: 15px;
+}
+
+.table-wrapper {
+    max-height: 585px;
+    overflow-y: auto;
+    overflow-x: auto;
+    border-radius: 8px;
+}
+
+.form-container .side-container .dark-container {
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.dual-btn {
+    width: 100%;
+    justify-content: end;
+}

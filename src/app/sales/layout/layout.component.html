@@ -1,0 +1,14 @@
+<div class="sales-layout-container d-flex flex-column min-vh-100">
+  <!-- Header -->
+  <app-sales-header></app-sales-header>
+
+  <!-- Main Content -->
+  <main class="flex-grow-1 overflow-auto p-3 main-margin-top">
+    <router-outlet></router-outlet>
+  </main>
+
+  <!-- Bottom Nav Fixed -->
+  <div class="position-sticky bottom-0 w-100">
+    <app-sales-bottom-nav></app-sales-bottom-nav>
+  </div>
+</div>

@@ -1,0 +1,151 @@
+<c-modal id="liveDemoModal" size="lg" alignment="center" class="modal-scrollable" [visible]="visible"
+  (visibleChange)="changeModalVisibility($event)">
+  <c-modal-header>
+    <h5 cModalTitle> Add New Return Stock</h5>
+    <button (click)="closeModal()" cButtonClose></button>
+  </c-modal-header>
+
+  <c-modal-body>
+    <c-row class="mb-3">
+      <c-col [md]="6">
+        <label cLabel for="assignStock">Select Assigned Stock</label>
+        <ng-select [(ngModel)]="selectedAssign" [searchable]="true" [clearable]="true"
+          placeholder="Search or select stock...">
+          <ng-option *ngFor="let assign of assignedStocks" [value]="assign"> {{ assign.driver.name }} - {{
+            assign.vehicle.number }}</ng-option>
+        </ng-select>
+      </c-col>
+    </c-row>
+
+    <div *ngIf="selectedAssign" class="border rounded p-3 bg-light mb-3">
+      <h6 class="fw-bold mb-2 text-dark">Assigned Stock Details</h6>
+      <p><strong>Driver:</strong> {{ selectedAssign?.driver?.name }}</p>
+      <p><strong>Vehicle:</strong> {{ selectedAssign?.vehicle?.number }}</p>
+      <p><strong>Route:</strong> {{ selectedAssign?.route?.name }}</p>
+      <p><strong>Date:</strong> {{ selectedAssign?.date }}</p>
+    </div>
+
+    <hr />
+
+    <div *ngIf="selectedAssign; else noAssignSelected">
+      <h6 class="mb-3">Product List</h6>
+      <c-row>
+        <c-col [md]="6">
+          <div>
+            <c-accordion *ngIf="selectedAssign?.products.length > 0; else noProducts">
+              <c-accordion-item *ngFor="let product of selectedAssign.products; let i = index" [visible]="i === 0">
+                <ng-template cTemplateId="accordionHeader">
+                  <div class="d-flex justify-content-between align-items-center w-100 me-2">
+                    {{ product.name }} (Qty: {{ product.assignedQty }})
+                    <button cButton color="danger" variant="outline" size="sm" (click)="selectProduct(product)">
+                      <svg cIcon name="cilHandPointUp"></svg> Pick
+                    </button>
+                  </div>
+                </ng-template>
+                <ng-template cTemplateId="accordionBody">
+                  <p><strong>Category:</strong> {{ product.category }}</p>
+                  <p><strong>Assigned Quantity:</strong> {{ product.assignedQty }}</p>
+                </ng-template>
+              </c-accordion-item>
+            </c-accordion>
+
+            <div class="d-flex justify-content-center mt-3">
+              <c-pagination align="center" aria-label="Product pagination">
+                <li cPageItem>
+                  <a cPageLink>Previous</a>
+                </li>
+
+                <li cPageItem>
+                  <a cPageLink>Next</a>
+                </li>
+              </c-pagination>
+            </div>
+
+            <ng-template #noProducts>
+              <c-alert color="secondary" class="text-center border-0">
+                <div class="d-flex flex-column align-items-center p-3">
+                  <svg cIcon name="cilBan" size="4xl" class="mb-2 text-secondary"></svg>
+                  <h6 class="fw-semibold mb-1 text-dark">No products found</h6>
+                  <small class="text-muted">No items in this assigned stock.</small>
+                </div>
+              </c-alert>
+            </ng-template>
+          </div>
+        </c-col>
+
+        <c-col [md]="6">
+          <div *ngIf="selectedProduct; else noSelection">
+            <div class="border rounded p-3 bg-light mb-2">
+              <h6 class="fw-bold">{{ selectedProduct.name }}</h6>
+              <p><strong>Assigned Quantity:</strong> {{ selectedProduct.assignedQty }}</p>
+            </div>
+            <div class="mb-3">
+              <label cLabel for="returnQty">Return Quantity</label>
+              <input id="returnQty" type="number" class="form-control" [(ngModel)]="returnQuantity"
+                [max]="selectedProduct.assignedQty" min="1" />
+            </div>
+
+            <button cButton variant="outline" color="primary" class="w-100" (click)="addReturn()"
+              [disabled]="!returnQuantity">
+              Add to Return List
+            </button>
+          </div>
+
+          <ng-template #noSelection>
+            <c-alert color="secondary" class="text-center border-0 mt-4">
+              <div class="d-flex flex-column align-items-center p-3">
+                <svg cIcon name="cilBan" size="4xl" class="mb-2 text-secondary"></svg>
+                <h6 class="fw-semibold mb-1 text-dark">No product selected</h6>
+                <small class="text-muted">Select a product to return quantity</small>
+              </div>
+            </c-alert>
+          </ng-template>
+        </c-col>
+      </c-row>
+    </div>
+
+    <ng-template #noAssignSelected>
+      <c-alert color="secondary" class="text-center border-0">
+        <div class="d-flex flex-column align-items-center p-3">
+          <svg cIcon name="cilBan" size="4xl" class="mb-2 text-secondary"></svg>
+          <h6 class="fw-semibold mb-1 text-dark">No Assigned Stock Selected</h6>
+          <small class="text-muted">Please select an assigned stock to proceed.</small>
+        </div>
+      </c-alert>
+    </ng-template>
+
+    <hr />
+
+    <div *ngIf="returnList.length > 0" class="mt-3">
+      <h6 class="mb-3">Return Summary</h6>
+      <table [striped]="true" cTable class="border">
+        <thead cTableColor="light">
+          <tr>
+            <th class="text-center">Product</th>
+            <th>Returned Quantity</th>
+            <th class="text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of returnList; let i = index">
+            <td class="text-center">{{ item.name }}</td>
+            <td>{{ item.returnQty }}</td>
+            <td class="text-center">
+              <button cButton color="danger" size="sm" variant="ghost" (click)="removeReturn(i)">
+                <svg cIcon name="cilTrash"></svg>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </c-modal-body>
+
+
+  <c-modal-footer>
+    <button (click)="closeModal()" cButton color="secondary">
+      Close
+    </button>
+    <button cButton color="primary">Return Stock</button>
+  </c-modal-footer>
+</c-modal>

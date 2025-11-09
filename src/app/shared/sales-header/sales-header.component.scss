@@ -1,0 +1,22 @@
+.sales-header {
+  position: sticky;
+  top: 0;
+  z-index: 1050;
+  background-color: var(--cui-body-bg);
+}
+
+.notification-panel {
+  max-height: 400px;
+  overflow-y: auto;
+  width: 90vw;
+  max-width: 380px;
+  min-width: 280px;
+}
+
+.sales-header {
+  height: 56px;
+
+  .fs-5 {
+    font-size: 1.1rem; 
+  }
+}

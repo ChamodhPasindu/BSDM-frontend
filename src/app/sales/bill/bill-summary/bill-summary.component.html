@@ -1,0 +1,74 @@
+<div class="bottom-sheet-container d-flex flex-column h-100">
+  <div class="bottom-sheet-handle"></div>
+  <h6 class="fw-bold mb-3 text-center text-success">Order Summary</h6>
+
+  <!-- Handle + Header -->
+  <div class="bottom-sheet-header px-3">
+    <div class="mb-3">
+      <h6 class="fw-semibold mb-1">Customer Details</h6>
+      <div class="small text-muted">
+        <div>{{ selectedCustomer?.name }}</div>
+        <div>{{ selectedCustomer?.shopName }}</div>
+        <div>{{ selectedCustomer?.address }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scrollable Content -->
+  <div class="bottom-sheet-content flex-fill overflow-auto p-3">
+    <!-- Product List -->
+    <div class="mb-3">
+      <h6 class="fw-semibold mb-2">Ordered Products</h6>
+      <div *ngFor="let product of selectedProducts"
+        class="d-flex justify-content-between align-items-center border-bottom py-2">
+        <div>
+          <div class="fw-medium">{{ product.name }}</div>
+          <small class="text-muted">
+            Qty: {{ product.qty }} &times; {{ product.maxPrice | currency:'LKR' }}
+          </small>
+        </div>
+        <div class="fw-semibold text-end">
+          {{ (product.qty * product.maxPrice) | currency:'LKR' }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary Totals -->
+    <div class="border-top pt-2">
+      <div class="d-flex justify-content-between">
+        <span class="text-muted small">Subtotal</span>
+        <span class="fw-semibold">{{ getTotalAmount() | currency:'LKR' }}</span>
+      </div>
+
+      <div class="d-flex justify-content-between">
+        <span class="text-muted small">Overdue</span>
+        <span class="fw-semibold text-danger">
+          {{ selectedCustomer?.overdueAmount | currency:'LKR' }}
+        </span>
+      </div>
+
+      <div class="d-flex justify-content-between border-top mt-2 pt-2">
+        <span class="fw-semibold text-success">Grand Total</span>
+        <span class="fw-bold text-success">
+          {{
+          getTotalAmount()
+          | currency:'LKR'
+          }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer / Action Button -->
+  <div class="bottom-sheet-footer p-3 border-top">
+    <div class="d-flex flex-column gap-2">
+      <button (click)="confirmOrder()" cButton color="success" class="w-100 fw-semibold py-2">
+        Confirm & Submit
+      </button>
+      <button cButton color="secondary" class="w-100 py-2" (click)="editOrder()">
+        Back to Edit
+      </button>
+    </div>
+  </div>
+
+</div>

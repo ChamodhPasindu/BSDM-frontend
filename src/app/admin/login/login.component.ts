@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { environment } from 'src/environment/environment';
 
 @Component({
   selector: 'app-login',
@@ -7,7 +8,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit{
+  version = environment.version
+
   loginForm: FormGroup;
+  screen: string = "main";
+  public showPassword: boolean = false;
+
 
   constructor(private fb: FormBuilder) {
     this.loginForm = this.fb.group({

@@ -1,16 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-
-interface Employee {
-  id: number;
-  name: string;
-  email: string;
-  role: string;
-  status: string;
-  lastActive: string;
-}
+import { EmployeeViewComponent } from './employee-view/employee-view.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-employee-management',
@@ -18,125 +8,170 @@ interface Employee {
   styleUrls: ['./employee-management.component.scss'],
 })
 export class EmployeeManagementComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'name', 'role', 'status', 'lastActive', 'actions'];
-  dataSource!: MatTableDataSource<Employee>;
-  
-  employees: Employee[] = [
+  @ViewChild('employeeModal') employeeModal!: EmployeeViewComponent;
+
+  constructor() {}
+  ngOnInit() {}
+  selectedDate: Date | null = null;
+
+  public users: any[] = [
     {
-      id: 1,
-      name: 'Alex Johnson',
-      email: 'alex.johnson@rk.com',
-      role: 'Sales Manager',
-      status: 'Active',
-      lastActive: '2025-09-12 14:22'
+      name: 'Yiorgos Avraamu',
+      state: 'New',
+      registered: 'Jan 1, 2021',
+      country: 'Us',
+      usage: 50,
+      period: 'Jun 11, 2021 - Jul 10, 2021',
+      payment: 'Mastercard',
+      activity: '10 sec ago',
+      avatar: './assets/img/avatars/1.jpg',
+      status: 'success',
+      color: 'success',
     },
     {
-      id: 2,
-      name: 'Maria Chen',
-      email: 'maria.chen@rk.com',
-      role: 'Product Designer',
-      status: 'Active',
-      lastActive: '2025-09-12 12:03'
+      name: 'Avram Tarasios',
+      state: 'Recurring ',
+      registered: 'Jan 1, 2021',
+      country: 'Br',
+      usage: 10,
+      period: 'Jun 11, 2021 - Jul 10, 2021',
+      payment: 'Visa',
+      activity: '5 minutes ago',
+      avatar: './assets/img/avatars/2.jpg',
+      status: 'danger',
+      color: 'info',
     },
     {
-      id: 3,
-      name: 'Samir Patel',
-      email: 'samir.patel@rk.com',
-      role: 'Data Analyst',
-      status: 'Active',
-      lastActive: '2025-09-11 18:44'
+      name: 'Quintin Ed',
+      state: 'New',
+      registered: 'Jan 1, 2021',
+      country: 'In',
+      usage: 74,
+      period: 'Jun 11, 2021 - Jul 10, 2021',
+      payment: 'Stripe',
+      activity: '1 hour ago',
+      avatar: './assets/img/avatars/3.jpg',
+      status: 'warning',
+      color: 'warning',
     },
     {
-      id: 4,
-      name: 'Julia Kim',
-      email: 'julia.kim@rk.com',
-      role: 'HR Generalist',
-      status: 'Suspended',
-      lastActive: '2025-09-07 09:10'
+      name: 'Enéas Kwadwo',
+      state: 'Sleep',
+      registered: 'Jan 1, 2021',
+      country: 'Fr',
+      usage: 98,
+      period: 'Jun 11, 2021 - Jul 10, 2021',
+      payment: 'Paypal',
+      activity: 'Last month',
+      avatar: './assets/img/avatars/4.jpg',
+      status: 'secondary',
+      color: 'danger',
     },
     {
-      id: 5,
-      name: 'Diego Rivera',
-      email: 'diego.rivera@rk.com',
-      role: 'Support Lead',
-      status: 'Active',
-      lastActive: '2025-09-08 15:02'
+      name: 'Agapetus Tadeáš',
+      state: 'New',
+      registered: 'Jan 1, 2021',
+      country: 'Es',
+      usage: 22,
+      period: 'Jun 11, 2021 - Jul 10, 2021',
+      payment: 'ApplePay',
+      activity: 'Last week',
+      avatar: './assets/img/avatars/5.jpg',
+      status: 'success',
+      color: 'primary',
     },
     {
-      id: 6,
-      name: 'Priya Nair',
-      email: 'priya.nair@rk.com',
-      role: 'Finance Analyst',
-      status: 'Active',
-      lastActive: '2025-09-01 11:37'
-    }
+      name: 'Friderik Dávid',
+      state: 'New',
+      registered: 'Jan 1, 2021',
+      country: 'Pl',
+      usage: 43,
+      period: 'Jun 11, 2021 - Jul 10, 2021',
+      payment: 'Amex',
+      activity: 'Yesterday',
+      avatar: './assets/img/avatars/6.jpg',
+      status: 'info',
+      color: 'dark',
+    },
+    {
+      name: 'Friderik Dávid',
+      state: 'New',
+      registered: 'Jan 1, 2021',
+      country: 'Pl',
+      usage: 43,
+      period: 'Jun 11, 2021 - Jul 10, 2021',
+      payment: 'Amex',
+      activity: 'Yesterday',
+      avatar: './assets/img/avatars/6.jpg',
+      status: 'info',
+      color: 'dark',
+    },
+    {
+      name: 'Friderik Dávid',
+      state: 'New',
+      registered: 'Jan 1, 2021',
+      country: 'Pl',
+      usage: 43,
+      period: 'Jun 11, 2021 - Jul 10, 2021',
+      payment: 'Amex',
+      activity: 'Yesterday',
+      avatar: './assets/img/avatars/6.jpg',
+      status: 'info',
+      color: 'dark',
+    },
+    {
+      name: 'Friderik Dávid',
+      state: 'New',
+      registered: 'Jan 1, 2021',
+      country: 'Pl',
+      usage: 43,
+      period: 'Jun 11, 2021 - Jul 10, 2021',
+      payment: 'Amex',
+      activity: 'Yesterday',
+      avatar: './assets/img/avatars/6.jpg',
+      status: 'info',
+      color: 'dark',
+    },
+    {
+      name: 'Friderik Dávid',
+      state: 'New',
+      registered: 'Jan 1, 2021',
+      country: 'Pl',
+      usage: 43,
+      period: 'Jun 11, 2021 - Jul 10, 2021',
+      payment: 'Amex',
+      activity: 'Yesterday',
+      avatar: './assets/img/avatars/6.jpg',
+      status: 'info',
+      color: 'dark',
+    },
   ];
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
-
-  isLoading = false;
-  totalEmployees = 248;
-  activeEmployees = 221;
-  suspendedEmployees = 27;
-
-  ngOnInit() {
-    this.initializeTable();
+  protected openEmployeeView(emp?: any) {
+    this.employeeModal.employee = emp;
+    this.employeeModal.visible = true;
   }
 
-  initializeTable() {
-    this.dataSource = new MatTableDataSource(this.employees);
-    // Set up paginator and sort after view init
-    setTimeout(() => {
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+  protected delete() {
+    Swal.fire({
+      title: 'Confirm Delete',
+      text: 'message',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Delete',
+      cancelButtonText: 'Cancel',
+      reverseButtons: true,
+      customClass: {
+        popup: 'coreui-popup',
+        confirmButton: 'btn btn-danger ms-2',
+        cancelButton: 'btn btn-secondary',
+      },
+      buttonsStyling: false,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // your delete logic
+        Swal.fire('Deleted!', 'The record has been deleted.', 'success');
+      }
     });
-  }
-
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
-  }
-
-  getInitials(name: string): string {
-    return name.split(' ').map(n => n[0]).join('').toUpperCase();
-  }
-
-  getRoleClass(role: string): string {
-    const roleClasses: { [key: string]: string } = {
-      'Sales Manager': 'sales',
-      'Product Designer': 'design',
-      'Data Analyst': 'analytics',
-      'HR Generalist': 'hr',
-      'Support Lead': 'support',
-      'Finance Analyst': 'finance'
-    };
-    return roleClasses[role] || 'default';
-  }
-
-  getStatusClass(status: string): string {
-    return status.toLowerCase();
-  }
-
-  viewEmployee(employee: Employee) {
-    console.log('View employee:', employee);
-    // Implement view logic
-  }
-
-  editEmployee(employee: Employee) {
-    console.log('Edit employee:', employee);
-    // Implement edit logic
-  }
-
-  deleteEmployee(employee: Employee) {
-    console.log('Delete employee:', employee);
-    // Implement delete logic with confirmation
-    if (confirm(`Are you sure you want to delete ${employee.name}?`)) {
-      // Delete logic here
-    }
   }
 }

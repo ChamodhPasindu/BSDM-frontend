@@ -1,0 +1,78 @@
+<!-- STEP 3: SELECT PRODUCTS -->
+<h6 class="fw-bold mb-3">Select Products</h6>
+
+<!-- Search Bar -->
+<input type="text" class="form-control mb-3" placeholder="Search product..." [(ngModel)]="productSearchTerm"
+  (ngModelChange)="filterProducts()" />
+
+<!-- Product Cards -->
+<div class="d-flex flex-column gap-2">
+  <c-card *ngFor="let product of filteredProducts" class="shadow-sm product-card">
+    <c-card-body class="d-flex justify-content-between align-items-start">
+      <!-- Left: Info -->
+      <div class="flex-fill">
+        <div class="d-flex align-items-center mb-1">
+          <input type="checkbox" class="form-check-input me-2" [(ngModel)]="product.selected" />
+          <span class="fw-medium">{{ product.name }}</span>
+        </div>
+        <div class="text-muted small">{{ product.description }}</div>
+        <div class="text-muted small">Price: {{ product.minPrice }} - {{ product.maxPrice }} LKR</div>
+      </div>
+
+      <!-- Right: Qty + Price -->
+      <div class="d-flex flex-column align-items-end gap-1 ms-3">
+        <div class="d-flex align-items-center gap-1">
+          <button class="btn btn-outline-secondary btn-sm" (click)="decreaseQty(product)"
+            [disabled]="product.qty <= 0">-</button>
+
+          <input type="number" class="form-control form-control-sm text-center" style="width:60px"
+            [(ngModel)]="product.qty" [disabled]="!product.selected" placeholder="Qty" />
+
+          <button class="btn btn-outline-secondary btn-sm" (click)="increaseQty(product)"
+            [disabled]="!product.selected">+</button>
+        </div>
+
+        <input type="number" class="form-control form-control-sm text-center" style="width:120px"
+          [(ngModel)]="product.maxPrice" [disabled]="!product.selected" placeholder="Sell Price" />
+      </div>
+    </c-card-body>
+  </c-card>
+
+  <div *ngIf="filteredProducts.length === 0" class="text-center text-muted py-3">
+    No products found
+  </div>
+</div>
+
+<!-- Summary Section -->
+<div class="card shadow-sm mt-3 p-3 summary-card rounded-4 border-0">
+  <div class="d-flex justify-content-between align-items-center mb-1">
+    <span class="text-muted small">Overdue</span>
+    <span class="fw-semibold text-danger">
+      LKR 10,000
+    </span>
+    <!-- <span class="text-muted">—</span> -->
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center mb-1">
+    <span class="text-muted small">New Order Total</span>
+    <span class="fw-semibold text-dark">
+      {{ getTotalAmount() | currency:'LKR' }}
+    </span>
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center mb-2 border-top pt-2">
+    <span class="fw-semibold text-muted">Grand Total</span>
+    <span class="fw-semibold text-success">
+      {{ getTotalAmount() | currency:'LKR' }}
+    </span>
+  </div>
+
+  <small class="text-muted d-block mb-3">
+    {{ getSelectedCount() }} item(s)
+  </small>
+
+  <button class="btn btn-primary w-100 py-2 fw-semibold rounded-3" [disabled]="!hasSelectedProducts()"
+    (click)="toggleBottomSheet()">
+    Confirm Order
+  </button>
+</div>

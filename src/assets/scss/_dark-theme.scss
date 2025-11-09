@@ -1,0 +1,609 @@
+.dark-theme {
+    /* ===== Base Colors ===== */
+    --cui-body-bg: #1e1e1e;
+    --cui-body-color: #e0e0e0;
+    background-color: var(--cui-body-bg);
+    color: var(--cui-body-color);
+
+    /* ===== Header / Navbar ===== */
+    .header {
+        background-color: #2a2a2a !important;
+        color: #ffffff !important;
+        border-bottom: 1px solid #333 !important;
+    }
+
+    .header-toggler {
+        color: #ffffff !important;
+    }
+
+    /* ===== Sidebar ===== */
+    .sidebar {
+        background-color: #242424 !important;
+        color: #e0e0e0 !important;
+        border-right: 1px solid #333 !important;
+    }
+
+    .sidebar-nav .nav-link {
+        color: #cfcfcf !important;
+
+        &:hover {
+            background-color: #333 !important;
+            color: #ffffff !important;
+        }
+
+        &.active {
+            background-color: #3a3a3a !important;
+            color: #ffffff !important;
+        }
+    }
+
+    .sidebar-brand {
+        background-color: #1c1c1c !important;
+    }
+
+    .nav {
+        background-color: #242424 !important;
+    }
+
+    .nav-item {
+        .nav-link {
+            color: #cfcfcf !important;
+
+            &:hover {
+                background-color: #333 !important;
+                color: #ffffff !important;
+            }
+
+            &.active {
+                background-color: #3a3a3a !important;
+                color: #ffffff !important;
+            }
+
+            &.disabled {
+                color: #777 !important;
+            }
+        }
+    }
+
+    /* ========= CARD BODY & FOOTER ========= */
+    .card-body {
+        color: #e0e0e0 !important;
+    }
+
+    .card-footer {
+        background-color: #252525 !important;
+        border-top: 1px solid #3a3a3a !important;
+        color: #cfcfcf !important;
+    }
+
+    /* ===== Breadcrumb / Content ===== */
+    .breadcrumb {
+        background-color: transparent !important;
+        color: #a9a9a9 !important;
+    }
+
+    .container-fluid,
+    .main,
+    .wrapper {
+        background-color: transparent !important;
+        color: #e0e0e0 !important;
+    }
+
+    /* ===== Cards ===== */
+    .card {
+        background-color: #2a2a2a !important;
+        border: 1px solid #3a3a3a !important;
+        color: #ffffff !important;
+
+        .card-header {
+            background-color: #2f2f2f !important;
+            border-bottom: 1px solid #3a3a3a !important;
+        }
+    }
+
+    /* ===========================
+     CoreUI Widget Stat Cards
+     =========================== */
+    .c-widget-stat-c,
+    c-widget-stat-c {
+        background-color: #1e1e1e !important;
+        color: #f1f1f1 !important;
+        border: 1px solid #333 !important;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4) !important;
+
+        .text-medium-emphasis {
+            color: #aaa !important;
+        }
+
+        .text-high-emphasis {
+            color: #fff !important;
+        }
+
+        .card-body {
+            background-color: transparent !important;
+        }
+
+        .card-footer {
+            background-color: #252525 !important;
+            border-top: 1px solid #333 !important;
+        }
+
+        .progress {
+            background-color: #aaa !important;
+
+            .progress-bar {
+                background-color: #fff !important;
+            }
+        }
+
+        /* handle if background utilities like bg-light are applied */
+        &.bg-light {
+            background-color: #2b2b2b !important;
+        }
+
+        &.bg-white {
+            background-color: #1e1e1e !important;
+        }
+
+        &.bg-body,
+        &.bg-transparent {
+            background-color: transparent !important;
+        }
+    }
+
+    /* ===== Tables ===== */
+    table thead tr,
+    .table thead tr {
+        background-color: #2f2f2f !important;
+        /* darker row */
+        color: #ffffff !important;
+    }
+
+    table thead th,
+    .table thead th {
+        background-color: transparent !important;
+        border-bottom: 1px solid #3a3a3a !important;
+        color: #ffffff !important;
+        font-weight: 500;
+    }
+
+    /* Optional: Adjust body for better contrast */
+    table tbody tr {
+        background-color: #262626 !important;
+
+        &:nth-child(even) {
+            background-color: #222 !important;
+        }
+
+        &:hover {
+            background-color: #333 !important;
+        }
+    }
+
+    /* ===== Optional: Table borders ===== */
+    .table-bordered,
+    .table-bordered> :not(caption)>*>* {
+        border-color: #3a3a3a !important;
+    }
+
+    /* ========= ACCORDION ========= */
+    .accordion-item {
+        background-color: #2a2a2a !important;
+        border: 1px solid #3a3a3a !important;
+    }
+
+    .accordion-button {
+        background-color: #2f2f2f !important;
+        color: #ffffff !important;
+
+        &:not(.collapsed) {
+            background-color: #3a3a3a !important;
+            color: #ffffff !important;
+            box-shadow: none !important;
+        }
+
+        &:focus {
+            box-shadow: none !important;
+            border-color: #4c8bf5 !important;
+        }
+    }
+
+    .accordion-body {
+        background-color: #252525 !important;
+        color: #e0e0e0 !important;
+    }
+
+    /* ========= NATIVE SELECT ELEMENT ========= */
+    select.form-select,
+    select {
+        background-color: #2a2a2a !important;
+        border: 1px solid #444 !important;
+        color: #ffffff !important;
+
+        option {
+            background-color: #2a2a2a !important;
+            color: #ffffff !important;
+        }
+
+        &:focus {
+            border-color: #4c8bf5 !important;
+            background-color: #252525 !important;
+        }
+    }
+
+    /* ========= NG-SELECT (third-party) ========= */
+    ng-select,
+    .ng-select {
+        color: #ffffff !important;
+
+        .ng-select-container {
+            background-color: #2a2a2a !important;
+            border: 1px solid #444 !important;
+            color: #ffffff !important;
+        }
+
+        .ng-value,
+        .ng-input input {
+            color: #fff !important;
+        }
+
+
+        .ng-arrow-wrapper {
+            color: #fff !important;
+        }
+
+        .ng-dropdown-panel {
+            background-color: #2a2a2a !important;
+            border: 1px solid #3a3a3a !important;
+
+            .ng-option {
+                color: #ffffff !important;
+                background-color: #2a2a2a !important;
+
+                &:hover,
+                &.ng-option-marked {
+                    background-color: #3a3a3a !important;
+                }
+
+                &.ng-option-selected {
+                    background-color: #4c8bf5 !important;
+                    color: #fff !important;
+                }
+            }
+        }
+
+        .ng-placeholder {
+            color: #999 !important;
+        }
+
+        .ng-value-label {
+            color: #fff !important;
+        }
+    }
+
+    /* ===========================
+      ngx-bootstrap Datepicker (bs-datepicker)
+     =========================== */
+    .bs-datepicker-container {
+        background-color: #1e1e1e !important;
+        border: 1px solid #333 !important;
+        color: #f1f1f1 !important;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5) !important;
+
+        .bs-datepicker {
+            background-color: #1e1e1e !important;
+            color: #eaeaea !important;
+        }
+
+        .bs-datepicker-head {
+            background-color: #2b2b2b !important;
+            color: #fff !important;
+            border-bottom: 1px solid #444 !important;
+
+            button {
+                color: #fff !important;
+
+                &:hover {
+                    background-color: #3a3a3a !important;
+                }
+            }
+        }
+
+        .bs-datepicker-body {
+            background-color: #1e1e1e !important;
+            color: #ccc !important;
+
+            table {
+                background-color: transparent !important;
+                color: #ccc !important;
+
+                td,
+                th {
+                    color: #ccc !important;
+
+                    &.is-highlighted {
+                        background-color: #333 !important;
+                        color: #fff !important;
+                    }
+
+                    &.is-active {
+                        background-color: #0d6efd !important;
+                        color: #fff !important;
+                    }
+
+                    &:hover {
+                        background-color: #3a3a3a !important;
+                        color: #fff !important;
+                    }
+                }
+            }
+        }
+
+        .bs-datepicker-predefined-btns {
+            background-color: #1e1e1e !important;
+            border-top: 1px solid #333 !important;
+
+            button {
+                color: #ccc !important;
+                background-color: transparent !important;
+
+                &:hover {
+                    color: #fff !important;
+                    background-color: #333 !important;
+                }
+            }
+        }
+    }
+
+    .input-group-text {
+        border: 1px solid #444 !important;
+        ;
+    }
+
+    /* ===== Buttons ===== */
+    .btn-primary {
+        background-color: #4c8bf5 !important;
+        border-color: #4c8bf5 !important;
+        color: #fff !important;
+    }
+
+    .btn-secondary {
+        background-color: #555 !important;
+        border-color: #555 !important;
+        color: #fff !important;
+    }
+
+    .btn-light {
+        background-color: #444 !important;
+        border-color: #555 !important;
+        color: #fff !important;
+    }
+
+    /* ===== Background Utilities ===== */
+    .bg-light {
+        background-color: #2a2a2a !important;
+        color: #e0e0e0 !important;
+    }
+
+    .bg-white {
+        background-color: #2a2a2a !important;
+        color: #ffffff !important;
+    }
+
+    .bg-secondary {
+        background-color: #3a3a3a !important;
+        color: #ffffff !important;
+    }
+
+    .bg-body,
+    .bg-body-tertiary,
+    .bg-body-secondary {
+        background-color: #1e1e1e !important;
+        color: #e0e0e0 !important;
+    }
+
+    .bg-primary {
+        background-color: #4c8bf5 !important;
+        color: #ffffff !important;
+    }
+
+    .bg-success {
+        background-color: #198754 !important;
+        color: #ffffff !important;
+    }
+
+    .bg-danger {
+        background-color: #dc3545 !important;
+        color: #ffffff !important;
+    }
+
+    .bg-warning {
+        background-color: #ffc107 !important;
+        color: #000000 !important;
+    }
+
+    .bg-info {
+        background-color: #0dcaf0 !important;
+        color: #000000 !important;
+    }
+
+    .bg-dark {
+        background-color: #242424 !important;
+        color: #e0e0e0 !important;
+    }
+
+    /* ===== Text Utilities ===== */
+    .text-dark {
+        color: #e0e0e0 !important;
+    }
+
+    .text-muted {
+        color: #aaa !important;
+    }
+
+    .text-body {
+        color: #e0e0e0 !important;
+    }
+
+    .text-black {
+        color: #ffffff !important;
+    }
+
+    .text-secondary {
+        color: #b0b0b0 !important;
+    }
+
+    /* ===== Border Colors ===== */
+    .border,
+    .border-top,
+    .border-bottom,
+    .border-start,
+    .border-end {
+        border-color: #3a3a3a !important;
+    }
+
+    .border-light {
+        border-color: #444 !important;
+    }
+
+    .border-dark {
+        border-color: #666 !important;
+    }
+
+    /* ===== Misc Overrides ===== */
+    .shadow-sm,
+    .shadow,
+    .shadow-lg {
+        box-shadow: 0 0.125rem 0.25rem rgba(255, 255, 255, 0.05) !important;
+    }
+
+    /* ===== text-medium-emphasis (CoreUI) ===== */
+    .text-medium-emphasis {
+        color: #b0b0b0 !important;
+        /* lighter gray for dark background */
+    }
+
+    /* ===== Other text emphasis colors ===== */
+    .text-high-emphasis {
+        color: #ffffff !important;
+    }
+
+    .text-low-emphasis {
+        color: #8a8a8a !important;
+    }
+
+    /* ===== Forms ===== */
+    .form-control {
+        background-color: #2a2a2a !important;
+        border-color: #444 !important;
+        color: #ffffff !important;
+
+        &:focus {
+            border-color: #4c8bf5 !important;
+            background-color: #252525 !important;
+        }
+    }
+
+    label {
+        color: #d0d0d0 !important;
+    }
+
+    /* ===== Alerts ===== */
+    .alert {
+        background-color: #2a2a2a;
+    }
+
+    /* ===== Modals ===== */
+    .modal-content {
+        background-color: #2a2a2a !important;
+        color: #f1f1f1 !important;
+        border: 1px solid #3a3a3a !important;
+    }
+
+    .modal-header,
+    .modal-footer {
+        border-color: #3a3a3a !important;
+    }
+
+    /* ===== Dropdowns ===== */
+    .dropdown-menu {
+        background-color: #2a2a2a !important;
+        color: #fff !important;
+        border: 1px solid #3a3a3a;
+
+        .dropdown-item {
+            color: #e0e0e0;
+
+            &:hover {
+                background-color: #3a3a3a;
+                color: #fff;
+            }
+        }
+    }
+
+    /* ===== Toasts ===== */
+    .toast {
+        background-color: #2a2a2a !important;
+        color: #fff !important;
+    }
+
+    /* ===== Pagination ===== */
+    .page-link {
+        background-color: #2a2a2a;
+        border-color: #444;
+        color: #fff;
+
+        &:hover {
+            background-color: #3a3a3a;
+            border-color: #4c8bf5;
+        }
+    }
+
+    /* ===== Charts ===== */
+    canvas {
+        background-color: #1e1e1e !important;
+    }
+
+    /* ===== Scrollbars ===== */
+
+    .ng-scrollbar-track {
+        background-color: transparent;
+    }
+
+    .ng-scrollbar-thumb {
+        background: #444;
+    }
+
+    .ng-scrollbar-thumb:hover {
+        background: #999;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #444;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #999;
+    }
+
+
+    // Sales Bottom Nav Specific
+    .sales-bottom-nav {
+        border-top: 1px solid #595959 !important;
+    }
+
+    // Ngx-Bottom sheet
+    .ngx-bottom-sheet {
+        background-color: #2a2a2a !important;
+
+        .card {
+            border: 0 !important;
+        }
+    }
+
+    .route-card {
+        .customer-list {
+            border-top: 1px solid #595959 !important;
+        }
+    }
+}

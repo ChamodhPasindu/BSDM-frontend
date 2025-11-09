@@ -1,46 +1,30 @@
+@import 'assets/scss/variables';
 
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
-@use '@angular/material' as mat;
-// Plus imports for other components in your app.
+$enable-ltr: true;
+$enable-rtl: true;
 
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
-@include mat.core();
+// Import styles with default layout.
+@import "@coreui/coreui/scss/coreui";
 
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
-$BSMS-frontend-primary: mat.define-palette(mat.$indigo-palette);
-$BSMS-frontend-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+// Import Chart.js custom tooltips styles
+@import "@coreui/chartjs/scss/coreui-chartjs";
 
-// The warn palette is optional (defaults to red).
-$BSMS-frontend-warn: mat.define-palette(mat.$red-palette);
+@import 'assets/scss/layout';
+@import 'assets/scss/fixes';
+@import 'assets/scss/examples';
 
-// Create the theme object. A theme consists of configurations for individual
-// theming systems such as "color" or "typography".
-$BSMS-frontend-theme: mat.define-light-theme((
-  color: (
-    primary: $BSMS-frontend-primary,
-    accent: $BSMS-frontend-accent,
-    warn: $BSMS-frontend-warn,
-  )
-));
 
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
-@include mat.all-component-themes($BSMS-frontend-theme);
+/* Importing Bootstrap SCSS file. */
+// @import "./node_modules/bootstrap/scss/bootstrap";
 
-/* You can add global styles to this file, and also import other style files */
+/* Importing Datepicker SCSS file. */
+@import "node_modules/ngx-bootstrap/datepicker/bs-datepicker";
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+@import "~@ng-select/ng-select/themes/default.theme.css";
 
-body,
-html {
-    font-family: 'Poppins', 'MyCustomFont', sans-serif;
-    margin: 0;
-}
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* Custom styles */
+@import 'assets/scss/custom';
+
+/* Dark theme styles */
+@import 'assets/scss/dark-theme';
+

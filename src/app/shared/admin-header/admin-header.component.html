@@ -1,16 +1,186 @@
-<header class="header">
-  <div class="header-left">
-    <button class="hamburger-menu" (click)="toggleSidebar()">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-    <h1 class="logo">BKTECH SYSTEMS</h1>
-  </div>
-  <div class="header-right">
-    <div class="user-menu">
-      <span class="user-name">Admin User</span>
-      <div class="user-avatar">AU</div>
-    </div>
-  </div>
-</header>
+<ng-container>
+    <c-container [fluid]="true">
+        <button toggle="visible" cHeaderToggler [cSidebarToggle]="sidebarId" class="ps-1">
+            <svg cIcon name="cilMenu" size="lg"></svg>
+        </button>
+
+        <c-header-nav class="d-none d-lg-flex me-auto">
+            <c-nav-item>
+                <a cNavLink routerLink="/admin/post-login/dashboard" routerLinkActive="active">
+                    Dashboard
+                </a>
+            </c-nav-item>
+            <c-nav-item>
+                <a cNavLink routerLink="/admin/post-login/employees" routerLinkActive="active">
+                    Employee
+                </a>
+            </c-nav-item>
+            <c-nav-item>
+                <a cNavLink routerLink="/admin/post-login/vehicles" routerLinkActive="active">
+                    Vehicle
+                </a>
+            </c-nav-item>
+        </c-header-nav>
+
+        <c-header-nav class="d-lg-flex me-2">
+            <ng-container *ngTemplateOutlet="notificationDropdown"></ng-container>
+        </c-header-nav>
+
+        <c-header-nav class="ms-auto ms-md-0">
+            <div class="nav-item py-1">
+                <div class="vr h-100 mx-2 text-body text-opacity-75"></div>
+            </div>
+            <ng-container *ngTemplateOutlet="themeDropdown" />
+            <div class="nav-item py-1">
+                <div class="vr h-100 mx-2 text-body text-opacity-75"></div>
+            </div>
+        </c-header-nav>
+       
+        <c-header-nav class="ms-3">
+            <ng-container *ngTemplateOutlet="userDropdown"></ng-container>
+        </c-header-nav>
+
+        <c-header-nav class="d-none d-lg-flex">
+            <c-nav-item>
+                System Admin
+                <div class="small text-medium-emphasis text-nowrap">
+                    <span>
+                        Chamodh Pasindu
+                    </span>
+                </div>
+            </c-nav-item>
+        </c-header-nav>
+
+        <c-header-nav class="ms-3">
+            <c-nav-item>
+                <button routerLink="/landing-page" cButton color="danger" size="sm">
+                    <svg cIcon name="cilPowerStandby"></svg>
+                </button>
+            </c-nav-item>
+        </c-header-nav>
+    </c-container>
+
+    <c-header-divider></c-header-divider>
+    <c-container [fluid]="true">
+        <c-breadcrumb-router class="ms-2"></c-breadcrumb-router>
+    </c-container>
+</ng-container>
+
+<ng-template #themeDropdown>
+    <c-dropdown alignment="end" variant="nav-item">
+        <button cDropdownToggle cButton color="" [caret]="false" cDropdownToggle class="py-0">
+            <svg cIcon [name]="isDarkMode ? 'cilMoon' : 'cilSun'" size="lg"></svg>
+        </button>
+        <ul cDropdownMenu>
+            <li>
+                <button cDropdownItem class="d-flex align-items-center" (click)="setTheme(false)"
+                    [class.active]="!isDarkMode">
+                    <svg cIcon class="me-2" name="cilSun" size="lg"></svg>
+                    Light
+                </button>
+            </li>
+            <li>
+                <button cDropdownItem class="d-flex align-items-center" (click)="setTheme(true)"
+                    [class.active]="isDarkMode">
+                    <svg cIcon class="me-2" name="cilMoon" size="lg"></svg>
+                    Dark
+                </button>
+            </li>
+        </ul>
+    </c-dropdown>
+</ng-template>
+
+<ng-template #userDropdown>
+    <c-dropdown alignment="end" variant="nav-item">
+        <button cButton color="" [caret]="false" cDropdownToggle class="py-0">
+            <c-avatar cTextColor="primary" shape="rounded-1" size="md" src="./assets/images/user-img.jpg"
+                status="success">
+            </c-avatar>
+        </button>
+        <ul cDropdownMenu class="pt-0 pr-5 w-auto">
+            <li class="d-lg-none px-3 pt-3 pb-2">
+                <div class="fw-semibold">System Admin</div>
+                <div class="small text-medium-emphasis">Chamodh Pasindu</div>
+                <hr class="my-2" />
+            </li>
+
+            <li>
+                <h6 cDropdownHeader class="bg-light fw-semibold py-2">Account</h6>
+            </li>
+            <!-- <li>
+                <a routerLink="./" cDropdownItem>
+                    <svg cIcon class="me-2" name="cilBell"></svg>
+                    Updates
+                    <c-badge class="ms-2 float-end" color="info">
+                        42
+                    </c-badge>
+                </a>
+            </li> -->
+
+            <li class="px-3 pb-2 text-secondary small">
+                <div>Last login</div>
+                <div class="fw-semibold text-dark">05 Nov 2025 | 12:50</div>
+            </li>
+            <li>
+                <a routerLink="./" cDropdownItem>
+                    <svg cIcon class="me-2" name="cilSettings"></svg>
+                    Settings
+                </a>
+            </li>
+
+            <li>
+                <hr cDropdownDivider />
+            </li>
+            <li>
+                <a routerLink="./" cDropdownItem>
+                    <svg cIcon class="me-2" name="cilAccountLogout"></svg>
+                    Log Out
+                </a>
+            </li>
+            <li></li>
+        </ul>
+    </c-dropdown>
+</ng-template>
+
+<ng-template #notificationDropdown>
+    <c-dropdown variant="nav-item" alignment="end">
+        <button cDropdownToggle cButton color="" [caret]="false" cDropdownToggle class="py-0">
+            <svg cIcon name="cilBell" size="lg" class="text-body"></svg>
+            <c-badge color="danger" position="top-end" shape="rounded-pill">{{ messages.length }}</c-badge>
+        </button>
+
+
+        <div cDropdownMenu class="pt-0 ">
+            <li>
+                <h6 cDropdownHeader class="bg-light fw-semibold py-2">You have {{ messages.length }} messages</h6>
+            </li>
+
+            <li class="notification-panel">
+                <a *ngFor="let msg of messages" cDropdownItem href="#" class="dropdown-item">
+                    <div class="d-flex">
+                        <c-avatar class="flex-shrink-0 my-3 me-3" [src]="msg.avatar" size="md">
+                            <span class="avatar-status" [ngClass]="msg.status"></span>
+                        </c-avatar>
+
+                        <div class="message text-wrap">
+                            <div class="d-flex justify-content-between small text-body-secondary mt-1">
+                                <div>{{ msg.sender }}</div>
+                                <div>{{ msg.time }}</div>
+                            </div>
+                            <div class="fw-semibold">
+                                <span *ngIf="msg.urgent" class="text-danger me-1">!</span>{{ msg.subject }}
+                            </div>
+                            <div class="small text-body-secondary">{{ msg.preview }}</div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+
+            <hr cDropdownDivider />
+            <a cDropdownItem class="dropdown-item text-center fw-semibold" href="#">
+                View all messages
+            </a>
+        </div>
+    </c-dropdown>
+
+</ng-template>

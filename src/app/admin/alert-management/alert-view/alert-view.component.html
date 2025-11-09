@@ -1,0 +1,60 @@
+<c-modal id="liveDemoModal" size="lg" alignment="center" class="modal-scrollable" [visible]="visible"
+  (visibleChange)="changeModalVisibility($event)">
+  <c-modal-header>
+    <h5 cModalTitle> Add New Alert</h5>
+    <button (click)="closeModal()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <form cForm class="row g-3">
+      <h6 class="mb-3">Personal Information</h6>
+      <c-col [md]="6">
+        <label cLabel for="inputEmail4">Email</label>
+        <input cFormControl id="inputEmail4" type="email" />
+      </c-col>
+      <c-col [md]="6">
+        <label cLabel for="inputPassword4">Password</label>
+        <input cFormControl id="inputPassword4" type="password" />
+      </c-col>
+      <c-col [xs]="12">
+        <label cLabel for="inputAddress">Address</label>
+        <input cFormControl id="inputAddress" placeholder="1234 Main St" />
+      </c-col>
+      <c-col [xs]="12">
+        <label cLabel for="inputAddress2">Address 2</label>
+        <input cFormControl id="inputAddress2" placeholder="Apartment, studio, or floor" />
+      </c-col>
+      <c-col [md]="6">
+        <label cLabel for="inputCity">City</label>
+        <input cFormControl id="inputCity" />
+      </c-col>
+      <hr />
+      <h6 class="mb-3 mt-3">Employee Details</h6>
+      <c-col [md]="6">
+        <label cLabel for="inputEmail4">Email</label>
+        <input cFormControl id="inputEmail4" type="email" />
+      </c-col>
+      <c-col [md]="6">
+        <label cLabel for="inputPassword4">Password</label>
+        <input cFormControl id="inputPassword4" type="password" />
+      </c-col>
+      <c-col [xs]="12">
+        <label cLabel for="inputAddress">Address</label>
+        <input cFormControl id="inputAddress" placeholder="1234 Main St" />
+      </c-col>
+      <c-col [xs]="12">
+        <label cLabel for="inputAddress2">Address 2</label>
+        <input cFormControl id="inputAddress2" placeholder="Apartment, studio, or floor" />
+      </c-col>
+      <c-col [md]="6">
+        <label cLabel for="inputCity">City</label>
+        <input cFormControl id="inputCity" />
+      </c-col>
+    </form>
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="closeModal()" cButton color="secondary">
+      Close
+    </button>
+    <button cButton color="primary">Add Alert</button>
+  </c-modal-footer>
+</c-modal>

@@ -1,0 +1,26 @@
+<c-modal id="liveDemoModal" size="lg" alignment="center" class="modal-scrollable" [visible]="visible"
+  (visibleChange)="changeModalVisibility($event)">
+  <c-modal-header>
+    <h5 cModalTitle> Add New Item</h5>
+    <button (click)="closeModal()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <form cForm class="row g-3">
+      <h6 class="mb-3">Item Information</h6>
+      <c-col [md]="6">
+        <label cLabel for="inputEmail4">Name</label>
+        <input cFormControl id="inputEmail4" type="email" />
+      </c-col>
+      <c-col [md]="6">
+        <label cLabel for="inputPassword4">Description</label>
+        <input cFormControl id="inputPassword4" type="password" />
+      </c-col>
+    </form>
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="closeModal()" cButton color="secondary">
+      Close
+    </button>
+    <button cButton color="primary">Add Customer</button>
+  </c-modal-footer>
+</c-modal>

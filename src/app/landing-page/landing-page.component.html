@@ -1,0 +1,36 @@
+<div class="min-vh-100 d-flex flex-column justify-content-center align-items-center bg-body">
+  <div class="mb-3">
+    <img
+      src="assets/images/new-company-logo.png"
+      alt="Company Logo"
+      class="img-fluid logo"
+    />
+  </div>
+
+  <div class="text-center mb-4">
+    <h1 class="fw-bold text-dark mb-2">Bakery Sales & Delivery Monitoring System</h1>
+    <p class="text-secondary">Please choose your role to continue</p>
+  </div>
+
+  <div class="d-flex flex-wrap justify-content-center gap-4">
+    <c-card class="text-center shadow-sm border-0" style="width: 16rem;">
+      <c-card-body>
+        <svg cIcon name="cilUser" size="3xl" class="text-primary mb-3"></svg>
+        <h5 class="fw-semibold mb-3">Admin Login</h5>
+        <button cButton color="primary" variant="outline" (click)="navigateTo('admin')">
+          Go to Admin
+        </button>
+      </c-card-body>
+    </c-card>
+
+    <c-card class="text-center shadow-sm border-0" style="width: 16rem;">
+      <c-card-body>
+        <svg cIcon name="cilUserFollow" size="3xl" class="text-success mb-3"></svg>
+        <h5 class="fw-semibold mb-3">Salesperson Login</h5>
+        <button cButton color="success" variant="outline" (click)="navigateTo('sales')">
+          Go to Sales
+        </button>
+      </c-card-body>
+    </c-card>
+  </div>
+</div>

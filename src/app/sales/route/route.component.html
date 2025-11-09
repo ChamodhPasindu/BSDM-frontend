@@ -1,0 +1,56 @@
+<h6 class="fw-semibold mb-3">Your Assigned Routes</h6>
+
+<div class="d-flex flex-column gap-3">
+  <c-card
+    *ngFor="let route of routes; let i = index"
+    class="shadow-sm overflow-hidden route-card"
+  >
+    <c-card-body
+      (click)="toggleRoute(i)"
+      class="d-flex justify-content-between align-items-center py-3 px-3 route-header"
+    >
+      <div class="d-flex align-items-center gap-3">
+        <div class="route-icon bg-primary bg-opacity-10 p-2 rounded-circle">
+          <svg cIcon name="cilMap" class="text-dark"></svg>
+        </div>
+        <div>
+          <div class="fw-semibold text-dark">{{ route.name }}</div>
+          <div class=" text-muted">This is sample description</div>
+          <small class="text-muted">
+            {{ getVisitedCount(route.customers) }}/{{ route.customers.length }}
+            Visited
+          </small>
+        </div>
+      </div>
+
+      <svg
+        cIcon
+        [name]="route.expanded ? 'cilChevronTop' : 'cilChevronBottom'"
+        class="text-secondary transition-icon"
+      ></svg>
+    </c-card-body>
+
+    <div
+      class="customer-list bg-light bg-opacity-25"
+      [class.expanded]="route.expanded"
+    >
+      <div
+        *ngFor="let customer of route.customers"
+        class="d-flex justify-content-between align-items-start px-4 py-2 border-top"
+      >
+        <div>
+          <div class="fw-semibold text-dark">{{ customer.name }}</div>
+          <small class="text-muted d-block">{{ customer.shop }}</small>
+          <small class="text-muted">No 56/B, Nwam Mawatha, Battaramulla</small>
+        </div>
+
+        <span
+          class="badge px-3 py-1"
+          [ngClass]="customer.visited ? 'bg-success' : 'bg-danger'"
+        >
+          {{ customer.visited ? 'Visited' : 'Pending' }}
+        </span>
+      </div>
+    </div>
+  </c-card>
+</div>

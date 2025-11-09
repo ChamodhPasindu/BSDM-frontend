@@ -1,85 +1,48 @@
-<div class="login-container">
-  <div class="login-card">
-    <!-- Header -->
-    <div class="header">
-      <h1>Sign in to Acme</h1>
-    </div>
+<div class="bg-light min-vh-100 d-flex flex-row align-items-center justify-content-center">
+  <c-container>
+    <c-row class="justify-content-center">
+      <c-col md="6" lg="5">
+        <c-card class="shadow-lg border-0">
+          <c-card-body class="p-5 text-center">
 
-    <div class="content-wrapper">
-      <!-- Left Section - Contact & FAQ -->
-      <div class="info-section">
-        <section class="contact-section">
-          <h2>Contact Us</h2>
-          <p>We usually respond within 1 business day.</p>
-          
-          <div class="contact-info">
-            <p><strong>Email:</strong> support@acme.com</p>
-            <p><strong>Phone:</strong> +1 (555) 123-4567</p>
-            <p><strong>Hours:</strong> Mon-Fri, 9am-6pm</p>
-          </div>
-        </section>
+            <img src="assets/images/new-company-logo.png" alt="Company Logo" class="mb-4 logo" />
 
-        <div class="divider"></div>
+            <h3 class="mb-3 fw-semibold text-primary">Welcome Back</h3>
+            <p class="text-medium-emphasis mb-4">Sign in to your admin dashboard</p>
 
-        <section class="faq-section">
-          <h2>FAQ</h2>
-          
-          <div class="faq-item">
-            <p class="faq-question">How do I reset my password?</p>
-            <p class="faq-answer">Use the "Forgot Password" link on the right and follow the instructions.</p>
-          </div>
-          
-          <div class="faq-item">
-            <p class="faq-question">Which roles can access the dashboard?</p>
-            <p class="faq-answer">Admins, Managers, and HR can access role-based areas after login.</p>
-          </div>
-          
-          <div class="faq-item">
-            <p class="faq-question">Is multi-factor authentication supported?</p>
-            <p class="faq-answer">Yes, you can enable it in your profile after signing in.</p>
-          </div>
-        </section>
-      </div>
+            <form cForm>
+              <c-input-group class="mb-3">
+                <span cInputGroupText>
+                  <svg cIcon name="cilUser"></svg>
+                </span>
+                <input autoComplete="username" cFormControl placeholder="Username" type="text" />
+              </c-input-group>
 
-      <!-- Right Section - Login Form -->
-      <div class="login-section">
-        <h2>Login</h2>
-        
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
-          <div class="form-group">
-            <label for="username">Username</label>
-            <input
-              type="text"
-              id="username"
-              formControlName="username"
-              placeholder="Enter your username"
-              class="form-control"
-            />
-          </div>
+              <c-input-group class="mb-4">
+                <span cInputGroupText>
+                  <svg cIcon name="cilLockLocked"></svg>
+                </span>
+                <input autoComplete="current-password" cFormControl placeholder="Password" type="password" />
+              </c-input-group>
 
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              formControlName="password"
-              placeholder="Enter your password"
-              class="form-control"
-            />
-          </div>
+              <div class="d-grid mb-3">
+                <button cButton color="primary" class="px-4 py-2" routerLink="post-login/">
+                  Login
+                </button>
+              </div>
 
-          <div class="form-actions">
-            <a href="#" class="forgot-password">Forgot Password</a>
-            <button type="submit" class="login-btn" [disabled]="!loginForm.valid">
-              Sign In
-            </button>
-          </div>
-        </form>
+              <div class="d-flex justify-content-center">
+                <a href="#" class="text-decoration-none small">Forgot password?</a>
+                <!-- <a routerLink="/register" class="text-decoration-none small text-primary fw-semibold">
+                  Create Account
+                </a> -->
+              </div>
+            </form>
+            <small class="text-muted d-block mt-3">Version {{version}}</small>
 
-        <p class="login-note">
-          After login you will be redirected to your dashboard.
-        </p>
-      </div>
-    </div>
-  </div>
+          </c-card-body>
+        </c-card>
+      </c-col>
+    </c-row>
+  </c-container>
 </div>

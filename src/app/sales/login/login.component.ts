@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { environment } from 'src/environment/environment';
 
 @Component({
   selector: 'app-login',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
+
+  version = environment.version
 
 }

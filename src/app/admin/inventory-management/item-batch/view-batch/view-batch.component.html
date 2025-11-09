@@ -1,0 +1,48 @@
+<c-modal id="liveDemoModal" size="lg" alignment="center" class="modal-scrollable" [visible]="visible"
+  (visibleChange)="changeModalVisibility($event)">
+  <c-modal-header>
+    <h5 cModalTitle> Add New Batch</h5>
+    <button (click)="closeModal()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <form cForm class="row g-3">
+      <h6 class="mb-3">Batch Information</h6>
+      <c-col [md]="6">
+        <label cLabel for="inputEmail4">Code</label>
+        <input cFormControl id="inputEmail4" type="email" />
+      </c-col>
+      <c-col [md]="6">
+        <label cLabel for="inputPassword4">Warehouse Location</label>
+        <input cFormControl id="inputPassword4" type="password" />
+      </c-col>
+      <c-col [md]="6">
+        <label cLabel for="datepicker">Manufacture Date</label>
+        <div class="input-group">
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker />
+          <span class="input-group-text bg-white">
+            <svg cIcon name="cilCalendar" class="text-secondary"></svg>
+          </span>
+        </div>
+      </c-col>
+      <c-col [md]="6">
+        <label cLabel for="datepicker">Expire Date</label>
+        <div class="input-group">
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker />
+          <span class="input-group-text bg-white">
+            <svg cIcon name="cilCalendar" class="text-secondary"></svg>
+          </span>
+        </div>
+      </c-col>
+      <c-col >
+        <label cLabel for="inputEmail4">Usable Days</label>
+        <input cFormControl id="inputEmail4" type="email" />
+      </c-col>
+    </form>
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="closeModal()" cButton color="secondary">
+      Close
+    </button>
+    <button cButton color="primary">Add Batch</button>
+  </c-modal-footer>
+</c-modal>

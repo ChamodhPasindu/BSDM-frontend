@@ -1,0 +1,56 @@
+.card-container .card {
+    max-width: 236px;
+}
+
+.form-container {
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0;
+
+    .side-container .dark-container {
+        justify-content: space-evenly;
+    }
+}
+
+.slide-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+
+    .slide-content {
+        padding: 10px;
+        width: 350px;
+        ;
+    }
+}
+
+.margin-0{
+    margin: 0;
+}
+
+.dual {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.detail-view {
+    max-width: 100%;
+    margin-bottom: 15px;
+}
+
+.table-wrapper {
+    max-height: 585px;
+    overflow-y: auto;
+    overflow-x: auto;
+    border-radius: 8px;
+}
+
+.dual-btn {
+    width: 100%;
+    justify-content: end;
+}

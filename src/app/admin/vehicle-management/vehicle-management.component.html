@@ -1,0 +1,147 @@
+<h6 cTextColor="secondary">OVERVIEW</h6>
+
+<c-row>
+  <c-col>
+    <c-widget-stat-f [title]="'Total'" class="mb-3" color="primary" padding value="100">
+      <ng-template cTemplateId="widgetIconTemplate">
+        <svg cIcon name="cilTruck" size="xl" width="24"></svg>
+      </ng-template>
+    </c-widget-stat-f>
+  </c-col>
+
+  <c-col>
+    <c-widget-stat-f [title]="'Active'" class="mb-3" color="success" padding value="50">
+      <ng-template cTemplateId="widgetIconTemplate">
+        <svg cIcon name="cilTruck" size="xl" width="24"></svg>
+      </ng-template>
+    </c-widget-stat-f>
+  </c-col>
+  
+  <c-col>
+    <c-widget-stat-f [title]="'Suspended'" class="mb-3" color="danger" padding value="75">
+      <ng-template cTemplateId="widgetIconTemplate">
+        <svg cIcon name="cilTruck" size="xl" width="24"></svg>
+      </ng-template>
+    </c-widget-stat-f>
+  </c-col>
+</c-row>
+
+<c-card class="mb-4">
+  <c-card-body>
+    <c-row class="justify-content-between">
+      <c-col sm="5">
+        <h4 class="card-title mb-4" id="employee-list">Vehicle List</h4>
+      </c-col>
+      <c-col xs="auto">
+        <button cButton type="button" (click)="openVehicleView()">+ Add Vehicle</button>
+      </c-col>
+    </c-row>
+    <form cRow class="align-items-end mb-4">
+      <c-col xs="auto" class="mb-2">
+        <label cLabel for="inputEmail4">Search Vehicle</label>
+        <input cFormControl id="inputEmail4" type="email" />
+      </c-col>
+
+      <c-col xs="auto" class="mb-2">
+        <label cLabel for="datepicker">From Date</label>
+        <div class="input-group">
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker />
+          <span class="input-group-text bg-white">
+            <svg cIcon name="cilCalendar" class="text-secondary"></svg>
+          </span>
+        </div>
+      </c-col>
+
+      <c-col xs="auto" class="mb-2">
+        <label cLabel for="datepicker">To Date</label>
+        <div class="input-group">
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker />
+          <span class="input-group-text bg-white">
+            <svg cIcon name="cilCalendar" class="text-secondary"></svg>
+          </span>
+        </div>
+      </c-col>
+
+      <c-col xs="auto" class="mb-2 d-flex align-items-center gap-2 flex-wrap">
+        <button cButton type="button" variant="outline" color="secondary">
+          <svg cIcon name="cilSearch" class="me-2"></svg>Search
+        </button>
+      
+        <button cButton type="button" variant="outline" color="info">
+          <svg cIcon name="cilCloudDownload" class="me-2"></svg>Export
+        </button>
+      </c-col>
+    </form>
+
+    <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
+      <thead cTableColor="light">
+        <tr>
+          <th class="text-center">
+            Vehicle ID
+          </th>
+          <th class="text-center">
+            Vehicle No
+          </th>
+          <th>Brand</th>
+          <th>Model</th>
+          <th class="text-center">Name</th>
+          <th class="text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users; index as i">
+          <td class="text-center">
+            1
+          </td>
+          <td class="text-center">
+            EMP12
+          </td>
+          <td>
+            <div>{{ user.name }}</div>
+            <div class="small text-medium-emphasis text-nowrap">
+              <span>
+                Route | Battaramulle
+              </span>
+            </div>
+          </td>
+          <td>
+            Supun Perera
+          </td>
+          <td class="text-center">
+            <div class="fw-semibold text-nowrap">LKR 12,500</div>
+          </td>
+          <td class="text-center">
+            <!-- View -->
+            <button cButton color="info" size="sm" variant="ghost" class="me-2" title="View">
+              <svg cIcon name="cilCommand"></svg>
+            </button>
+
+            <!-- Edit -->
+            <button cButton color="warning" size="sm" variant="ghost" class="me-2" title="Edit">
+              <svg cIcon name="cilPencil"></svg>
+            </button>
+
+            <!-- Delete -->
+            <button (click)="delete()" cButton color="danger" size="sm" variant="ghost" title="Delete">
+              <svg cIcon name="cilTrash"></svg>
+            </button>
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+  </c-card-body>
+
+  <c-pagination align="center" aria-label="Page navigation example">
+    <li cPageItem [disabled]="true">
+      <a cPageLink>Previous</a>
+    </li>
+    <li cPageItem><a cPageLink>1</a></li>
+    <li cPageItem><a cPageLink>2</a></li>
+    <li cPageItem><a cPageLink>3</a></li>
+    <li cPageItem><a cPageLink>Next</a></li>
+  </c-pagination>
+</c-card>
+
+
+<app-view-vehicle #vehicleModal></app-view-vehicle>

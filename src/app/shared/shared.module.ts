@@ -1,13 +1,88 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AdminSidebarComponent } from './admin-sidebar/admin-sidebar.component';
 import { AdminHeaderComponent } from './admin-header/admin-header.component';
 import { RouterModule } from '@angular/router';
-import { MatIconModule } from '@angular/material/icon';
+import { Footer } from './footer/footer';
+import {
+  BadgeComponent,
+  NavItemComponent,
+  BreadcrumbRouterComponent,
+  ButtonGroupModule,
+  GridModule,
+  DropdownModule,
+  AvatarModule,
+  ButtonModule,
+  HeaderModule,
+  SidebarModule,
+  BadgeModule,
+  BreadcrumbModule,
+  CardModule,
+  FooterModule,
+  FormModule,
+  ListGroupModule,
+  NavModule,
+  ProgressModule,
+  TabsModule,
+  UtilitiesModule,
+  NavbarTextComponent,
+  AlertComponent,
+} from '@coreui/angular';
+import { IconModule } from '@coreui/icons-angular';
+import { NgScrollbarModule } from 'ngx-scrollbar';
+import { SalesHeaderComponent } from './sales-header/sales-header.component';
+import { SalesBottomNavComponent } from './sales-bottom-nav/sales-bottom-nav.component';
+import { SalesPayNowBottomSheetComponent } from './sales-pay-now-bottom-sheet/sales-pay-now-bottom-sheet.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SalesPaymentSummaryBottomSheetComponent } from './sales-payment-summary-bottom-sheet/sales-payment-summary-bottom-sheet.component';
+import { SalesQuickMenuBottomSheetComponent } from './sales-quick-menu-bottom-sheet/sales-quick-menu-bottom-sheet.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, MatIconModule],
-  declarations: [AdminSidebarComponent, AdminHeaderComponent],
-  exports: [AdminSidebarComponent, AdminHeaderComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    AvatarModule,
+    BreadcrumbModule,
+    FooterModule,
+    DropdownModule,
+    GridModule,
+    HeaderModule,
+    SidebarModule,
+    IconModule,
+    NavModule,
+    ButtonModule,
+    FormModule,
+    UtilitiesModule,
+    ButtonGroupModule,
+    SidebarModule,
+    TabsModule,
+    ListGroupModule,
+    ProgressModule,
+    BadgeModule,
+    ListGroupModule,
+    CardModule,
+    NgScrollbarModule,
+    NavbarTextComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    AlertComponent,
+  ],
+  declarations: [
+    AdminHeaderComponent,
+    Footer,
+    SalesHeaderComponent,
+    SalesBottomNavComponent,
+    SalesPayNowBottomSheetComponent,
+    SalesPaymentSummaryBottomSheetComponent,
+    SalesQuickMenuBottomSheetComponent
+  ],
+  exports: [
+    AdminHeaderComponent,
+    Footer,
+    SalesHeaderComponent,
+    SalesBottomNavComponent,
+    SalesPayNowBottomSheetComponent,
+    SalesPaymentSummaryBottomSheetComponent,
+    SalesQuickMenuBottomSheetComponent
+  ],
 })
 export class SharedModule {}
