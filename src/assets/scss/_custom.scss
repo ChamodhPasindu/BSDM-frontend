@@ -82,3 +82,11 @@ a {
     scrollbar-width: none;
     /* Firefox */
 }
+
+.bottom-sheet-handle {
+    width: 40px;
+    height: 4px;
+    background-color: #ccc;
+    border-radius: 2px;
+    margin: 8px auto;
+}

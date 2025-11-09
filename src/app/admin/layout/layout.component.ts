@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { navItems } from 'src/utils/icons/_nav';
+import { navItems } from 'src/utils/common/_nav';
 
 @Component({
   selector: 'app-layout',

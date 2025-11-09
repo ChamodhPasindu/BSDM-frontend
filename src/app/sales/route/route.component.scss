@@ -1,12 +1,25 @@
 .route-card {
-  overflow: hidden;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  }
 
   .route-header {
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
-
+    transition: background-color 0.3s ease;
     &:hover {
       background-color: rgba(0, 123, 255, 0.05);
+    }
+  }
+
+  .customer-list {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+
+    &.expanded {
+      max-height: 600px; // enough to show a few customers
     }
   }
 
@@ -14,18 +27,12 @@
     transition: transform 0.3s ease;
   }
 
-  .customer-list {
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
-    transform: translateY(-5px);
-    transition: all 0.3s ease-in-out;
-    border-top: 1px solid #eee;
+  .route-icon svg {
+    width: 20px;
+    height: 20px;
   }
 
-  .customer-list.expanded {
-    max-height: 500px; // enough for 4–5 customers
-    opacity: 1;
-    transform: translateY(0);
+  .expanded + .transition-icon {
+    transform: rotate(180deg);
   }
 }

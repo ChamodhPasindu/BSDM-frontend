@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { NavigationEnd, Router } from '@angular/router';
 import { IconSetService } from '@coreui/icons-angular';
-import { iconSubset } from 'src/utils/icons/icon-subset';
+import { iconSubset } from 'src/utils/common/icon-subset';
 
 @Component({
   selector: 'app-root',

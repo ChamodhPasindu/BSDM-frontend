@@ -17,7 +17,7 @@ export class SalesBottomNavComponent {
   protected toggleBottomSheet() {
     this.bottomSheetService.open(SalesQuickMenuBottomSheetComponent, {
       height: 'quarter',
-      showCloseButton: true,
+      showCloseButton: false,
       backgroundColor: '#fff',
     });
   }

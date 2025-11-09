@@ -31,7 +31,7 @@ export class SelectBillComponent  {
     if(bill.status === 'Not Paid'){
       this.bottomSheetService.open(SalesPayNowBottomSheetComponent, {
         height: 'mid',
-        showCloseButton: true,
+        showCloseButton: false,
         backgroundColor: '#fff',
       });
     }else{

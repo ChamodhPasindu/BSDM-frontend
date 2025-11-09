@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxBottomSheetService } from 'ngx-bottom-sheet';
 import { SalesPayNowBottomSheetComponent } from 'src/app/shared/sales-pay-now-bottom-sheet/sales-pay-now-bottom-sheet.component';
+import { BaseBottomSheetDirective } from 'src/utils/directives/base-bottom-sheet.directive';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -9,15 +10,19 @@ import Swal from 'sweetalert2';
   templateUrl: './bill-summary.component.html',
   styleUrls: ['./bill-summary.component.scss'],
 })
-export class BillSummaryComponent implements OnInit {
+export class BillSummaryComponent
+  extends BaseBottomSheetDirective
+  implements OnInit
+{
   constructor(
-    private bottomSheetService: NgxBottomSheetService,
+    public override  bottomSheetService: NgxBottomSheetService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    super(bottomSheetService);
+  }
 
   ngOnInit() {}
-  // 🧍 Dummy Customer
   selectedCustomer = {
     name: 'Chamodh Pasindu',
     shopName: 'Visco Traders',
@@ -77,7 +82,7 @@ export class BillSummaryComponent implements OnInit {
       if (result.isConfirmed) {
         this.bottomSheetService.open(SalesPayNowBottomSheetComponent, {
           height: 'mid',
-          showCloseButton: true,
+          showCloseButton: false,
           backgroundColor: '#fff',
         });
       }

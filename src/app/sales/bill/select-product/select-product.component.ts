@@ -96,7 +96,7 @@ export class SelectProductComponent implements OnInit {
   toggleBottomSheet() {
     this.bottomSheetService.open(BillSummaryComponent, {
       height: 'top',
-      showCloseButton: true,
+      showCloseButton: false,
       backgroundColor: '#fff',
     });
   }

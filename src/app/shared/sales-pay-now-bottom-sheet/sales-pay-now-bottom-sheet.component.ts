@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { NgxBottomSheetService } from 'ngx-bottom-sheet';
 import { SalesPaymentSummaryBottomSheetComponent } from '../sales-payment-summary-bottom-sheet/sales-payment-summary-bottom-sheet.component';
+import { BaseBottomSheetDirective } from 'src/utils/directives/base-bottom-sheet.directive';
 
 @Component({
   selector: 'app-pay-now-bottom-sheet',
   templateUrl: './sales-pay-now-bottom-sheet.component.html',
   styleUrls: ['./sales-pay-now-bottom-sheet.component.scss'],
 })
-export class SalesPayNowBottomSheetComponent implements OnInit {
-  constructor(private bottomSheetService: NgxBottomSheetService) {}
-
-  ngOnInit() {}
+export class SalesPayNowBottomSheetComponent extends BaseBottomSheetDirective {
+  constructor(public override bottomSheetService: NgxBottomSheetService) {
+    super(bottomSheetService);
+  }
 
   customer = {
     name: 'Chamodh Pasindu',
@@ -56,7 +57,7 @@ export class SalesPayNowBottomSheetComponent implements OnInit {
     this.bottomSheetService.open(SalesPaymentSummaryBottomSheetComponent, {
       height: 'top',
       backgroundColor: '#fff',
-      showCloseButton:false
+      showCloseButton: false,
     });
   }
 }

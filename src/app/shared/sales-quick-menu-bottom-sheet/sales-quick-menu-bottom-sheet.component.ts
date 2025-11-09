@@ -1,18 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxBottomSheetService } from 'ngx-bottom-sheet';
-
+import { BaseBottomSheetDirective } from 'src/utils/directives/base-bottom-sheet.directive';
 @Component({
   selector: 'app-sales-quick-menu-bottom-sheet',
   templateUrl: './sales-quick-menu-bottom-sheet.component.html',
   styleUrls: ['./sales-quick-menu-bottom-sheet.component.scss'],
 })
-export class SalesQuickMenuBottomSheetComponent {
+export class SalesQuickMenuBottomSheetComponent extends BaseBottomSheetDirective {
   constructor(
-    private bottomSheetService: NgxBottomSheetService,
+    public override bottomSheetService: NgxBottomSheetService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    super(bottomSheetService);
+  }
 
   protected navigateToBill(context: string) {
     this.router.navigate(['/sales/post-login/bill'], {
