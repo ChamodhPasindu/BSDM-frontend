@@ -26,11 +26,11 @@
   .transition-icon {
     transition: transform 0.3s ease;
   }
-
-  .route-icon svg {
-    width: 20px;
-    height: 20px;
-  }
+  
+  .route-svg {
+    width: 42px;
+    height: 42px
+}
 
   .expanded + .transition-icon {
     transform: rotate(180deg);

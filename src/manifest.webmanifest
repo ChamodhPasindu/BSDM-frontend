@@ -2,7 +2,7 @@
   "name": "BSDM Application",
   "short_name": "BSDM Application",
   "theme_color": "#000000",
-  "background_color": "#fafafa",
+  "background_color": "#FFFFFF",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
