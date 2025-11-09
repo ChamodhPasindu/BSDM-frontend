@@ -81,7 +81,7 @@ export class BillSummaryComponent
     }).then((result) => {
       if (result.isConfirmed) {
         this.bottomSheetService.open(SalesPayNowBottomSheetComponent, {
-          height: 'mid',
+          height: '515px',
           showCloseButton: false,
           backgroundColor: '#fff',
         });

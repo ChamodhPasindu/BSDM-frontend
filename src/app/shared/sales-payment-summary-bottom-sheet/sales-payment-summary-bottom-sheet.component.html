@@ -1,86 +1,92 @@
-<div class="bottom-sheet-handle"></div>
+<div class="bottom-sheet-container d-flex flex-column h-100">
+  <div class="bottom-sheet-handle"></div>
 
-<div class="card border-0 p-3">
-
-  <c-alert color="success" class="d-flex flex-column align-items-center text-center">
-    <div class="d-flex align-items-center justify-content-center mb-2">
-      <svg cIcon name="cilCheckCircle" class="text-success success-icon me-2" size="xl"></svg>
-      <h5 class="fw-bold text-success mb-0">Payment Successful</h5>
-    </div>
-    <small class="text-muted">Your payment has been recorded successfully.</small>
-  </c-alert>
-  
-
-
-  <!-- Customer Info -->
-  <div class="d-flex align-items-start mb-3">
-    <c-avatar color="primary" textColor="white" class="me-3">
-      {{ customer.name.charAt(0) }}
-    </c-avatar>
-    <div class="flex-fill">
-      <div class="fw-semibold">{{ customer.name }}</div>
-      <small class="text-muted d-block">{{ customer.shopName }}</small>
-      <small class="text-muted d-block">{{ customer.address }}</small>
-      <small class="text-danger fw-semibold d-block">
-        Overdue: {{ customer.overdueAmount | currency:'LKR' }}
-      </small>
-    </div>
+  <!-- Handle + Header -->
+  <div class="bottom-sheet-header px-3">
+    <c-alert color="success" class="d-flex flex-column align-items-center text-center mt-2">
+      <div class="d-flex align-items-center justify-content-center mb-2">
+        <svg cIcon name="cilCheckCircle" class="text-success success-icon me-2" size="xl"></svg>
+        <h5 class="fw-bold text-success mb-0">Payment Successful</h5>
+      </div>
+      <small class="text-muted">Your payment has been recorded successfully.</small>
+    </c-alert>
   </div>
 
-  <!-- Bill Info -->
-  <div class="bg-light rounded-3 p-2 mb-3">
-    <div class="d-flex justify-content-between small mb-1">
-      <span class="text-muted">Bill ID</span>
-      <span class="fw-semibold">{{ bill.id }}</span>
+  <!-- Scrollable Content -->
+  <div class="bottom-sheet-content flex-fill overflow-auto p-3">
+    <!-- Customer Info -->
+    <div class="d-flex align-items-start mb-3">
+      <c-avatar color="primary" textColor="white" class="me-3">
+        {{ customer.name.charAt(0) }}
+      </c-avatar>
+      <div class="flex-fill">
+        <div class="fw-semibold">{{ customer.name }}</div>
+        <small class="text-muted d-block">{{ customer.shopName }}</small>
+        <small class="text-muted d-block">{{ customer.address }}</small>
+        <small class="text-danger fw-semibold d-block">
+          Overdue: {{ customer.overdueAmount | currency:'LKR' }}
+        </small>
+      </div>
     </div>
-    <div class="d-flex justify-content-between small mb-1">
-      <span class="text-muted">Bill Date</span>
-      <span class="fw-semibold">{{ bill.date | date:'mediumDate' }}</span>
-    </div>
-    <div class="d-flex justify-content-between small mb-1">
-      <span class="text-muted">Total Amount</span>
-      <span class="fw-semibold text-dark">{{ bill.total | currency:'LKR' }}</span>
-    </div>
-    <div class="d-flex justify-content-between small">
-      <span class="text-muted">Payment Status</span>
-      <span class="fw-semibold" [ngClass]="{
+
+    <!-- Bill Info -->
+    <div class="bg-light rounded-3 p-2 mb-3">
+      <div class="d-flex justify-content-between small mb-1">
+        <span class="text-muted">Bill ID</span>
+        <span class="fw-semibold">{{ bill.id }}</span>
+      </div>
+      <div class="d-flex justify-content-between small mb-1">
+        <span class="text-muted">Bill Date</span>
+        <span class="fw-semibold">{{ bill.date | date:'mediumDate' }}</span>
+      </div>
+      <div class="d-flex justify-content-between small mb-1">
+        <span class="text-muted">Total Amount</span>
+        <span class="fw-semibold text-dark">{{ bill.total | currency:'LKR' }}</span>
+      </div>
+      <div class="d-flex justify-content-between small">
+        <span class="text-muted">Payment Status</span>
+        <span class="fw-semibold" [ngClass]="{
           'text-success': bill.status === 'Full Payment',
           'text-warning': bill.status === 'Partial Payment'
         }">
-        {{ bill.status }}
-      </span>
-    </div>
-  </div>
-
-  <!-- Product List -->
-  <div class="mb-3">
-    <h6 class="fw-bold mb-2">Products Purchased</h6>
-    <div *ngFor="let item of bill.items" class="d-flex justify-content-between align-items-center border-bottom py-2">
-      <div>
-        <div class="fw-semibold">{{ item.name }}</div>
-        <small class="text-muted">&times; {{ item.qty }}</small>
-      </div>
-      <div class="fw-semibold">
-        {{ item.total | currency:'LKR' }}
+          {{ bill.status }}
+        </span>
       </div>
     </div>
+
+    <!-- Product List -->
+    <div class="mb-3">
+      <h6 class="fw-bold mb-2">Products Purchased</h6>
+      <div *ngFor="let item of bill.items" class="d-flex justify-content-between align-items-center border-bottom py-2">
+        <div>
+          <div class="fw-semibold">{{ item.name }}</div>
+          <small class="text-muted">Qty: {{ item.qty }} &times; LKR100</small>
+        </div>
+        <div class="fw-semibold">
+          {{ item.total | currency:'LKR' }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Payment Details -->
+    <div class="bg-light rounded-3 p-2 mb-3">
+      <h6 class="fw-bold mb-2">Payment Details</h6>
+      <div *ngFor="let payment of bill.payments; let i = index" class="d-flex justify-content-between small mb-1">
+        <span class="text-muted">#{{ i + 1 }} | {{ payment.date | date:'shortDate' }}</span>
+        <span class="fw-semibold text-dark">{{ payment.amount | currency:'LKR' }}</span>
+      </div>
+      <div class="d-flex justify-content-between small mt-2 border-top pt-2">
+        <span class="text-muted">Total Paid</span>
+        <span class="fw-semibold">{{ totalPaid | currency:'LKR' }}</span>
+      </div>
+    </div>
   </div>
 
-  <!-- Payment Details -->
-  <div class="bg-light rounded-3 p-2 mb-3">
-    <h6 class="fw-bold mb-2">Payment Details</h6>
-    <div *ngFor="let payment of bill.payments; let i = index" class="d-flex justify-content-between small mb-1">
-      <span class="text-muted">#{{ i + 1 }} | {{ payment.date | date:'shortDate' }}</span>
-      <span class="fw-semibold text-dark">{{ payment.amount | currency:'LKR' }}</span>
-    </div>
-    <div class="d-flex justify-content-between small mt-2 border-top pt-2">
-      <span class="text-muted">Total Paid</span>
-      <span class="fw-semibold">{{ totalPaid | currency:'LKR' }}</span>
-    </div>
+  <!-- Footer / Action Button -->
+  <div class="bottom-sheet-footer p-3 border-top">
+    <button class="btn btn-primary w-100 py-2 fw-semibold rounded-3" (click)="printStatus()">
+      Print Status
+    </button>
   </div>
 
-  <!-- Print Button -->
-  <button class="btn btn-primary w-100 py-2 fw-semibold rounded-3" (click)="printStatus()">
-    Print Status
-  </button>
 </div>

@@ -90,3 +90,23 @@ a {
     border-radius: 2px;
     margin: 8px auto;
 }
+
+
+.bottom-sheet-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.bottom-sheet-content {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.bottom-sheet-header {
+    flex-shrink: 0;
+}
+
+.bottom-sheet-footer {
+    flex-shrink: 0;
+}
