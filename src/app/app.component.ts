@@ -10,12 +10,12 @@ import { iconSubset } from './utility/common/icon-subset';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'Visco BSDM Solution';
+  protected title = 'Visco BSDM Solution';
 
   constructor(
-    private router: Router,
-    private titleService: Title,
-    private iconSetService: IconSetService
+    private readonly router: Router,
+    private readonly titleService: Title,
+    private readonly iconSetService: IconSetService
   ) {
     titleService.setTitle(this.title);
     // iconSet singleton

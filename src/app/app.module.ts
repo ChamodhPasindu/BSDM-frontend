@@ -7,7 +7,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { ButtonModule, CardModule } from '@coreui/angular';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
@@ -21,7 +20,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     IconModule,
     ButtonModule,
     CardModule,
-    BsDatepickerModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable
