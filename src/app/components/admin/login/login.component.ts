@@ -10,30 +10,40 @@ import { environment } from 'src/environment/environment';
 export class LoginComponent implements OnInit {
   protected readonly version = environment.version;
 
-  protected loginForm: FormGroup;
+  loginForm!: FormGroup;
+  submitted = false;
 
   constructor(private fb: FormBuilder) {
+    this.createForm();
+  }
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
+  }
+
+  createForm() {
     this.loginForm = this.fb.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required]],
     });
   }
 
-  ngOnInit(): void {}
-
-  protected onSubmit(): void {
-    if (this.loginForm.valid) {
-      const formData = this.loginForm.value;
-      console.log('Login attempt:', formData);
-      // Add your authentication logic here
-    }
+  // Validate the form and mark controls
+  onValidate(): boolean {
+    this.submitted = true;
+    this.loginForm.markAllAsTouched();
+    return this.loginForm.valid;
   }
 
-  get username() {
-    return this.loginForm.get('username');
+  onSubmit() {
+    if (!this.onValidate()) return;
+
+    // Proceed if valid
+    console.log('Form submitted:', this.loginForm.value);
+    alert('Login Successful!');
   }
 
-  get password() {
-    return this.loginForm.get('password');
+  onReset() {
+    this.submitted = false;
+    this.loginForm.reset();
   }
 }

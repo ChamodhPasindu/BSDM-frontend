@@ -33,6 +33,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SalesPaymentSummaryBottomSheetComponent } from './sales-payment-summary-bottom-sheet/sales-payment-summary-bottom-sheet.component';
 import { SalesQuickMenuBottomSheetComponent } from './sales-quick-menu-bottom-sheet/sales-quick-menu-bottom-sheet.component';
 import { SalesEmptyDataComponent } from './sales-empty-data/sales-empty-data.component';
+import { SharedDirectiveModule } from './shared-directive.module';
 
 @NgModule({
   imports: [
@@ -61,6 +62,8 @@ import { SalesEmptyDataComponent } from './sales-empty-data/sales-empty-data.com
     FormsModule,
     ReactiveFormsModule,
     AlertComponent,
+    SharedDirectiveModule
+    
   ],
   declarations: [
     AdminHeaderComponent,
@@ -80,7 +83,8 @@ import { SalesEmptyDataComponent } from './sales-empty-data/sales-empty-data.com
     SalesPayNowBottomSheetComponent,
     SalesPaymentSummaryBottomSheetComponent,
     SalesQuickMenuBottomSheetComponent,
-    SalesEmptyDataComponent
+    SalesEmptyDataComponent,
+    SharedDirectiveModule
   ],
 })
 export class SharedModule {}
