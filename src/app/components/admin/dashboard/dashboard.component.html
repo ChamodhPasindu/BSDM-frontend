@@ -121,6 +121,11 @@
                 </tr>
               </thead>
               <tbody>
+                <tr *ngIf="!users || users.length === 0">
+                  <td colspan="6" class="text-center text-muted py-3">
+                    No data available
+                  </td>
+                </tr>
                 <tr *ngFor="let user of users; index as i">
                   <td class="text-center">
                     <c-avatar size="md" src="./assets/images/customer-logo.png"></c-avatar>
@@ -262,6 +267,11 @@
         </tr>
       </thead>
       <tbody>
+        <tr *ngIf="!users || users.length === 0">
+          <td colspan="6" class="text-center text-muted py-3">
+            No data available
+          </td>
+        </tr>
         <tr *ngFor="let user of users; index as i">
           <td class="text-center">
             #123

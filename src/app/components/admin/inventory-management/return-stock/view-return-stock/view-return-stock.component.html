@@ -127,6 +127,11 @@
           </tr>
         </thead>
         <tbody>
+          <tr *ngIf="!returnList || returnList.length === 0">
+            <td colspan="6" class="text-center text-muted py-3">
+              No data available
+            </td>
+          </tr>
           <tr *ngFor="let item of returnList; let i = index">
             <td class="text-center">{{ item.name }}</td>
             <td>{{ item.returnQty }}</td>

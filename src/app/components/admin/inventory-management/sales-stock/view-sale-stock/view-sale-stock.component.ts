@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
 @Component({
   selector: 'app-view-sale-stock',
@@ -20,6 +21,14 @@ export class ViewSaleStockComponent implements OnInit {
   routes = [
     { id: 1, name: 'Colombo North' },
     { id: 2, name: 'Galle Route' },
+    { id: 3, name: 'Galle A' },
+    { id: 4, name: 'Galle V' },
+    { id: 5, name: 'Colombo North' },
+    { id: 6, name: 'Piliyandala Main' },
+    { id: 7, name: 'Battaramulla Cross' },
+    { id: 8, name: 'Maradana' },
+    { id: 9, name: 'Hatton' },
+
   ];
 
   selectedDriver: any;
@@ -36,9 +45,30 @@ export class ViewSaleStockComponent implements OnInit {
   selectedQuantity: any;
   cartItems: any[] = [];
 
+
+  selectedItems:any[] = [];
+  dropdownSettings = {};
+
+  ngOnInit() {
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: 'name',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      allowSearchFilter: true
+    };
+  }
+
+  onItemSelect(item: any) {
+    console.log(item);
+  }
+  onSelectAll(items: any) {
+    console.log(items);
+  }
+
   constructor() {}
 
-  ngOnInit() {}
 
   @Input() saleStock: any;
   public visible = false;

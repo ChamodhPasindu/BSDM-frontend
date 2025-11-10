@@ -32,6 +32,7 @@ import { SalesPayNowBottomSheetComponent } from './sales-pay-now-bottom-sheet/sa
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SalesPaymentSummaryBottomSheetComponent } from './sales-payment-summary-bottom-sheet/sales-payment-summary-bottom-sheet.component';
 import { SalesQuickMenuBottomSheetComponent } from './sales-quick-menu-bottom-sheet/sales-quick-menu-bottom-sheet.component';
+import { SalesEmptyDataComponent } from './sales-empty-data/sales-empty-data.component';
 
 @NgModule({
   imports: [
@@ -69,6 +70,7 @@ import { SalesQuickMenuBottomSheetComponent } from './sales-quick-menu-bottom-sh
     SalesPayNowBottomSheetComponent,
     SalesPaymentSummaryBottomSheetComponent,
     SalesQuickMenuBottomSheetComponent,
+    SalesEmptyDataComponent
   ],
   exports: [
     AdminHeaderComponent,
@@ -78,6 +80,7 @@ import { SalesQuickMenuBottomSheetComponent } from './sales-quick-menu-bottom-sh
     SalesPayNowBottomSheetComponent,
     SalesPaymentSummaryBottomSheetComponent,
     SalesQuickMenuBottomSheetComponent,
+    SalesEmptyDataComponent
   ],
 })
 export class SharedModule {}

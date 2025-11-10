@@ -19,38 +19,31 @@
     </c-row>
 
     <c-row class="mb-3">
-      <c-col [md]="4">
+      <c-col>
         <label cLabel for="driverSelect">Select Driver</label>
-        <select id="driverSelect" class="form-select" [(ngModel)]="selectedDriver" (change)="onDriverChange()">
-          <option value="" disabled selected>Select Driver</option>
-          <option *ngFor="let driver of drivers" [value]="driver.id">
-            {{ driver.name }}
-          </option>
-        </select>
+        <ng-select name="driver" [(ngModel)]="selectedDriver" [items]="drivers" bindLabel="name" [searchable]="true"
+          [clearable]="true" placeholder="Select a driver">
+        </ng-select>
       </c-col>
 
-      <c-col [md]="4">
+      <c-col>
         <label cLabel for="vehicleSelect">Select Vehicle</label>
-        <select id="vehicleSelect" class="form-select" [(ngModel)]="selectedVehicle" (change)="onVehicleChange()">
-          <option value="" disabled selected>Select Vehicle</option>
-          <option *ngFor="let vehicle of vehicles" [value]="vehicle.id">
-            {{ vehicle.number }}
-          </option>
-        </select>
-      </c-col>
-
-      <c-col [md]="4">
-        <label cLabel for="routeSelect">Select Route</label>
-        <select id="routeSelect" class="form-select" [(ngModel)]="selectedRoute" (change)="onRouteChange()">
-          <option value="" disabled selected>Select Route</option>
-          <option *ngFor="let route of routes" [value]="route.id">
-            {{ route.name }}
-          </option>
-        </select>
+        <ng-select name="vehicle" [(ngModel)]="selectedVehicle" [items]="vehicles" bindLabel="number"
+          [searchable]="true" [clearable]="true" placeholder="Select a vehicle">
+        </ng-select>
       </c-col>
     </c-row>
 
-    <div class="border rounded p-3 bg-light mb-3" *ngIf="selectedDriver || selectedVehicle || selectedRoute">
+    <c-row>
+      <c-col [md]="12">
+        <label cLabel for="routeSelect">Select Route(s)</label>
+        <ng-multiselect-dropdown placeholder="Select Route(s)" [settings]="dropdownSettings" [data]="routes"
+          [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+        </ng-multiselect-dropdown>
+      </c-col>
+    </c-row>
+
+    <div class="border rounded p-3 bg-light mb-3 mt-3" *ngIf="selectedDriver || selectedVehicle || selectedRoute">
       <h6 class="fw-bold text-dark mb-2">Assignment Details</h6>
       <p *ngIf="selectedDriver"><strong>Driver:</strong> {{ getDriverName(selectedDriver) }}</p>
       <p *ngIf="selectedVehicle"><strong>Vehicle:</strong> {{ getVehicleName(selectedVehicle) }}</p>
@@ -149,6 +142,11 @@
           </tr>
         </thead>
         <tbody>
+          <tr *ngIf="!cartItems || cartItems.length === 0">
+            <td colspan="6" class="text-center text-muted py-3">
+              No data available
+            </td>
+          </tr>
           <tr *ngFor="let item of cartItems; let i = index">
             <td class="text-center">{{ item.name }}</td>
             <td>{{ item.quantity }}</td>

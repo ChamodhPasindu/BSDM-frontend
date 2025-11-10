@@ -6,8 +6,6 @@
   <img [src]="greetingImage" alt="Morning" width="80" class="rounded-3" />
 </div>
 
-
-
 <div class="row mb-2">
   <div class="col">
     <c-card color="primary" textColor="white">
@@ -186,6 +184,8 @@
   </c-card-body>
 </c-card>
 
+<app-sales-empty-data name="Routes"></app-sales-empty-data>
+
 <h6 class="mb-2 fw-semibold">Latest Payments</h6>
 <div class="d-flex flex-column gap-2 mb-3">
   <c-card (click)="openLatestPayment()" class="shadow-sm">
@@ -215,6 +215,8 @@
   </c-card>
 </div>
 
+<app-sales-empty-data name="Payment Records"></app-sales-empty-data>
+
 <h6 class="mb-2 fw-semibold">Remaining Products</h6>
 <div class="d-flex gap-2 overflow-auto mb-3 pb-1 overflow-x-hide">
   <c-card *ngFor="let product of products" class="flex-shrink-0 shadow-sm sliding-card">
@@ -227,7 +229,7 @@
     </c-card-body>
   </c-card>
 </div>
-
+<app-sales-empty-data name="Products"></app-sales-empty-data>
 
 <h6 class="mb-3 fw-semibold">Performance Metrics</h6>
 

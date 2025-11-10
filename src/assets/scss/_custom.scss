@@ -110,3 +110,86 @@ a {
 .bottom-sheet-footer {
     flex-shrink: 0;
 }
+
+/* === Global style override for ng-multiselect-dropdown === */
+
+/* Wrapper */
+.multiselect-dropdown {
+    width: 100% !important;
+    font-family: inherit !important;
+    font-size: 0.95rem !important;
+}
+
+/* Dropdown button */
+//   .multiselect-dropdown .dropdown-btn {
+//     background-color: #fff !important;
+//     border: 1px solid #ced4da !important;
+//     border-radius: 0.375rem !important;
+//     padding: 0.45rem 0.75rem !important;
+//     display: flex !important;
+//     align-items: center !important;
+//     justify-content: space-between !important;
+//     transition: all 0.2s ease !important;
+//     min-height: 38px !important;
+//     color: #212529 !important;
+//   }
+
+.multiselect-dropdown .dropdown-btn:focus {
+    border-color: #998fed !important;
+    box-shadow: 0 0 0 0.25rem rgba(50, 31, 219, 0.25) !important;
+}
+
+/* Selected items (tags) */
+.multiselect-dropdown .selected-item {
+    background-color: #e7f1ff !important;
+    color: #0d6efd !important;
+    border-radius: 0.25rem !important;
+    border: none !important;
+    padding: 0.2rem 0.5rem !important;
+    margin-right: 0.3rem !important;
+    font-weight: 500 !important;
+}
+
+/* Dropdown list */
+.multiselect-dropdown .dropdown-list {
+    border: 1px solid #ced4da !important;
+    border-radius: 0.375rem !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05) !important;
+    margin-top: 4px !important;
+    background: #fff !important;
+    z-index: 10000 !important;
+}
+
+/* Checkbox customization */
+.multiselect-dropdown .multiselect-item-checkbox input[type='checkbox']+div:before {
+    border-radius: 3px !important;
+    border-color: #adb5bd !important;
+}
+
+.multiselect-dropdown .multiselect-item-checkbox input[type='checkbox']:checked+div:before {
+    background-color: #0d6efd !important;
+    border-color: #0d6efd !important;
+}
+
+.multiselect-dropdown .multiselect-item-checkbox input[type='checkbox']:checked+div:after {
+    border-color: #fff !important;
+}
+
+/* Placeholder text */
+.multiselect-dropdown .dropdown-btn span {
+    color: #6c757d !important;
+    font-weight: 400 !important;
+}
+
+/* Disabled look */
+.multiselect-dropdown .dropdown-btn.disabled {
+    background-color: #e9ecef !important;
+    cursor: not-allowed !important;
+    opacity: 0.7 !important;
+}
+
+.multiselect-dropdown li.no-filtered-data h5 {
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    color: #CCCCCC  !important;
+}

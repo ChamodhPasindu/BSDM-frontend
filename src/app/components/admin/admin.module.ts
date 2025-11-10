@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { AdminRoutingModule } from './admin-routing.module';
 import { LoginComponent } from './login/login.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SharedModule } from '../shared/shared.module';
 import { EmployeeManagementComponent } from './employee-management/employee-management.component';
@@ -41,14 +41,13 @@ import {
   ModalComponent,
   ModalHeaderComponent,
   ModalTitleDirective,
-  ModalFooterComponent
+  ModalFooterComponent,
 } from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { ChartjsModule } from '@coreui/angular-chartjs';
 import { IconDirective } from '@coreui/icons-angular';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import { FormsModule } from '@angular/forms';
 import { EmployeeViewComponent } from './employee-management/employee-view/employee-view.component';
 import { ViewVehicleComponent } from './vehicle-management/view-vehicle/view-vehicle.component';
 import { CustomerViewComponent } from './customer-routes/customer-view/customer-view.component';
@@ -56,6 +55,7 @@ import { RouteViewComponent } from './customer-routes/route-view/route-view.comp
 import { ViewAuditComponent } from './audit-trail/view-audit/view-audit.component';
 import { AlertViewComponent } from './alert-management/alert-view/alert-view.component';
 import { ViewPaymentComponent } from './payments/view-payment/view-payment.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -75,11 +75,12 @@ import { ViewPaymentComponent } from './payments/view-payment/view-payment.compo
     RouteViewComponent,
     ViewAuditComponent,
     AlertViewComponent,
-    ViewPaymentComponent
+    ViewPaymentComponent,
   ],
   imports: [
     CommonModule,
     AdminRoutingModule,
+    FormsModule,
     ReactiveFormsModule,
     SharedModule,
     NgChartsModule,
@@ -106,7 +107,6 @@ import { ViewPaymentComponent } from './payments/view-payment/view-payment.compo
     PaginationComponent,
     PageItemDirective,
     PageLinkDirective,
-    FormsModule,
     ButtonDirective,
     ModalComponent,
     ModalHeaderComponent,
@@ -115,6 +115,7 @@ import { ViewPaymentComponent } from './payments/view-payment/view-payment.compo
     ModalBodyComponent,
     ModalFooterComponent,
     BsDatepickerModule.forRoot(),
+    NgSelectModule,
   ],
 })
 export class AdminModule {}

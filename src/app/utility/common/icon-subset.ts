@@ -129,7 +129,9 @@ import {
   cilChevronBottom,
   cilChevronTop,
   cilArrowLeft,
-  cilBurn
+  cilBurn,
+  cilPhone,
+  cilGlobeAlt,
 } from '@coreui/icons';
 
 export const iconSubset = {
@@ -263,7 +265,9 @@ export const iconSubset = {
   cilChevronBottom,
   cilChevronTop,
   cilArrowLeft,
-  cilBurn
+  cilBurn,
+  cilPhone,
+  cilGlobeAlt
 };
 
 export enum IconSubset {
@@ -397,5 +401,7 @@ export enum IconSubset {
   cilChevronBottom = 'cilChevronBottom',
   cilChevronTop = 'cilChevronTop',
   cilArrowLeft = 'cilArrowLeft',
-  cilBurn = 'cilBurn'
+  cilBurn = 'cilBurn',
+  cilPhone = 'cilPhone',
+  cilGlobeAlt = 'cilGlobeAlt'
 }

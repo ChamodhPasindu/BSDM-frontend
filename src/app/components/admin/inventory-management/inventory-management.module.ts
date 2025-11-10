@@ -47,6 +47,7 @@ import { ViewSaleStockComponent } from './sales-stock/view-sale-stock/view-sale-
 import { ViewReturnStockComponent } from './return-stock/view-return-stock/view-return-stock.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SharedModule } from '../../shared/shared.module';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [
@@ -100,6 +101,7 @@ import { SharedModule } from '../../shared/shared.module';
     AccordionModule,
     NgSelectModule,
     BsDatepickerModule.forRoot(),
+    NgMultiSelectDropDownModule.forRoot()
   ],
 })
 export class InventoryManagementModule {}

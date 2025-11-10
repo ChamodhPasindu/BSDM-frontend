@@ -1,60 +1,78 @@
 <c-modal id="liveDemoModal" size="lg" alignment="center" class="modal-scrollable" [visible]="visible"
   (visibleChange)="changeModalVisibility($event)">
   <c-modal-header>
-    <h5 cModalTitle> Add New Customer</h5>
+    <h5 cModalTitle>Add New Customers</h5>
     <button (click)="closeModal()" cButtonClose></button>
   </c-modal-header>
+
   <c-modal-body>
-    <form cForm class="row g-3">
-      <h6 class="mb-3">Personal Information</h6>
-      <c-col [md]="6">
-        <label cLabel for="inputEmail4">Email</label>
-        <input cFormControl id="inputEmail4" type="email" />
-      </c-col>
-      <c-col [md]="6">
-        <label cLabel for="inputPassword4">Password</label>
-        <input cFormControl id="inputPassword4" type="password" />
-      </c-col>
-      <c-col [xs]="12">
-        <label cLabel for="inputAddress">Address</label>
-        <input cFormControl id="inputAddress" placeholder="1234 Main St" />
-      </c-col>
-      <c-col [xs]="12">
-        <label cLabel for="inputAddress2">Address 2</label>
-        <input cFormControl id="inputAddress2" placeholder="Apartment, studio, or floor" />
-      </c-col>
-      <c-col [md]="6">
-        <label cLabel for="inputCity">City</label>
-        <input cFormControl id="inputCity" />
-      </c-col>
-      <hr />
-      <h6 class="mb-3 mt-3">Employee Details</h6>
-      <c-col [md]="6">
-        <label cLabel for="inputEmail4">Email</label>
-        <input cFormControl id="inputEmail4" type="email" />
-      </c-col>
-      <c-col [md]="6">
-        <label cLabel for="inputPassword4">Password</label>
-        <input cFormControl id="inputPassword4" type="password" />
-      </c-col>
-      <c-col [xs]="12">
-        <label cLabel for="inputAddress">Address</label>
-        <input cFormControl id="inputAddress" placeholder="1234 Main St" />
-      </c-col>
-      <c-col [xs]="12">
-        <label cLabel for="inputAddress2">Address 2</label>
-        <input cFormControl id="inputAddress2" placeholder="Apartment, studio, or floor" />
-      </c-col>
-      <c-col [md]="6">
-        <label cLabel for="inputCity">City</label>
-        <input cFormControl id="inputCity" />
-      </c-col>
-    </form>
+    <!-- Route Selection -->
+    <h6 class="fw-semibold mb-2">Select Route</h6>
+    <c-col [md]="12">
+      <label cLabel for="routeSelect">Route</label>
+      <ng-select name="route" [(ngModel)]="selectedRoute" [items]="routes" bindLabel="name" [searchable]="true"
+        [clearable]="true" placeholder="Select a route">
+      </ng-select>
+    </c-col>
+
+    <!-- Route Details -->
+    <div *ngIf="selectedRoute" class="bg-light rounded-3 p-3 mb-3 mt-3">
+      <div><strong>Route Name:</strong> {{ selectedRoute.name }}</div>
+      <div><strong>Description:</strong> {{ selectedRoute.description }}</div>
+    </div>
+
+    <hr  />
+    <h6 class="fw-semibold mb-4">Select Customer(s)</h6>
+
+    <!-- Dynamic Customer Forms -->
+    <div *ngFor="let customer of customers; let i = index" class="border rounded-3 p-3 mb-3 bg-light">
+
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <h6 class="fw-semibold mb-0">Customer {{ i + 1 }}</h6>
+        <button *ngIf="customers.length > 1" cButton color="danger" size="sm" variant="ghost"
+          (click)="removeCustomer(i)">
+          <svg cIcon name="cilTrash" size="sm"></svg>
+        </button>
+      </div>
+
+      <div class="row g-3">
+        <c-col [md]="6">
+          <label cLabel>Customer Name</label>
+          <input cFormControl type="text" [(ngModel)]="customer.name" name="name{{ i }}"
+            placeholder="Enter customer name" />
+        </c-col>
+
+        <c-col [md]="6">
+          <label cLabel>Phone</label>
+          <input cFormControl type="text" [(ngModel)]="customer.phone" name="phone{{ i }}"
+            placeholder="Enter phone number" />
+        </c-col>
+
+        <c-col [md]="6">
+          <label cLabel>Shop Name</label>
+          <input cFormControl type="text" [(ngModel)]="customer.shopName" name="shop{{ i }}"
+            placeholder="Enter shop name" />
+        </c-col>
+
+        <c-col [md]="6">
+          <label cLabel>Address</label>
+          <input cFormControl type="text" [(ngModel)]="customer.address" name="address{{ i }}"
+            placeholder="Enter address" />
+        </c-col>
+      </div>
+    </div>
+
+    <!-- Add Another Button -->
+    <div class="text-center mt-3">
+      <button cButton color="warning" variant="outline" class="rounded-3 fw-semibold px-3" (click)="addCustomerForm()"
+        type="button">
+        <svg cIcon name="cilPlus" class="me-2"></svg> Add Another Customer
+      </button>
+    </div>
   </c-modal-body>
+
   <c-modal-footer>
-    <button (click)="closeModal()" cButton color="secondary">
-      Close
-    </button>
-    <button cButton color="primary">Add Customer</button>
+    <button (click)="closeModal()" cButton color="secondary">Close</button>
+    <button cButton color="primary" (click)="saveCustomers()">Add Customers</button>
   </c-modal-footer>
 </c-modal>
