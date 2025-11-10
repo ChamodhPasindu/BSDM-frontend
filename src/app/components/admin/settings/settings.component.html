@@ -1,0 +1,69 @@
+<c-card class="mb-4">
+  <c-card-body>
+    <c-row class="justify-content-between">
+      <c-col sm="5">
+        <h4 class="card-title mb-4" id="employee-list">Common Configuration</h4>
+      </c-col>
+    </c-row>
+    <form cRow class="align-items-end mb-4">
+      <c-col xs="auto" class="mb-2">
+        <label cLabel for="inputEmail4">Key</label>
+        <input cFormControl id="inputEmail4" type="email" />
+      </c-col>
+      <c-col  class="mb-2">
+        <label cLabel for="inputEmail4">Description</label>
+        <input cFormControl id="inputEmail4" type="email" />
+      </c-col>
+
+      <c-col xs="auto" class="mb-2 d-flex align-items-center gap-2 flex-wrap">
+        <button cButton type="button" variant="outline" color="secondary">
+          <svg cIcon name="cilPencil" class="me-2"></svg>Edit
+        </button>
+      </c-col>
+    </form>
+
+    <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
+      <thead cTableColor="light">
+        <tr>
+          <th class="text-center">
+            Key
+          </th>
+          <th class="text-center">Description</th>
+          <th class="text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="!users || users.length === 0">
+          <td colspan="6" class="text-center text-muted py-3">
+            No data available
+          </td>
+        </tr>
+        <tr *ngFor="let user of users; index as i">
+          <td class="text-center">
+            EMP12
+          </td>
+
+          <td class="text-center">
+            <div class="fw-semibold text-nowrap">LKR 12,500</div>
+          </td>
+          <td class="text-center">
+            <!-- Edit -->
+            <button cButton color="warning" size="sm" variant="ghost" class="me-2" title="Edit">
+              <svg cIcon name="cilPencil"></svg>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </c-card-body>
+
+  <c-pagination align="center" aria-label="Page navigation example">
+    <li cPageItem [disabled]="true">
+      <a cPageLink>Previous</a>
+    </li>
+    <li cPageItem><a cPageLink>1</a></li>
+    <li cPageItem><a cPageLink>2</a></li>
+    <li cPageItem><a cPageLink>3</a></li>
+    <li cPageItem><a cPageLink>Next</a></li>
+  </c-pagination>
+</c-card>

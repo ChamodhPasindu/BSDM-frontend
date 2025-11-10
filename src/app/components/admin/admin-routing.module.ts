@@ -10,6 +10,7 @@ import { VehicleManagementComponent } from './vehicle-management/vehicle-managem
 import { AuditTrailComponent } from './audit-trail/audit-trail.component';
 import { PaymentsComponent } from './payments/payments.component';
 import { SalesDeliveryTrackingComponent } from './sales-delivery-tracking/sales-delivery-tracking.component';
+import { SettingsComponent } from './settings/settings.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -83,6 +84,13 @@ const routes: Routes = [
           import('./inventory-management/inventory-management.module').then(
             (m) => m.InventoryManagementModule
           ),
+      },
+      {
+        path: 'settings',
+        component: SettingsComponent,
+        data: {
+          title: 'Settings',
+        },
       },
     ],
   },

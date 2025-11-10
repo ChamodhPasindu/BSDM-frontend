@@ -56,6 +56,7 @@ import { ViewAuditComponent } from './audit-trail/view-audit/view-audit.componen
 import { AlertViewComponent } from './alert-management/alert-view/alert-view.component';
 import { ViewPaymentComponent } from './payments/view-payment/view-payment.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { SettingsComponent } from './settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +77,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ViewAuditComponent,
     AlertViewComponent,
     ViewPaymentComponent,
+    SettingsComponent
   ],
   imports: [
     CommonModule,
