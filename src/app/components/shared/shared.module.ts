@@ -4,9 +4,6 @@ import { AdminHeaderComponent } from './admin-header/admin-header.component';
 import { RouterModule } from '@angular/router';
 import { Footer } from './footer/footer';
 import {
-  BadgeComponent,
-  NavItemComponent,
-  BreadcrumbRouterComponent,
   ButtonGroupModule,
   GridModule,
   DropdownModule,
@@ -46,7 +43,6 @@ import { SalesQuickMenuBottomSheetComponent } from './sales-quick-menu-bottom-sh
     DropdownModule,
     GridModule,
     HeaderModule,
-    SidebarModule,
     IconModule,
     NavModule,
     ButtonModule,
@@ -55,7 +51,6 @@ import { SalesQuickMenuBottomSheetComponent } from './sales-quick-menu-bottom-sh
     ButtonGroupModule,
     SidebarModule,
     TabsModule,
-    ListGroupModule,
     ProgressModule,
     BadgeModule,
     ListGroupModule,
@@ -73,7 +68,7 @@ import { SalesQuickMenuBottomSheetComponent } from './sales-quick-menu-bottom-sh
     SalesBottomNavComponent,
     SalesPayNowBottomSheetComponent,
     SalesPaymentSummaryBottomSheetComponent,
-    SalesQuickMenuBottomSheetComponent
+    SalesQuickMenuBottomSheetComponent,
   ],
   exports: [
     AdminHeaderComponent,
@@ -82,7 +77,7 @@ import { SalesQuickMenuBottomSheetComponent } from './sales-quick-menu-bottom-sh
     SalesBottomNavComponent,
     SalesPayNowBottomSheetComponent,
     SalesPaymentSummaryBottomSheetComponent,
-    SalesQuickMenuBottomSheetComponent
+    SalesQuickMenuBottomSheetComponent,
   ],
 })
 export class SharedModule {}

@@ -11,10 +11,34 @@ const routes: Routes = [
     path: '',
     component: BillComponent,
     children: [
-      { path: 'select-route', component: SelectRouteComponent },
-      { path: 'existing-customer', component: SelectExistingCustomerComponent },
-      { path: 'new-customer', component: SelectNewCustomerComponent },
-      { path: 'select-product', component: SelectProductComponent },
+      {
+        path: 'select-route',
+        component: SelectRouteComponent,
+        data: {
+          title: 'Route',
+        },
+      },
+      {
+        path: 'existing-customer',
+        component: SelectExistingCustomerComponent,
+        data: {
+          title: 'Existing Customer',
+        },
+      },
+      {
+        path: 'new-customer',
+        component: SelectNewCustomerComponent,
+        data: {
+          title: 'New Customer',
+        },
+      },
+      {
+        path: 'select-product',
+        component: SelectProductComponent,
+        data: {
+          title: 'Products',
+        },
+      },
       { path: '', redirectTo: 'select-route', pathMatch: 'full' },
     ],
   },

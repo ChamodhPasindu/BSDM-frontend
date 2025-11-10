@@ -15,12 +15,9 @@ import {
   PageLinkDirective,
   ButtonCloseDirective,
   ButtonDirective,
-  SidebarModule,
   AlertComponent,
   WidgetStatFComponent,
-  UtilitiesModule,
   DropdownModule,
-  ProgressModule,
   TemplateIdDirective,
   ButtonGroupModule,
   ModalTitleDirective,
@@ -43,7 +40,6 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgChartsModule } from 'ng2-charts';
 import { IconDirective, IconModule } from '@coreui/icons-angular';
-import { NgScrollbarModule } from 'ngx-scrollbar';
 import { ChartjsModule } from '@coreui/angular-chartjs';
 import { ViewProductComponent } from './product/view-product/view-product.component';
 import { ViewStockComponent } from './stock/view-stock/view-stock.component';
@@ -77,13 +73,8 @@ import { SharedModule } from '../../shared/shared.module';
     GridModule,
     IconModule,
     FormModule,
-    SidebarModule,
-    NgScrollbarModule,
-    UtilitiesModule,
-    AlertComponent,
     WidgetModule,
     DropdownModule,
-    ProgressModule,
     ChartjsModule,
     IconDirective,
     TemplateIdDirective,
@@ -105,6 +96,7 @@ import { SharedModule } from '../../shared/shared.module';
     ModalFooterComponent,
     AccordionComponent,
     AccordionItemComponent,
+    AlertComponent,
     AccordionModule,
     NgSelectModule,
     BsDatepickerModule.forRoot(),

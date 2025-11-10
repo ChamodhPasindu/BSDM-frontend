@@ -17,7 +17,7 @@ const routes: Routes = [
       title: 'Home',
     },
     children: [
-      { path: '', redirectTo: 'home', pathMatch: 'full' }, // Add this
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
         path: 'home',
         component: HomeComponent,
@@ -35,16 +35,12 @@ const routes: Routes = [
       {
         path: 'bill',
         loadChildren: () =>
-          import('./bill/bill.module').then(
-            (m) => m.BillModule
-          ),
+          import('./bill/bill.module').then((m) => m.BillModule),
       },
       {
         path: 'payment',
         loadChildren: () =>
-          import('./payment/payment.module').then(
-            (m) => m.PaymentModule
-          ),
+          import('./payment/payment.module').then((m) => m.PaymentModule),
       },
       {
         path: 'route',

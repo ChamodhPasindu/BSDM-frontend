@@ -6,11 +6,7 @@ import { EmployeeManagementComponent } from './employee-management/employee-mana
 import { LayoutComponent } from './layout/layout.component';
 import { CustomerRoutesComponent } from './customer-routes/customer-routes.component';
 import { AlertManagementComponent } from './alert-management/alert-management.component';
-import { ProductComponent } from './inventory-management/product/product.component';
-import { StockComponent } from './inventory-management/stock/stock.component';
 import { VehicleManagementComponent } from './vehicle-management/vehicle-management.component';
-import { SalesStockComponent } from './inventory-management/sales-stock/sales-stock.component';
-import { ReturnStockComponent } from './inventory-management/return-stock/return-stock.component';
 import { AuditTrailComponent } from './audit-trail/audit-trail.component';
 import { PaymentsComponent } from './payments/payments.component';
 import { SalesDeliveryTrackingComponent } from './sales-delivery-tracking/sales-delivery-tracking.component';
@@ -24,7 +20,7 @@ const routes: Routes = [
       title: 'Home',
     },
     children: [
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, // Add this
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       {
         path: 'dashboard',
         component: DashboardComponent,
