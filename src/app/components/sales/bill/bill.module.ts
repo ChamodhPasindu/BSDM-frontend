@@ -39,12 +39,12 @@ import { FormsModule } from '@angular/forms';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { IconModule } from '@coreui/icons-angular';
 import { IconDirective } from '@coreui/icons-angular';
-import { SharedModule } from 'src/app/shared/shared.module';
 import { SelectRouteComponent } from './select-route/select-route.component';
 import { SelectExistingCustomerComponent } from './select-existing-customer/select-existing-customer.component';
 import { SelectNewCustomerComponent } from './select-new-customer/select-new-customer.component';
 import { SelectProductComponent } from './select-product/select-product.component';
 import { BillSummaryComponent } from './bill-summary/bill-summary.component';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   imports: [

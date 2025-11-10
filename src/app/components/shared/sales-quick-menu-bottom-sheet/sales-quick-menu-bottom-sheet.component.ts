@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxBottomSheetService } from 'ngx-bottom-sheet';
-import { BaseBottomSheetDirective } from 'src/utils/directives/base-bottom-sheet.directive';
+import { BaseBottomSheetDirective } from 'src/app/utility/directives/base-bottom-sheet.directive';
+
 @Component({
   selector: 'app-sales-quick-menu-bottom-sheet',
   templateUrl: './sales-quick-menu-bottom-sheet.component.html',

@@ -30,7 +30,7 @@ import {
 } from '@coreui/angular';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { FormsModule } from '@angular/forms';
-import { LandingPageComponent } from './landing-page/landing-page.component';
+import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
 

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgxBottomSheetService } from 'ngx-bottom-sheet';
-import { SalesPaymentSummaryBottomSheetComponent } from 'src/app/shared/sales-payment-summary-bottom-sheet/sales-payment-summary-bottom-sheet.component';
 import * as moment from 'moment';
+import { SalesPaymentSummaryBottomSheetComponent } from '../../shared/sales-payment-summary-bottom-sheet/sales-payment-summary-bottom-sheet.component';
 
 @Component({
   selector: 'app-home',

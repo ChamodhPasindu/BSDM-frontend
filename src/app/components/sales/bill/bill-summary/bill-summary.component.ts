@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxBottomSheetService } from 'ngx-bottom-sheet';
-import { SalesPayNowBottomSheetComponent } from 'src/app/shared/sales-pay-now-bottom-sheet/sales-pay-now-bottom-sheet.component';
-import { BaseBottomSheetDirective } from 'src/utils/directives/base-bottom-sheet.directive';
+import { SalesPayNowBottomSheetComponent } from 'src/app/components/shared/sales-pay-now-bottom-sheet/sales-pay-now-bottom-sheet.component';
+import { BaseBottomSheetDirective } from 'src/app/utility/directives/base-bottom-sheet.directive';
 import Swal from 'sweetalert2';
 
 @Component({

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CardModule } from "@coreui/angular";
 
 @Component({
   selector: 'app-select-route',
   templateUrl: './select-route.component.html',
-  styleUrls: ['./select-route.component.scss']
+  styleUrls: ['./select-route.component.scss'],
 })
 export class SelectRouteComponent implements OnInit {
 

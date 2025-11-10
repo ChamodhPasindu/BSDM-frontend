@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgxBottomSheetService } from 'ngx-bottom-sheet';
 import { SalesPaymentSummaryBottomSheetComponent } from '../sales-payment-summary-bottom-sheet/sales-payment-summary-bottom-sheet.component';
-import { BaseBottomSheetDirective } from 'src/utils/directives/base-bottom-sheet.directive';
+import { BaseBottomSheetDirective } from 'src/app/utility/directives/base-bottom-sheet.directive';
 
 @Component({
   selector: 'app-pay-now-bottom-sheet',

@@ -5,7 +5,6 @@ import { SalesStockComponent } from './sales-stock/sales-stock.component';
 import { StockComponent } from './stock/stock.component';
 import { ReturnStockComponent } from './return-stock/return-stock.component';
 import { InventoryManagementRoutingModule } from './inventory-management.routing.module';
-import { SharedModule } from 'src/app/shared/shared.module';
 import { ItemBatchComponent } from './item-batch/item-batch.component';
 import {
   CardModule,
@@ -51,6 +50,7 @@ import { ViewStockComponent } from './stock/view-stock/view-stock.component';
 import { ViewSaleStockComponent } from './sales-stock/view-sale-stock/view-sale-stock.component';
 import { ViewReturnStockComponent } from './return-stock/view-return-stock/view-return-stock.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [

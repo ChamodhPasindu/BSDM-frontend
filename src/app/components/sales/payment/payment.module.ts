@@ -41,7 +41,7 @@ import {
 } from '@coreui/angular';
 import { IconDirective, IconModule } from '@coreui/icons-angular';
 import { NgScrollbarModule } from 'ngx-scrollbar';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   imports: [

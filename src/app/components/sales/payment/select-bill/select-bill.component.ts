@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxBottomSheetService } from 'ngx-bottom-sheet';
-import { SalesPayNowBottomSheetComponent } from 'src/app/shared/sales-pay-now-bottom-sheet/sales-pay-now-bottom-sheet.component';
-import { SalesPaymentSummaryBottomSheetComponent } from 'src/app/shared/sales-payment-summary-bottom-sheet/sales-payment-summary-bottom-sheet.component';
+import { SalesPayNowBottomSheetComponent } from 'src/app/components/shared/sales-pay-now-bottom-sheet/sales-pay-now-bottom-sheet.component';
+import { SalesPaymentSummaryBottomSheetComponent } from 'src/app/components/shared/sales-payment-summary-bottom-sheet/sales-payment-summary-bottom-sheet.component';
 
 @Component({
   selector: 'app-select-bill',
