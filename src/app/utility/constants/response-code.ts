@@ -1,0 +1,10 @@
+export const RSP_SUCCESS = '00';
+export const RSP_NO_DATA_FOUND = '01';
+export const RSP_NOT_AUTHORISED = '02';
+export const RSP_TOKEN_EXPIRED = '03';
+export const RSP_TOKEN_INVALID = '04';
+export const RSP_ERROR = '05';
+export const RSP_REQUEST_INVALID = '06';
+export const RSP_FAIL = '07';
+export const RSP_USER_EXIST = '08';
+export const RSP_USER_PENDING = '09';

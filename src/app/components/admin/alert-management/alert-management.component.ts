@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AlertViewComponent } from './alert-view/alert-view.component';
-import Swal from 'sweetalert2';
+import { alertWarning } from 'src/app/utility/helper';
 
 @Component({
   selector: 'app-alert-management',
@@ -9,7 +8,6 @@ import Swal from 'sweetalert2';
   styleUrls: ['./alert-management.component.scss'],
 })
 export class AlertManagementComponent implements OnInit {
-
   @ViewChild('alertModal') alertModal!: AlertViewComponent;
 
   constructor() {}
@@ -155,25 +153,9 @@ export class AlertManagementComponent implements OnInit {
   }
 
   protected delete() {
-    Swal.fire({
+    alertWarning({
       title: 'Confirm Delete',
       text: 'message',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, Delete',
-      cancelButtonText: 'Cancel',
-      reverseButtons: true,
-      customClass: {
-        popup: 'coreui-popup',
-        confirmButton: 'btn btn-danger ms-2',
-        cancelButton: 'btn btn-secondary',
-      },
-      buttonsStyling: false,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // your delete logic
-        Swal.fire('Deleted!', 'The record has been deleted.', 'success');
-      }
     });
   }
 }

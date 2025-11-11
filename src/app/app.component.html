@@ -1,2 +1,13 @@
-<router-outlet />
+<c-toaster position="fixed" placement="top-center">
+    <c-toast *ngFor="let toast of toasts" [color]="toast.color" [autohide]="toast.autohide" [delay]="toast.delay"
+        visible>
+        <c-toast-header>
+            <strong class="me-auto">{{ toast.title }}</strong>
+        </c-toast-header>
+        <c-toast-body>
+            {{ toast.body }}
+        </c-toast-body>
+    </c-toast>
+</c-toaster>
 
+<router-outlet />
