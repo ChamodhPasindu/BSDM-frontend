@@ -23,6 +23,7 @@ import {
   UtilitiesModule,
   NavbarTextComponent,
   AlertComponent,
+  PaginationComponent,
 } from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
 import { NgScrollbarModule } from 'ngx-scrollbar';
@@ -39,31 +40,32 @@ import { SharedDirectiveModule } from './shared-directive.module';
   imports: [
     CommonModule,
     RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
+    FormModule,
+    IconModule,
+    GridModule,
+    ButtonModule,
+    UtilitiesModule,
+    CardModule,
     AvatarModule,
+    PaginationComponent,
+
     BreadcrumbModule,
     FooterModule,
     DropdownModule,
-    GridModule,
     HeaderModule,
-    IconModule,
     NavModule,
-    ButtonModule,
-    FormModule,
-    UtilitiesModule,
     ButtonGroupModule,
     SidebarModule,
     TabsModule,
     ProgressModule,
     BadgeModule,
     ListGroupModule,
-    CardModule,
     NgScrollbarModule,
     NavbarTextComponent,
-    FormsModule,
-    ReactiveFormsModule,
     AlertComponent,
-    SharedDirectiveModule
-    
+    SharedDirectiveModule,
   ],
   declarations: [
     AdminHeaderComponent,
@@ -73,7 +75,7 @@ import { SharedDirectiveModule } from './shared-directive.module';
     SalesPayNowBottomSheetComponent,
     SalesPaymentSummaryBottomSheetComponent,
     SalesQuickMenuBottomSheetComponent,
-    SalesEmptyDataComponent
+    SalesEmptyDataComponent,
   ],
   exports: [
     AdminHeaderComponent,
@@ -84,7 +86,20 @@ import { SharedDirectiveModule } from './shared-directive.module';
     SalesPaymentSummaryBottomSheetComponent,
     SalesQuickMenuBottomSheetComponent,
     SalesEmptyDataComponent,
-    SharedDirectiveModule
+    SharedDirectiveModule,
+
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
+    FormModule,
+    IconModule,
+    GridModule,
+    ButtonModule,
+    UtilitiesModule,
+    CardModule,
+    AvatarModule,
+    PaginationComponent,
   ],
 })
 export class SharedModule {}

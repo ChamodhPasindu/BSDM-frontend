@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CardModule } from "@coreui/angular";
 
 @Component({
   selector: 'app-select-route',

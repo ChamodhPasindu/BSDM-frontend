@@ -7,3 +7,10 @@
         linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.9)),
         url('../../../../assets/images/login-background.jpg') center/cover no-repeat;
 }
+
+/* Fix CoreUI validation losing border radius */
+input[cFormControl],
+input.form-control {
+    border-top-right-radius: 0.375rem !important;
+    border-bottom-right-radius: 0.375rem !important;
+}

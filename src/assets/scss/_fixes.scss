@@ -11,12 +11,6 @@
 // temp fix .chartjs-tooltip-body-item padding
 @import "charts";
 
-/* Fix CoreUI validation losing border radius */
-input[cFormControl],
-input.form-control {
-    border-top-right-radius: 0.375rem !important;
-    border-bottom-right-radius: 0.375rem !important;
-}
 
 c-form-feedback {
     text-align: start !important;

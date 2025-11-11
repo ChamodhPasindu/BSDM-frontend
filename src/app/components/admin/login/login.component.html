@@ -10,31 +10,25 @@
             <h3 class="mb-3 fw-semibold text-primary">Welcome Back</h3>
             <p class="text-medium-emphasis mb-4">Sign in to your admin dashboard</p>
 
-            <form cForm [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
-              <!-- Username -->
-              <c-input-group class="mb-3" *ngIf="loginForm.controls['username'] as ctrl">
+            <form cForm [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+              <c-input-group class="mb-3">
                 <span cInputGroupText>
                   <svg cIcon name="cilUser"></svg>
                 </span>
-                <input autoComplete="username" cFormControl placeholder="Username" type="text"
-                  formControlName="username" appValidate fieldName="Username" />
-
+                <input cFormControl placeholder="Username" type="text" formControlName="username" appValidate
+                  fieldName="Username" />
               </c-input-group>
 
-              <!-- Password -->
-              <c-input-group class="mb-4" *ngIf="loginForm.controls['password'] as ctrl">
+              <c-input-group class="mb-4">
                 <span cInputGroupText>
                   <svg cIcon name="cilLockLocked"></svg>
                 </span>
-                <input autoComplete="current-password" cFormControl placeholder="Password" type="password"
-                  formControlName="password"appValidate fieldName="Password">
-                 
+                <input cFormControl placeholder="Password" type="password" formControlName="password" appValidate
+                  fieldName="Password">
               </c-input-group>
 
-              <!-- Buttons -->
               <div class="d-grid gap-2 mb-3">
-                <button cButton color="primary" type="submit" [disabled]="loginForm.invalid && submitted"
-                  class="px-4 py-2">
+                <button cButton color="primary" type="submit" class="px-4 py-2">
                   Login
                 </button>
               </div>
@@ -45,9 +39,7 @@
                 </a> -->
               </div>
             </form>
-
             <small class="text-muted d-block mt-3">Version {{version}}</small>
-
           </c-card-body>
         </c-card>
       </c-col>

@@ -9,6 +9,7 @@ import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { ButtonModule, CardModule } from '@coreui/angular';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent, LandingPageComponent],
@@ -17,6 +18,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     AppRoutingModule,
     BrowserAnimationsModule,
     NgbModule,
+    HttpClientModule,
     IconModule,
     ButtonModule,
     CardModule,

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { onValidate } from 'src/app/utility/helper';
 import { environment } from 'src/environment/environment';
 
 @Component({
@@ -10,40 +12,28 @@ import { environment } from 'src/environment/environment';
 export class LoginComponent implements OnInit {
   protected readonly version = environment.version;
 
-  loginForm!: FormGroup;
-  submitted = false;
+  protected loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute
+  ) {
     this.createForm();
   }
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
-  }
 
-  createForm() {
+  ngOnInit(): void {}
+
+  protected createForm() {
     this.loginForm = this.fb.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required]],
     });
   }
 
-  // Validate the form and mark controls
-  onValidate(): boolean {
-    this.submitted = true;
-    this.loginForm.markAllAsTouched();
-    return this.loginForm.valid;
-  }
+  protected onSubmit() {
+    if (!onValidate(this.loginForm)) return;
 
-  onSubmit() {
-    if (!this.onValidate()) return;
-
-    // Proceed if valid
-    console.log('Form submitted:', this.loginForm.value);
-    alert('Login Successful!');
-  }
-
-  onReset() {
-    this.submitted = false;
-    this.loginForm.reset();
+    this.router.navigate(['post-login'], { relativeTo: this.route });
   }
 }

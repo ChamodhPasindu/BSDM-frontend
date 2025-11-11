@@ -12,29 +12,30 @@
               Access your sales dashboard and delivery tracking tools
             </p>
 
-            <form cForm>
+            <form Form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
               <c-input-group class="mb-3">
                 <span cInputGroupText>
                   <svg cIcon name="cilUser"></svg>
                 </span>
-                <input autoComplete="username" cFormControl placeholder="Sales ID or Email" type="text" />
+                <input cFormControl placeholder="Username" type="text" formControlName="username" appValidate
+                  fieldName="Username" />
               </c-input-group>
 
               <c-input-group class="mb-4">
                 <span cInputGroupText>
                   <svg cIcon name="cilLockLocked"></svg>
                 </span>
-                <input autoComplete="current-password" cFormControl placeholder="Password" type="password" />
+                <input cFormControl placeholder="Password" type="password" formControlName="password" appValidate
+                  fieldName="Password" />
               </c-input-group>
 
               <div class="d-grid mb-3">
-                <button cButton color="success" class="px-4 py-2" routerLink="post-login">
+                <button cButton type="submit" color="success" class="px-4 py-2" >
                   Login
                 </button>
               </div>
-
               <div class="d-flex justify-content-center">
-                <a href="#" class="text-decoration-none small">Forgot password?</a>
+                <!-- <a href="#" class="text-decoration-none small">Forgot password?</a> -->
                 <!-- <a routerLink="/register-sales" class="text-decoration-none small text-success fw-semibold">
                   Register New Sales Account
                 </a> -->
