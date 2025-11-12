@@ -85,12 +85,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngIf="!users || users.length === 0">
+        <tr *ngIf="!pagedItems || pagedItems.length === 0">
           <td colspan="6" class="text-center text-muted py-3">
             No data available
           </td>
         </tr>
-        <tr *ngFor="let user of users; index as i">
+        <tr *ngFor="let user of pagedItems; index as i">
           <td class="text-center">
             EMP12
           </td>
@@ -124,17 +124,11 @@
         </tr>
       </tbody>
     </table>
+    <app-paginator *ngIf="pagedItems.length !== 0" [totalItems]="items.length" [(pageSize)]="itemPageSize"
+      [(currentPage)]="currentItemPage" (currentPageChange)="goToItemPage($event)"
+      (pageSizeChange)="onItemPageSizeChange($event)"></app-paginator>
   </c-card-body>
 
-  <c-pagination align="center" aria-label="Page navigation example">
-    <li cPageItem [disabled]="true">
-      <a cPageLink>Previous</a>
-    </li>
-    <li cPageItem><a cPageLink>1</a></li>
-    <li cPageItem><a cPageLink>2</a></li>
-    <li cPageItem><a cPageLink>3</a></li>
-    <li cPageItem><a cPageLink>Next</a></li>
-  </c-pagination>
 </c-card>
 
 <hr>
@@ -228,19 +222,19 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngIf="!users || users.length === 0">
+        <tr *ngIf="!pagedBatches || pagedBatches.length === 0">
           <td colspan="6" class="text-center text-muted py-3">
             No data available
           </td>
         </tr>
-        <tr *ngFor="let user of users; index as i">
+        <tr *ngFor="let user of pagedBatches; index as i">
           <td class="text-center">
             EMP12
           </td>
           <td>
             EMP12
           </td>
-          <td >
+          <td>
             <div>{{ user.name }}</div>
             <div class="small text-medium-emphasis text-nowrap">
               <span>
@@ -274,17 +268,11 @@
         </tr>
       </tbody>
     </table>
+    <app-paginator *ngIf="pagedBatches.length !== 0" [totalItems]="batches.length" [(pageSize)]="batchPageSize"
+      [(currentPage)]="currentBatchPage" (currentPageChange)="goToBatchPage($event)"
+      (pageSizeChange)="onBatchPageSizeChange($event)"></app-paginator>
   </c-card-body>
 
-  <c-pagination align="center" aria-label="Page navigation example">
-    <li cPageItem [disabled]="true">
-      <a cPageLink>Previous</a>
-    </li>
-    <li cPageItem><a cPageLink>1</a></li>
-    <li cPageItem><a cPageLink>2</a></li>
-    <li cPageItem><a cPageLink>3</a></li>
-    <li cPageItem><a cPageLink>Next</a></li>
-  </c-pagination>
 </c-card>
 
 

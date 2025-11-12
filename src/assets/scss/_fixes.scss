@@ -1,6 +1,6 @@
 // Place for temp fixes
 
-.form-floating > .form-select {
+.form-floating>.form-select {
   padding-top: 1.625rem !important;
   padding-bottom: 0.625rem !important;
 }
@@ -13,9 +13,18 @@
 
 
 c-form-feedback {
-    text-align: start !important;
+  text-align: start !important;
 }
 
-c-toast{
+c-toast {
   margin-top: 10px;
+}
+
+c-pagination {
+  cursor: pointer;
+}
+
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
 }

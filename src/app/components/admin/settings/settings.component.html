@@ -10,7 +10,7 @@
         <label cLabel for="inputEmail4">Key</label>
         <input cFormControl id="inputEmail4" type="email" />
       </c-col>
-      <c-col  class="mb-2">
+      <c-col class="mb-2">
         <label cLabel for="inputEmail4">Description</label>
         <input cFormControl id="inputEmail4" type="email" />
       </c-col>
@@ -33,12 +33,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngIf="!users || users.length === 0">
+        <tr *ngIf="!pagedUsers || pagedUsers.length === 0">
           <td colspan="6" class="text-center text-muted py-3">
             No data available
           </td>
         </tr>
-        <tr *ngFor="let user of users; index as i">
+        <tr *ngFor="let user of pagedUsers; index as i">
           <td class="text-center">
             EMP12
           </td>
@@ -55,15 +55,8 @@
         </tr>
       </tbody>
     </table>
+    <app-paginator *ngIf="pagedUsers.length !== 0" [totalItems]="users.length" [(pageSize)]="pageSize"
+      [(currentPage)]="currentPage" (currentPageChange)="goToPage($event)"
+      (pageSizeChange)="onPageSizeChange($event)"></app-paginator>
   </c-card-body>
-
-  <c-pagination align="center" aria-label="Page navigation example">
-    <li cPageItem [disabled]="true">
-      <a cPageLink>Previous</a>
-    </li>
-    <li cPageItem><a cPageLink>1</a></li>
-    <li cPageItem><a cPageLink>2</a></li>
-    <li cPageItem><a cPageLink>3</a></li>
-    <li cPageItem><a cPageLink>Next</a></li>
-  </c-pagination>
 </c-card>

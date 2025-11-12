@@ -86,12 +86,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngIf="!users || users.length === 0">
+        <tr *ngIf="!pagedUsers || pagedUsers.length === 0">
           <td colspan="6" class="text-center text-muted py-3">
             No data available
           </td>
         </tr>
-        <tr *ngFor="let user of users; index as i">
+        <tr *ngFor="let user of pagedUsers; index as i">
           <td class="text-center">
             EMP12
           </td>
@@ -129,17 +129,11 @@
         </tr>
       </tbody>
     </table>
+    <app-paginator *ngIf="pagedUsers.length !== 0" [totalItems]="users.length" [(pageSize)]="userPageSize"
+      [(currentPage)]="currentUserPage" (currentPageChange)="goToUserPage($event)"
+      (pageSizeChange)="onUserPageSizeChange($event)"></app-paginator>
   </c-card-body>
 
-  <c-pagination align="center" aria-label="Page navigation example">
-    <li cPageItem [disabled]="true">
-      <a cPageLink>Previous</a>
-    </li>
-    <li cPageItem><a cPageLink>1</a></li>
-    <li cPageItem><a cPageLink>2</a></li>
-    <li cPageItem><a cPageLink>3</a></li>
-    <li cPageItem><a cPageLink>Next</a></li>
-  </c-pagination>
 </c-card>
 
 <hr>
@@ -235,12 +229,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngIf="!users || users.length === 0">
+        <tr *ngIf="!pagedRoutes || pagedRoutes.length === 0">
           <td colspan="6" class="text-center text-muted py-3">
             No data available
           </td>
         </tr>
-        <tr *ngFor="let user of users; index as i">
+        <tr *ngFor="let user of pagedRoutes; index as i">
           <td class="text-center">
             <c-avatar size="md" src="./assets/images/customer-logo.png"></c-avatar>
           </td>
@@ -281,17 +275,10 @@
         </tr>
       </tbody>
     </table>
+    <app-paginator *ngIf="pagedRoutes.length !== 0" [totalItems]="users.length" [(pageSize)]="routePageSize"
+      [(currentPage)]="currentRoutePage" (currentPageChange)="goToRoutePage($event)"
+      (pageSizeChange)="onRoutePageSizeChange($event)"></app-paginator>
   </c-card-body>
-
-  <c-pagination align="center" aria-label="Page navigation example">
-    <li cPageItem [disabled]="true">
-      <a cPageLink>Previous</a>
-    </li>
-    <li cPageItem><a cPageLink>1</a></li>
-    <li cPageItem><a cPageLink>2</a></li>
-    <li cPageItem><a cPageLink>3</a></li>
-    <li cPageItem><a cPageLink>Next</a></li>
-  </c-pagination>
 </c-card>
 
 

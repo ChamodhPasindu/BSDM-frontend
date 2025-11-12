@@ -1,8 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CustomerViewComponent } from './customer-view/customer-view.component';
 import { RouteViewComponent } from './route-view/route-view.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import Swal from 'sweetalert2';
+import { alertWarning } from 'src/app/utility/helper';
 
 @Component({
   selector: 'app-customer-routes',
@@ -10,199 +9,90 @@ import Swal from 'sweetalert2';
   styleUrls: ['./customer-routes.component.scss'],
 })
 export class CustomerRoutesComponent implements OnInit {
-  @ViewChild('customerModal') customerModal!: CustomerViewComponent;
-  @ViewChild('routeModal') routeModal!: RouteViewComponent;
-  
-  public users: any[] = [
-    {
-      name: 'Yiorgos Avraamu',
-      state: 'New',
-      registered: 'Jan 1, 2021',
-      country: 'Us',
-      usage: 50,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Mastercard',
-      activity: '10 sec ago',
-      avatar: './assets/img/avatars/1.jpg',
-      status: 'success',
-      color: 'success',
-    },
-    {
-      name: 'Avram Tarasios',
-      state: 'Recurring ',
-      registered: 'Jan 1, 2021',
-      country: 'Br',
-      usage: 10,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Visa',
-      activity: '5 minutes ago',
-      avatar: './assets/img/avatars/2.jpg',
-      status: 'danger',
-      color: 'info',
-    },
-    {
-      name: 'Quintin Ed',
-      state: 'New',
-      registered: 'Jan 1, 2021',
-      country: 'In',
-      usage: 74,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Stripe',
-      activity: '1 hour ago',
-      avatar: './assets/img/avatars/3.jpg',
-      status: 'warning',
-      color: 'warning',
-    },
-    {
-      name: 'Enéas Kwadwo',
-      state: 'Sleep',
-      registered: 'Jan 1, 2021',
-      country: 'Fr',
-      usage: 98,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Paypal',
-      activity: 'Last month',
-      avatar: './assets/img/avatars/4.jpg',
-      status: 'secondary',
-      color: 'danger',
-    },
-    {
-      name: 'Agapetus Tadeáš',
-      state: 'New',
-      registered: 'Jan 1, 2021',
-      country: 'Es',
-      usage: 22,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'ApplePay',
-      activity: 'Last week',
-      avatar: './assets/img/avatars/5.jpg',
-      status: 'success',
-      color: 'primary',
-    },
-    {
-      name: 'Friderik Dávid',
-      state: 'New',
-      registered: 'Jan 1, 2021',
-      country: 'Pl',
-      usage: 43,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Amex',
-      activity: 'Yesterday',
-      avatar: './assets/img/avatars/6.jpg',
-      status: 'info',
-      color: 'dark',
-    },
-    {
-      name: 'Friderik Dávid',
-      state: 'New',
-      registered: 'Jan 1, 2021',
-      country: 'Pl',
-      usage: 43,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Amex',
-      activity: 'Yesterday',
-      avatar: './assets/img/avatars/6.jpg',
-      status: 'info',
-      color: 'dark',
-    },
-    {
-      name: 'Friderik Dávid',
-      state: 'New',
-      registered: 'Jan 1, 2021',
-      country: 'Pl',
-      usage: 43,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Amex',
-      activity: 'Yesterday',
-      avatar: './assets/img/avatars/6.jpg',
-      status: 'info',
-      color: 'dark',
-    },
-    {
-      name: 'Friderik Dávid',
-      state: 'New',
-      registered: 'Jan 1, 2021',
-      country: 'Pl',
-      usage: 43,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Amex',
-      activity: 'Yesterday',
-      avatar: './assets/img/avatars/6.jpg',
-      status: 'info',
-      color: 'dark',
-    },
-    {
-      name: 'Friderik Dávid',
-      state: 'New',
-      registered: 'Jan 1, 2021',
-      country: 'Pl',
-      usage: 43,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Amex',
-      activity: 'Yesterday',
-      avatar: './assets/img/avatars/6.jpg',
-      status: 'info',
-      color: 'dark',
-    },
-  ];
+  @ViewChild('customerModal') protected customerModal!: CustomerViewComponent;
+  @ViewChild('routeModal') protected routeModal!: RouteViewComponent;
 
-  constructor() {}
+  protected users: any[] = [];
+  protected routes: any[] = [];
+  protected pagedUsers: any[] = [];
+  protected pagedRoutes: any[] = [];
 
-  ngOnInit() {}
+  protected currentUserPage = 1;
+  protected currentRoutePage = 1;
+  protected userPageSize = 5;
+  protected routePageSize = 5;
 
-  protected openRouteView(route?:any) {
+  ngOnInit(): void {
+    // sample data
+    this.users = Array.from({ length: 35 }, (_, i) => ({
+      name: `User ${i + 1}`,
+      nic: `NIC${1000 + i}`,
+    }));
+
+    this.routes = Array.from({ length: 35 }, (_, i) => ({
+      name: `User ${i + 1}`,
+      nic: `NIC${1000 + i}`,
+    }));
+
+    this.updatePagedUsers();
+    this.updatePagedRoute();
+  }
+
+  protected goToUserPage(page: number): void {
+    this.currentUserPage = page;
+    this.updatePagedUsers();
+  }
+
+  protected goToRoutePage(page: number): void {
+    this.currentRoutePage = page;
+    this.updatePagedUsers();
+  }
+
+  protected onUserPageSizeChange(newSize: number): void {
+    this.userPageSize = newSize;
+    this.currentUserPage = 1;
+    this.updatePagedUsers();
+  }
+
+  protected onRoutePageSizeChange(newSize: number): void {
+    this.routePageSize = newSize;
+    this.currentRoutePage = 1;
+    this.updatePagedRoute();
+  }
+
+  protected updatePagedUsers(): void {
+    const start = (this.currentUserPage - 1) * this.userPageSize;
+    const end = start + this.userPageSize;
+    this.pagedUsers = this.users.slice(start, end);
+  }
+
+  protected updatePagedRoute(): void {
+    const start = (this.currentRoutePage - 1) * this.routePageSize;
+    const end = start + this.routePageSize;
+    this.pagedRoutes = this.routes.slice(start, end);
+  }
+
+  protected openRouteView(route?: any) {
     this.routeModal.route = route;
     this.routeModal.visible = true;
   }
 
-  protected openCustomerView(customer?:any) {
+  protected openCustomerView(customer?: any) {
     this.customerModal.customer = customer;
     this.customerModal.visible = true;
   }
 
-  protected deleteRoute(){
-    Swal.fire({
+  protected deleteRoute() {
+    alertWarning({
       title: 'Confirm Delete',
       text: 'message',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, Delete',
-      cancelButtonText: 'Cancel',
-      reverseButtons: true,
-      customClass: {
-        popup: 'coreui-popup',
-        confirmButton: 'btn btn-danger ms-2',
-        cancelButton: 'btn btn-secondary'
-      },
-      buttonsStyling: false
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // your delete logic
-        Swal.fire('Deleted!', 'The record has been deleted.', 'success');
-      }
     });
   }
 
-  protected deleteCustomer(){
-    Swal.fire({
+  protected deleteCustomer() {
+    alertWarning({
       title: 'Confirm Delete',
       text: 'message',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, Delete',
-      cancelButtonText: 'Cancel',
-      reverseButtons: true,
-      customClass: {
-        popup: 'coreui-popup',
-        confirmButton: 'btn btn-danger ms-2',
-        cancelButton: 'btn btn-secondary'
-      },
-      buttonsStyling: false
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // your delete logic
-        Swal.fire('Deleted!', 'The record has been deleted.', 'success');
-      }
     });
   }
 }

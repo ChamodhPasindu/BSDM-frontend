@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ViewItemComponent } from './view-item/view-item.component';
 import { ViewBatchComponent } from './view-batch/view-batch.component';
-import Swal from 'sweetalert2';
+import { alertWarning } from 'src/app/utility/helper';
 
 @Component({
   selector: 'app-item-batch',
@@ -9,196 +9,92 @@ import Swal from 'sweetalert2';
   styleUrls: ['./item-batch.component.scss'],
 })
 export class ItemBatchComponent implements OnInit {
-  @ViewChild('itemModal') itemModal!: ViewItemComponent;
-  @ViewChild('batchModal') batchModal!: ViewBatchComponent;
-
-  public users: any[] = [
-    {
-      name: 'Yiorgos Avraamu',
-      state: 'New',
-      registered: 'Jan 1, 2021',
-      country: 'Us',
-      usage: 50,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Mastercard',
-      activity: '10 sec ago',
-      avatar: './assets/img/avatars/1.jpg',
-      status: 'success',
-      color: 'success',
-    },
-    {
-      name: 'Avram Tarasios',
-      state: 'Recurring ',
-      registered: 'Jan 1, 2021',
-      country: 'Br',
-      usage: 10,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Visa',
-      activity: '5 minutes ago',
-      avatar: './assets/img/avatars/2.jpg',
-      status: 'danger',
-      color: 'info',
-    },
-    {
-      name: 'Quintin Ed',
-      state: 'New',
-      registered: 'Jan 1, 2021',
-      country: 'In',
-      usage: 74,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Stripe',
-      activity: '1 hour ago',
-      avatar: './assets/img/avatars/3.jpg',
-      status: 'warning',
-      color: 'warning',
-    },
-    {
-      name: 'Enéas Kwadwo',
-      state: 'Sleep',
-      registered: 'Jan 1, 2021',
-      country: 'Fr',
-      usage: 98,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Paypal',
-      activity: 'Last month',
-      avatar: './assets/img/avatars/4.jpg',
-      status: 'secondary',
-      color: 'danger',
-    },
-    {
-      name: 'Agapetus Tadeáš',
-      state: 'New',
-      registered: 'Jan 1, 2021',
-      country: 'Es',
-      usage: 22,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'ApplePay',
-      activity: 'Last week',
-      avatar: './assets/img/avatars/5.jpg',
-      status: 'success',
-      color: 'primary',
-    },
-    {
-      name: 'Friderik Dávid',
-      state: 'New',
-      registered: 'Jan 1, 2021',
-      country: 'Pl',
-      usage: 43,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Amex',
-      activity: 'Yesterday',
-      avatar: './assets/img/avatars/6.jpg',
-      status: 'info',
-      color: 'dark',
-    },
-    {
-      name: 'Friderik Dávid',
-      state: 'New',
-      registered: 'Jan 1, 2021',
-      country: 'Pl',
-      usage: 43,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Amex',
-      activity: 'Yesterday',
-      avatar: './assets/img/avatars/6.jpg',
-      status: 'info',
-      color: 'dark',
-    },
-    {
-      name: 'Friderik Dávid',
-      state: 'New',
-      registered: 'Jan 1, 2021',
-      country: 'Pl',
-      usage: 43,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Amex',
-      activity: 'Yesterday',
-      avatar: './assets/img/avatars/6.jpg',
-      status: 'info',
-      color: 'dark',
-    },
-    {
-      name: 'Friderik Dávid',
-      state: 'New',
-      registered: 'Jan 1, 2021',
-      country: 'Pl',
-      usage: 43,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Amex',
-      activity: 'Yesterday',
-      avatar: './assets/img/avatars/6.jpg',
-      status: 'info',
-      color: 'dark',
-    },
-    {
-      name: 'Friderik Dávid',
-      state: 'New',
-      registered: 'Jan 1, 2021',
-      country: 'Pl',
-      usage: 43,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Amex',
-      activity: 'Yesterday',
-      avatar: './assets/img/avatars/6.jpg',
-      status: 'info',
-      color: 'dark',
-    },
-  ];
+  @ViewChild('itemModal') protected itemModal!: ViewItemComponent;
+  @ViewChild('batchModal') protected batchModal!: ViewBatchComponent;
 
   constructor() {}
 
-  ngOnInit() {}
+  protected items: any[] = [];
+  protected batches: any[] = [];
+  protected pagedItems: any[] = [];
+  protected pagedBatches: any[] = [];
 
-  protected deleteBatch() {
-    Swal.fire({
-      title: 'Confirm Delete',
-      text: 'message',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, Delete',
-      cancelButtonText: 'Cancel',
-      reverseButtons: true,
-      customClass: {
-        popup: 'coreui-popup',
-        confirmButton: 'btn btn-danger ms-2',
-        cancelButton: 'btn btn-secondary',
-      },
-      buttonsStyling: false,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // your delete logic
-        Swal.fire('Deleted!', 'The record has been deleted.', 'success');
-      }
-    });
+  protected currentItemPage = 1;
+  protected currentBatchPage = 1;
+  protected itemPageSize = 5;
+  protected batchPageSize = 5;
+
+  ngOnInit(): void {
+    // sample data
+    this.items = Array.from({ length: 35 }, (_, i) => ({
+      name: `User ${i + 1}`,
+      nic: `NIC${1000 + i}`,
+    }));
+
+    this.batches = Array.from({ length: 35 }, (_, i) => ({
+      name: `User ${i + 1}`,
+      nic: `NIC${1000 + i}`,
+    }));
+
+    this.updatePagedItems();
+    this.updatePagedBatches();
   }
+
+  protected goToItemPage(page: number): void {
+    this.currentItemPage = page;
+    this.updatePagedItems();
+  }
+
+  protected goToBatchPage(page: number): void {
+    this.currentBatchPage = page;
+    this.updatePagedBatches();
+  }
+
+  protected onItemPageSizeChange(newSize: number): void {
+    this.itemPageSize = newSize;
+    this.currentItemPage = 1;
+    this.updatePagedItems();
+  }
+
+  protected onBatchPageSizeChange(newSize: number): void {
+    this.batchPageSize = newSize;
+    this.currentBatchPage = 1;
+    this.updatePagedBatches();
+  }
+
+  protected updatePagedItems(): void {
+    const start = (this.currentItemPage - 1) * this.itemPageSize;
+    const end = start + this.itemPageSize;
+    this.pagedItems = this.items.slice(start, end);
+  }
+
+  protected updatePagedBatches(): void {
+    const start = (this.currentBatchPage - 1) * this.batchPageSize;
+    const end = start + this.batchPageSize;
+    this.pagedBatches = this.batches.slice(start, end);
+  }
+
+  protected openItemView(item?: any) {
+    this.itemModal.item = item;
+    this.itemModal.visible = true;
+  }
+
   protected openBatchView(batch?: any) {
     this.batchModal.batch = batch;
     this.batchModal.visible = true;
   }
+
   protected deleteItem() {
-    Swal.fire({
+    alertWarning({
       title: 'Confirm Delete',
       text: 'message',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, Delete',
-      cancelButtonText: 'Cancel',
-      reverseButtons: true,
-      customClass: {
-        popup: 'coreui-popup',
-        confirmButton: 'btn btn-danger ms-2',
-        cancelButton: 'btn btn-secondary',
-      },
-      buttonsStyling: false,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // your delete logic
-        Swal.fire('Deleted!', 'The record has been deleted.', 'success');
-      }
     });
   }
-  protected openItemView(item?: any) {
-    this.itemModal.item = item;
-    this.itemModal.visible = true;
+
+  protected deleteBatch() {
+    alertWarning({
+      title: 'Confirm Delete',
+      text: 'message',
+    });
   }
 }

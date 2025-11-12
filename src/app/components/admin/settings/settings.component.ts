@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { alertWarning } from 'src/app/utility/helper';
 
 @Component({
   selector: 'app-settings',
@@ -6,136 +7,43 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent {
-  public users: any[] = [
-    {
-      name: 'Yiorgos Avraamu',
-      state: 'New',
-      registered: 'Jan 1, 2021',
-      country: 'Us',
-      usage: 50,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Mastercard',
-      activity: '10 sec ago',
-      avatar: './assets/img/avatars/1.jpg',
-      status: 'success',
-      color: 'success',
-    },
-    {
-      name: 'Avram Tarasios',
-      state: 'Recurring ',
-      registered: 'Jan 1, 2021',
-      country: 'Br',
-      usage: 10,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Visa',
-      activity: '5 minutes ago',
-      avatar: './assets/img/avatars/2.jpg',
-      status: 'danger',
-      color: 'info',
-    },
-    {
-      name: 'Quintin Ed',
-      state: 'New',
-      registered: 'Jan 1, 2021',
-      country: 'In',
-      usage: 74,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Stripe',
-      activity: '1 hour ago',
-      avatar: './assets/img/avatars/3.jpg',
-      status: 'warning',
-      color: 'warning',
-    },
-    {
-      name: 'Enéas Kwadwo',
-      state: 'Sleep',
-      registered: 'Jan 1, 2021',
-      country: 'Fr',
-      usage: 98,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Paypal',
-      activity: 'Last month',
-      avatar: './assets/img/avatars/4.jpg',
-      status: 'secondary',
-      color: 'danger',
-    },
-    {
-      name: 'Agapetus Tadeáš',
-      state: 'New',
-      registered: 'Jan 1, 2021',
-      country: 'Es',
-      usage: 22,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'ApplePay',
-      activity: 'Last week',
-      avatar: './assets/img/avatars/5.jpg',
-      status: 'success',
-      color: 'primary',
-    },
-    {
-      name: 'Friderik Dávid',
-      state: 'New',
-      registered: 'Jan 1, 2021',
-      country: 'Pl',
-      usage: 43,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Amex',
-      activity: 'Yesterday',
-      avatar: './assets/img/avatars/6.jpg',
-      status: 'info',
-      color: 'dark',
-    },
-    {
-      name: 'Friderik Dávid',
-      state: 'New',
-      registered: 'Jan 1, 2021',
-      country: 'Pl',
-      usage: 43,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Amex',
-      activity: 'Yesterday',
-      avatar: './assets/img/avatars/6.jpg',
-      status: 'info',
-      color: 'dark',
-    },
-    {
-      name: 'Friderik Dávid',
-      state: 'New',
-      registered: 'Jan 1, 2021',
-      country: 'Pl',
-      usage: 43,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Amex',
-      activity: 'Yesterday',
-      avatar: './assets/img/avatars/6.jpg',
-      status: 'info',
-      color: 'dark',
-    },
-    {
-      name: 'Friderik Dávid',
-      state: 'New',
-      registered: 'Jan 1, 2021',
-      country: 'Pl',
-      usage: 43,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Amex',
-      activity: 'Yesterday',
-      avatar: './assets/img/avatars/6.jpg',
-      status: 'info',
-      color: 'dark',
-    },
-    {
-      name: 'Friderik Dávid',
-      state: 'New',
-      registered: 'Jan 1, 2021',
-      country: 'Pl',
-      usage: 43,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Amex',
-      activity: 'Yesterday',
-      avatar: './assets/img/avatars/6.jpg',
-      status: 'info',
-      color: 'dark',
-    },
-  ];
+  protected delete() {
+    alertWarning({
+      title: 'Confirm Delete',
+      text: 'message',
+    });
+  }
+
+  protected users: any[] = [];
+  protected pagedUsers: any[] = [];
+
+  protected currentPage = 1;
+  protected pageSize = 5;
+
+  ngOnInit(): void {
+    // sample data
+    this.users = Array.from({ length: 35 }, (_, i) => ({
+      name: `User ${i + 1}`,
+      nic: `NIC${1000 + i}`,
+    }));
+
+    this.updatePagedUsers();
+  }
+
+  protected goToPage(page: number): void {
+    this.currentPage = page;
+    this.updatePagedUsers();
+  }
+
+  protected onPageSizeChange(newSize: number): void {
+    this.pageSize = newSize;
+    this.currentPage = 1;
+    this.updatePagedUsers();
+  }
+
+  protected updatePagedUsers(): void {
+    const start = (this.currentPage - 1) * this.pageSize;
+    const end = start + this.pageSize;
+    this.pagedUsers = this.users.slice(start, end);
+  }
 }
