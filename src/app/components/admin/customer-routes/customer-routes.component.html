@@ -77,11 +77,9 @@
       <thead cTableColor="light">
         <tr>
           <th class="text-center">
-            Route ID
+            Route Name
           </th>
-          <th>Name</th>
-          <th>City</th>
-          <th class="text-center">District</th>
+          <th>Description</th>
           <th class="text-center">Action</th>
         </tr>
       </thead>
@@ -93,21 +91,10 @@
         </tr>
         <tr *ngFor="let user of pagedUsers; index as i">
           <td class="text-center">
-            EMP12
-          </td>
-          <td>
-            <div>{{ user.name }}</div>
-            <div class="small text-medium-emphasis text-nowrap">
-              <span>
-                Route | Battaramulle
-              </span>
-            </div>
+            Route Name
           </td>
           <td>
             Supun Perera
-          </td>
-          <td class="text-center">
-            <div class="fw-semibold text-nowrap">LKR 12,500</div>
           </td>
           <td class="text-center">
             <!-- View -->
@@ -116,12 +103,13 @@
             </button>
 
             <!-- Edit -->
-            <button cButton color="warning" size="sm" variant="ghost" class="me-2" title="Edit">
+            <button cButton color="warning" size="sm" variant="ghost" class="me-2" title="Edit"
+              (click)="openRouteView()">
               <svg cIcon name="cilPencil"></svg>
             </button>
 
             <!-- Delete -->
-            <button (click)="deleteRoute()" cButton color="danger" size="sm" variant="ghost" title="Delete">
+            <button cButton color="danger" size="sm" variant="ghost" title="Delete" (click)="deleteRoute()">
               <svg cIcon name="cilTrash"></svg>
             </button>
           </td>

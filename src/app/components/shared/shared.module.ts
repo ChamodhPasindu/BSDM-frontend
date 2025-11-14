@@ -36,6 +36,7 @@ import { SalesQuickMenuBottomSheetComponent } from './sales-quick-menu-bottom-sh
 import { SalesEmptyDataComponent } from './sales-empty-data/sales-empty-data.component';
 import { SharedDirectiveModule } from './shared-directive.module';
 import { PaginatorComponent } from './paginator/paginator.component';
+import { ScreenLoaderComponent } from './screen-loader/screen-loader.component';
 
 @NgModule({
   imports: [
@@ -77,7 +78,8 @@ import { PaginatorComponent } from './paginator/paginator.component';
     SalesPaymentSummaryBottomSheetComponent,
     SalesQuickMenuBottomSheetComponent,
     SalesEmptyDataComponent,
-    PaginatorComponent
+    PaginatorComponent,
+    ScreenLoaderComponent,
   ],
   exports: [
     AdminHeaderComponent,
@@ -90,6 +92,7 @@ import { PaginatorComponent } from './paginator/paginator.component';
     SalesEmptyDataComponent,
     SharedDirectiveModule,
     PaginatorComponent,
+    ScreenLoaderComponent,
 
     CommonModule,
     RouterModule,

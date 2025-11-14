@@ -1,6 +1,7 @@
 import { FormGroup } from '@angular/forms';
 import { ISWALAlert } from '../interfaces/ISWALAlert';
 import Swal, { SweetAlertResult } from 'sweetalert2';
+import * as moment from 'moment';
 
 export const alertSuccess = async (
   object: ISWALAlert,
@@ -72,6 +73,14 @@ export const alertError = async (
   if (result && callback) {
     callback(result);
   }
+};
+
+export const datePickerToDate = (
+  date: Date | string | null | undefined,
+  format: string = 'YYYY-MM-DD'
+): string => {
+  if (!date) return '';
+  return moment(date).format(format);
 };
 
 export const onValidate = (formGroup: FormGroup): boolean => {

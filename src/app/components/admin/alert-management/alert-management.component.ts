@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AlertViewComponent } from './alert-view/alert-view.component';
-import { alertWarning } from 'src/app/utility/helper';
+import { alertWarning, datePickerToDate } from 'src/app/utility/helper';
 import { PaginationType } from 'src/app/enums/PaginationType.enum';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-alert-management',
@@ -11,9 +12,45 @@ import { PaginationType } from 'src/app/enums/PaginationType.enum';
 export class AlertManagementComponent implements OnInit {
   @ViewChild('alertModal') protected alertModal!: AlertViewComponent;
 
-  constructor() {}
+  protected searchForm: FormGroup;
 
-  protected openAlertView(alert?: any) {
+  //temporary alert types
+  alertType = [
+    {
+      id: '1',
+      name: 'Info',
+    },
+    {
+      id: '2',
+      name: 'Warning',
+    },
+    {
+      id: '3',
+      name: 'Critical',
+    },
+  ];
+
+  constructor(private readonly fb: FormBuilder) {
+    this.createForm();
+  }
+
+  protected createForm(): void {
+    this.searchForm = this.fb.group({
+      content: [''],
+      type: [null],
+      fromDate: [''],
+      toDate: [''],
+    });
+  }
+
+  protected onSubmit(): void {
+    const { fromDate, toDate } = this.searchForm.value;
+    console.log(this.searchForm.value, datePickerToDate(fromDate));
+  }
+
+  protected onExport(): void {}
+
+  protected openAlertView(alert?: any): void {
     this.alertModal.alert = alert;
     this.alertModal.visible = true;
   }
@@ -31,11 +68,15 @@ export class AlertManagementComponent implements OnInit {
   protected currentPage = 1;
   protected pageSize = 5;
 
+  sortColumn: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
+
   ngOnInit(): void {
     // sample data
     this.users = Array.from({ length: 35 }, (_, i) => ({
       name: `User ${i + 1}`,
       nic: `NIC${1000 + i}`,
+      license: `LKR ${12500 + i * 100}`,
     }));
 
     this.updatePagedUsers();
@@ -49,6 +90,29 @@ export class AlertManagementComponent implements OnInit {
   protected onPageSizeChange(newSize: number): void {
     this.pageSize = newSize;
     this.currentPage = 1;
+    this.updatePagedUsers();
+  }
+
+  protected sortBy(column: string): void {
+    if (this.sortColumn === column) {
+      // toggle direction
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortColumn = column;
+      this.sortDirection = 'asc';
+    }
+
+    this.users.sort((a, b) => {
+      const valueA = a[column];
+      const valueB = b[column];
+
+      if (valueA == null || valueB == null) return 0;
+
+      return this.sortDirection === 'asc'
+        ? valueA.toString().localeCompare(valueB.toString())
+        : valueB.toString().localeCompare(valueA.toString());
+    });
+
     this.updatePagedUsers();
   }
 

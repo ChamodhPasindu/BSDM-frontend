@@ -17,4 +17,8 @@ export class StorageService {
   public get(key: string): string | null {
     return sessionStorage.getItem(window.btoa(key));
   }
+
+  public clearSession(): void {
+    sessionStorage.clear();
+  }
 }

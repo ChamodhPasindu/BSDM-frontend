@@ -11,12 +11,14 @@ import { AuditTrailComponent } from './audit-trail/audit-trail.component';
 import { PaymentsComponent } from './payments/payments.component';
 import { SalesDeliveryTrackingComponent } from './sales-delivery-tracking/sales-delivery-tracking.component';
 import { SettingsComponent } from './settings/settings.component';
+import { adminAuthGuard } from 'src/app/utility/guards/auth.guard';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
   {
     path: 'post-login',
     component: LayoutComponent,
+    canActivate: [adminAuthGuard],
     data: {
       title: 'Home',
     },

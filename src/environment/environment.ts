@@ -1,6 +1,6 @@
 export const environment = {
-    host: '',
-    port: '',
+    host: 'localhost',
+    port: '8080',
     version: 'V1.00.02',
     production: false,
   };

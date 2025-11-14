@@ -12,6 +12,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { Interceptor } from './utility/interceptor/interceptors.interceptor';
 import { ToastModule } from '@coreui/angular';
+import { SharedModule } from './components/shared/shared.module';
 
 @NgModule({
   declarations: [AppComponent, LandingPageComponent],
@@ -25,13 +26,14 @@ import { ToastModule } from '@coreui/angular';
     ButtonModule,
     CardModule,
     ToastModule,
+    SharedModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
-        enabled: !isDevMode(),
-        // Register the ServiceWorker as soon as the application is stable
-        // or after 30 seconds (whichever comes first).
-        registrationStrategy: 'registerWhenStable:30000',
+      enabled: !isDevMode(),
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000',
     }),
-],
+  ],
   providers: [
     IconSetService,
     Title,

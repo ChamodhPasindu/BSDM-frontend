@@ -36,26 +36,23 @@
         <button cButton type="button" (click)="openAlertView()">+ Add Alert</button>
       </c-col>
     </c-row>
-    <form cRow class="align-items-end mb-4">
+    <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" cRow class="align-items-end mb-4">
       <c-col xs="auto" class="mb-2">
         <label cLabel for="inputEmail4">Search Alert</label>
-        <input cFormControl id="inputEmail4" type="email" />
+        <input cFormControl placeholder="Enter Alert" formControlName="content" />
       </c-col>
 
       <c-col xs="auto" class="mb-2">
         <label cLabel for="inputEmail4">Alert Type</label>
-        <select aria-label="Default select example" cSelect>
-          <option>Select Alert Type</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </select>
+        <ng-select [searchable]="true" [clearable]="true" placeholder="Select Type" formControlName="type">
+          <ng-option *ngFor="let alert of alertType" [value]="alert.id"> {{ alert.name }}</ng-option>
+        </ng-select>
       </c-col>
 
       <c-col xs="auto" class="mb-2">
         <label cLabel for="datepicker">From Date</label>
         <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker />
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker formControlName="fromDate" />
           <span class="input-group-text bg-white">
             <svg cIcon name="cilCalendar" class="text-secondary"></svg>
           </span>
@@ -65,7 +62,7 @@
       <c-col xs="auto" class="mb-2">
         <label cLabel for="datepicker">To Date</label>
         <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker />
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker formControlName="toDate" />
           <span class="input-group-text bg-white">
             <svg cIcon name="cilCalendar" class="text-secondary"></svg>
           </span>
@@ -73,11 +70,11 @@
       </c-col>
 
       <c-col xs="auto" class="mb-2 d-flex align-items-center gap-2 flex-wrap">
-        <button cButton type="button" variant="outline" color="secondary">
+        <button cButton type="submit" variant="outline" color="secondary">
           <svg cIcon name="cilSearch" class="me-2"></svg>Search
         </button>
 
-        <button cButton type="button" variant="outline" color="info">
+        <button cButton type="button" variant="outline" color="info" (click)="onExport()">
           <svg cIcon name="cilCloudDownload" class="me-2"></svg>Export
         </button>
       </c-col>
@@ -86,12 +83,26 @@
     <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
       <thead cTableColor="light">
         <tr>
-          <th class="text-center">
+          <th class="text-center" (click)="sortBy('id')" style="cursor: pointer;">
             Employee ID
+            <svg *ngIf="sortColumn === 'id'" cIcon [name]="sortDirection === 'asc' ? 'cilArrowTop' : 'cilArrowBottom'"
+              class="ms-1"></svg>
           </th>
-          <th>Name</th>
-          <th>NIC</th>
-          <th class="text-center">License</th>
+          <th (click)="sortBy('name')" style="cursor: pointer;">
+            Name
+            <svg *ngIf="sortColumn === 'name'" cIcon [name]="sortDirection === 'asc' ? 'cilArrowTop' : 'cilArrowBottom'"
+              class="ms-1"></svg>
+          </th>
+          <th (click)="sortBy('nic')" style="cursor: pointer;">
+            NIC
+            <svg *ngIf="sortColumn === 'nic'" cIcon [name]="sortDirection === 'asc' ? 'cilArrowTop' : 'cilArrowBottom'"
+              class="ms-1"></svg>
+          </th>
+          <th class="text-center" (click)="sortBy('license')" style="cursor: pointer;">
+            License
+            <svg *ngIf="sortColumn === 'license'" cIcon
+              [name]="sortDirection === 'asc' ? 'cilArrowTop' : 'cilArrowBottom'" class="ms-1"></svg>
+          </th>
           <th class="text-center">Action</th>
         </tr>
       </thead>

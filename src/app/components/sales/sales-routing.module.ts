@@ -7,11 +7,13 @@ import { ProductComponent } from './product/product.component';
 import { RouteComponent } from './route/route.component';
 import { SettingsComponent } from './settings/settings.component';
 import { NotificationComponent } from './notification/notification.component';
+import { salesAuthGuard } from 'src/app/utility/guards/auth.guard';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
   {
     path: 'post-login',
+    canActivate: [salesAuthGuard],
     component: LayoutComponent,
     data: {
       title: 'Home',

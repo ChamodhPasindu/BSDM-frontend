@@ -39,6 +39,7 @@ import { AlertViewComponent } from './alert-management/alert-view/alert-view.com
 import { ViewPaymentComponent } from './payments/view-payment/view-payment.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SettingsComponent } from './settings/settings.component';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @NgModule({
   declarations: [
@@ -82,5 +83,6 @@ import { SettingsComponent } from './settings/settings.component';
     BsDatepickerModule.forRoot(),
     NgSelectModule,
   ],
+  providers: [AuthService],
 })
 export class AdminModule {}
