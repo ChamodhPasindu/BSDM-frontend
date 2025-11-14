@@ -15,7 +15,8 @@ export class StorageService {
   }
 
   public get(key: string): string | null {
-    return sessionStorage.getItem(window.btoa(key));
+    const encodedValue = sessionStorage.getItem(window.btoa(key));
+    return encodedValue ? window.atob(encodedValue) : null;
   }
 
   public clearSession(): void {

@@ -1,22 +1,61 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { StorageService } from 'src/app/services/storage.service';
+import { alertWarning } from 'src/app/utility/helper';
+import { SweetAlertResult } from 'sweetalert2';
 
+export enum SettingsTab {
+  PROFILE = 'profile',
+  PASSWORD = 'password',
+  VEHICLE = 'vehicle',
+  OTHERS = 'Others',
+}
+
+@UntilDestroy()
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit {
-  activeTab: string;
-  isEditing = false;
-  isDarkMode = false;
+  protected readonly SettingsTab = SettingsTab;
+  protected activeTab: SettingsTab;
 
-  constructor() {
-    this.activeTab = 'profile';
+  protected isEditing: boolean = false;
+  protected isDarkMode: boolean = false;
+
+  constructor(
+    private readonly router: Router,
+    private readonly authService: AuthService,
+    private readonly storageService: StorageService
+  ) {
+    this.activeTab = SettingsTab.PROFILE;
   }
 
   ngOnInit() {
     this.isDarkMode = localStorage.getItem('dark-theme') === '1';
-    this.applyTheme();
+  }
+
+  protected onLogOut(): void {
+    alertWarning(
+      {
+        title: 'Log Out',
+        text: 'Are you sure you want to log out?',
+      },
+      (result: SweetAlertResult<any>) => {
+        if (result.isConfirmed) {
+          this.authService
+            .logout()
+            .pipe(untilDestroyed(this))
+            .subscribe(() => {
+              this.router.navigate(['sales']);
+              this.storageService.clearSession();
+            });
+        }
+      }
+    );
   }
 
   user = {
@@ -36,14 +75,6 @@ export class SettingsComponent implements OnInit {
     noPlate: 'CBA-4567',
     licenseExpiry: '2027-08-15',
   };
-
-  enableEdit() {
-    this.isEditing = true;
-  }
-
-  cancelEdit() {
-    this.isEditing = false;
-  }
 
   saveChanges() {
     this.isEditing = false;
@@ -68,25 +99,16 @@ export class SettingsComponent implements OnInit {
     this.password = { current: '', new: '', confirm: '' };
   }
 
+  protected enableEdit(): void {
+    this.isEditing = true;
+  }
 
-  toggleDarkMode() {
+  protected cancelEdit(): void {
+    this.isEditing = false;
+  }
+
+  protected toggleDarkMode(): void {
     document.body.classList.toggle('dark-theme', this.isDarkMode);
-
-    // Save preference
     localStorage.setItem('dark-theme', this.isDarkMode ? '1' : '0');
-  }
-
-  setTheme(dark: boolean): void {
-    this.isDarkMode = dark;
-    localStorage.setItem('dark-theme', dark ? '1' : '0');
-    this.applyTheme();
-  }
-
-  private applyTheme(): void {
-    if (this.isDarkMode) {
-      document.body.classList.add('dark-theme');
-    } else {
-      document.body.classList.remove('dark-theme');
-    }
   }
 }

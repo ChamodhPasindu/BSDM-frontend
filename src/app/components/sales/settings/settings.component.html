@@ -4,19 +4,19 @@
     <!-- Compact Tab Buttons -->
     <div class="d-flex justify-content-between mb-3 gap-2">
       <button cButton size="sm" class="flex-fill fw-semibold rounded-3"
-        [color]="activeTab === 'profile' ? 'primary' : 'light'" (click)="activeTab = 'profile'">
+        [color]="activeTab === SettingsTab.PROFILE ? 'primary' : 'light'" (click)="activeTab = SettingsTab.PROFILE">
         Profile
       </button>
       <button cButton size="sm" class="flex-fill fw-semibold rounded-3"
-        [color]="activeTab === 'password' ? 'primary' : 'light'" (click)="activeTab = 'password'">
+        [color]="activeTab === SettingsTab.PASSWORD ? 'primary' : 'light'" (click)="activeTab = SettingsTab.PASSWORD">
         Password
       </button>
       <button cButton size="sm" class="flex-fill fw-semibold rounded-3"
-        [color]="activeTab === 'vehicle' ? 'primary' : 'light'" (click)="activeTab = 'vehicle'">
+        [color]="activeTab === SettingsTab.VEHICLE ? 'primary' : 'light'" (click)="activeTab = SettingsTab.VEHICLE">
         Vehicle
       </button>
       <button cButton size="sm" class="flex-fill fw-semibold rounded-3"
-        [color]="activeTab === 'other' ? 'primary' : 'light'" (click)="activeTab = 'other'">
+        [color]="activeTab === SettingsTab.OTHERS  ? 'primary' : 'light'" (click)="activeTab =  SettingsTab.OTHERS">
         Others
       </button>
     </div>
@@ -27,7 +27,7 @@
     <div [ngSwitch]="activeTab">
 
       <!-- PROFILE DETAILS -->
-      <div *ngSwitchCase="'profile'" class="fade-in">
+      <div *ngSwitchCase="SettingsTab.PROFILE" class="fade-in">
         <h6 class="fw-semibold mb-4">Your Profile Details</h6>
 
         <div class="text-center mb-3">
@@ -85,7 +85,7 @@
       </div>
 
       <!-- PASSWORD -->
-      <div *ngSwitchCase="'password'" class="fade-in">
+      <div *ngSwitchCase="SettingsTab.PASSWORD" class="fade-in">
         <h6 class="fw-semibold mb-4">Change Password</h6>
 
         <div class="mb-3">
@@ -108,7 +108,7 @@
       </div>
 
       <!-- VEHICLE -->
-      <div *ngSwitchCase="'vehicle'" class="fade-in">
+      <div *ngSwitchCase="SettingsTab.VEHICLE" class="fade-in">
         <h6 class="fw-semibold mb-4">Your Assigned Vehicle Details</h6>
 
         <div class="card p-3 border-0 bg-light">
@@ -131,9 +131,8 @@
         </div>
       </div>
 
-
       <!-- OTHER -->
-      <div *ngSwitchCase="'other'" class="fade-in">
+      <div *ngSwitchCase="SettingsTab.OTHERS" class="fade-in">
         <div class="form-check form-switch mt-2 mb-4">
           <input class="form-check-input" type="checkbox" role="switch" id="darkModeSwitch" [(ngModel)]="isDarkMode"
             (change)="toggleDarkMode()" />
@@ -152,7 +151,7 @@
             </div>
             <div class="mb-1">
               <svg cIcon name="cilPhone" class="me-2 text-dark"></svg>
-             RK TECH SYSTEMS - +94 77 123 4567
+              RK TECH SYSTEMS - +94 77 123 4567
             </div>
             <!-- <div class="mb-1">
               <svg cIcon name="cilEnvelopeClosed" class="me-2 text-dark"></svg>
@@ -166,8 +165,7 @@
         </div>
 
         <div class="text-center mt-4">
-          <button cButton color="danger" variant="outline" class="rounded-3 px-4 fw-semibold"
-            routerLink="/landing-page">
+          <button cButton color="danger" variant="outline" class="rounded-3 px-4 fw-semibold" (click)="onLogOut()">
             <svg cIcon name="cilAccountLogout" class="me-2"></svg> Logout
           </button>
         </div>

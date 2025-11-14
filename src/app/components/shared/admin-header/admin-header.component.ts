@@ -1,27 +1,27 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ClassToggleService, HeaderComponent } from '@coreui/angular';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { UserRole } from 'src/app/enums/UserRole.enum';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { StorageService } from 'src/app/services/storage.service';
+import { SESSION_DATA } from 'src/app/utility/constants/session-data';
+import { alertWarning } from 'src/app/utility/helper';
+import { SweetAlertResult } from 'sweetalert2';
 
+@UntilDestroy()
 @Component({
   selector: 'app-admin-header',
   templateUrl: './admin-header.component.html',
   styleUrls: ['./admin-header.component.scss'],
 })
 export class AdminHeaderComponent extends HeaderComponent implements OnInit {
-  isDarkMode = false;
-  @Input() sidebarId: string = 'sidebar';
+  protected isDarkMode: boolean = false;
+  @Input() public sidebarId: string = 'sidebar';
 
   public newMessages = new Array(4);
   public newTasks = new Array(5);
   public newNotifications = new Array(5);
-
-  constructor(private classToggler: ClassToggleService) {
-    super();
-  }
-
-  ngOnInit() {
-    this.isDarkMode = localStorage.getItem('dark-theme') === '1';
-    this.applyTheme();
-  }
 
   messages = [
     {
@@ -66,15 +66,55 @@ export class AdminHeaderComponent extends HeaderComponent implements OnInit {
     },
   ];
 
-  toggleTheme() {
-    this.isDarkMode = !this.isDarkMode;
-    document.body.classList.toggle('dark-theme', this.isDarkMode);
+  protected readonly UserRole = UserRole;
 
-    // Save preference
-    localStorage.setItem('dark-theme', this.isDarkMode ? '1' : '0');
+  protected name: string;
+  protected userRole: UserRole;
+  protected lastLoggedInTime: string = '05 Nov 2025 | 12:50';
+
+  constructor(
+    private readonly router: Router,
+    private readonly storageService: StorageService,
+    private readonly authService: AuthService
+  ) {
+    super();
   }
 
-  setTheme(dark: boolean): void {
+  ngOnInit() {
+    this.isDarkMode = localStorage.getItem('dark-theme') === '1';
+    this.applyTheme();
+    this.loadSessionData();
+  }
+
+  private loadSessionData(): void {
+    this.name = this.storageService.get(SESSION_DATA.NAME)!;
+    this.userRole = this.storageService.get(SESSION_DATA.ROLE) as UserRole;
+    console.log(this.userRole);
+
+    // this.name = this.storageService.get(SESSION_DATA.NAME);
+  }
+
+  protected onLogOut(): void {
+    alertWarning(
+      {
+        title: 'Log Out',
+        text: 'Are you sure you want to log out?',
+      },
+      (result: SweetAlertResult<any>) => {
+        if (result.isConfirmed) {
+          this.authService
+            .logout()
+            .pipe(untilDestroyed(this))
+            .subscribe(() => {
+              this.router.navigate(['admin']);
+              this.storageService.clearSession();
+            });
+        }
+      }
+    );
+  }
+
+  protected setTheme(dark: boolean): void {
     this.isDarkMode = dark;
     localStorage.setItem('dark-theme', dark ? '1' : '0');
     this.applyTheme();

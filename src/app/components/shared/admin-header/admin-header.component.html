@@ -35,17 +35,23 @@
                 <div class="vr h-100 mx-2 text-body text-opacity-75"></div>
             </div>
         </c-header-nav>
-       
+
         <c-header-nav class="ms-3">
             <ng-container *ngTemplateOutlet="userDropdown"></ng-container>
         </c-header-nav>
 
         <c-header-nav class="d-none d-lg-flex">
             <c-nav-item>
-                System Admin
+                <span *ngIf="userRole === UserRole.SUPERADMIN; else admin">
+                    System Admin
+                </span>
+
+                <ng-template #admin>
+                    Admin
+                </ng-template>
                 <div class="small text-medium-emphasis text-nowrap">
                     <span>
-                        Chamodh Pasindu
+                        {{name | titlecase}}
                     </span>
                 </div>
             </c-nav-item>
@@ -53,7 +59,7 @@
 
         <c-header-nav class="ms-3">
             <c-nav-item>
-                <button routerLink="/landing-page" cButton color="danger" size="sm">
+                <button cButton color="danger" size="sm" (click)="onLogOut()">
                     <svg cIcon name="cilPowerStandby"></svg>
                 </button>
             </c-nav-item>
@@ -99,8 +105,11 @@
         </button>
         <ul cDropdownMenu class="pt-0 pr-5 w-auto">
             <li class="d-lg-none px-3 pt-3 pb-2">
-                <div class="fw-semibold">System Admin</div>
-                <div class="small text-medium-emphasis">Chamodh Pasindu</div>
+                <div class="fw-semibold" *ngIf="userRole === UserRole.SUPERADMIN; else admin">System Admin</div>
+                <ng-template #admin>
+                    Admin
+                </ng-template>
+                <div class="small text-medium-emphasis">{{name | titlecase }}</div>
                 <hr class="my-2" />
             </li>
 
@@ -119,10 +128,10 @@
 
             <li class="px-3 pb-2 text-secondary small">
                 <div>Last login</div>
-                <div class="fw-semibold text-dark">05 Nov 2025 | 12:50</div>
+                <div class="fw-semibold text-dark">{{lastLoggedInTime}}</div>
             </li>
             <li>
-                <a routerLink="./" cDropdownItem>
+                <a routerLink="/settings" cDropdownItem>
                     <svg cIcon class="me-2" name="cilSettings"></svg>
                     Settings
                 </a>
@@ -132,7 +141,7 @@
                 <hr cDropdownDivider />
             </li>
             <li>
-                <a routerLink="./" cDropdownItem>
+                <a cDropdownItem (click)="onLogOut()">
                     <svg cIcon class="me-2" name="cilAccountLogout"></svg>
                     Log Out
                 </a>
