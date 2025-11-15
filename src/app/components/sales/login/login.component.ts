@@ -8,9 +8,22 @@ import { IResponse } from 'src/app/interfaces/IResponse';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
-import { RESPONSE_MESSAGES } from 'src/app/utility/constants/response-message';
+import {
+  RESPONSE_MESSAGES,
+  RESPONSE_TITLES,
+} from 'src/app/utility/constants/response-message-title';
 import { SESSION_DATA } from 'src/app/utility/constants/session-data';
-import { alertError, onValidate } from 'src/app/utility/helper';
+import {
+  PASSWORD_MAX_LENGTH,
+  PASSWORD_MIN_LENGTH,
+  USERNAME_MAX_LENGTH,
+  USERNAME_MIN_LENGTH,
+} from 'src/app/utility/constants/validation';
+import {
+  alertError,
+  errorMessageHandler,
+  onValidate,
+} from 'src/app/utility/helper';
 import { environment } from 'src/environment/environment';
 
 @UntilDestroy()
@@ -42,16 +55,16 @@ export class LoginComponent {
         '',
         [
           Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(50),
+          Validators.minLength(USERNAME_MIN_LENGTH),
+          Validators.maxLength(USERNAME_MAX_LENGTH),
         ],
       ],
       password: [
         '',
         [
           Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(50),
+          Validators.minLength(PASSWORD_MIN_LENGTH),
+          Validators.maxLength(PASSWORD_MAX_LENGTH),
         ],
       ],
     });
@@ -66,54 +79,44 @@ export class LoginComponent {
       .signIn(username, password)
       .pipe(untilDestroyed(this))
       .subscribe({
-        next: (response: IResponse) => {
-          if (response.body.status === RSP_SUCCESS) {
-            if (response.body.content.role !== UserRole.SALESMAN) {
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            if (res.body.content.role !== UserRole.SALESMAN) {
               alertError({
-                title: 'Login Failed',
+                title: RESPONSE_TITLES.ATTENTION,
                 text: RESPONSE_MESSAGES.INVALID_ROLE_ERROR_DES,
               });
             } else {
-              this.storageService.set(
-                SESSION_DATA.ROLE,
-                response.body.content.role
-              );
-              this.storageService.set(
-                SESSION_DATA.NAME,
-                response.body.content.name
-              );
+              this.storageService.set(SESSION_DATA.ROLE, res.body.content.role);
+              this.storageService.set(SESSION_DATA.NAME, res.body.content.name);
               this.storageService.set(
                 SESSION_DATA.ACCESS_TOKEN,
-                response.body.content.accessToken
+                res.body.content.accessToken
               );
               this.storageService.set(
                 SESSION_DATA.TOKEN_TYPE,
-                response.body.content.tokenType
+                res.body.content.tokenType
               );
               this.storageService.set(
                 SESSION_DATA.REFRESH_TOKEN,
-                response.body.content.refreshToken
+                res.body.content.refreshToken
               );
               this.storageService.set(
                 SESSION_DATA.USERNAME,
-                response.body.content.username
+                res.body.content.username
               );
-              
+
               this.router.navigate(['post-login'], { relativeTo: this.route });
             }
           } else {
             alertError({
-              title: 'Login Failed',
-              text: response.body.message || RESPONSE_MESSAGES.COMMON_ERROR_DES,
+              title: RESPONSE_TITLES.FAILED,
+              text: res.body.message || RESPONSE_MESSAGES.COMMON_ERROR_DES,
             });
           }
         },
-        error: (error: HttpErrorResponse) => {
-          alertError({
-            title: 'Login Failed',
-            text:
-              error.message || RESPONSE_MESSAGES.UNABLE_TO_SERVE_REQUEST_DES,
-          });
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
         },
       });
   }

@@ -19,7 +19,7 @@ import {
 import { StorageService } from 'src/app/services/storage.service';
 import { LoaderService } from 'src/app/services/loader/loader.service';
 import { Router } from '@angular/router';
-import { RESPONSE_MESSAGES } from '../constants/response-message';
+import { RESPONSE_MESSAGES, RESPONSE_TITLES } from '../constants/response-message-title';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { SESSION_DATA } from '../constants/session-data';
 import { alertError } from '../helper';
@@ -54,7 +54,7 @@ export class Interceptor implements HttpInterceptor {
     }
 
     // Get access token
-    const token = this.storageService.get('accessToken');
+    const token = this.storageService.get(SESSION_DATA.ACCESS_TOKEN);
 
     // Add Authorization header if token exists
     if (token) {
@@ -171,8 +171,8 @@ export class Interceptor implements HttpInterceptor {
   private logout(): void {
     this.storageService.clearSession();
     alertError({
-      title: 'Session Expired',
-      text: 'Your session has expired. Please log in again.',
+      title: RESPONSE_TITLES.OOPS,
+      text: RESPONSE_MESSAGES.SESSION_EXPIRED_DES,
     });
     this.router.navigate(['/login']);
   }

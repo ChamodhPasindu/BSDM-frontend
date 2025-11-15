@@ -89,8 +89,6 @@ export class AdminHeaderComponent extends HeaderComponent implements OnInit {
   private loadSessionData(): void {
     this.name = this.storageService.get(SESSION_DATA.NAME)!;
     this.userRole = this.storageService.get(SESSION_DATA.ROLE) as UserRole;
-    console.log(this.userRole);
-
     // this.name = this.storageService.get(SESSION_DATA.NAME);
   }
 

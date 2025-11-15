@@ -1,5 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { IEmployee } from 'src/app/interfaces/IEmployee';
+import { IResponse } from 'src/app/interfaces/IResponse';
 import { SECURE, getEndpoint } from 'src/app/utility/common/end-point';
 
 @Injectable()
@@ -8,4 +11,12 @@ export class EmployeeService {
 
   constructor(private readonly httpClient: HttpClient) {}
 
+  public createEmployee(payload: IEmployee): Observable<IResponse> {
+    return this.httpClient.post<IResponse>(
+      this.requestUrl + '/sign-in/creat-user',
+      {
+        ...payload,
+      }
+    );
+  }
 }

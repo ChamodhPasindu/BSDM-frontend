@@ -6,14 +6,12 @@ import { SECURE, getEndpoint } from 'src/app/utility/common/end-point';
 import { StorageService } from '../storage.service';
 
 @Injectable({
-  providedIn:'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private readonly requestUrl = `${getEndpoint(SECURE)}`;
 
-  constructor(
-    private readonly httpClient: HttpClient,
-  ) {}
+  constructor(private readonly httpClient: HttpClient) {}
 
   public signIn(username: string, password: string): Observable<IResponse> {
     return this.httpClient.post<IResponse>(
@@ -38,7 +36,8 @@ export class AuthService {
   public logout(): Observable<IResponse> {
     return this.httpClient.post<IResponse>(
       this.requestUrl + '/sign-in/logout',
-      {}
+      {},
+      { headers: { EXTERNAL: 'true' } }
     );
   }
 }

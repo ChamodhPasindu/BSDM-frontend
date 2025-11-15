@@ -40,6 +40,7 @@ import { ViewPaymentComponent } from './payments/view-payment/view-payment.compo
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SettingsComponent } from './settings/settings.component';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { EmployeeService } from 'src/app/services/employee/employee.service';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,6 @@ import { AuthService } from 'src/app/services/auth/auth.service';
     BsDatepickerModule.forRoot(),
     NgSelectModule,
   ],
-  providers: [AuthService],
+  providers: [EmployeeService],
 })
 export class AdminModule {}

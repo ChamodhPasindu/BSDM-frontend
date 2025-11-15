@@ -1,7 +1,14 @@
-import { FormGroup } from '@angular/forms';
+import {
+  AbstractControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+} from '@angular/forms';
 import { ISWALAlert } from '../interfaces/ISWALAlert';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 import * as moment from 'moment';
+import { HttpErrorResponse } from '@angular/common/http';
+import { RESPONSE_MESSAGES, RESPONSE_TITLES } from './constants/response-message-title';
 
 export const alertSuccess = async (
   object: ISWALAlert,
@@ -83,7 +90,38 @@ export const datePickerToDate = (
   return moment(date).format(format);
 };
 
+export const errorMessageHandler = (
+  error: HttpErrorResponse,
+  title?: string
+) => {
+  alertError({
+    title: title || RESPONSE_TITLES.OOPS,
+    text: error.error?.message || RESPONSE_MESSAGES.UNABLE_TO_SERVE_REQUEST_DES,
+  });
+};
+
 export const onValidate = (formGroup: FormGroup): boolean => {
   formGroup.markAllAsTouched();
   return formGroup.valid;
+};
+
+export const passwordMatchValidator: ValidatorFn = (
+  group: AbstractControl
+): ValidationErrors | null => {
+  const password = group.get('password')?.value;
+  const confirmPasswordControl = group.get('confirmPassword');
+
+  if (!confirmPasswordControl) return null;
+
+  const confirmPassword = confirmPasswordControl.value;
+
+  if (password !== confirmPassword) {
+    confirmPasswordControl.setErrors({ passwordMismatch: true });
+  } else {
+    if (confirmPasswordControl.hasError('passwordMismatch')) {
+      confirmPasswordControl.setErrors(null);
+    }
+  }
+
+  return null;
 };
