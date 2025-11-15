@@ -30,7 +30,7 @@
           <input cFormControl id="mobileNumber" type="text" formControlName="mobileNumber" appValidate
             fieldName="Mobile Number" />
         </c-col>
-        <c-col xs="6">
+        <c-col xs="12">
           <label cLabel for="email">Email</label>
           <input cFormControl id="email" type="email" formControlName="email" appValidate fieldName="Email" />
         </c-col>
@@ -39,6 +39,13 @@
           <select cFormControl id="batch" class="form-select" formControlName="role" appValidate fieldName="Role">
             <option value="">Select Role</option>
             <option *ngFor="let role of roleList" [value]="role['value']">{{ role['title'] }}</option>
+          </select>
+        </c-col>
+        <c-col md="6">
+          <label cLabel for="role">Status</label>
+          <select cFormControl id="batch" class="form-select" formControlName="status" appValidate fieldName="Status">
+            <option value="">Select Role</option>
+            <option *ngFor="let status of statusList" [value]="status['value']">{{ status['title'] }}</option>
           </select>
         </c-col>
         <hr />

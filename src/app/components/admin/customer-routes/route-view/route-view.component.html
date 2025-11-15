@@ -1,25 +1,34 @@
 <c-modal id="liveDemoModal" size="lg" alignment="center" class="modal-scrollable" [visible]="visible"
-  (visibleChange)="changeModalVisibility($event)">
-  <c-modal-header>
-    <h5 cModalTitle> Add New Route</h5>
-    <button cButtonClose (click)="closeModal()"></button>
-  </c-modal-header>
+  (visibleChange)="onChangeModalVisibility($event)">
   <form cForm [formGroup]="routeForm" (ngSubmit)="onSubmit()">
+    <c-modal-header>
+      <h5 cModalTitle> Add New Route</h5>
+      <button cButtonClose (click)="onCloseModal()"></button>
+    </c-modal-header>
     <c-modal-body>
       <h6 class="mb-3">Route Information</h6>
       <c-row class="g-3">
-        <c-col [md]="4">
+        <c-col md="6">
           <label cLabel for="routeName">Route Name</label>
-          <input cFormControl id="routeName" type="text" formControlName="routeName" />
+          <input cFormControl id="routeName" type="text" formControlName="routeName" appValidate
+            fieldName="Route Name" />
         </c-col>
-        <c-col [md]="8">
+        <c-col md="6">
+          <label cLabel for="role">Status</label>
+          <select cFormControl id="batch" class="form-select" formControlName="status" appValidate fieldName="Status">
+            <option value="">Select Role</option>
+            <option *ngFor="let status of statusList" [value]="status['value']">{{ status['title'] }}</option>
+          </select>
+        </c-col>
+        <c-col xs="12">
           <label cLabel for="description">Description</label>
-          <input cFormControl id="description" type="text" formControlName="description" />
+          <input cFormControl id="description" type="text" formControlName="description" appValidate
+            fieldName="Description" />
         </c-col>
       </c-row>
     </c-modal-body>
     <c-modal-footer>
-      <button cButton color="secondary" type="button" (click)="closeModal()">
+      <button cButton color="secondary" type="button" (click)="onCloseModal()">
         Close
       </button>
       <button cButton color="primary" type="submit">Add Route</button>

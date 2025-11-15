@@ -36,8 +36,7 @@ export class AuthService {
   public logout(): Observable<IResponse> {
     return this.httpClient.post<IResponse>(
       this.requestUrl + '/sign-in/logout',
-      {},
-      { headers: { EXTERNAL: 'true' } }
+      {}
     );
   }
 }

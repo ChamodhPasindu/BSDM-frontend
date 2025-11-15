@@ -19,4 +19,20 @@ export class EmployeeService {
       }
     );
   }
+
+  public validateNIC(nic: string): Observable<IResponse> {
+    return this.httpClient.post<IResponse>(
+      this.requestUrl + '/sign-up/validate-nic',
+      {},
+      { params: { nic: nic } }
+    );
+  }
+
+  public validateUsername(username: string): Observable<IResponse> {
+    return this.httpClient.post<IResponse>(
+      this.requestUrl + '/sign-up/validate-username',
+      {},
+      { params: { userName: username } }
+    );
+  }
 }

@@ -19,6 +19,10 @@ export const RESPONSE_MESSAGES = {
     'Employee information has been saved successfully.',
   EMPLOYEE_ADD_EDIT_FAILED:
     'Failed to save employee information. Please try again.',
+
+  ROUTE_ADD_EDIT_SUCCESS: 'Route information has been saved successfully.',
+  ROUTE_ADD_EDIT_FAILED:
+    'Failed to save route information. Please try again.',
 };
 
 export const RESPONSE_TITLES = {

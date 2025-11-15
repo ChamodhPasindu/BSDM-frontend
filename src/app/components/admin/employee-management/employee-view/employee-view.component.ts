@@ -2,9 +2,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { switchMap } from 'rxjs';
 import { IResponse } from 'src/app/interfaces/IResponse';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
-import { UserRoles } from 'src/app/utility/constants/other-constant';
+import { UserRoles, UserStatus } from 'src/app/utility/constants/other-constant';
 import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
 import {
   RESPONSE_MESSAGES,
@@ -49,6 +50,7 @@ export class EmployeeViewComponent
   protected selectedFile: File | null = null;
 
   protected roleList: Record<string, string>[] = UserRoles;
+  protected statusList: Record<string, string>[] = UserStatus;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -63,6 +65,16 @@ export class EmployeeViewComponent
   protected createForm(): void {
     this.employeeForm = this.fb.group(
       {
+        profileImage: [''],
+        name: ['', [Validators.required, Validators.pattern(REGEX_NAME)]],
+        nic: ['', [Validators.required, Validators.pattern(REGEX_NIC)]],
+        email: ['', [Validators.required, Validators.pattern(REGEX_EMAIL)]],
+        role: ['', Validators.required],
+        status: ['', Validators.required],
+        mobileNumber: [
+          '',
+          [Validators.required, Validators.pattern(REGEX_MOBILE)],
+        ],
         username: [
           '',
           [
@@ -71,15 +83,6 @@ export class EmployeeViewComponent
             Validators.maxLength(USERNAME_MAX_LENGTH),
           ],
         ],
-        name: ['', [Validators.required, Validators.pattern(REGEX_NAME)]],
-        nic: ['', [Validators.required, Validators.pattern(REGEX_NIC)]],
-        email: ['', [Validators.required, Validators.pattern(REGEX_EMAIL)]],
-        role: ['', Validators.required],
-        mobileNumber: [
-          '',
-          [Validators.required, Validators.pattern(REGEX_MOBILE)],
-        ],
-        profileImage: ['', [Validators.required]],
         password: [
           '',
           [
@@ -100,35 +103,63 @@ export class EmployeeViewComponent
   protected onSubmit(): void {
     if (!onValidate(this.employeeForm)) return;
 
-    console.log(this.employeeForm.value);
+    const { nic, username } = this.employeeForm.value;
 
     this.employeeService
-      .createEmployee(this.employeeForm.value)
-      .pipe(untilDestroyed(this))
+      .validateNIC(nic)
+      .pipe(
+        untilDestroyed(this),
+        switchMap((nicRes: IResponse) => {
+          if (
+            nicRes.body.status !== RSP_SUCCESS ||
+            !nicRes.body.content.isAvailable
+          ) {
+            throw nicRes;
+          }
+          return this.employeeService.validateUsername(username);
+        }),
+        switchMap((userRes: IResponse) => {
+          if (
+            userRes.body.status !== RSP_SUCCESS ||
+            !userRes.body.content.isAvailable
+          ) {
+            throw userRes;
+          }
+          return this.employeeService.createEmployee(this.employeeForm.value);
+        })
+      )
       .subscribe({
-        next: (res: IResponse) => {
-          if (res.body.status === RSP_SUCCESS) {
+        next: (createRes: IResponse) => {
+          if (createRes.body.status === RSP_SUCCESS) {
             alertSuccess(
               {
                 title: RESPONSE_TITLES.SUCCESS,
                 text:
-                  res.body.message ||
+                  createRes.body.message ||
                   RESPONSE_MESSAGES.EMPLOYEE_ADD_EDIT_SUCCESS,
               },
-              () => {
-                this.onCloseModal();
-              }
+              () => this.onCloseModal()
             );
           } else {
             alertError({
               title: RESPONSE_TITLES.FAILED,
               text:
-                res.body.message || RESPONSE_MESSAGES.EMPLOYEE_ADD_EDIT_FAILED,
+                createRes.body.message ||
+                RESPONSE_MESSAGES.EMPLOYEE_ADD_EDIT_FAILED,
             });
           }
         },
-        error: (err: HttpErrorResponse) => {
-          errorMessageHandler(err);
+        error: (err: any) => {
+          if (err instanceof HttpErrorResponse) {
+            errorMessageHandler(err);
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                err.body?.content?.message ||
+                RESPONSE_MESSAGES.EMPLOYEE_ADD_EDIT_FAILED,
+            });
+          }
         },
       });
   }
