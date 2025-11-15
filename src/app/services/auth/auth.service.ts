@@ -26,7 +26,7 @@ export class AuthService {
 
   public refreshToken(refreshToken: string): Observable<IResponse> {
     return this.httpClient.post<IResponse>(
-      this.requestUrl + '/sign-in/refresh-token',
+      this.requestUrl + '/sign-up/refresh-token',
       {
         refreshToken: refreshToken,
       }
@@ -35,7 +35,7 @@ export class AuthService {
 
   public logout(): Observable<IResponse> {
     return this.httpClient.post<IResponse>(
-      this.requestUrl + '/sign-in/logout',
+      this.requestUrl + '/sign-up/logout',
       {}
     );
   }

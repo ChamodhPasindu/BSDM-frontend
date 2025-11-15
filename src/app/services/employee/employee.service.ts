@@ -13,7 +13,7 @@ export class EmployeeService {
 
   public createEmployee(payload: IEmployee): Observable<IResponse> {
     return this.httpClient.post<IResponse>(
-      this.requestUrl + '/sign-in/creat-user',
+      this.requestUrl + '/sign-up/creat-user',
       {
         ...payload,
       }
