@@ -42,6 +42,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { RouteService } from 'src/app/services/route/route.service';
+import { VehicleService } from 'src/app/services/vehicle/vehicle.service';
 
 @NgModule({
   declarations: [
@@ -85,6 +86,6 @@ import { RouteService } from 'src/app/services/route/route.service';
     BsDatepickerModule.forRoot(),
     NgSelectModule,
   ],
-  providers: [EmployeeService,RouteService],
+  providers: [EmployeeService,RouteService,VehicleService],
 })
 export class AdminModule {}

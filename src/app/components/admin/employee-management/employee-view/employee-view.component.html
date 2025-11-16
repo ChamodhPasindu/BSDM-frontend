@@ -39,14 +39,14 @@
         <c-col md="6">
           <label cLabel for="role">Role</label>
           <select cFormControl id="batch" class="form-select" formControlName="role" appValidate fieldName="Role">
-            <option value="">Select Role</option>
+            <option value=null>Select Role</option>
             <option *ngFor="let role of roleList" [value]="role['value']">{{ role['title'] }}</option>
           </select>
         </c-col>
         <c-col md="6">
-          <label cLabel for="role">Status</label>
-          <select cFormControl id="batch" class="form-select" formControlName="status" appValidate fieldName="Status">
-            <option value="">Select Role</option>
+          <label cLabel for="status">Status</label>
+          <select cFormControl id="status" class="form-select" formControlName="status" appValidate fieldName="Status">
+            <option value=null>Select Role</option>
             <option *ngFor="let status of statusList" [value]="status['value']">{{ status['title'] }}</option>
           </select>
         </c-col>

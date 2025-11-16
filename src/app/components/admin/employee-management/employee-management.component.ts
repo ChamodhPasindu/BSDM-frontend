@@ -49,7 +49,7 @@ export class EmployeeManagementComponent implements OnInit {
     this.loadEmployeeTableData();
   }
 
-  protected createForm(): void {
+  private createForm(): void {
     this.searchForm = this.fb.group({
       inputValue: [''],
       fromDate: [''],

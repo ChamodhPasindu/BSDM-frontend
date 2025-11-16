@@ -105,24 +105,24 @@
             <c-avatar size="md" src="./assets/images/customer-logo.png"></c-avatar>
           </td>
           <td class="text-center">
-            {{employee.userId}}
+            {{employee.userId | empty}}
           </td>
           <td>
-            <div>{{ employee.name }}</div>
+            <div>{{ employee.name | empty}}</div>
             <div class="small text-medium-emphasis text-nowrap">
               <span>
-                {{ employee.email }}
+                {{ employee.email | empty}}
               </span>
             </div>
           </td>
           <td>
-            {{ employee.nic }}
+            {{ employee.nic | empty}}
           </td>
           <td class="text-center">
-            {{ employee.mobileNumber }}
+            {{ employee.mobileNumber | empty}}
           </td>
           <td class="text-center">
-            {{employee.roleName}}
+            {{employee.roleName | empty}}
           </td>
           <td class="text-center">
             <!-- View -->

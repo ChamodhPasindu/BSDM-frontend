@@ -37,6 +37,7 @@ import { SalesEmptyDataComponent } from './sales-empty-data/sales-empty-data.com
 import { SharedDirectiveModule } from './shared-directive.module';
 import { PaginatorComponent } from './paginator/paginator.component';
 import { ScreenLoaderComponent } from './screen-loader/screen-loader.component';
+import { SharedPipeModule } from './shared-pipe.module';
 
 @NgModule({
   imports: [
@@ -68,6 +69,7 @@ import { ScreenLoaderComponent } from './screen-loader/screen-loader.component';
     NavbarTextComponent,
     AlertComponent,
     SharedDirectiveModule,
+    SharedPipeModule
   ],
   declarations: [
     AdminHeaderComponent,
@@ -90,10 +92,11 @@ import { ScreenLoaderComponent } from './screen-loader/screen-loader.component';
     SalesPaymentSummaryBottomSheetComponent,
     SalesQuickMenuBottomSheetComponent,
     SalesEmptyDataComponent,
-    SharedDirectiveModule,
     PaginatorComponent,
     ScreenLoaderComponent,
-
+    SharedDirectiveModule,
+    SharedPipeModule,
+    
     CommonModule,
     RouterModule,
     FormsModule,

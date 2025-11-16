@@ -16,7 +16,7 @@
       </ng-template>
     </c-widget-stat-f>
   </c-col>
-  
+
   <c-col>
     <c-widget-stat-f [title]="'Suspended'" class="mb-3" color="danger" padding value="75">
       <ng-template cTemplateId="widgetIconTemplate">
@@ -33,19 +33,19 @@
         <h4 class="card-title mb-4" id="employee-list">Vehicle List</h4>
       </c-col>
       <c-col xs="auto">
-        <button cButton type="button" (click)="openVehicleView()">+ Add Vehicle</button>
+        <button cButton type="button" (click)="openVehicleView(ActionButton.ADD)">+ Add Vehicle</button>
       </c-col>
     </c-row>
-    <form cRow class="align-items-end mb-4">
+    <form cRow class="align-items-end mb-4" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
       <c-col xs="auto" class="mb-2">
-        <label cLabel for="inputEmail4">Search Vehicle</label>
-        <input cFormControl id="inputEmail4" type="email" />
+        <label cLabel for="inputValue">Search Vehicle</label>
+        <input cFormControl id="inputValue" type="text" formControlName="inputValue" />
       </c-col>
 
       <c-col xs="auto" class="mb-2">
         <label cLabel for="datepicker">From Date</label>
         <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker />
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker formControlName="fromDate" />
           <span class="input-group-text bg-white">
             <svg cIcon name="cilCalendar" class="text-secondary"></svg>
           </span>
@@ -55,7 +55,7 @@
       <c-col xs="auto" class="mb-2">
         <label cLabel for="datepicker">To Date</label>
         <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker />
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker formControlName="toDate" />
           <span class="input-group-text bg-white">
             <svg cIcon name="cilCalendar" class="text-secondary"></svg>
           </span>
@@ -63,10 +63,15 @@
       </c-col>
 
       <c-col xs="auto" class="mb-2 d-flex align-items-center gap-2 flex-wrap">
-        <button cButton type="button" variant="outline" color="secondary">
+        <button cButton type="submit" variant="outline" color="secondary">
           <svg cIcon name="cilSearch" class="me-2"></svg>Search
         </button>
-      
+
+        <button *ngIf="searchForm.dirty && searchForm.value && hasAnyValue()" cButton type="button" variant="outline"
+          color="danger" (click)="onClear()">
+          <svg cIcon name="cilX" class="me-2"></svg>Clear
+        </button>
+
         <button cButton type="button" variant="outline" color="info">
           <svg cIcon name="cilCloudDownload" class="me-2"></svg>Export
         </button>
@@ -77,57 +82,51 @@
       <thead cTableColor="light">
         <tr>
           <th class="text-center">
-            Vehicle ID
+            ID
           </th>
-          <th class="text-center">
+          <th>
             Vehicle No
           </th>
-          <th>Brand</th>
-          <th>Model</th>
-          <th class="text-center">Name</th>
+          <th class="text-center">Vehicle Type</th>
+          <th class="text-center">Status</th>
           <th class="text-center">Action</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngIf="!pagedUsers || pagedUsers.length === 0">
+        <tr *ngIf="!vehicleList || vehicleList.length === 0">
           <td colspan="6" class="text-center text-muted py-3">
             No data available
           </td>
         </tr>
-        <tr *ngFor="let user of pagedUsers; index as i">
+        <tr *ngFor="let vehicle of vehicleList; index as i">
           <td class="text-center">
-            1
-          </td>
-          <td class="text-center">
-            EMP12
+            {{vehicle.vehicleId | empty}}
           </td>
           <td>
-            <div>{{ user.name }}</div>
-            <div class="small text-medium-emphasis text-nowrap">
-              <span>
-                Route | Battaramulle
-              </span>
-            </div>
-          </td>
-          <td>
-            Supun Perera
+            {{vehicle.vehicleNumber | empty}}
           </td>
           <td class="text-center">
-            <div class="fw-semibold text-nowrap">LKR 12,500</div>
+            {{getVehicleType(vehicle.vehicleCode.split('-')[0]) | empty}}
+          </td>
+          <td class="text-center">
+            {{vehicle.statusCode | empty}}
           </td>
           <td class="text-center">
             <!-- View -->
-            <button cButton color="info" size="sm" variant="ghost" class="me-2" title="View">
+            <button cButton color="info" size="sm" variant="ghost" class="me-2" title="View"
+              (click)="openVehicleView(ActionButton.VIEW,vehicle)">
               <svg cIcon name="cilCommand"></svg>
             </button>
 
             <!-- Edit -->
-            <button cButton color="warning" size="sm" variant="ghost" class="me-2" title="Edit">
+            <button cButton color="warning" size="sm" variant="ghost" class="me-2" title="Edit"
+              (click)="openVehicleView(ActionButton.EDIT,vehicle)">
               <svg cIcon name="cilPencil"></svg>
             </button>
 
             <!-- Delete -->
-            <button (click)="delete()" cButton color="danger" size="sm" variant="ghost" title="Delete">
+            <button cButton color="danger" size="sm" variant="ghost" title="Delete"
+              (click)="onDeleteVehicle(vehicle.vehicleId)">
               <svg cIcon name="cilTrash"></svg>
             </button>
           </td>
@@ -135,11 +134,10 @@
         </tr>
       </tbody>
     </table>
-    <app-paginator *ngIf="pagedUsers.length !== 0" [totalItems]="users.length" [(pageSize)]="pageSize"
-    [(currentPage)]="currentPage" (currentPageChange)="goToPage($event)"
-    (pageSizeChange)="onPageSizeChange($event)"></app-paginator>
-  </c-card-body> 
+    <app-paginator *ngIf="count !== 0" [totalItems]="count" [(pageSize)]="pageSize" [(currentPage)]="currentPage"
+      (currentPageChange)="goToPage($event)" (pageSizeChange)="onPageSizeChange($event)"></app-paginator>
+  </c-card-body>
 </c-card>
 
 
-<app-view-vehicle #vehicleModal></app-view-vehicle>
+<app-view-vehicle (tableRefresh)="onRefresh()" #vehicleModal></app-view-vehicle>

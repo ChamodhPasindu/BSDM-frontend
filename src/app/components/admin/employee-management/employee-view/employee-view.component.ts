@@ -85,15 +85,15 @@ export class EmployeeViewComponent extends ModalControlDirective {
     this.createForm();
   }
 
-  protected createForm(): void {
+  private createForm(): void {
     this.employeeForm = this.fb.group(
       {
         profileImage: [''],
         name: ['', [Validators.required, Validators.pattern(REGEX_NAME)]],
         nic: ['', [Validators.required, Validators.pattern(REGEX_NIC)]],
         email: ['', [Validators.required, Validators.pattern(REGEX_EMAIL)]],
-        role: ['', Validators.required],
-        status: ['', Validators.required],
+        role: [null, Validators.required],
+        status: [null, Validators.required],
         mobileNumber: [
           '',
           [Validators.required, Validators.pattern(REGEX_MOBILE)],

@@ -1,60 +1,44 @@
 <c-modal id="liveDemoModal" size="lg" alignment="center" class="modal-scrollable" [visible]="visible"
-  (visibleChange)="changeModalVisibility($event)">
-  <c-modal-header>
-    <h5 cModalTitle> Add New Vehicle</h5>
-    <button (click)="closeModal()" cButtonClose></button>
-  </c-modal-header>
-  <c-modal-body>
-    <form cForm class="row g-3">
-      <h6 class="mb-3">Personal Information</h6>
-      <c-col [md]="6">
-        <label cLabel for="inputEmail4">Email</label>
-        <input cFormControl id="inputEmail4" type="email" />
-      </c-col>
-      <c-col [md]="6">
-        <label cLabel for="inputPassword4">Password</label>
-        <input cFormControl id="inputPassword4" type="password" />
-      </c-col>
-      <c-col [xs]="12">
-        <label cLabel for="inputAddress">Address</label>
-        <input cFormControl id="inputAddress" placeholder="1234 Main St" />
-      </c-col>
-      <c-col [xs]="12">
-        <label cLabel for="inputAddress2">Address 2</label>
-        <input cFormControl id="inputAddress2" placeholder="Apartment, studio, or floor" />
-      </c-col>
-      <c-col [md]="6">
-        <label cLabel for="inputCity">City</label>
-        <input cFormControl id="inputCity" />
-      </c-col>
-      <hr />
-      <h6 class="mb-3 mt-3">Employee Details</h6>
-      <c-col [md]="6">
-        <label cLabel for="inputEmail4">Email</label>
-        <input cFormControl id="inputEmail4" type="email" />
-      </c-col>
-      <c-col [md]="6">
-        <label cLabel for="inputPassword4">Password</label>
-        <input cFormControl id="inputPassword4" type="password" />
-      </c-col>
-      <c-col [xs]="12">
-        <label cLabel for="inputAddress">Address</label>
-        <input cFormControl id="inputAddress" placeholder="1234 Main St" />
-      </c-col>
-      <c-col [xs]="12">
-        <label cLabel for="inputAddress2">Address 2</label>
-        <input cFormControl id="inputAddress2" placeholder="Apartment, studio, or floor" />
-      </c-col>
-      <c-col [md]="6">
-        <label cLabel for="inputCity">City</label>
-        <input cFormControl id="inputCity" />
-      </c-col>
-    </form>
-  </c-modal-body>
-  <c-modal-footer>
-    <button (click)="closeModal()" cButton color="secondary">
-      Close
-    </button>
-    <button cButton color="primary">Add Vehicle</button>
-  </c-modal-footer>
+  (visibleChange)="onChangeModalVisibility($event)">
+  <form cForm [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
+    <c-modal-header>
+      <h5 cModalTitle *ngIf="action === ActionButton.ADD"> Add New Vehicle</h5>
+      <h5 cModalTitle *ngIf="action === ActionButton.EDIT"> Edit Vehicle</h5>
+      <h5 cModalTitle *ngIf="action === ActionButton.VIEW"> View Vehicle</h5>
+      <button (click)="onCloseModal()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+      <c-row class="g-3">
+        <h6 class="mb-3">Vehicle Information</h6>
+        <c-col xs="12">
+          <label cLabel for="vehicleNumber">Vehicle Number</label>
+          <input cFormControl id="vehicleNumber" type="text" formControlName="vehicleNumber" appValidate
+            fieldName="Vehicle Number">
+        </c-col>
+        <c-col md="6">
+          <label cLabel for="vehicleType">Vehicle Type</label>
+          <select cFormControl id="vehicleType" class="form-select" formControlName="vehicleCode" appValidate
+            fieldName="Vehicle Type">
+            <option value=null>Select Type</option>
+            <option *ngFor="let vehicle of vehicleTypeList" [value]="vehicle['value']">{{ vehicle['title'] }}</option>
+          </select>
+        </c-col>
+        <c-col md="6">
+          <label cLabel for="status">Status</label>
+          <select cFormControl id="status" class="form-select" formControlName="statusCode" appValidate
+            fieldName="Status">
+            <option value=null>Select Role</option>
+            <option *ngFor="let status of statusList" [value]="status['value']">{{ status['title'] }}</option>
+          </select>
+        </c-col>
+      </c-row>
+    </c-modal-body>
+    <c-modal-footer>
+      <button cButton color="secondary" type="button" (click)="onCloseModal()">
+        Close
+      </button>
+      <button cButton color="primary" type="submit" *ngIf="action === ActionButton.ADD">Add Vehicle</button>
+      <button cButton color="primary" type="submit" *ngIf="action === ActionButton.EDIT">Edit Vehicle</button>
+    </c-modal-footer>
+  </form>
 </c-modal>
