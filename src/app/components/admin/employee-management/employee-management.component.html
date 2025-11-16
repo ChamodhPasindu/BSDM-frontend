@@ -33,19 +33,19 @@
         <h4 class="card-title mb-4" id="employee-list">Employee List</h4>
       </c-col>
       <c-col xs="auto">
-        <button cButton type="button" (click)="openEmployeeView()">+ Add Employee</button>
+        <button cButton type="button" (click)="openEmployeeView(ActionButton.ADD)">+ Add Employee</button>
       </c-col>
     </c-row>
-    <form cRow class="align-items-end mb-4">
+    <form cRow class="align-items-end mb-4" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
       <c-col xs="auto" class="mb-2">
-        <label cLabel for="inputEmail4">Search Customer</label>
-        <input cFormControl id="inputEmail4" type="email" />
+        <label cLabel for="inputValue">Search Customer</label>
+        <input cFormControl id="inputValue" type="text" formControlName="inputValue" />
       </c-col>
 
       <c-col xs="auto" class="mb-2">
         <label cLabel for="datepicker">From Date</label>
         <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker />
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker formControlName="fromDate" />
           <span class="input-group-text bg-white">
             <svg cIcon name="cilCalendar" class="text-secondary"></svg>
           </span>
@@ -55,7 +55,7 @@
       <c-col xs="auto" class="mb-2">
         <label cLabel for="datepicker">To Date</label>
         <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker />
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker formControlName="toDate" />
           <span class="input-group-text bg-white">
             <svg cIcon name="cilCalendar" class="text-secondary"></svg>
           </span>
@@ -63,8 +63,13 @@
       </c-col>
 
       <c-col xs="auto" class="mb-2 d-flex align-items-center gap-2 flex-wrap">
-        <button cButton type="button" variant="outline" color="secondary">
+        <button cButton type="submit" variant="outline" color="secondary">
           <svg cIcon name="cilSearch" class="me-2"></svg>Search
+        </button>
+
+        <button *ngIf="searchForm.dirty && searchForm.value && hasAnyValue()" cButton type="button" variant="outline"
+          color="danger" (click)="onClear()">
+          <svg cIcon name="cilX" class="me-2"></svg>Clear
         </button>
 
         <button cButton type="button" variant="outline" color="info">
@@ -80,49 +85,55 @@
             <svg cIcon name="cilPeople"></svg>
           </th>
           <th class="text-center">
-            Employee ID
+            ID
           </th>
           <th>Name</th>
           <th>NIC</th>
-          <th class="text-center">License</th>
+          <th class="text-center">Mobile</th>
+          <th class="text-center">Role</th>
           <th class="text-center">Action</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngIf="!pagedUsers || pagedUsers.length === 0">
-          <td colspan="6" class="text-center text-muted py-3">
+        <tr *ngIf="!employeeList || employeeList.length === 0">
+          <td colspan="7" class="text-center text-muted py-3">
             No data available
           </td>
         </tr>
-        <tr *ngFor="let user of pagedUsers; index as i">
+        <tr *ngFor="let employee of employeeList; index as i">
           <td class="text-center">
             <c-avatar size="md" src="./assets/images/customer-logo.png"></c-avatar>
           </td>
           <td class="text-center">
-            EMP12
+            {{employee.userId}}
           </td>
           <td>
-            <div>{{ user.name }}</div>
+            <div>{{ employee.name }}</div>
             <div class="small text-medium-emphasis text-nowrap">
               <span>
-                Route | Battaramulle
+                {{ employee.email }}
               </span>
             </div>
           </td>
           <td>
-            Supun Perera
+            {{ employee.nic }}
           </td>
           <td class="text-center">
-            <div class="fw-semibold text-nowrap">LKR 12,500</div>
+            {{ employee.mobileNumber }}
+          </td>
+          <td class="text-center">
+            {{employee.roleName}}
           </td>
           <td class="text-center">
             <!-- View -->
-            <button cButton color="info" size="sm" variant="ghost" class="me-2" title="View">
+            <button cButton color="info" size="sm" variant="ghost" class="me-2" title="View"
+              (click)="openEmployeeView(ActionButton.VIEW,employee)">
               <svg cIcon name="cilCommand"></svg>
             </button>
 
             <!-- Edit -->
-            <button cButton color="warning" size="sm" variant="ghost" class="me-2" title="Edit">
+            <button cButton color="warning" size="sm" variant="ghost" class="me-2" title="Edit"
+              (click)="openEmployeeView(ActionButton.EDIT,employee)">
               <svg cIcon name="cilPencil"></svg>
             </button>
 
@@ -136,12 +147,11 @@
       </tbody>
     </table>
 
-    <app-paginator *ngIf="pagedUsers.length !== 0" [totalItems]="users.length" [(pageSize)]="pageSize"
-      [(currentPage)]="currentPage" (currentPageChange)="goToPage($event)"
-      (pageSizeChange)="onPageSizeChange($event)"></app-paginator>
+    <app-paginator *ngIf="count !== 0" [totalItems]="count" [(pageSize)]="pageSize" [(currentPage)]="currentPage"
+      (currentPageChange)="goToPage($event)" (pageSizeChange)="onPageSizeChange($event)"></app-paginator>
   </c-card-body>
 
 </c-card>
 
 
-<app-employee-view #employeeModal></app-employee-view>
+<app-employee-view (tableRefresh)="onRefresh()" #employeeModal></app-employee-view>

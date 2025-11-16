@@ -2,7 +2,9 @@
   (visibleChange)="onChangeModalVisibility($event)">
   <form cForm [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
     <c-modal-header>
-      <h5 cModalTitle> Add New Employee</h5>
+      <h5 cModalTitle *ngIf="action === ActionButton.ADD"> Add New Employee</h5>
+      <h5 cModalTitle *ngIf="action === ActionButton.EDIT"> Edit Employee</h5>
+      <h5 cModalTitle *ngIf="action === ActionButton.VIEW"> View Employee</h5>
       <button (click)="onCloseModal()" cButtonClose></button>
     </c-modal-header>
     <c-modal-body>
@@ -85,7 +87,8 @@
       <button cButton color="secondary" type="button" (click)="onCloseModal()">
         Close
       </button>
-      <button cButton color="primary" type="submit">Add Employee</button>
+      <button cButton color="primary" type="submit" *ngIf="action === ActionButton.ADD">Add Employee</button>
+      <button cButton color="primary" type="submit" *ngIf="action === ActionButton.EDIT">Edit Employee</button>
     </c-modal-footer>
   </form>
 </c-modal>

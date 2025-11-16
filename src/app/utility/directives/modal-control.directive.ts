@@ -1,10 +1,13 @@
-import { Directive } from '@angular/core';
+import { Directive, EventEmitter, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Directive({
   selector: '[appModalControl]',
 })
 export class ModalControlDirective {
+  
+  @Output() public tableRefresh = new EventEmitter<void>();
+
   public visible: boolean = false;
   protected formGroup?: FormGroup;
 

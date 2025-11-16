@@ -1,11 +1,16 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { switchMap } from 'rxjs';
+import { ActionButton } from 'src/app/enums/ActionButton.enum';
+import { IEmployeeData } from 'src/app/interfaces/IEmployeeData';
 import { IResponse } from 'src/app/interfaces/IResponse';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
-import { UserRoles, UserStatus } from 'src/app/utility/constants/other-constant';
+import {
+  UserRoles,
+  UserStatus,
+} from 'src/app/utility/constants/other-constant';
 import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
 import {
   RESPONSE_MESSAGES,
@@ -36,11 +41,11 @@ import {
   templateUrl: './employee-view.component.html',
   styleUrls: ['./employee-view.component.scss'],
 })
-export class EmployeeViewComponent
-  extends ModalControlDirective
-  implements OnInit
-{
-  @Input() public employee: any;
+export class EmployeeViewComponent extends ModalControlDirective {
+  protected readonly ActionButton = ActionButton;
+
+  private _employee: IEmployeeData | undefined;
+  private _action: ActionButton;
 
   protected showPassword: boolean = false;
   protected showConfirmPassword: boolean = false;
@@ -52,6 +57,26 @@ export class EmployeeViewComponent
   protected roleList: Record<string, string>[] = UserRoles;
   protected statusList: Record<string, string>[] = UserStatus;
 
+  @Input()
+  public set employee(value: IEmployeeData | undefined) {
+    this._employee = value;
+    this.updateForm();
+  }
+
+  public get employee() {
+    return this._employee;
+  }
+
+  @Input()
+  public set action(value: ActionButton) {
+    this._action = value;
+    this.updateForm();
+  }
+
+  public get action() {
+    return this._action;
+  }
+
   constructor(
     private readonly fb: FormBuilder,
     private readonly employeeService: EmployeeService
@@ -59,8 +84,6 @@ export class EmployeeViewComponent
     super();
     this.createForm();
   }
-
-  ngOnInit() {}
 
   protected createForm(): void {
     this.employeeForm = this.fb.group(
@@ -100,6 +123,60 @@ export class EmployeeViewComponent
     this.setForm(this.employeeForm);
   }
 
+  private updateForm(): void {
+    if (!this.action) return;
+
+    this.previewUrl = null;
+    this.selectedFile = null;
+
+    if (this.action === ActionButton.VIEW) {
+      this.patchValue();
+      this.employeeForm.disable();
+    }
+
+    if (this.action === ActionButton.EDIT) {
+      this.patchValue();
+      this.employeeForm.enable();
+    }
+
+    if (this.action === ActionButton.ADD) {
+      this.employeeForm.enable();
+    }
+  }
+
+  private patchValue(): void {
+    this.employeeForm.patchValue({
+      profileImage: this.employee?.profileImageBase64 || '',
+      name: this.employee?.name,
+      nic: this.employee?.nic,
+      email: this.employee?.email,
+      role: this.employee?.roleCode,
+      status: this.employee?.statusCode,
+      mobileNumber: this.employee?.mobileNumber,
+      username: this.employee?.username,
+
+      password: '',
+      confirmPassword: '',
+    });
+  }
+
+  protected onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.previewUrl = reader.result;
+        this.employeeForm.patchValue({
+          profileImage: reader.result,
+        });
+      };
+      reader.readAsDataURL(file);
+    } else {
+      this.previewUrl = null;
+    }
+  }
+
   protected onSubmit(): void {
     if (!onValidate(this.employeeForm)) return;
 
@@ -131,15 +208,14 @@ export class EmployeeViewComponent
       .subscribe({
         next: (createRes: IResponse) => {
           if (createRes.body.status === RSP_SUCCESS) {
-            alertSuccess(
-              {
-                title: RESPONSE_TITLES.SUCCESS,
-                text:
-                  createRes.body.message ||
-                  RESPONSE_MESSAGES.EMPLOYEE_ADD_EDIT_SUCCESS,
-              },
-              () => this.onCloseModal()
-            );
+            this.tableRefresh.emit();
+            this.onCloseModal();
+            alertSuccess({
+              title: RESPONSE_TITLES.SUCCESS,
+              text:
+                createRes.body.message ||
+                RESPONSE_MESSAGES.EMPLOYEE_ADD_EDIT_SUCCESS,
+            });
           } else {
             alertError({
               title: RESPONSE_TITLES.FAILED,
@@ -149,7 +225,7 @@ export class EmployeeViewComponent
             });
           }
         },
-        error: (err: any) => {
+        error: (err: HttpErrorResponse | IResponse) => {
           if (err instanceof HttpErrorResponse) {
             errorMessageHandler(err);
           } else {
@@ -162,22 +238,5 @@ export class EmployeeViewComponent
           }
         },
       });
-  }
-
-  protected onFileSelected(event: any): void {
-    const file: File = event.target.files[0];
-    if (file) {
-      this.selectedFile = file;
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        this.previewUrl = reader.result;
-        this.employeeForm.patchValue({
-          profileImage: reader.result,
-        });
-      };
-      reader.readAsDataURL(file);
-    } else {
-      this.previewUrl = null;
-    }
   }
 }
