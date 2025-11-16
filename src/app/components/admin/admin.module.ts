@@ -43,6 +43,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { RouteService } from 'src/app/services/route/route.service';
 import { VehicleService } from 'src/app/services/vehicle/vehicle.service';
+import { CustomerService } from 'src/app/services/customer/customer.service';
 
 @NgModule({
   declarations: [
@@ -86,6 +87,6 @@ import { VehicleService } from 'src/app/services/vehicle/vehicle.service';
     BsDatepickerModule.forRoot(),
     NgSelectModule,
   ],
-  providers: [EmployeeService,RouteService,VehicleService],
+  providers: [EmployeeService,RouteService,VehicleService,CustomerService],
 })
 export class AdminModule {}

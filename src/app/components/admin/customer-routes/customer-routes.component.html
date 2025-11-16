@@ -33,19 +33,19 @@
         <h4 class="card-title mb-4" id="employee-list">Route List</h4>
       </c-col>
       <c-col xs="auto">
-        <button cButton type="button" (click)="openRouteView()">+ Add Route</button>
+        <button cButton type="button" (click)="openRouteView(ActionButton.ADD)">+ Add Route</button>
       </c-col>
     </c-row>
-    <form cRow class="align-items-end mb-4">
+    <form cRow class="align-items-end mb-4" [formGroup]="searchRouteForm" (ngSubmit)="onRouteSubmit()">
       <c-col xs="auto" class="mb-2">
-        <label cLabel for="inputEmail4">Search Route</label>
-        <input cFormControl id="inputEmail4" type="email" />
+        <label cLabel for="inputValue">Search Route</label>
+        <input cFormControl id="inputValue" type="text" formControlName="inputValue" />
       </c-col>
 
       <c-col xs="auto" class="mb-2">
         <label cLabel for="datepicker">From Date</label>
         <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker />
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker formControlName="fromDate" />
           <span class="input-group-text bg-white">
             <svg cIcon name="cilCalendar" class="text-secondary"></svg>
           </span>
@@ -55,7 +55,7 @@
       <c-col xs="auto" class="mb-2">
         <label cLabel for="datepicker">To Date</label>
         <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker />
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker formControlName="toDate" />
           <span class="input-group-text bg-white">
             <svg cIcon name="cilCalendar" class="text-secondary"></svg>
           </span>
@@ -63,8 +63,13 @@
       </c-col>
 
       <c-col xs="auto" class="mb-2 d-flex align-items-center gap-2 flex-wrap">
-        <button cButton type="button" variant="outline" color="secondary">
+        <button cButton type="submit" variant="outline" color="secondary">
           <svg cIcon name="cilSearch" class="me-2"></svg>Search
+        </button>
+
+        <button *ngIf="searchRouteForm.dirty && searchRouteForm.value && hasAnyRouteValue()" cButton type="button"
+          variant="outline" color="danger" (click)="onRouteClear()">
+          <svg cIcon name="cilX" class="me-2"></svg>Clear
         </button>
 
         <button cButton type="button" variant="outline" color="info">
@@ -77,39 +82,50 @@
       <thead cTableColor="light">
         <tr>
           <th class="text-center">
+            ID
+          </th>
+          <th>
             Route Name
           </th>
           <th>Description</th>
+          <th class="text-center">Status</th>
           <th class="text-center">Action</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngIf="!pagedUsers || pagedUsers.length === 0">
+        <tr *ngIf="!routeList || routeList.length === 0">
           <td colspan="6" class="text-center text-muted py-3">
             No data available
           </td>
         </tr>
-        <tr *ngFor="let user of pagedUsers; index as i">
+        <tr *ngFor="let route of routeList; index as i">
           <td class="text-center">
-            Route Name
+            {{route.routeId | empty}}
           </td>
           <td>
-            Supun Perera
+            {{route.routeName | empty}}
+          </td>
+          <td>
+            {{route.description | empty}}
+          </td>
+          <td class="text-center">
+            {{route.statusDescription | empty}}
           </td>
           <td class="text-center">
             <!-- View -->
-            <button cButton color="info" size="sm" variant="ghost" class="me-2" title="View">
+            <button cButton color="info" size="sm" variant="ghost" class="me-2" title="View"
+              (click)="openRouteView(ActionButton.VIEW,route)">
               <svg cIcon name="cilCommand"></svg>
             </button>
 
             <!-- Edit -->
             <button cButton color="warning" size="sm" variant="ghost" class="me-2" title="Edit"
-              (click)="openRouteView()">
+              (click)="openRouteView(ActionButton.EDIT,route)">
               <svg cIcon name="cilPencil"></svg>
             </button>
 
             <!-- Delete -->
-            <button cButton color="danger" size="sm" variant="ghost" title="Delete" (click)="deleteRoute()">
+            <button cButton color="danger" size="sm" variant="ghost" title="Delete" (click)="onDeleteRoute(route.routeId)">
               <svg cIcon name="cilTrash"></svg>
             </button>
           </td>
@@ -117,9 +133,9 @@
         </tr>
       </tbody>
     </table>
-    <app-paginator *ngIf="pagedUsers.length !== 0" [totalItems]="users.length" [(pageSize)]="userPageSize"
-      [(currentPage)]="currentUserPage" (currentPageChange)="goToUserPage($event)"
-      (pageSizeChange)="onUserPageSizeChange($event)"></app-paginator>
+    <app-paginator *ngIf="routeCount !== 0" [totalItems]="routeCount" [(pageSize)]="routePageSize"
+      [(currentPage)]="currentRoutePage" (currentPageChange)="goToRoutePage($event)"
+      (pageSizeChange)="onRoutePageSizeChange($event)"></app-paginator>
   </c-card-body>
 
 </c-card>
@@ -164,16 +180,16 @@
         <button cButton type="button" (click)="openCustomerView()">+ Add Customer</button>
       </c-col>
     </c-row>
-    <form cRow class="align-items-end mb-4">
+    <form cRow class="align-items-end mb-4" [formGroup]="searchCustomerForm" (ngSubmit)="onCustomerSubmit()">
       <c-col xs="auto" class="mb-2">
-        <label cLabel for="inputEmail4">Search Customer</label>
-        <input cFormControl id="inputEmail4" type="email" />
+        <label cLabel for="inputValue">Search Route</label>
+        <input cFormControl id="inputValue" type="text" formControlName="inputValue" />
       </c-col>
 
       <c-col xs="auto" class="mb-2">
         <label cLabel for="datepicker">From Date</label>
         <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker />
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker formControlName="fromDate" />
           <span class="input-group-text bg-white">
             <svg cIcon name="cilCalendar" class="text-secondary"></svg>
           </span>
@@ -183,7 +199,7 @@
       <c-col xs="auto" class="mb-2">
         <label cLabel for="datepicker">To Date</label>
         <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker />
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker formControlName="toDate" />
           <span class="input-group-text bg-white">
             <svg cIcon name="cilCalendar" class="text-secondary"></svg>
           </span>
@@ -191,8 +207,13 @@
       </c-col>
 
       <c-col xs="auto" class="mb-2 d-flex align-items-center gap-2 flex-wrap">
-        <button cButton type="button" variant="outline" color="secondary">
+        <button cButton type="submit" variant="outline" color="secondary">
           <svg cIcon name="cilSearch" class="me-2"></svg>Search
+        </button>
+
+        <button *ngIf="searchCustomerForm.dirty && searchCustomerForm.value && hasAnyCustomerValue()" cButton
+          type="button" variant="outline" color="danger" (click)="onCustomerClear()">
+          <svg cIcon name="cilX" class="me-2"></svg>Clear
         </button>
 
         <button cButton type="button" variant="outline" color="info">
@@ -217,12 +238,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngIf="!pagedRoutes || pagedRoutes.length === 0">
+        <tr *ngIf="!customerList || customerList.length === 0">
           <td colspan="6" class="text-center text-muted py-3">
             No data available
           </td>
         </tr>
-        <tr *ngFor="let user of pagedRoutes; index as i">
+        <tr *ngFor="let user of customerList; index as i">
           <td class="text-center">
             <c-avatar size="md" src="./assets/images/customer-logo.png"></c-avatar>
           </td>
@@ -230,7 +251,7 @@
             EMP12
           </td>
           <td>
-            <div>{{ user.name }}</div>
+            <div>{{ user.customerName }}</div>
             <div class="small text-medium-emphasis text-nowrap">
               <span>
                 Route | Battaramulle
@@ -263,12 +284,12 @@
         </tr>
       </tbody>
     </table>
-    <app-paginator *ngIf="pagedRoutes.length !== 0" [totalItems]="users.length" [(pageSize)]="routePageSize"
-      [(currentPage)]="currentRoutePage" (currentPageChange)="goToRoutePage($event)"
-      (pageSizeChange)="onRoutePageSizeChange($event)"></app-paginator>
+    <app-paginator *ngIf="customerCount !== 0" [totalItems]="customerCount" [(pageSize)]="customerPageSize"
+      [(currentPage)]="currentCustomerPage" (currentPageChange)="goToCustomerPage($event)"
+      (pageSizeChange)="onCustomerPageSizeChange($event)"></app-paginator>
   </c-card-body>
 </c-card>
 
 
-<app-customer-view #customerModal></app-customer-view>
-<app-route-view #routeModal></app-route-view>
+<app-customer-view (tableRefresh)="onCustomerRefresh()" #customerModal></app-customer-view>
+<app-route-view (tableRefresh)="onCustomerRefresh()" #routeModal></app-route-view>

@@ -1,8 +1,32 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CustomerViewComponent } from './customer-view/customer-view.component';
 import { RouteViewComponent } from './route-view/route-view.component';
-import { alertWarning } from 'src/app/utility/helper';
+import {
+  alertError,
+  alertSuccess,
+  alertWarning,
+  datePickerToDate,
+  errorMessageHandler,
+} from 'src/app/utility/helper';
+import { ActionButton } from 'src/app/enums/ActionButton.enum';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { VehicleService } from 'src/app/services/vehicle/vehicle.service';
+import { RouteService } from 'src/app/services/route/route.service';
+import { CustomerService } from 'src/app/services/customer/customer.service';
+import { IPagination } from 'src/app/interfaces/IPagination';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { IResponse } from 'src/app/interfaces/IResponse';
+import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
+import {
+  RESPONSE_MESSAGES,
+  RESPONSE_TITLES,
+} from 'src/app/utility/constants/response-message-title';
+import { HttpErrorResponse } from '@angular/common/http';
+import { IRouteData } from 'src/app/interfaces/IRouteData';
+import { ICustomerData } from 'src/app/interfaces/ICustomerData';
+import { SweetAlertResult } from 'sweetalert2';
 
+@UntilDestroy()
 @Component({
   selector: 'app-customer-routes',
   templateUrl: './customer-routes.component.html',
@@ -12,84 +36,250 @@ export class CustomerRoutesComponent implements OnInit {
   @ViewChild('customerModal') protected customerModal!: CustomerViewComponent;
   @ViewChild('routeModal') protected routeModal!: RouteViewComponent;
 
-  protected users: any[] = [];
-  protected routes: any[] = [];
-  protected pagedUsers: any[] = [];
-  protected pagedRoutes: any[] = [];
+  protected readonly ActionButton = ActionButton;
 
-  protected currentUserPage = 1;
+  protected routeList: IRouteData[];
+  protected customerList: ICustomerData[];
+
+  protected currentCustomerPage = 1;
   protected currentRoutePage = 1;
-  protected userPageSize = 5;
+
+  protected customerPageSize = 5;
   protected routePageSize = 5;
 
-  ngOnInit(): void {
-    // sample data
-    this.users = Array.from({ length: 35 }, (_, i) => ({
-      name: `User ${i + 1}`,
-      nic: `NIC${1000 + i}`,
-    }));
+  protected routeCount: number = 0;
+  protected customerCount: number = 0;
 
-    this.routes = Array.from({ length: 35 }, (_, i) => ({
-      name: `User ${i + 1}`,
-      nic: `NIC${1000 + i}`,
-    }));
+  protected searchRouteForm: FormGroup;
+  protected searchCustomerForm: FormGroup;
 
-    this.updatePagedUsers();
-    this.updatePagedRoute();
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly routeService: RouteService,
+    private readonly customerService: CustomerService
+  ) {
+    this.createForm();
   }
 
-  protected goToUserPage(page: number): void {
-    this.currentUserPage = page;
-    this.updatePagedUsers();
+  ngOnInit(): void {
+    this.loadRouteTableData();
+    this.loadCustomerTableData();
+  }
+
+  private createForm(): void {
+    this.searchRouteForm = this.fb.group({
+      inputValue: [''],
+      fromDate: [''],
+      toDate: [''],
+    });
+
+    this.searchCustomerForm = this.fb.group({
+      inputValue: [''],
+      fromDate: [''],
+      toDate: [''],
+    });
+  }
+
+  protected onRouteSubmit(): void {
+    this.loadRouteTableData();
+  }
+
+  protected onCustomerSubmit(): void {
+    this.loadCustomerTableData();
+  }
+
+  protected onRouteRefresh(): void {
+    this.loadRouteTableData();
+  }
+
+  protected onCustomerRefresh(): void {
+    this.loadCustomerTableData();
+  }
+
+  private loadCustomerTableData(): void {
+    const { inputValue, fromDate, toDate } = this.searchCustomerForm.value;
+
+    let formattedFromDate = null;
+    let formattedToDate = null;
+    if (fromDate) {
+      formattedFromDate = datePickerToDate(fromDate);
+    }
+
+    if (toDate) {
+      formattedToDate = datePickerToDate(toDate);
+    }
+
+    const paginationRequest: IPagination = {
+      pageable: true,
+      page: this.currentCustomerPage - 1,
+      size: this.customerPageSize,
+    };
+
+    this.customerService
+      .getCustomerList(
+        paginationRequest,
+        inputValue || '',
+        formattedFromDate,
+        formattedToDate
+      )
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.customerList = res.body.content.content || [];
+            this.customerCount = res.body.content.totalElements || 0;
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text: res.body.message || RESPONSE_MESSAGES.CUSTOMER_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
+  }
+
+  private loadRouteTableData(): void {
+    const { inputValue, fromDate, toDate } = this.searchRouteForm.value;
+
+    let formattedFromDate = null;
+    let formattedToDate = null;
+    if (fromDate) {
+      formattedFromDate = datePickerToDate(fromDate);
+    }
+
+    if (toDate) {
+      formattedToDate = datePickerToDate(toDate);
+    }
+
+    const paginationRequest: IPagination = {
+      pageable: true,
+      page: this.currentRoutePage - 1,
+      size: this.routePageSize,
+    };
+
+    this.routeService
+      .getRouteList(
+        paginationRequest,
+        inputValue || '',
+        formattedFromDate,
+        formattedToDate
+      )
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.routeList = res.body.content.content || [];
+            this.routeCount = res.body.content.totalElements || 0;
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text: res.body.message || RESPONSE_MESSAGES.ROUTE_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
+  }
+
+  protected goToCustomerPage(page: number): void {
+    this.currentCustomerPage = page;
+    this.loadCustomerTableData();
   }
 
   protected goToRoutePage(page: number): void {
     this.currentRoutePage = page;
-    this.updatePagedUsers();
+    this.loadRouteTableData();
   }
 
-  protected onUserPageSizeChange(newSize: number): void {
-    this.userPageSize = newSize;
-    this.currentUserPage = 1;
-    this.updatePagedUsers();
+  protected onCustomerPageSizeChange(newSize: number): void {
+    this.customerPageSize = newSize;
+    this.currentCustomerPage = 1;
+    this.loadCustomerTableData();
   }
 
   protected onRoutePageSizeChange(newSize: number): void {
     this.routePageSize = newSize;
     this.currentRoutePage = 1;
-    this.updatePagedRoute();
+    this.loadRouteTableData();
   }
 
-  protected updatePagedUsers(): void {
-    const start = (this.currentUserPage - 1) * this.userPageSize;
-    const end = start + this.userPageSize;
-    this.pagedUsers = this.users.slice(start, end);
+  protected onRouteClear(): void {
+    this.searchRouteForm.reset();
+    this.loadRouteTableData();
   }
 
-  protected updatePagedRoute(): void {
-    const start = (this.currentRoutePage - 1) * this.routePageSize;
-    const end = start + this.routePageSize;
-    this.pagedRoutes = this.routes.slice(start, end);
+  protected onCustomerClear(): void {
+    this.searchCustomerForm.reset();
+    this.loadCustomerTableData();
   }
 
-  protected openRouteView(route?: any) {
+  protected hasAnyRouteValue(): boolean {
+    const { inputValue, fromDate, toDate } = this.searchRouteForm.value;
+
+    return !!(inputValue || fromDate || toDate);
+  }
+
+  protected hasAnyCustomerValue(): boolean {
+    const { inputValue, fromDate, toDate } = this.searchCustomerForm.value;
+
+    return !!(inputValue || fromDate || toDate);
+  }
+
+  protected openRouteView(action: ActionButton, route?: IRouteData): void {
+    this.routeModal.action = action;
     this.routeModal.route = route;
     this.routeModal.visible = true;
   }
 
-  protected openCustomerView(customer?: any) {
+  protected openCustomerView(customer?: any): void {
     this.customerModal.customer = customer;
     this.customerModal.visible = true;
   }
 
-  protected deleteRoute() {
-    alertWarning({
-      title: 'Confirm Delete',
-      text: 'message',
-    });
+  protected onDeleteRoute(id: number): void {
+    alertWarning(
+      {
+        title: RESPONSE_TITLES.WARNING,
+        text: RESPONSE_MESSAGES.DELETE_CONFIRMATION,
+      },
+      (result: SweetAlertResult<any>) => {
+        if (result.isConfirmed) {
+          this.routeService
+            .deleteRoute(id)
+            .pipe(untilDestroyed(this))
+            .subscribe({
+              next: (res: IResponse) => {
+                if (res.body.status === RSP_SUCCESS) {
+                  this.loadRouteTableData();
+                  alertSuccess({
+                    title: RESPONSE_TITLES.DONE,
+                    text:
+                      res.body.message ||
+                      RESPONSE_MESSAGES.VEHICLE_DELETE_SUCCESS,
+                  });
+                } else {
+                  alertError({
+                    title: RESPONSE_TITLES.FAILED,
+                    text:
+                      res.body.message || RESPONSE_MESSAGES.ROUTE_DELETE_FAILED,
+                  });
+                }
+              },
+              error: (err: HttpErrorResponse) => {
+                errorMessageHandler(err);
+              },
+            });
+        }
+      }
+    );
   }
 
-  protected deleteCustomer() {
+  protected deleteCustomer(): void {
     alertWarning({
       title: 'Confirm Delete',
       text: 'message',

@@ -15,7 +15,7 @@ export const RESPONSE_MESSAGES = {
     500: 'Server error. Please try later.',
   } as { [key: number]: string },
 
-  DELETE_CONFIRMATION:'This action cannot be undone. Do you want to proceed?',
+  DELETE_CONFIRMATION: 'This action cannot be undone. Do you want to proceed?',
 
   EMPLOYEE_ADD_EDIT_SUCCESS:
     'Employee information has been saved successfully.',
@@ -26,13 +26,25 @@ export const RESPONSE_MESSAGES = {
   ROUTE_ADD_EDIT_SUCCESS: 'Route information has been saved successfully.',
   ROUTE_ADD_EDIT_FAILED: 'Failed to save route information. Please try again.',
   ROUTE_GET_FAILED: 'Failed to load route details. Please try again.',
+  ROUTE_DELETE_FAILED: 'Failed to remove Route details. Please try again.',
+  ROUTE_DELETE_SUCCESS: 'Route information has been removed successfully.',
 
   VEHICLE_ADD_EDIT_SUCCESS: 'Vehicle information has been saved successfully.',
-  VEHICLE_ADD_EDIT_FAILED: 'Failed to save Vehicle information. Please try again.',
+  VEHICLE_ADD_EDIT_FAILED:
+    'Failed to save Vehicle information. Please try again.',
   VEHICLE_GET_FAILED: 'Failed to load Vehicle details. Please try again.',
   VEHICLE_DELETE_FAILED: 'Failed to remove Vehicle details. Please try again.',
   VEHICLE_DELETE_SUCCESS: 'Vehicle information has been removed successfully.',
 
+  CUSTOMER_ADD_EDIT_SUCCESS:
+    'Customer information has been saved successfully.',
+  CUSTOMER_ADD_EDIT_FAILED:
+    'Failed to save Customer information. Please try again.',
+  CUSTOMER_GET_FAILED: 'Failed to load Customer details. Please try again.',
+  CUSTOMER_DELETE_FAILED:
+    'Failed to remove Customer details. Please try again.',
+  CUSTOMER_DELETE_SUCCESS:
+    'Customer information has been removed successfully.',
 };
 
 export const RESPONSE_TITLES = {

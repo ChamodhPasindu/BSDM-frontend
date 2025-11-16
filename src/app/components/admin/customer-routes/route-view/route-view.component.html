@@ -2,7 +2,9 @@
   (visibleChange)="onChangeModalVisibility($event)">
   <form cForm [formGroup]="routeForm" (ngSubmit)="onSubmit()">
     <c-modal-header>
-      <h5 cModalTitle> Add New Route</h5>
+      <h5 cModalTitle *ngIf="action === ActionButton.ADD"> Add New Route</h5>
+      <h5 cModalTitle *ngIf="action === ActionButton.EDIT"> Edit Route</h5>
+      <h5 cModalTitle *ngIf="action === ActionButton.VIEW"> View Route</h5>
       <button cButtonClose (click)="onCloseModal()"></button>
     </c-modal-header>
     <c-modal-body>
@@ -16,7 +18,7 @@
         <c-col md="6">
           <label cLabel for="role">Status</label>
           <select cFormControl id="batch" class="form-select" formControlName="status" appValidate fieldName="Status">
-            <option value="">Select Role</option>
+            <option value=null>Select Role</option>
             <option *ngFor="let status of statusList" [value]="status['value']">{{ status['title'] }}</option>
           </select>
         </c-col>
@@ -31,7 +33,8 @@
       <button cButton color="secondary" type="button" (click)="onCloseModal()">
         Close
       </button>
-      <button cButton color="primary" type="submit">Add Route</button>
+      <button cButton color="primary" type="submit" *ngIf="action === ActionButton.ADD">Add Route</button>
+      <button cButton color="primary" type="submit" *ngIf="action === ActionButton.EDIT">Edit Route</button>
     </c-modal-footer>
   </form>
 </c-modal>
