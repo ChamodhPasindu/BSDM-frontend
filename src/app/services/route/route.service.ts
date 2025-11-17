@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IPagination } from 'src/app/interfaces/IPagination';
 import { IResponse } from 'src/app/interfaces/IResponse';
@@ -25,21 +25,18 @@ export class RouteService {
   }
 
   public deleteRoute(routeId: number): Observable<IResponse> {
-    return this.httpClient.delete<IResponse>(
-      this.requestUrl + '/delete',
-      {
-        body: {
-          routeId: routeId,
-        },
-      }
-    );
+    return this.httpClient.delete<IResponse>(this.requestUrl + '/delete', {
+      body: {
+        routeId: routeId,
+      },
+    });
   }
 
   public getRouteList(
-    payload: IPagination,
-    inputValue: string,
-    fromDate: string | null,
-    toDate: string | null
+    payload: Partial<IPagination>,
+    inputValue?: string,
+    fromDate?: string | null,
+    toDate?: string | null
   ): Observable<IResponse> {
     return this.httpClient.post<IResponse>(this.requestUrl + '/list', {
       ...payload,

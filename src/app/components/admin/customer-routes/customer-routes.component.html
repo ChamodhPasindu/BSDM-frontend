@@ -125,7 +125,8 @@
             </button>
 
             <!-- Delete -->
-            <button cButton color="danger" size="sm" variant="ghost" title="Delete" (click)="onDeleteRoute(route.routeId)">
+            <button cButton color="danger" size="sm" variant="ghost" title="Delete"
+              (click)="onDeleteRoute(route.routeId)">
               <svg cIcon name="cilTrash"></svg>
             </button>
           </td>
@@ -177,7 +178,7 @@
         <h4 class="card-title mb-4" id="employee-list">Customer List</h4>
       </c-col>
       <c-col xs="auto">
-        <button cButton type="button" (click)="openCustomerView()">+ Add Customer</button>
+        <button cButton type="button" (click)="openCustomerView(ActionButton.ADD)">+ Add Customer</button>
       </c-col>
     </c-row>
     <form cRow class="align-items-end mb-4" [formGroup]="searchCustomerForm" (ngSubmit)="onCustomerSubmit()">
@@ -225,58 +226,62 @@
     <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
       <thead cTableColor="light">
         <tr>
-          <th class="text-center">
-            <svg cIcon name="cilPeople"></svg>
-          </th>
-          <th class="text-center">
-            Employee ID
-          </th>
+          <th class="text-center">ID</th>
           <th>Name</th>
-          <th>NIC</th>
-          <th class="text-center">License</th>
+          <th class="text-center">
+            Address
+          </th>
+          <th class="text-center">Mobile</th>
+          <th class="text-center">Route</th>
+          <th class="text-center">Status</th>
           <th class="text-center">Action</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngIf="!customerList || customerList.length === 0">
-          <td colspan="6" class="text-center text-muted py-3">
+          <td colspan="7" class="text-center text-muted py-3">
             No data available
           </td>
         </tr>
-        <tr *ngFor="let user of customerList; index as i">
+        <tr *ngFor="let customer of customerList; index as i">
           <td class="text-center">
-            <c-avatar size="md" src="./assets/images/customer-logo.png"></c-avatar>
-          </td>
-          <td class="text-center">
-            EMP12
+            {{customer.customerId | empty}}
           </td>
           <td>
-            <div>{{ user.customerName }}</div>
+            <div>{{ customer.customerName | empty}}</div>
             <div class="small text-medium-emphasis text-nowrap">
               <span>
-                Route | Battaramulle
+                {{customer.shopName | empty}}
               </span>
             </div>
           </td>
-          <td>
-            Supun Perera
+          <td class="text-center">
+            {{customer.address | empty}}
           </td>
           <td class="text-center">
-            <div class="fw-semibold text-nowrap">LKR 12,500</div>
+            {{customer.phone | empty}}
+          </td>
+          <td class="text-center">
+            {{customer.routeName | empty}}
+          </td>
+          <td class="text-center">
+            {{customer.statusDescription | empty}}
           </td>
           <td class="text-center">
             <!-- View -->
-            <button cButton color="info" size="sm" variant="ghost" class="me-2" title="View">
+            <button cButton color="info" size="sm" variant="ghost" class="me-2" title="View"
+              (click)="openCustomerView(ActionButton.VIEW,customer)">
               <svg cIcon name="cilCommand"></svg>
             </button>
 
             <!-- Edit -->
-            <button cButton color="warning" size="sm" variant="ghost" class="me-2" title="Edit">
+            <button cButton color="warning" size="sm" variant="ghost" class="me-2" title="View"
+              (click)="openCustomerView(ActionButton.EDIT,customer)">
               <svg cIcon name="cilPencil"></svg>
             </button>
 
             <!-- Delete -->
-            <button (click)="deleteCustomer()" cButton color="danger" size="sm" variant="ghost" title="Delete">
+            <button (click)="deleteCustomer(customer.routeId,customer.customerId)" cButton color="danger" size="sm" variant="ghost" title="Delete">
               <svg cIcon name="cilTrash"></svg>
             </button>
           </td>

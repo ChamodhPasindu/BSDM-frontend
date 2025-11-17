@@ -77,8 +77,8 @@ export class Interceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
-        if (error.status === 401) {
-          return this.handle401Error(request, next);
+        if (error.status === 403) {
+          return this.handle403Error(request, next);
         }
 
         let message = RESPONSE_MESSAGES.COMMON_ERROR_DES;
@@ -112,7 +112,7 @@ export class Interceptor implements HttpInterceptor {
     );
   }
 
-  private handle401Error(
+  private handle403Error(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {

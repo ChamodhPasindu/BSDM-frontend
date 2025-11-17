@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ChartConfiguration, ChartOptions } from 'chart.js';
 import { DashboardChartsData, IChartProps } from './dashboard-charts-data';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import * as moment from 'moment';
 
 interface IUser {
   name: string;
@@ -22,7 +23,11 @@ interface IUser {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit,OnDestroy {
+  protected greetingText: string;
+  protected currentDateTime: string;
+  protected intervalId: any;
+
   barChartOptions: ChartOptions<'bar'> = {
     responsive: true,
     plugins: { legend: { display: true } },
@@ -75,6 +80,12 @@ export class DashboardComponent implements OnInit {
   protected pageSize = 5;
 
   ngOnInit(): void {
+    this.updateGreeting();
+
+    this.intervalId = setInterval(() => {
+      this.updateGreeting();
+    }, 60000);
+
     this.initCharts();
 
     this.users = Array.from({ length: 10 }, (_, i) => ({
@@ -83,6 +94,25 @@ export class DashboardComponent implements OnInit {
     }));
 
     this.updatePagedUsers();
+  }
+
+  protected updateGreeting() {
+    const now = moment();
+    const hours = now.hour();
+
+    // Determine greeting text and image
+    if (hours >= 5 && hours < 12) {
+      this.greetingText = 'Good Morning!';
+    } else if (hours >= 12 && hours < 17) {
+      this.greetingText = 'Good Afternoon!';
+    } else if (hours >= 17 && hours < 21) {
+      this.greetingText = 'Good Evening!';
+    } else {
+      this.greetingText = 'Good Night!';
+    }
+
+    // Format date and time using moment.js
+    this.currentDateTime = now.format('MMMM DD, YYYY | hh:mm A');
   }
 
   protected goToPage(page: number): void {
@@ -110,5 +140,11 @@ export class DashboardComponent implements OnInit {
     this.trafficRadioGroup.setValue({ trafficRadio: value });
     this.chartsData.initMainChart(value);
     this.initCharts();
+  }
+
+  ngOnDestroy(): void {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
   }
 }

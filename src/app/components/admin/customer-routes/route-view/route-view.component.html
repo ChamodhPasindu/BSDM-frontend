@@ -18,7 +18,7 @@
         <c-col md="6">
           <label cLabel for="role">Status</label>
           <select cFormControl id="batch" class="form-select" formControlName="status" appValidate fieldName="Status">
-            <option value=null>Select Role</option>
+            <option value=null>Select Status</option>
             <option *ngFor="let status of statusList" [value]="status['value']">{{ status['title'] }}</option>
           </select>
         </c-col>

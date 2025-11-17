@@ -1,78 +1,94 @@
 <c-modal id="liveDemoModal" size="lg" alignment="center" class="modal-scrollable" [visible]="visible"
-  (visibleChange)="changeModalVisibility($event)">
-  <c-modal-header>
-    <h5 cModalTitle>Add New Customers</h5>
-    <button (click)="closeModal()" cButtonClose></button>
-  </c-modal-header>
+  (visibleChange)="onChangeModalVisibility($event)">
+  <form cForm [formGroup]="customerForm" (ngSubmit)="onSubmit()">
 
-  <c-modal-body>
-    <!-- Route Selection -->
-    <h6 class="fw-semibold mb-2">Select Route</h6>
-    <c-col [md]="12">
-      <label cLabel for="routeSelect">Route</label>
-      <ng-select name="route" [(ngModel)]="selectedRoute" [items]="routes" bindLabel="name" [searchable]="true"
-        [clearable]="true" placeholder="Select a route">
-      </ng-select>
-    </c-col>
+    <c-modal-header>
+      <h5 cModalTitle *ngIf="action === ActionButton.ADD"> Add New Customers</h5>
+      <h5 cModalTitle *ngIf="action === ActionButton.EDIT"> Edit Customer</h5>
+      <h5 cModalTitle *ngIf="action === ActionButton.VIEW"> View Customer</h5>
+      <button (click)="onCloseModal()" cButtonClose></button>
+    </c-modal-header>
 
-    <!-- Route Details -->
-    <div *ngIf="selectedRoute" class="bg-light rounded-3 p-3 mb-3 mt-3">
-      <div><strong>Route Name:</strong> {{ selectedRoute.name }}</div>
-      <div><strong>Description:</strong> {{ selectedRoute.description }}</div>
-    </div>
+    <c-modal-body>
+      <!-- Route Selection -->
+      <h6 class="fw-semibold mb-2">Select Route</h6>
+      <c-col [md]="12">
+        <label cLabel for="routeSelect">Route</label>
+        <ng-select cFormControl name="route" [items]="routeList" bindLabel="routeName" bindValue="routeId"
+          [searchable]="true" [clearable]="true" placeholder="Select a route" formControlName="routeId"
+          (change)="selectedRoute = $event" appValidate fieldName="Route">
+        </ng-select>
+      </c-col>
 
-    <hr  />
-    <h6 class="fw-semibold mb-4">Select Customer(s)</h6>
+      <!-- Route Details -->
+      <div *ngIf="selectedRoute" class="bg-light rounded-3 p-3 mb-3 mt-3">
+        <div><strong>Route Name:</strong> {{ selectedRoute.routeName }}</div>
+        <div><strong>Description:</strong> {{ selectedRoute.description }}</div>
+      </div>
 
-    <!-- Dynamic Customer Forms -->
-    <div *ngFor="let customer of customers; let i = index" class="border rounded-3 p-3 mb-3 bg-light">
+      <hr />
+      <h6 class="fw-semibold mb-4">Select Customer(s)</h6>
 
-      <div class="d-flex justify-content-between align-items-center mb-2">
-        <h6 class="fw-semibold mb-0">Customer {{ i + 1 }}</h6>
-        <button *ngIf="customers.length > 1" cButton color="danger" size="sm" variant="ghost"
-          (click)="removeCustomer(i)">
-          <svg cIcon name="cilTrash" size="sm"></svg>
+      <!-- Dynamic Customer Forms -->
+      <div formArrayName="customers">
+        <div *ngFor="let customer of customers.controls; let i = index" [formGroupName]="i"
+          class="border rounded-3 p-3 mb-3 bg-light">
+
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h6 class="fw-semibold mb-0">Customer {{ i + 1 }}</h6>
+            <button *ngIf="customers.length > 1" cButton color="danger" size="sm" variant="ghost"
+              (click)="removeCustomer(i)">
+              <svg cIcon name="cilTrash"></svg>
+            </button>
+          </div>
+
+          <div class="row g-3">
+            <c-col md="6">
+              <label cLabel>Customer Name</label>
+              <input cFormControl type="text" formControlName="customerName" appValidate fieldName="Customer name">
+            </c-col>
+
+            <c-col md="6">
+              <label cLabel>Shop Name</label>
+              <input cFormControl type="text" formControlName="shopName" appValidate fieldName="Shop name">
+            </c-col>
+
+            <c-col xs="12">
+              <label cLabel>Address</label>
+              <input cFormControl type="text" formControlName="address" appValidate fieldName="Address">
+            </c-col>
+
+            <c-col md="6">
+              <label cLabel>Phone</label>
+              <input cFormControl type="text" formControlName="phone" appValidate fieldName="Phone number">
+            </c-col>
+
+            <c-col md="6">
+              <label cLabel for="role">Status</label>
+              <select cFormControl id="batch" class="form-select" formControlName="statusCode" appValidate
+                fieldName="Status">
+                <option value=null>Select Status</option>
+                <option *ngFor="let status of statusList" [value]="status['value']">{{ status['title'] }}</option>
+              </select>
+            </c-col>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add Another Button -->
+      <div class="text-center mt-3">
+        <button cButton color="warning" variant="outline" class="rounded-3 fw-semibold px-3"
+          *ngIf="action === ActionButton.ADD" (click)="addCustomerForm()" type="button">
+          <svg cIcon name="cilPlus" class="me-2"></svg> Add Another Customer
         </button>
       </div>
+    </c-modal-body>
 
-      <div class="row g-3">
-        <c-col [md]="6">
-          <label cLabel>Customer Name</label>
-          <input cFormControl type="text" [(ngModel)]="customer.name" name="name{{ i }}"
-            placeholder="Enter customer name" />
-        </c-col>
+    <c-modal-footer>
+      <button cButton color="secondary" type="button" (click)="onCloseModal()">Close</button>
+      <button cButton color="primary" type="submit" *ngIf="action === ActionButton.ADD">Add Customers</button>
+      <button cButton color="primary" type="submit" *ngIf="action === ActionButton.EDIT">Edit Customer</button>
+    </c-modal-footer>
+  </form>
 
-        <c-col [md]="6">
-          <label cLabel>Phone</label>
-          <input cFormControl type="text" [(ngModel)]="customer.phone" name="phone{{ i }}"
-            placeholder="Enter phone number" />
-        </c-col>
-
-        <c-col [md]="6">
-          <label cLabel>Shop Name</label>
-          <input cFormControl type="text" [(ngModel)]="customer.shopName" name="shop{{ i }}"
-            placeholder="Enter shop name" />
-        </c-col>
-
-        <c-col [md]="6">
-          <label cLabel>Address</label>
-          <input cFormControl type="text" [(ngModel)]="customer.address" name="address{{ i }}"
-            placeholder="Enter address" />
-        </c-col>
-      </div>
-    </div>
-
-    <!-- Add Another Button -->
-    <div class="text-center mt-3">
-      <button cButton color="warning" variant="outline" class="rounded-3 fw-semibold px-3" (click)="addCustomerForm()"
-        type="button">
-        <svg cIcon name="cilPlus" class="me-2"></svg> Add Another Customer
-      </button>
-    </div>
-  </c-modal-body>
-
-  <c-modal-footer>
-    <button (click)="closeModal()" cButton color="secondary">Close</button>
-    <button cButton color="primary" (click)="saveCustomers()">Add Customers</button>
-  </c-modal-footer>
 </c-modal>

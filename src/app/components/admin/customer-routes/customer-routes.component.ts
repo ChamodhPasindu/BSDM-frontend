@@ -10,7 +10,6 @@ import {
 } from 'src/app/utility/helper';
 import { ActionButton } from 'src/app/enums/ActionButton.enum';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { VehicleService } from 'src/app/services/vehicle/vehicle.service';
 import { RouteService } from 'src/app/services/route/route.service';
 import { CustomerService } from 'src/app/services/customer/customer.service';
 import { IPagination } from 'src/app/interfaces/IPagination';
@@ -236,7 +235,11 @@ export class CustomerRoutesComponent implements OnInit {
     this.routeModal.visible = true;
   }
 
-  protected openCustomerView(customer?: any): void {
+  protected openCustomerView(
+    action: ActionButton,
+    customer?: ICustomerData
+  ): void {
+    this.customerModal.action = action;
     this.customerModal.customer = customer;
     this.customerModal.visible = true;
   }
@@ -279,10 +282,42 @@ export class CustomerRoutesComponent implements OnInit {
     );
   }
 
-  protected deleteCustomer(): void {
-    alertWarning({
-      title: 'Confirm Delete',
-      text: 'message',
-    });
+  protected deleteCustomer(routeId: number, customerId: number): void {
+    alertWarning(
+      {
+        title: RESPONSE_TITLES.WARNING,
+        text: RESPONSE_MESSAGES.DELETE_CONFIRMATION,
+      },
+      (result: SweetAlertResult<any>) => {
+        if (result.isConfirmed) {
+          this.customerService
+            .deleteCustomer(routeId, [{ customerId: customerId.toString() }])
+            .pipe(untilDestroyed(this))
+            .subscribe({
+              next: (res: IResponse) => {
+                if (res.body.status === RSP_SUCCESS) {
+                  this.loadCustomerTableData();
+                  alertSuccess({
+                    title: RESPONSE_TITLES.DONE,
+                    text:
+                      res.body.message ||
+                      RESPONSE_MESSAGES.CUSTOMER_DELETE_SUCCESS,
+                  });
+                } else {
+                  alertError({
+                    title: RESPONSE_TITLES.FAILED,
+                    text:
+                      res.body.message ||
+                      RESPONSE_MESSAGES.CUSTOMER_DELETE_FAILED,
+                  });
+                }
+              },
+              error: (err: HttpErrorResponse) => {
+                errorMessageHandler(err);
+              },
+            });
+        }
+      }
+    );
   }
 }
