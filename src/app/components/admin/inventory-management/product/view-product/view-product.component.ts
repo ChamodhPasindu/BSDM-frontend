@@ -44,8 +44,8 @@ export class ViewProductComponent
   protected itemList: IItemData[];
   protected batchList: IBatchData[];
 
-  protected selectedItem: IItemData | null = {} as IItemData;
-  protected selectedBatch: IBatchData | null = {} as IBatchData;
+  protected selectedItem: IItemData | null;
+  protected selectedBatch: IBatchData | null;
 
   @Input()
   public set product(value: IProductData | undefined) {
@@ -139,6 +139,9 @@ export class ViewProductComponent
   private updateForm(): void {
     if (!this.action) return;
 
+    this.selectedItem = null;
+    this.selectedBatch = null;
+
     if (this.action === ActionButton.VIEW) {
       this.patchValue();
       this.productForm.disable();
@@ -163,6 +166,15 @@ export class ViewProductComponent
       price: this.product?.price,
       minSalesPrice: this.product?.minSalesPrice,
     });
+
+    this.selectedItem =
+      this.itemList.find((x: IItemData) => x.nameId === this.product?.nameId) ||
+      null;
+
+    this.selectedBatch =
+      this.batchList.find(
+        (x: IBatchData) => x.batchId === this.product?.batchId
+      ) || null;
   }
 
   protected onSubmit(): void {

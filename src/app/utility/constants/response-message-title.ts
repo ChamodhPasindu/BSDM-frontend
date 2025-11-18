@@ -61,10 +61,17 @@ export const RESPONSE_MESSAGES = {
     'Unable to generate or retrieve the batch code. Please try again.',
 
   PRODUCT_ADD_EDIT_SUCCESS: 'Product information has been saved successfully.',
-  PRODUCT_ADD_EDIT_FAILED: 'Failed to save Product information. Please try again.',
+  PRODUCT_ADD_EDIT_FAILED:
+    'Failed to save Product information. Please try again.',
   PRODUCT_GET_FAILED: 'Failed to load Product details. Please try again.',
   PRODUCT_DELETE_FAILED: 'Failed to remove Product details. Please try again.',
   PRODUCT_DELETE_SUCCESS: 'Product information has been removed successfully.',
+
+  STOCK_ADD_EDIT_SUCCESS: 'Stock information has been saved successfully.',
+  STOCK_ADD_EDIT_FAILED: 'Failed to save Stock information. Please try again.',
+  STOCK_GET_FAILED: 'Failed to load Stock details. Please try again.',
+  STOCK_DELETE_FAILED: 'Failed to remove Stock details. Please try again.',
+  STOCK_DELETE_SUCCESS: 'Stock information has been removed successfully.',
 };
 
 export const RESPONSE_TITLES = {

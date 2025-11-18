@@ -34,6 +34,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ItemService } from 'src/app/services/item/item.service';
 import { BatchService } from 'src/app/services/batch/batch.service';
 import { ProductService } from 'src/app/services/product/product.service';
+import { StockService } from 'src/app/services/stock/stock.service';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,6 @@ import { ProductService } from 'src/app/services/product/product.service';
     BsDatepickerModule.forRoot(),
     NgMultiSelectDropDownModule.forRoot(),
   ],
-  providers:[ItemService,BatchService,ProductService]
+  providers: [ItemService, BatchService, ProductService, StockService],
 })
 export class InventoryManagementModule {}

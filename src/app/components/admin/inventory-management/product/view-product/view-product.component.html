@@ -26,29 +26,80 @@
           </ng-select>
         </c-col>
 
-
+        <!-- Item Details Card -->
         <c-col md="6">
-          <div class="border rounded p-3 bg-light">
-            <h6 class="mb-2 text-secondary fw-bold">Item Details</h6>
-            <p class="mb-0"><strong>ID:</strong> {{ selectedItem?.nameId | empty }}</p>
-            <p class="mb-1"><strong>Item Name:</strong> {{ selectedItem?.name | empty}}</p>
-            <p class="mb-1"><strong>Description:</strong> {{ selectedItem?.description | empty }}</p>
-            <p class="mb-1"><strong>Alert Quantity:</strong> {{ selectedItem?.alertQuantity| empty }}</p>
+          <div class="table-responsive mt-3">
+            <table class="table table-sm table-bordered align-middle bg-white">
+              <thead class="bg-light">
+                <tr>
+                  <th colspan="2" class="fw-semibold">Item Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th class="bg-light">ID</th>
+                  <td>{{ selectedItem?.nameId | empty }}</td>
+                </tr>
+                <tr>
+                  <th class="bg-light">Item Name</th>
+                  <td>{{ selectedItem?.name | empty }}</td>
+                </tr>
+                <tr>
+                  <th class="bg-light">Description</th>
+                  <td>{{ selectedItem?.description | empty }}</td>
+                </tr>
+                <tr>
+                  <th class="bg-light">Alert Quantity</th>
+                  <td>{{ selectedItem?.alertQuantity | empty }}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </c-col>
 
+        <!-- Batch Details Card -->
         <c-col md="6">
-          <div class="border rounded p-3 bg-light">
-            <h6 class="mb-2 text-secondary fw-bold">Batch Details</h6>
-            <p class="mb-1"><strong>ID:</strong> {{ selectedBatch?.batchId | empty}}</p>
-            <p class="mb-1"><strong>Batch Code:</strong> {{ selectedBatch?.batchCode | empty}}</p>
-            <p class="mb-1"><strong>Manufacture Date:</strong> {{ selectedBatch?.manufactureDate | empty }}</p>
-            <p class="mb-0"><strong>Expiry Date:</strong> {{ selectedBatch?.expiryDate | empty }}</p>
-            <p class="mb-0"><strong>Usable Days:</strong> {{ selectedBatch?.usableDays | empty }}</p>
-            <p class="mb-0"><strong>Remaining Quantity:</strong> {{ selectedBatch?.remainingQuantity | empty }}</p>
-            <p class="mb-0"><strong>Warehouse Location:</strong> {{ selectedBatch?.warehouseLocation | empty }}</p>
+          <div class="table-responsive mt-3">
+            <table class="table table-sm table-bordered align-middle bg-white">
+              <thead class="bg-light">
+                <tr>
+                  <th colspan="2" class="fw-semibold">Batch Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th class="bg-light">ID</th>
+                  <td>{{ selectedBatch?.batchId | empty }}</td>
+                </tr>
+                <tr>
+                  <th class="bg-light">Batch Code</th>
+                  <td>{{ selectedBatch?.batchCode | empty }}</td>
+                </tr>
+                <tr>
+                  <th class="bg-light">Manufacture Date</th>
+                  <td>{{ selectedBatch?.manufactureDate | empty }}</td>
+                </tr>
+                <tr>
+                  <th class="bg-light">Expiry Date</th>
+                  <td>{{ selectedBatch?.expiryDate | empty }}</td>
+                </tr>
+                <tr>
+                  <th class="bg-light">Usable Days</th>
+                  <td>{{ selectedBatch?.usableDays | empty }}</td>
+                </tr>
+                <tr>
+                  <th class="bg-light">Remaining Quantity</th>
+                  <td>{{ selectedBatch?.remainingQuantity | empty }}</td>
+                </tr>
+                <tr>
+                  <th class="bg-light">Warehouse Location</th>
+                  <td>{{ selectedBatch?.warehouseLocation | empty }}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </c-col>
+
 
         <c-col md="6">
           <label cLabel for="description">Description</label>
