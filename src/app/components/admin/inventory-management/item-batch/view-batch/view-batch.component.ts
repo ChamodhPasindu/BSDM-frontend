@@ -185,7 +185,14 @@ export class ViewBatchComponent
         expiryDate: datePickerToDate(expiryDate),
       });
     } else {
-      // this.updateBatch();
+      this.updateBatch({
+        ...this.batchForm.value,
+        batchId: this.batch?.batchId,
+        batchCode: batchCode,
+        usableDays: usableDays,
+        manufactureDate: datePickerToDate(manufactureDate),
+        expiryDate: datePickerToDate(expiryDate),
+      });
     }
   }
 
@@ -206,7 +213,7 @@ export class ViewBatchComponent
           } else {
             alertError({
               title: RESPONSE_TITLES.FAILED,
-              text: res.body.message || RESPONSE_MESSAGES.BATCH_DELETE_FAILED,
+              text: res.body.message || RESPONSE_MESSAGES.BATCH_ADD_EDIT_FAILED,
             });
           }
         },
@@ -216,29 +223,30 @@ export class ViewBatchComponent
       });
   }
 
-  // private updateBatch(): void {
-  //   this.itemService
-  //     .updateItem({ ...this.itemForm.value, nameId: itemId })
-  //     .pipe(untilDestroyed(this))
-  //     .subscribe({
-  //       next: (res: IResponse) => {
-  //         if (res.body.status === RSP_SUCCESS) {
-  //           this.tableRefresh.emit();
-  //           this.onCloseModal();
-  //           alertSuccess({
-  //             title: RESPONSE_TITLES.SUCCESS,
-  //             text: res.body.message || RESPONSE_MESSAGES.ITEM_ADD_EDIT_SUCCESS,
-  //           });
-  //         } else {
-  //           alertError({
-  //             title: RESPONSE_TITLES.FAILED,
-  //             text: res.body.message || RESPONSE_MESSAGES.ITEM_DELETE_FAILED,
-  //           });
-  //         }
-  //       },
-  //       error: (err: HttpErrorResponse) => {
-  //         errorMessageHandler(err);
-  //       },
-  //     });
-  // }
+  private updateBatch(data: IBatch): void {
+    this.batchService
+      .updateBatch(data)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.tableRefresh.emit();
+            this.onCloseModal();
+            alertSuccess({
+              title: RESPONSE_TITLES.SUCCESS,
+              text:
+                res.body.message || RESPONSE_MESSAGES.BATCH_ADD_EDIT_SUCCESS,
+            });
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text: res.body.message || RESPONSE_MESSAGES.BATCH_ADD_EDIT_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
+  }
 }

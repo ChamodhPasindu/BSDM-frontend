@@ -33,6 +33,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ItemService } from 'src/app/services/item/item.service';
 import { BatchService } from 'src/app/services/batch/batch.service';
+import { ProductService } from 'src/app/services/product/product.service';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,6 @@ import { BatchService } from 'src/app/services/batch/batch.service';
     BsDatepickerModule.forRoot(),
     NgMultiSelectDropDownModule.forRoot(),
   ],
-  providers:[ItemService,BatchService]
+  providers:[ItemService,BatchService,ProductService]
 })
 export class InventoryManagementModule {}

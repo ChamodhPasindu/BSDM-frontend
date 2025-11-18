@@ -149,7 +149,7 @@ export class ViewItemComponent extends ModalControlDirective {
           } else {
             alertError({
               title: RESPONSE_TITLES.FAILED,
-              text: res.body.message || RESPONSE_MESSAGES.ITEM_DELETE_FAILED,
+              text: res.body.message || RESPONSE_MESSAGES.ITEM_ADD_EDIT_FAILED,
             });
           }
         },

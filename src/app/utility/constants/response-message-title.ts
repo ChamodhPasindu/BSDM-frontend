@@ -59,6 +59,12 @@ export const RESPONSE_MESSAGES = {
   BATCH_DELETE_SUCCESS: 'Batch information has been removed successfully.',
   BATCH_CODE_GENERATE_FAILED:
     'Unable to generate or retrieve the batch code. Please try again.',
+
+  PRODUCT_ADD_EDIT_SUCCESS: 'Product information has been saved successfully.',
+  PRODUCT_ADD_EDIT_FAILED: 'Failed to save Product information. Please try again.',
+  PRODUCT_GET_FAILED: 'Failed to load Product details. Please try again.',
+  PRODUCT_DELETE_FAILED: 'Failed to remove Product details. Please try again.',
+  PRODUCT_DELETE_SUCCESS: 'Product information has been removed successfully.',
 };
 
 export const RESPONSE_TITLES = {

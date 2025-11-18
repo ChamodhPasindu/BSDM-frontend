@@ -225,6 +225,7 @@
           <th class="text-center">
             ID
           </th>
+          <th>Batch Code</th>
           <th>Manufacture Date</th>
           <th>Expire Date</th>
           <th class="text-center">Usable Days</th>
@@ -244,6 +245,9 @@
             {{batch.batchId | empty}}
           </td>
           <td>
+            {{batch.batchCode | empty}}
+          </td>
+          <td>
             {{batch.manufactureDate | empty}}
           </td>
           <td>
@@ -253,7 +257,7 @@
             {{batch.usableDays | empty}}
           </td>
           <td class="text-center">
-            {{batch.remainingQuantity | numberSeparate}}
+            {{batch.remainingQuantity | empty}}
           </td>
           <td class="text-center">
             {{batch.warehouseLocation | empty}}

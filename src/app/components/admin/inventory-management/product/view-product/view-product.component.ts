@@ -1,69 +1,235 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { ActionButton } from 'src/app/enums/ActionButton.enum';
+import { IBatchData } from 'src/app/interfaces/IBatchData';
+import { IItemData } from 'src/app/interfaces/IItemData';
+import { IProduct } from 'src/app/interfaces/IProduct';
+import { IProductData } from 'src/app/interfaces/IProductData';
+import { IResponse } from 'src/app/interfaces/IResponse';
+import { BatchService } from 'src/app/services/batch/batch.service';
+import { ItemService } from 'src/app/services/item/item.service';
+import { ProductService } from 'src/app/services/product/product.service';
+import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
+import {
+  RESPONSE_MESSAGES,
+  RESPONSE_TITLES,
+} from 'src/app/utility/constants/response-message-title';
+import { ModalControlDirective } from 'src/app/utility/directives/modal-control.directive';
+import {
+  alertError,
+  alertSuccess,
+  errorMessageHandler,
+  onValidate,
+} from 'src/app/utility/helper';
 
+@UntilDestroy()
 @Component({
   selector: 'app-view-product',
   templateUrl: './view-product.component.html',
   styleUrls: ['./view-product.component.scss'],
 })
-export class ViewProductComponent implements OnInit {
-  ngOnInit() {}
+export class ViewProductComponent
+  extends ModalControlDirective
+  implements OnInit
+{
+  protected readonly ActionButton = ActionButton;
 
-  productForm: FormGroup;
-  items = [
-    { id: 1, name: 'Item A' },
-    { id: 2, name: 'Item B' },
-    { id: 3, name: 'Item C' },
-  ];
-  batches = [
-    { id: 'B1', name: 'Batch 1' },
-    { id: 'B2', name: 'Batch 2' },
-  ];
+  private _product: IProductData | undefined;
+  private _action: ActionButton;
 
-  selectedItemDetails: any = null;
-  selectedBatchDetails: any = null;
+  protected productForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  protected itemList: IItemData[];
+  protected batchList: IBatchData[];
+
+  protected selectedItem: IItemData | null = {} as IItemData;
+  protected selectedBatch: IBatchData | null = {} as IBatchData;
+
+  @Input()
+  public set product(value: IProductData | undefined) {
+    this._product = value;
+    this.updateForm();
+  }
+
+  public get product() {
+    return this._product;
+  }
+
+  @Input()
+  public set action(value: ActionButton) {
+    this._action = value;
+    this.updateForm();
+  }
+
+  public get action() {
+    return this._action;
+  }
+
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly productService: ProductService,
+    private readonly itemService: ItemService,
+    private readonly batchService: BatchService
+  ) {
+    super();
+    this.createForm();
+  }
+
+  ngOnInit() {
+    this.loadItemListData();
+    this.loadBatchListData();
+  }
+
+  private createForm(): void {
     this.productForm = this.fb.group({
-      item: [''],
-      batch: [''],
-      description: [''],
-      quantity: [''],
-      price: [''],
-      minSalesPrice: [''],
+      batchId: [null, Validators.required],
+      productNameId: [null, Validators.required],
+      quantity: ['', Validators.required],
+      description: ['', Validators.required],
+      price: ['', Validators.required],
+      minSalesPrice: ['', Validators.required],
+    });
+    this.setForm(this.productForm);
+  }
+
+  private loadBatchListData(): void {
+    this.batchService
+      .getBatchList({ pageable: false })
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.batchList = res.body.content || [];
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text: res.body.message || RESPONSE_MESSAGES.BATCH_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
+  }
+
+  private loadItemListData(): void {
+    this.itemService
+      .getItemList({ pageable: false })
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.itemList = res.body.content || [];
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text: res.body.message || RESPONSE_MESSAGES.ITEM_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
+  }
+
+  private updateForm(): void {
+    if (!this.action) return;
+
+    if (this.action === ActionButton.VIEW) {
+      this.patchValue();
+      this.productForm.disable();
+    }
+
+    if (this.action === ActionButton.EDIT) {
+      this.patchValue();
+      this.productForm.enable();
+    }
+
+    if (this.action === ActionButton.ADD) {
+      this.productForm.enable();
+    }
+  }
+
+  private patchValue(): void {
+    this.productForm.patchValue({
+      batchId: this.product?.batchId,
+      productNameId: this.product?.nameId,
+      quantity: this.product?.quantity,
+      description: this.product?.description,
+      price: this.product?.price,
+      minSalesPrice: this.product?.minSalesPrice,
     });
   }
 
-  onItemChange(itemId: any) {
-    // simulate fetching data for selected item
-    this.selectedItemDetails = {
-      category: 'Electronics',
-      stock: 45,
-      supplier: 'ABC Traders',
-    };
+  protected onSubmit(): void {
+    if (!onValidate(this.productForm)) return;
+
+    if (this.action === ActionButton.ADD) {
+      this.addProduct(this.productForm.value);
+    } else {
+      this.updateProduct({
+        ...this.productForm.value,
+        productId: this.product?.productId,
+      });
+    }
   }
 
-  onBatchChange(batchId: any) {
-    this.selectedBatchDetails = {
-      batchNo: 'Electronics',
-      mfd: 45,
-      exp: 'ABC Traders',
-    };
+  private addProduct(data: IProduct): void {
+    this.productService
+      .addProduct(data)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.tableRefresh.emit();
+            this.onCloseModal();
+            alertSuccess({
+              title: RESPONSE_TITLES.SUCCESS,
+              text:
+                res.body.message || RESPONSE_MESSAGES.PRODUCT_ADD_EDIT_SUCCESS,
+            });
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text: res.body.message || RESPONSE_MESSAGES.PRODUCT_DELETE_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
   }
 
-  @Input() product: any;
-  public visible = false;
-
-  protected closeModal(): void {
-    this.visible = !this.visible;
-  }
-
-  protected changeModalVisibility(event: boolean): void {
-    this.visible = event;
-  }
-
-  onSubmit() {
-    console.log(this.productForm.value);
-    this.closeModal();
+  private updateProduct(data: IProduct): void {
+    this.productService
+      .updateProduct(data)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.tableRefresh.emit();
+            this.onCloseModal();
+            alertSuccess({
+              title: RESPONSE_TITLES.SUCCESS,
+              text:
+                res.body.message || RESPONSE_MESSAGES.PRODUCT_ADD_EDIT_SUCCESS,
+            });
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message || RESPONSE_MESSAGES.PRODUCT_ADD_EDIT_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
   }
 }

@@ -1,85 +1,85 @@
 <c-modal id="liveDemoModal" size="lg" alignment="center" class="modal-scrollable" [visible]="visible"
-  (visibleChange)="changeModalVisibility($event)">
-  <c-modal-header>
-    <h5 cModalTitle> Add New Product</h5>
-    <button (click)="closeModal()" cButtonClose></button>
-  </c-modal-header>
-  <c-modal-body>
-    <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="p-2">
-      <h6 class="mb-3">Product Information</h6>
-
-      <c-row class="mb-3">
+  (visibleChange)="onChangeModalVisibility($event)">
+  <form cForm [formGroup]="productForm" (ngSubmit)="onSubmit()">
+    <c-modal-header>
+      <h5 cModalTitle *ngIf="action === ActionButton.ADD"> Add New Product</h5>
+      <h5 cModalTitle *ngIf="action === ActionButton.EDIT"> Edit Product</h5>
+      <h5 cModalTitle *ngIf="action === ActionButton.VIEW"> View Product</h5>
+      <button (click)="onCloseModal()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+      <c-row class="g-3">
+        <h6 class="mb-3">Product Information</h6>
         <c-col md="6">
           <label cLabel for="item">Item</label>
-          <select id="item" class="form-select" formControlName="item" (change)="onItemChange($event.target)">
-            <option value="">-- Select Item --</option>
-            <option *ngFor="let i of items" [value]="i.id">{{ i.name }}</option>
-          </select>
+          <ng-select cFormControl name="item" [items]="itemList" bindLabel="name" bindValue="nameId" [searchable]="true"
+            [clearable]="true" placeholder="Select a item" formControlName="productNameId"
+            (change)="selectedItem = $event" appValidate fieldName="Item">
+          </ng-select>
         </c-col>
 
         <c-col md="6">
           <label cLabel for="batch">Batch</label>
-          <select id="batch" class="form-select" formControlName="batch" (change)="onBatchChange($event.target)">
-            <option value="">-- Select Batch --</option>
-            <option *ngFor="let b of batches" [value]="b.id">{{ b.name }}</option>
-          </select>
+          <ng-select cFormControl name="batch" [items]="batchList" bindLabel="batchCode" bindValue="batchId"
+            [searchable]="true" [clearable]="true" placeholder="Select a batch" formControlName="batchId"
+            (change)="selectedBatch = $event" appValidate fieldName="Batch">
+          </ng-select>
         </c-col>
-      </c-row>
-
-      <!-- Row 2: Auto-loaded details -->
-      <div *ngIf="selectedItemDetails || selectedBatchDetails" class="mb-3">
-        <c-row>
-          <c-col md="6" class="mb-2" *ngIf="selectedItemDetails">
-            <div class="border rounded p-3 bg-light">
-              <h6 class="mb-2 text-secondary fw-bold">Item Details</h6>
-              <p class="mb-1"><strong>Category:</strong> {{ selectedItemDetails.category }}</p>
-              <p class="mb-1"><strong>Stock:</strong> {{ selectedItemDetails.stock }}</p>
-              <p class="mb-0"><strong>Supplier:</strong> {{ selectedItemDetails.supplier }}</p>
-            </div>
-          </c-col>
-
-          <c-col md="6" *ngIf="selectedBatchDetails">
-            <div class="border rounded p-3 bg-light">
-              <h6 class="mb-2 text-secondary fw-bold">Batch Details</h6>
-              <p class="mb-1"><strong>Batch No:</strong> {{ selectedBatchDetails.batchNo }}</p>
-              <p class="mb-1"><strong>Manufacture Date:</strong> {{ selectedBatchDetails.mfd }}</p>
-              <p class="mb-0"><strong>Expiry Date:</strong> {{ selectedBatchDetails.exp }}</p>
-            </div>
-          </c-col>
-        </c-row>
-      </div>
 
 
-      <!-- Row 3: Additional fields -->
-      <c-row>
+        <c-col md="6">
+          <div class="border rounded p-3 bg-light">
+            <h6 class="mb-2 text-secondary fw-bold">Item Details</h6>
+            <p class="mb-0"><strong>ID:</strong> {{ selectedItem?.nameId | empty }}</p>
+            <p class="mb-1"><strong>Item Name:</strong> {{ selectedItem?.name | empty}}</p>
+            <p class="mb-1"><strong>Description:</strong> {{ selectedItem?.description | empty }}</p>
+            <p class="mb-1"><strong>Alert Quantity:</strong> {{ selectedItem?.alertQuantity| empty }}</p>
+          </div>
+        </c-col>
+
+        <c-col md="6">
+          <div class="border rounded p-3 bg-light">
+            <h6 class="mb-2 text-secondary fw-bold">Batch Details</h6>
+            <p class="mb-1"><strong>ID:</strong> {{ selectedBatch?.batchId | empty}}</p>
+            <p class="mb-1"><strong>Batch Code:</strong> {{ selectedBatch?.batchCode | empty}}</p>
+            <p class="mb-1"><strong>Manufacture Date:</strong> {{ selectedBatch?.manufactureDate | empty }}</p>
+            <p class="mb-0"><strong>Expiry Date:</strong> {{ selectedBatch?.expiryDate | empty }}</p>
+            <p class="mb-0"><strong>Usable Days:</strong> {{ selectedBatch?.usableDays | empty }}</p>
+            <p class="mb-0"><strong>Remaining Quantity:</strong> {{ selectedBatch?.remainingQuantity | empty }}</p>
+            <p class="mb-0"><strong>Warehouse Location:</strong> {{ selectedBatch?.warehouseLocation | empty }}</p>
+          </div>
+        </c-col>
+
         <c-col md="6">
           <label cLabel for="description">Description</label>
-          <input id="description" type="text" class="form-control" formControlName="description" />
+          <input id="description" type="text" class="form-control" formControlName="description" appValidate
+            fieldName="Description" />
         </c-col>
 
         <c-col md="6">
           <label cLabel for="quantity">Quantity</label>
-          <input id="quantity" type="number" class="form-control" formControlName="quantity" />
+          <input id="quantity" type="number" class="form-control" formControlName="quantity" appValidate
+            fieldName="Quantity" />
         </c-col>
-      </c-row>
 
-      <c-row class="mt-3">
         <c-col md="6">
           <label cLabel for="price">Price</label>
-          <input id="price" type="number" class="form-control" formControlName="price" />
+          <input id="price" type="number" class="form-control" formControlName="price" appValidate fieldName="Price" />
         </c-col>
 
         <c-col md="6">
           <label cLabel for="minSalesPrice">Min Sales Price</label>
-          <input id="minSalesPrice" type="number" class="form-control" formControlName="minSalesPrice" />
+          <input id="minSalesPrice" type="number" class="form-control" formControlName="minSalesPrice" appValidate
+            fieldName="Min Sales Price" />
         </c-col>
       </c-row>
-    </form>
-  </c-modal-body>
-  <c-modal-footer>
-    <button (click)="closeModal()" cButton color="secondary">
-      Close
-    </button>
-    <button cButton color="primary">Add Employee</button>
-  </c-modal-footer>
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="onCloseModal()" cButton color="secondary">
+        Close
+      </button>
+      <button cButton color="primary" type="submit" *ngIf="action === ActionButton.ADD">Add Employee</button>
+      <button cButton color="primary" type="submit" *ngIf="action === ActionButton.EDIT">Edit Employee</button>
+    </c-modal-footer>
+  </form>
 </c-modal>

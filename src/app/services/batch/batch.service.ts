@@ -36,10 +36,10 @@ export class BatchService {
   }
 
   public getBatchList(
-    payload: IPagination,
-    inputValue: string,
-    fromDate: string | null,
-    toDate: string | null
+    payload: Partial<IPagination>,
+    inputValue?: string,
+    fromDate?: string | null,
+    toDate?: string | null
   ): Observable<IResponse> {
     return this.httpClient.post<IResponse>(this.requestUrl + '/batches/list', {
       ...payload,
