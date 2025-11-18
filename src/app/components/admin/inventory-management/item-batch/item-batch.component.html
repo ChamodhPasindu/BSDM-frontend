@@ -33,19 +33,19 @@
         <h4 class="card-title mb-4" id="employee-list">Item List</h4>
       </c-col>
       <c-col xs="auto">
-        <button cButton type="button" (click)="openItemView()">+ Add Item</button>
+        <button cButton type="button" (click)="openItemView(ActionButton.ADD)">+ Add Item</button>
       </c-col>
     </c-row>
-    <form cRow class="align-items-end mb-4">
+    <form cRow class="align-items-end mb-4" [formGroup]="searchItemForm" (ngSubmit)="onItemSubmit()">
       <c-col xs="auto" class="mb-2">
-        <label cLabel for="inputEmail4">Search Item</label>
-        <input cFormControl id="inputEmail4" type="email" />
+        <label cLabel for="inputValue">Search Item</label>
+        <input cFormControl id="inputValue" type="text" formControlName="inputValue" />
       </c-col>
 
       <c-col xs="auto" class="mb-2">
         <label cLabel for="datepicker">From Date</label>
         <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker />
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker formControlName="fromDate" />
           <span class="input-group-text bg-white">
             <svg cIcon name="cilCalendar" class="text-secondary"></svg>
           </span>
@@ -55,7 +55,7 @@
       <c-col xs="auto" class="mb-2">
         <label cLabel for="datepicker">To Date</label>
         <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker />
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker formControlName="toDate" />
           <span class="input-group-text bg-white">
             <svg cIcon name="cilCalendar" class="text-secondary"></svg>
           </span>
@@ -63,8 +63,13 @@
       </c-col>
 
       <c-col xs="auto" class="mb-2 d-flex align-items-center gap-2 flex-wrap">
-        <button cButton type="button" variant="outline" color="secondary">
+        <button cButton type="submit" variant="outline" color="secondary">
           <svg cIcon name="cilSearch" class="me-2"></svg>Search
+        </button>
+
+        <button *ngIf="searchItemForm.dirty && searchItemForm.value && hasAnyItemValue()" cButton type="button"
+          variant="outline" color="danger" (click)="onItemClear()">
+          <svg cIcon name="cilX" class="me-2"></svg>Clear
         </button>
 
         <button cButton type="button" variant="outline" color="info">
@@ -77,54 +82,55 @@
       <thead cTableColor="light">
         <tr>
           <th class="text-center">
-            Item ID
+            ID
           </th>
           <th>Name</th>
           <th>Description</th>
+          <th class="text-center">Alert Quantity</th>
           <th class="text-center">Action</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngIf="!pagedItems || pagedItems.length === 0">
+        <tr *ngIf="!itemList || itemList.length === 0">
           <td colspan="6" class="text-center text-muted py-3">
             No data available
           </td>
         </tr>
-        <tr *ngFor="let user of pagedItems; index as i">
+        <tr *ngFor="let item of itemList; index as i">
           <td class="text-center">
-            EMP12
+            {{item.nameId | empty}}
           </td>
           <td>
-            <div>{{ user.name }}</div>
-            <div class="small text-medium-emphasis text-nowrap">
-              <span>
-                Route | Battaramulle
-              </span>
-            </div>
+            {{ item.name | empty }}
           </td>
           <td>
-            Supun Perera
+            {{ item.description | empty }}
+          </td>
+          <td class="text-center">
+            {{ item.alertQuantity | numberSeparate}}
           </td>
           <td class="text-center">
             <!-- View -->
-            <button cButton color="info" size="sm" variant="ghost" class="me-2" title="View">
+            <button cButton color="info" size="sm" variant="ghost" class="me-2" title="View"
+              (click)="openItemView(ActionButton.VIEW,item)">
               <svg cIcon name="cilCommand"></svg>
             </button>
 
             <!-- Edit -->
-            <button cButton color="warning" size="sm" variant="ghost" class="me-2" title="Edit">
+            <button cButton color="warning" size="sm" variant="ghost" class="me-2" title="Edit"
+              (click)="openItemView(ActionButton.EDIT,item)">
               <svg cIcon name="cilPencil"></svg>
             </button>
 
             <!-- Delete -->
-            <button (click)="deleteItem()" cButton color="danger" size="sm" variant="ghost" title="Delete">
+            <button cButton color="danger" size="sm" variant="ghost" title="Delete" (click)="onDeleteItem(item.nameId)">
               <svg cIcon name="cilTrash"></svg>
             </button>
           </td>
         </tr>
       </tbody>
     </table>
-    <app-paginator *ngIf="pagedItems.length !== 0" [totalItems]="items.length" [(pageSize)]="itemPageSize"
+    <app-paginator *ngIf="itemCount !== 0" [totalItems]="itemCount" [(pageSize)]="itemPageSize"
       [(currentPage)]="currentItemPage" (currentPageChange)="goToItemPage($event)"
       (pageSizeChange)="onItemPageSizeChange($event)"></app-paginator>
   </c-card-body>
@@ -168,19 +174,19 @@
         <h4 class="card-title mb-4" id="employee-list">Batches List</h4>
       </c-col>
       <c-col xs="auto">
-        <button cButton type="button" (click)="openBatchView()">+ Add Batch</button>
+        <button cButton type="button" (click)="openBatchView(ActionButton.ADD)">+ Add Batch</button>
       </c-col>
     </c-row>
-    <form cRow class="align-items-end mb-4">
+    <form cRow class="align-items-end mb-4" [formGroup]="searchBatchForm" (ngSubmit)="onBatchSubmit()">
       <c-col xs="auto" class="mb-2">
-        <label cLabel for="inputEmail4">Search Batch</label>
-        <input cFormControl id="inputEmail4" type="email" />
+        <label cLabel for="inputValue">Search Batch</label>
+        <input cFormControl id="inputValue" type="text" formControlName="inputValue" />
       </c-col>
 
       <c-col xs="auto" class="mb-2">
         <label cLabel for="datepicker">From Date</label>
         <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker />
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker formControlName="fromDate" />
           <span class="input-group-text bg-white">
             <svg cIcon name="cilCalendar" class="text-secondary"></svg>
           </span>
@@ -190,7 +196,7 @@
       <c-col xs="auto" class="mb-2">
         <label cLabel for="datepicker">To Date</label>
         <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker />
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker formControlName="toDate" />
           <span class="input-group-text bg-white">
             <svg cIcon name="cilCalendar" class="text-secondary"></svg>
           </span>
@@ -198,8 +204,13 @@
       </c-col>
 
       <c-col xs="auto" class="mb-2 d-flex align-items-center gap-2 flex-wrap">
-        <button cButton type="button" variant="outline" color="secondary">
+        <button cButton type="submit" variant="outline" color="secondary">
           <svg cIcon name="cilSearch" class="me-2"></svg>Search
+        </button>
+
+        <button *ngIf="searchBatchForm.dirty && searchBatchForm.value && hasAnyBatchValue()" cButton type="button"
+          variant="outline" color="danger" (click)="onBatchClear()">
+          <svg cIcon name="cilX" class="me-2"></svg>Clear
         </button>
 
         <button cButton type="button" variant="outline" color="info">
@@ -212,55 +223,57 @@
       <thead cTableColor="light">
         <tr>
           <th class="text-center">
-            Batch Code
+            ID
           </th>
           <th>Manufacture Date</th>
           <th>Expire Date</th>
           <th class="text-center">Usable Days</th>
+          <th class="text-center">Quantity</th>
           <th class="text-center">Warehouse</th>
           <th class="text-center">Action</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngIf="!pagedBatches || pagedBatches.length === 0">
+        <tr *ngIf="!batchList || batchList.length === 0">
           <td colspan="6" class="text-center text-muted py-3">
             No data available
           </td>
         </tr>
-        <tr *ngFor="let user of pagedBatches; index as i">
+        <tr *ngFor="let batch of batchList; index as i">
           <td class="text-center">
-            EMP12
+            {{batch.batchId | empty}}
           </td>
           <td>
-            EMP12
+            {{batch.manufactureDate | empty}}
           </td>
           <td>
-            <div>{{ user.name }}</div>
-            <div class="small text-medium-emphasis text-nowrap">
-              <span>
-                Route | Battaramulle
-              </span>
-            </div>
+            {{batch.expiryDate | empty}}
           </td>
           <td class="text-center">
-            Supun Perera
+            {{batch.usableDays | empty}}
           </td>
           <td class="text-center">
-            <div class="fw-semibold text-nowrap">LKR 12,500</div>
+            {{batch.remainingQuantity | numberSeparate}}
           </td>
+          <td class="text-center">
+            {{batch.warehouseLocation | empty}}
+          </td>
+
           <td class="text-center">
             <!-- View -->
-            <button cButton color="info" size="sm" variant="ghost" class="me-2" title="View">
+            <button cButton color="info" size="sm" variant="ghost" class="me-2" title="View"
+              (click)="openBatchView(ActionButton.VIEW,batch)">
               <svg cIcon name="cilCommand"></svg>
             </button>
 
             <!-- Edit -->
-            <button cButton color="warning" size="sm" variant="ghost" class="me-2" title="Edit">
+            <!-- <button cButton color="warning" size="sm" variant="ghost" class="me-2" title="Edit">
               <svg cIcon name="cilPencil"></svg>
-            </button>
+            </button> -->
 
             <!-- Delete -->
-            <button (click)="deleteBatch()" cButton color="danger" size="sm" variant="ghost" title="Delete">
+            <button cButton color="danger" size="sm" variant="ghost" title="Delete"
+              (click)="onDeleteBatch(batch.batchId)">
               <svg cIcon name="cilTrash"></svg>
             </button>
           </td>
@@ -268,7 +281,7 @@
         </tr>
       </tbody>
     </table>
-    <app-paginator *ngIf="pagedBatches.length !== 0" [totalItems]="batches.length" [(pageSize)]="batchPageSize"
+    <app-paginator *ngIf="batchCount !== 0" [totalItems]="batchCount" [(pageSize)]="batchPageSize"
       [(currentPage)]="currentBatchPage" (currentPageChange)="goToBatchPage($event)"
       (pageSizeChange)="onBatchPageSizeChange($event)"></app-paginator>
   </c-card-body>
@@ -276,5 +289,5 @@
 </c-card>
 
 
-<app-view-batch #batchModal></app-view-batch>
-<app-view-item #itemModal></app-view-item>
+<app-view-batch (tableRefresh)="onBatchRefresh()" #batchModal></app-view-batch>
+<app-view-item (tableRefresh)="onItemRefresh()" #itemModal></app-view-item>

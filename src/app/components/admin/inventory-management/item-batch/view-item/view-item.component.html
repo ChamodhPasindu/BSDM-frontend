@@ -1,26 +1,38 @@
 <c-modal id="liveDemoModal" size="lg" alignment="center" class="modal-scrollable" [visible]="visible"
-  (visibleChange)="changeModalVisibility($event)">
-  <c-modal-header>
-    <h5 cModalTitle> Add New Item</h5>
-    <button (click)="closeModal()" cButtonClose></button>
-  </c-modal-header>
-  <c-modal-body>
-    <form cForm class="row g-3">
-      <h6 class="mb-3">Item Information</h6>
-      <c-col [md]="6">
-        <label cLabel for="inputEmail4">Name</label>
-        <input cFormControl id="inputEmail4" type="email" />
-      </c-col>
-      <c-col [md]="6">
-        <label cLabel for="inputPassword4">Description</label>
-        <input cFormControl id="inputPassword4" type="password" />
-      </c-col>
-    </form>
-  </c-modal-body>
-  <c-modal-footer>
-    <button (click)="closeModal()" cButton color="secondary">
-      Close
-    </button>
-    <button cButton color="primary">Add Customer</button>
-  </c-modal-footer>
+  (visibleChange)="onChangeModalVisibility($event)">
+  <form cForm [formGroup]="itemForm" (ngSubmit)="onSubmit()">
+    <c-modal-header>
+      <h5 cModalTitle *ngIf="action === ActionButton.ADD"> Add New Item</h5>
+      <h5 cModalTitle *ngIf="action === ActionButton.EDIT"> Edit Item</h5>
+      <h5 cModalTitle *ngIf="action === ActionButton.VIEW"> View Item</h5>
+      <button (click)="onCloseModal()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+      <c-row class="g-3">
+        <h6 class="mb-3">Item Information</h6>
+        <c-col md="6">
+          <label cLabel for="name">Name</label>
+          <input cFormControl id="name" type="text" formControlName="name" appValidate fieldName="Item Name" />
+        </c-col>
+        <c-col md="6">
+          <label cLabel for="alertQuantity">Alert Quantity</label>
+          <input cFormControl id="alertQuantity" type="number" formControlName="alertQuantity" appValidate
+            fieldName="Alert Quantity" />
+        </c-col>
+        <c-col xs="12">
+          <label cLabel for="description">Description</label>
+          <input cFormControl id="description" type="text" formControlName="description" appValidate
+            fieldName="Description" />
+        </c-col>
+      </c-row>
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="onCloseModal()" cButton color="secondary">
+        Close
+      </button>
+      <button cButton color="primary" type="submit" *ngIf="action === ActionButton.ADD">Add Item</button>
+      <button cButton color="primary" type="submit" *ngIf="action === ActionButton.EDIT">Edit Item</button>
+    </c-modal-footer>
+  </form>
+
 </c-modal>

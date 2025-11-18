@@ -31,6 +31,8 @@ import { ViewReturnStockComponent } from './return-stock/view-return-stock/view-
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SharedModule } from '../../shared/shared.module';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { ItemService } from 'src/app/services/item/item.service';
+import { BatchService } from 'src/app/services/batch/batch.service';
 
 @NgModule({
   declarations: [
@@ -67,5 +69,6 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     BsDatepickerModule.forRoot(),
     NgMultiSelectDropDownModule.forRoot(),
   ],
+  providers:[ItemService,BatchService]
 })
 export class InventoryManagementModule {}

@@ -282,7 +282,7 @@ export class CustomerRoutesComponent implements OnInit {
     );
   }
 
-  protected deleteCustomer(routeId: number, customerId: number): void {
+  protected onDeleteCustomer(routeId: number, customerId: number): void {
     alertWarning(
       {
         title: RESPONSE_TITLES.WARNING,

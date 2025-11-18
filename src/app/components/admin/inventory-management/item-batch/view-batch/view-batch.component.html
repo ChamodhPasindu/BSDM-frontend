@@ -1,48 +1,70 @@
 <c-modal id="liveDemoModal" size="lg" alignment="center" class="modal-scrollable" [visible]="visible"
-  (visibleChange)="changeModalVisibility($event)">
-  <c-modal-header>
-    <h5 cModalTitle> Add New Batch</h5>
-    <button (click)="closeModal()" cButtonClose></button>
-  </c-modal-header>
-  <c-modal-body>
-    <form cForm class="row g-3">
-      <h6 class="mb-3">Batch Information</h6>
-      <c-col [md]="6">
-        <label cLabel for="inputEmail4">Code</label>
-        <input cFormControl id="inputEmail4" type="email" />
-      </c-col>
-      <c-col [md]="6">
-        <label cLabel for="inputPassword4">Warehouse Location</label>
-        <input cFormControl id="inputPassword4" type="password" />
-      </c-col>
-      <c-col [md]="6">
-        <label cLabel for="datepicker">Manufacture Date</label>
-        <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker />
-          <span class="input-group-text bg-white">
-            <svg cIcon name="cilCalendar" class="text-secondary"></svg>
-          </span>
-        </div>
-      </c-col>
-      <c-col [md]="6">
-        <label cLabel for="datepicker">Expire Date</label>
-        <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker />
-          <span class="input-group-text bg-white">
-            <svg cIcon name="cilCalendar" class="text-secondary"></svg>
-          </span>
-        </div>
-      </c-col>
-      <c-col >
-        <label cLabel for="inputEmail4">Usable Days</label>
-        <input cFormControl id="inputEmail4" type="email" />
-      </c-col>
-    </form>
-  </c-modal-body>
-  <c-modal-footer>
-    <button (click)="closeModal()" cButton color="secondary">
-      Close
-    </button>
-    <button cButton color="primary">Add Batch</button>
-  </c-modal-footer>
+  (visibleChange)="onChangeModalVisibility($event)">
+  <form cForm [formGroup]="batchForm" (ngSubmit)="onSubmit()">
+    <c-modal-header>
+      <h5 cModalTitle *ngIf="action === ActionButton.ADD"> Add New Batch</h5>
+      <h5 cModalTitle *ngIf="action === ActionButton.EDIT"> Edit Item</h5>
+      <h5 cModalTitle *ngIf="action === ActionButton.VIEW"> View Item</h5>
+      <button (click)="onCloseModal()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+      <c-row class="row g-3">
+        <h6 class="mb-3">Batch Information</h6>
+        <c-col [md]="6">
+          <label cLabel for="batchCode">Code</label>
+          <input cFormControl id="batchCode" type="text" formControlName="batchCode" appValidate fieldName="Code" />
+        </c-col>
+        <c-col [md]="6">
+          <label cLabel for="warehouseLocation">Warehouse Location</label>
+          <input cFormControl id="warehouseLocation" type="text" formControlName="warehouseLocation" appValidate
+            fieldName="Warehouse Location" />
+        </c-col>
+        <c-col [md]="6">
+          <label cLabel for="manufactureDate">Manufacture Date</label>
+          <div class="input-group">
+            <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker
+              formControlName="manufactureDate" appValidate fieldName="Manufacture Date" />
+            <span class="input-group-text bg-white">
+              <svg cIcon name="cilCalendar" class="text-secondary"></svg>
+            </span>
+          </div>
+        </c-col>
+        <c-col [md]="6">
+          <label cLabel for="expiryDate">Expire Date</label>
+          <div class="input-group">
+            <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker
+              formControlName="expiryDate" appValidate fieldName="Expire Date" />
+            <span class="input-group-text bg-white">
+              <svg cIcon name="cilCalendar" class="text-secondary"></svg>
+            </span>
+          </div>
+        </c-col>
+        <c-col >
+          <label cLabel for="usableDays">Usable Days</label>
+          <input cFormControl id="usableDays" type="number" formControlName="usableDays" appValidate
+            fieldName="Usable Days" />
+        </c-col>
+        <c-col md="3" *ngIf="action === ActionButton.VIEW">
+          <label cLabel for="remainingQuantity">Quantity</label>
+          <input cFormControl id="remainingQuantity" type="number" formControlName="remainingQuantity" appValidate
+            fieldName="Remaining Quantity" />
+        </c-col>
+        <c-col md="6">
+          <label cLabel for="statusCode">Status</label>
+          <select cFormControl id="statusCode" class="form-select" formControlName="statusCode" appValidate
+            fieldName="Status">
+            <option value=null>Select Status</option>
+            <option *ngFor="let status of statusList" [value]="status['value']">{{ status['title'] }}</option>
+          </select>
+        </c-col>
+      </c-row>
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="onCloseModal()" cButton color="secondary">
+        Close
+      </button>
+      <button cButton color="primary" type="submit" *ngIf="action === ActionButton.ADD">Add Batch</button>
+      <button cButton color="primary" type="submit" *ngIf="action === ActionButton.EDIT">Edit Batch</button>
+    </c-modal-footer>
+  </form>
 </c-modal>

@@ -1,8 +1,31 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ViewItemComponent } from './view-item/view-item.component';
 import { ViewBatchComponent } from './view-batch/view-batch.component';
-import { alertWarning } from 'src/app/utility/helper';
+import {
+  alertError,
+  alertSuccess,
+  alertWarning,
+  datePickerToDate,
+  errorMessageHandler,
+} from 'src/app/utility/helper';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ItemService } from 'src/app/services/item/item.service';
+import { BatchService } from 'src/app/services/batch/batch.service';
+import { IPagination } from 'src/app/interfaces/IPagination';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { IResponse } from 'src/app/interfaces/IResponse';
+import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
+import {
+  RESPONSE_MESSAGES,
+  RESPONSE_TITLES,
+} from 'src/app/utility/constants/response-message-title';
+import { HttpErrorResponse } from '@angular/common/http';
+import { IItemData } from 'src/app/interfaces/IItemData';
+import { IBatchData } from 'src/app/interfaces/IBatchData';
+import { ActionButton } from 'src/app/enums/ActionButton.enum';
+import { SweetAlertResult } from 'sweetalert2';
 
+@UntilDestroy()
 @Component({
   selector: 'app-item-batch',
   templateUrl: './item-batch.component.html',
@@ -12,89 +35,284 @@ export class ItemBatchComponent implements OnInit {
   @ViewChild('itemModal') protected itemModal!: ViewItemComponent;
   @ViewChild('batchModal') protected batchModal!: ViewBatchComponent;
 
-  constructor() {}
+  protected readonly ActionButton = ActionButton;
 
-  protected items: any[] = [];
-  protected batches: any[] = [];
-  protected pagedItems: any[] = [];
-  protected pagedBatches: any[] = [];
+  protected itemList: IItemData[];
+  protected batchList: IBatchData[];
 
   protected currentItemPage = 1;
   protected currentBatchPage = 1;
+
   protected itemPageSize = 5;
   protected batchPageSize = 5;
 
+  protected itemCount: number = 0;
+  protected batchCount: number = 0;
+
+  protected searchItemForm: FormGroup;
+  protected searchBatchForm: FormGroup;
+
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly itemService: ItemService,
+    private readonly batchService: BatchService
+  ) {
+    this.createForm();
+  }
+
   ngOnInit(): void {
-    // sample data
-    this.items = Array.from({ length: 35 }, (_, i) => ({
-      name: `User ${i + 1}`,
-      nic: `NIC${1000 + i}`,
-    }));
+    this.loadItemTableData();
+    this.loadBatchTableData();
+  }
 
-    this.batches = Array.from({ length: 35 }, (_, i) => ({
-      name: `User ${i + 1}`,
-      nic: `NIC${1000 + i}`,
-    }));
+  private createForm(): void {
+    this.searchItemForm = this.fb.group({
+      inputValue: [''],
+      fromDate: [''],
+      toDate: [''],
+    });
 
-    this.updatePagedItems();
-    this.updatePagedBatches();
+    this.searchBatchForm = this.fb.group({
+      inputValue: [''],
+      fromDate: [''],
+      toDate: [''],
+    });
+  }
+
+  protected onItemSubmit(): void {
+    this.loadItemTableData();
+  }
+
+  protected onBatchSubmit(): void {
+    this.loadBatchTableData();
+  }
+
+  protected onItemRefresh(): void {
+    this.loadItemTableData();
+  }
+
+  protected onBatchRefresh(): void {
+    this.loadBatchTableData();
+  }
+
+  private loadBatchTableData(): void {
+    const { inputValue, fromDate, toDate } = this.searchBatchForm.value;
+
+    let formattedFromDate = null;
+    let formattedToDate = null;
+    if (fromDate) {
+      formattedFromDate = datePickerToDate(fromDate);
+    }
+
+    if (toDate) {
+      formattedToDate = datePickerToDate(toDate);
+    }
+
+    const paginationRequest: IPagination = {
+      pageable: true,
+      page: this.currentBatchPage - 1,
+      size: this.batchPageSize,
+    };
+
+    this.batchService
+      .getBatchList(
+        paginationRequest,
+        inputValue || '',
+        formattedFromDate,
+        formattedToDate
+      )
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.batchList = res.body.content.content || [];
+            this.batchCount = res.body.content.totalElements || 0;
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text: res.body.message || RESPONSE_MESSAGES.BATCH_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
+  }
+
+  private loadItemTableData(): void {
+    const { inputValue, fromDate, toDate } = this.searchItemForm.value;
+
+    let formattedFromDate = null;
+    let formattedToDate = null;
+    if (fromDate) {
+      formattedFromDate = datePickerToDate(fromDate);
+    }
+
+    if (toDate) {
+      formattedToDate = datePickerToDate(toDate);
+    }
+
+    const paginationRequest: IPagination = {
+      pageable: true,
+      page: this.currentItemPage - 1,
+      size: this.itemPageSize,
+    };
+
+    this.itemService
+      .getItemList(
+        paginationRequest,
+        inputValue || '',
+        formattedFromDate,
+        formattedToDate
+      )
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.itemList = res.body.content.content || [];
+            this.itemCount = res.body.content.totalElements || 0;
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text: res.body.message || RESPONSE_MESSAGES.ITEM_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
   }
 
   protected goToItemPage(page: number): void {
     this.currentItemPage = page;
-    this.updatePagedItems();
+    this.loadItemTableData();
   }
 
   protected goToBatchPage(page: number): void {
     this.currentBatchPage = page;
-    this.updatePagedBatches();
+    this.loadBatchTableData();
   }
 
   protected onItemPageSizeChange(newSize: number): void {
     this.itemPageSize = newSize;
     this.currentItemPage = 1;
-    this.updatePagedItems();
+    this.loadItemTableData();
   }
 
   protected onBatchPageSizeChange(newSize: number): void {
     this.batchPageSize = newSize;
     this.currentBatchPage = 1;
-    this.updatePagedBatches();
+    this.loadBatchTableData();
   }
 
-  protected updatePagedItems(): void {
-    const start = (this.currentItemPage - 1) * this.itemPageSize;
-    const end = start + this.itemPageSize;
-    this.pagedItems = this.items.slice(start, end);
+  protected onItemClear(): void {
+    this.searchItemForm.reset();
+    this.loadItemTableData();
   }
 
-  protected updatePagedBatches(): void {
-    const start = (this.currentBatchPage - 1) * this.batchPageSize;
-    const end = start + this.batchPageSize;
-    this.pagedBatches = this.batches.slice(start, end);
+  protected onBatchClear(): void {
+    this.searchBatchForm.reset();
+    this.loadBatchTableData();
   }
 
-  protected openItemView(item?: any) {
+  protected hasAnyItemValue(): boolean {
+    const { inputValue, fromDate, toDate } = this.searchItemForm.value;
+
+    return !!(inputValue || fromDate || toDate);
+  }
+
+  protected hasAnyBatchValue(): boolean {
+    const { inputValue, fromDate, toDate } = this.searchBatchForm.value;
+
+    return !!(inputValue || fromDate || toDate);
+  }
+
+  protected openItemView(action: ActionButton, item?: IItemData) {
+    this.itemModal.action = action;
     this.itemModal.item = item;
     this.itemModal.visible = true;
   }
 
-  protected openBatchView(batch?: any) {
+  protected openBatchView(action: ActionButton, batch?: IBatchData) {
+    this.batchModal.action = action;
     this.batchModal.batch = batch;
     this.batchModal.visible = true;
   }
 
-  protected deleteItem() {
-    alertWarning({
-      title: 'Confirm Delete',
-      text: 'message',
-    });
+  protected onDeleteItem(id: number) {
+    alertWarning(
+      {
+        title: RESPONSE_TITLES.WARNING,
+        text: RESPONSE_MESSAGES.DELETE_CONFIRMATION,
+      },
+      (result: SweetAlertResult<any>) => {
+        if (result.isConfirmed) {
+          this.itemService
+            .deleteItem(id)
+            .pipe(untilDestroyed(this))
+            .subscribe({
+              next: (res: IResponse) => {
+                if (res.body.status === RSP_SUCCESS) {
+                  this.loadItemTableData();
+                  alertSuccess({
+                    title: RESPONSE_TITLES.DONE,
+                    text:
+                      res.body.message || RESPONSE_MESSAGES.ITEM_DELETE_SUCCESS,
+                  });
+                } else {
+                  alertError({
+                    title: RESPONSE_TITLES.FAILED,
+                    text:
+                      res.body.message || RESPONSE_MESSAGES.ITEM_DELETE_FAILED,
+                  });
+                }
+              },
+              error: (err: HttpErrorResponse) => {
+                errorMessageHandler(err);
+              },
+            });
+        }
+      }
+    );
   }
 
-  protected deleteBatch() {
-    alertWarning({
-      title: 'Confirm Delete',
-      text: 'message',
-    });
+  protected onDeleteBatch(id: number) {
+    alertWarning(
+      {
+        title: RESPONSE_TITLES.WARNING,
+        text: RESPONSE_MESSAGES.DELETE_CONFIRMATION,
+      },
+      (result: SweetAlertResult<any>) => {
+        if (result.isConfirmed) {
+          this.batchService
+            .deleteBatch(id)
+            .pipe(untilDestroyed(this))
+            .subscribe({
+              next: (res: IResponse) => {
+                if (res.body.status === RSP_SUCCESS) {
+                  this.loadBatchTableData();
+                  alertSuccess({
+                    title: RESPONSE_TITLES.DONE,
+                    text:
+                      res.body.message ||
+                      RESPONSE_MESSAGES.BATCH_DELETE_SUCCESS,
+                  });
+                } else {
+                  alertError({
+                    title: RESPONSE_TITLES.FAILED,
+                    text:
+                      res.body.message || RESPONSE_MESSAGES.BATCH_DELETE_FAILED,
+                  });
+                }
+              },
+              error: (err: HttpErrorResponse) => {
+                errorMessageHandler(err);
+              },
+            });
+        }
+      }
+    );
   }
 }

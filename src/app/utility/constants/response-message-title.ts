@@ -45,6 +45,20 @@ export const RESPONSE_MESSAGES = {
     'Failed to remove Customer details. Please try again.',
   CUSTOMER_DELETE_SUCCESS:
     'Customer information has been removed successfully.',
+
+  ITEM_ADD_EDIT_SUCCESS: 'Item information has been saved successfully.',
+  ITEM_ADD_EDIT_FAILED: 'Failed to save Item information. Please try again.',
+  ITEM_GET_FAILED: 'Failed to load Item details. Please try again.',
+  ITEM_DELETE_FAILED: 'Failed to remove Item details. Please try again.',
+  ITEM_DELETE_SUCCESS: 'Item information has been removed successfully.',
+
+  BATCH_ADD_EDIT_SUCCESS: 'Batch information has been saved successfully.',
+  BATCH_ADD_EDIT_FAILED: 'Failed to save Batch information. Please try again.',
+  BATCH_GET_FAILED: 'Failed to load Batch details. Please try again.',
+  BATCH_DELETE_FAILED: 'Failed to remove Batch details. Please try again.',
+  BATCH_DELETE_SUCCESS: 'Batch information has been removed successfully.',
+  BATCH_CODE_GENERATE_FAILED:
+    'Unable to generate or retrieve the batch code. Please try again.',
 };
 
 export const RESPONSE_TITLES = {

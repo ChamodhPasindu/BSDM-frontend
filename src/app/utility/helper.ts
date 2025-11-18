@@ -8,7 +8,10 @@ import { ISWALAlert } from '../interfaces/ISWALAlert';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 import * as moment from 'moment';
 import { HttpErrorResponse } from '@angular/common/http';
-import { RESPONSE_MESSAGES, RESPONSE_TITLES } from './constants/response-message-title';
+import {
+  RESPONSE_MESSAGES,
+  RESPONSE_TITLES,
+} from './constants/response-message-title';
 
 export const alertSuccess = async (
   object: ISWALAlert,
@@ -80,6 +83,12 @@ export const alertError = async (
   if (result && callback) {
     callback(result);
   }
+};
+
+export const dateToDatePicker = (
+  dateString: string | null | undefined
+): Date | null => {
+  return dateString ? moment(dateString, 'YYYY-MM-DD').toDate() : null;
 };
 
 export const datePickerToDate = (
