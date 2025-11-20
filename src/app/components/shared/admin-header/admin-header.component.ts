@@ -19,6 +19,12 @@ export class AdminHeaderComponent extends HeaderComponent implements OnInit {
   protected isDarkMode: boolean = false;
   @Input() public sidebarId: string = 'sidebar';
 
+
+  protected name: string;
+  protected userRole: string;
+  protected lastLoggedInTime: string = '05 Nov 2025 | 12:50';
+  protected profileImg: string = './assets/images/user-img.jpg';
+
   public newMessages = new Array(4);
   public newTasks = new Array(5);
   public newNotifications = new Array(5);
@@ -66,12 +72,6 @@ export class AdminHeaderComponent extends HeaderComponent implements OnInit {
     },
   ];
 
-  protected readonly UserRole = UserRole;
-
-  protected name: string;
-  protected userRole: UserRole;
-  protected lastLoggedInTime: string = '05 Nov 2025 | 12:50';
-
   constructor(
     private readonly router: Router,
     private readonly storageService: StorageService,
@@ -88,8 +88,8 @@ export class AdminHeaderComponent extends HeaderComponent implements OnInit {
 
   private loadSessionData(): void {
     this.name = this.storageService.get(SESSION_DATA.NAME)!;
-    this.userRole = this.storageService.get(SESSION_DATA.ROLE) as UserRole;
-    // this.name = this.storageService.get(SESSION_DATA.NAME);
+    this.userRole = this.storageService.get(SESSION_DATA.ROLE)!;
+    this.profileImg = this.storageService.get(SESSION_DATA.PRO_IMG)!;
   }
 
   protected onLogOut(): void {

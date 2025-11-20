@@ -33,7 +33,7 @@
         <h4 class="card-title mb-4" id="employee-list">Stock List</h4>
       </c-col>
       <c-col xs="auto">
-        <button cButton type="button" (click)="openStockView(ActionButton.ADD)">+ Add Stock</button>
+        <button cButton type="button" (click)="openAddStockView()">+ Add Stock</button>
       </c-col>
     </c-row>
     <form cRow class="align-items-end mb-4" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
@@ -133,4 +133,5 @@
 </c-card>
 
 
-<app-view-stock #stockModal></app-view-stock>
+<app-view-stock #viewStockModal></app-view-stock>
+<app-add-stock #addStockModal></app-add-stock>

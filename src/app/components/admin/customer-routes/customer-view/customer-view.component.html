@@ -48,7 +48,7 @@
           <div class="d-flex justify-content-between align-items-center mb-2">
             <h6 class="fw-semibold mb-0">Customer {{ i + 1 }}</h6>
             <button *ngIf="customers.length > 1" cButton color="danger" size="sm" variant="ghost"
-              (click)="removeCustomer(i)">
+              (click)="onRemoveCustomer(i)">
               <svg cIcon name="cilTrash"></svg>
             </button>
           </div>
@@ -89,7 +89,7 @@
       <!-- Add Another Button -->
       <div class="text-center mt-3">
         <button cButton color="warning" variant="outline" class="rounded-3 fw-semibold px-3"
-          *ngIf="action === ActionButton.ADD" (click)="addCustomerForm()" type="button">
+          *ngIf="action === ActionButton.ADD" (click)="onAddCustomerForm()" type="button">
           <svg cIcon name="cilPlus" class="me-2"></svg> Add Another Customer
         </button>
       </div>

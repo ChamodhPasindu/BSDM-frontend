@@ -11,5 +11,5 @@ export interface IEmployeeData {
   statusDescription: string;
   createdDate: string;
   modifiedDate: string;
-  profileImageBase64: null;
+  profileImageBase64: string;
 }

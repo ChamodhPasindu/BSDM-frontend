@@ -62,7 +62,7 @@ export class ViewItemComponent extends ModalControlDirective {
     this.createForm();
   }
 
-  protected createForm(): void {
+  private createForm(): void {
     this.itemForm = this.fb.group({
       name: ['', [Validators.required, Validators.pattern(REGEX_NAME)]],
       description: ['', [Validators.required]],

@@ -1,16 +1,15 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { switchMap } from 'rxjs';
+import { Observable, forkJoin, switchMap } from 'rxjs';
 import { ActionButton } from 'src/app/enums/ActionButton.enum';
+import { CommonCode } from 'src/app/enums/CommonCode.enum';
+import { IEmployee } from 'src/app/interfaces/IEmployee';
 import { IEmployeeData } from 'src/app/interfaces/IEmployeeData';
 import { IResponse } from 'src/app/interfaces/IResponse';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
-import {
-  UserRoles,
-  UserStatus,
-} from 'src/app/utility/constants/other-constant';
+import { GeneralService } from 'src/app/services/general/general.service';
 import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
 import {
   RESPONSE_MESSAGES,
@@ -41,7 +40,10 @@ import {
   templateUrl: './employee-view.component.html',
   styleUrls: ['./employee-view.component.scss'],
 })
-export class EmployeeViewComponent extends ModalControlDirective {
+export class EmployeeViewComponent
+  extends ModalControlDirective
+  implements OnInit
+{
   protected readonly ActionButton = ActionButton;
 
   private _employee: IEmployeeData | undefined;
@@ -54,8 +56,10 @@ export class EmployeeViewComponent extends ModalControlDirective {
   protected previewUrl: string | ArrayBuffer | null = null;
   protected selectedFile: File | null = null;
 
-  protected roleList: Record<string, string>[] = UserRoles;
-  protected statusList: Record<string, string>[] = UserStatus;
+  protected roleList: Record<string, string>[];
+  protected statusList: Record<string, string | number>[];
+
+  protected enablePasswordUpdate: boolean = true;
 
   @Input()
   public set employee(value: IEmployeeData | undefined) {
@@ -70,7 +74,6 @@ export class EmployeeViewComponent extends ModalControlDirective {
   @Input()
   public set action(value: ActionButton) {
     this._action = value;
-    this.updateForm();
   }
 
   public get action() {
@@ -79,10 +82,46 @@ export class EmployeeViewComponent extends ModalControlDirective {
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly employeeService: EmployeeService
+    private readonly employeeService: EmployeeService,
+    private readonly generalService: GeneralService
   ) {
     super();
     this.createForm();
+  }
+
+  ngOnInit(): void {
+    this.loadRoleListAndStatusList();
+  }
+
+  private loadRoleListAndStatusList(): void {
+    forkJoin({
+      roles: this.generalService.getDropDownList(CommonCode.USER_ROLES),
+      status: this.generalService.getStatusList(CommonCode.USER_STATUS),
+    })
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: { roles: IResponse; status: IResponse }) => {
+          if (res.roles.body.status === RSP_SUCCESS) {
+            this.roleList = res.roles.body.content.dropdown;
+          }
+
+          if (res.status.body.status === RSP_SUCCESS) {
+            this.statusList = res.status.body.content.dropdown;
+          }
+
+          if (
+            res.status.body.status !== RSP_SUCCESS ||
+            res.roles.body.status !== RSP_SUCCESS
+          ) {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.roles.body.message || RESPONSE_MESSAGES.COMMON_ERROR_DES,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => errorMessageHandler(err),
+      });
   }
 
   private createForm(): void {
@@ -132,21 +171,24 @@ export class EmployeeViewComponent extends ModalControlDirective {
     if (this.action === ActionButton.VIEW) {
       this.patchValue();
       this.employeeForm.disable();
+      this.enablePasswordUpdate = false;
     }
 
     if (this.action === ActionButton.EDIT) {
       this.patchValue();
       this.employeeForm.enable();
+      this.enablePasswordUpdate = false;
     }
 
     if (this.action === ActionButton.ADD) {
       this.employeeForm.enable();
+      this.enablePasswordUpdate = true;
     }
   }
 
   private patchValue(): void {
     this.employeeForm.patchValue({
-      profileImage: this.employee?.profileImageBase64 || '',
+      // profileImage: this.employee?.profileImageBase64 || '',
       name: this.employee?.name,
       nic: this.employee?.nic,
       email: this.employee?.email,
@@ -177,13 +219,57 @@ export class EmployeeViewComponent extends ModalControlDirective {
     }
   }
 
+  protected onTogglePasswordUpdate(): void {
+    const username = this.employeeForm.get('username');
+    const pass = this.employeeForm.get('password');
+    const confirm = this.employeeForm.get('confirmPassword');
+
+    if (this.enablePasswordUpdate) {
+      username?.addValidators([
+        Validators.required,
+        Validators.minLength(USERNAME_MIN_LENGTH),
+        Validators.maxLength(USERNAME_MAX_LENGTH),
+      ]);
+      pass?.addValidators([
+        Validators.required,
+        Validators.minLength(PASSWORD_MIN_LENGTH),
+        Validators.maxLength(PASSWORD_MAX_LENGTH),
+      ]);
+      confirm?.addValidators([Validators.required]);
+    } else {
+      username?.clearValidators();
+      pass?.clearValidators();
+      confirm?.clearValidators();
+
+      pass?.setValue(null);
+      confirm?.setValue(null);
+    }
+
+    username?.updateValueAndValidity();
+    pass?.updateValueAndValidity();
+    confirm?.updateValueAndValidity();
+  }
+
   protected onSubmit(): void {
     if (!onValidate(this.employeeForm)) return;
 
-    const { nic, username } = this.employeeForm.value;
+    const { username } = this.employeeForm?.value;
+    if (this.action === ActionButton.ADD) {
+      this.addEmployee(this.employeeForm.value);
+    } else {
+      this.updateEmployee(
+        {
+          ...this.employeeForm?.value,
+          userId: this.employee?.userId,
+        },
+        username !== this.employee?.username
+      );
+    }
+  }
 
+  private addEmployee(data: IEmployee): void {
     this.employeeService
-      .validateNIC(nic)
+      .validateNIC(data.nic)
       .pipe(
         untilDestroyed(this),
         switchMap((nicRes: IResponse) => {
@@ -193,7 +279,7 @@ export class EmployeeViewComponent extends ModalControlDirective {
           ) {
             throw nicRes;
           }
-          return this.employeeService.validateUsername(username);
+          return this.employeeService.validateUsername(data.username);
         }),
         switchMap((userRes: IResponse) => {
           if (
@@ -202,7 +288,7 @@ export class EmployeeViewComponent extends ModalControlDirective {
           ) {
             throw userRes;
           }
-          return this.employeeService.createEmployee(this.employeeForm.value);
+          return this.employeeService.createEmployee(data);
         })
       )
       .subscribe({
@@ -238,5 +324,62 @@ export class EmployeeViewComponent extends ModalControlDirective {
           }
         },
       });
+  }
+
+  private updateEmployee(data: IEmployee, isUsernameUpdate: boolean): void {
+    let updatePipeline$: Observable<IResponse>;
+
+    if (isUsernameUpdate) {
+      updatePipeline$ = this.employeeService
+        .validateUsername(data.username)
+        .pipe(
+          switchMap((userRes: IResponse) => {
+            if (
+              userRes.body.status !== RSP_SUCCESS ||
+              !userRes.body.content.isAvailable
+            ) {
+              throw userRes; // username unavailable
+            }
+            return this.employeeService.updateEmployee(data);
+          })
+        );
+    } else {
+      updatePipeline$ = this.employeeService.updateEmployee(data);
+    }
+
+    updatePipeline$.pipe(untilDestroyed(this)).subscribe({
+      next: (updateRes: IResponse) => {
+        if (updateRes.body.status === RSP_SUCCESS) {
+          this.tableRefresh.emit();
+          this.onCloseModal();
+
+          alertSuccess({
+            title: RESPONSE_TITLES.SUCCESS,
+            text:
+              updateRes.body.message ||
+              RESPONSE_MESSAGES.EMPLOYEE_ADD_EDIT_SUCCESS,
+          });
+        } else {
+          alertError({
+            title: RESPONSE_TITLES.FAILED,
+            text:
+              updateRes.body.message ||
+              RESPONSE_MESSAGES.EMPLOYEE_ADD_EDIT_FAILED,
+          });
+        }
+      },
+      error: (err: HttpErrorResponse | IResponse) => {
+        if (err instanceof HttpErrorResponse) {
+          errorMessageHandler(err);
+        } else {
+          alertError({
+            title: RESPONSE_TITLES.FAILED,
+            text:
+              err.body?.content?.message ||
+              RESPONSE_MESSAGES.EMPLOYEE_ADD_EDIT_FAILED,
+          });
+        }
+      },
+    });
   }
 }

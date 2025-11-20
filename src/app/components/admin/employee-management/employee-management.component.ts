@@ -121,7 +121,10 @@ export class EmployeeManagementComponent implements OnInit {
     this.loadEmployeeTableData();
   }
 
-  protected openEmployeeView(action: ActionButton, employee?: IEmployeeData): void {
+  protected openEmployeeView(
+    action: ActionButton,
+    employee?: IEmployeeData
+  ): void {
     this.employeeModal.action = action;
     this.employeeModal.employee = employee;
     this.employeeModal.visible = true;
@@ -138,7 +141,7 @@ export class EmployeeManagementComponent implements OnInit {
     return !!(inputValue || fromDate || toDate);
   }
 
-  protected delete(): void {
+  protected onDeleteEmployee(id: number): void {
     alertWarning({
       title: 'Confirm Delete',
       text: 'message',

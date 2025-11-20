@@ -27,7 +27,7 @@
           <label cLabel for="nic">NIC</label>
           <input cFormControl id="nic" type="text" formControlName="nic" appValidate fieldName="NIC" />
         </c-col>
-        <c-col xs="6">
+        <c-col md="6">
           <label cLabel for="mobileNumber">Mobile Number</label>
           <input cFormControl id="mobileNumber" type="text" formControlName="mobileNumber" appValidate
             fieldName="Mobile Number" />
@@ -40,47 +40,62 @@
           <label cLabel for="role">Role</label>
           <select cFormControl id="batch" class="form-select" formControlName="role" appValidate fieldName="Role">
             <option value=null>Select Role</option>
-            <option *ngFor="let role of roleList" [value]="role['value']">{{ role['title'] }}</option>
+            <option *ngFor="let role of roleList" [value]="role['code']">{{ role['description'] }}</option>
           </select>
         </c-col>
         <c-col md="6">
           <label cLabel for="status">Status</label>
           <select cFormControl id="status" class="form-select" formControlName="status" appValidate fieldName="Status">
             <option value=null>Select Role</option>
-            <option *ngFor="let status of statusList" [value]="status['value']">{{ status['title'] }}</option>
+            <option *ngFor="let status of statusList" [value]="status['code']">{{ status['description'] }}</option>
           </select>
         </c-col>
-        <hr />
-        <h6 class="mb-3 mt-3">Setup Account Credentials</h6>
-        <c-col xs="12">
-          <label cLabel for="username">Username</label>
-          <input cFormControl id="username" type="text" formControlName="username" appValidate fieldName="Username" />
-        </c-col>
-        <c-col md="6">
-          <label cLabel for="password">Password</label>
-          <div class="input-group">
-            <input cFormControl id="password" [type]="showPassword ? 'text' : 'password'" formControlName="password"
-              appValidate fieldName="Password" class="form-control" />
+        <ng-container *ngIf="action !== ActionButton.VIEW">
+          <hr />
 
-            <button type="button" class="btn btn-outline-secondary password-view" (click)="showPassword = !showPassword"
-              tabindex="-1">
-              <svg cIcon [name]="showPassword ? 'cilLockUnlocked' : 'cilLockLocked'"></svg>
-            </button>
-          </div>
-        </c-col>
+          <h6 class="mb-3 mt-3">Setup Account Credentials</h6>
 
-        <c-col md="6">
-          <label cLabel for="password">Confirm Password</label>
-          <div class="input-group">
-            <input cFormControl id="confirmPassword" [type]="showConfirmPassword ? 'text' : 'password'"
-              formControlName="confirmPassword" appValidate fieldName="Confirm Password" class="form-control" />
+          <c-col xs="12" class="mb-3" *ngIf="action === ActionButton.EDIT">
+            <label class="form-check form-switch">
+              <span class="form-check-label">Do you need to update account credentials ?</span>
+              <input class="form-check-input" type="checkbox" [(ngModel)]="enablePasswordUpdate"
+                [ngModelOptions]="{standalone: true}" (change)="onTogglePasswordUpdate()" />
+            </label>
+          </c-col>
 
-            <button type="button" class="btn btn-outline-secondary password-view"
-              (click)="showConfirmPassword = !showConfirmPassword" tabindex="-1">
-              <svg cIcon [name]="showPassword ? 'cilLockUnlocked' : 'cilLockLocked'"></svg>
-            </button>
-          </div>
-        </c-col>
+          <c-col xs="12" *ngIf="enablePasswordUpdate">
+            <label cLabel for="username">Username</label>
+            <input cFormControl id="username" type="text" formControlName="username" appValidate fieldName="Username" />
+          </c-col>
+
+          <c-col md="6" *ngIf="enablePasswordUpdate">
+            <label cLabel for="password">Password</label>
+            <div class="input-group">
+              <input cFormControl id="password" [type]="showPassword ? 'text' : 'password'" formControlName="password"
+                appValidate fieldName="Password" class="form-control" />
+
+              <button type="button" class="btn btn-outline-secondary password-view"
+                (click)="showPassword = !showPassword" tabindex="-1">
+                <svg cIcon [name]="showPassword ? 'cilLockUnlocked' : 'cilLockLocked'"></svg>
+              </button>
+            </div>
+          </c-col>
+
+          <c-col md="6" *ngIf="enablePasswordUpdate">
+            <label cLabel for="password">Confirm Password</label>
+            <div class="input-group">
+              <input cFormControl id="confirmPassword" [type]="showConfirmPassword ? 'text' : 'password'"
+                formControlName="confirmPassword" appValidate fieldName="Confirm Password" class="form-control" />
+
+              <button type="button" class="btn btn-outline-secondary password-view"
+                (click)="showConfirmPassword = !showConfirmPassword" tabindex="-1">
+                <svg cIcon [name]="showPassword ? 'cilLockUnlocked' : 'cilLockLocked'"></svg>
+              </button>
+            </div>
+          </c-col>
+        </ng-container>
+
+
       </c-row>
     </c-modal-body>
     <c-modal-footer>

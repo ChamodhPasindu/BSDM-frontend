@@ -82,7 +82,7 @@ export class ViewBatchComponent
     });
   }
 
-  protected createForm(): void {
+  private createForm(): void {
     this.batchForm = this.fb.group({
       batchCode: ['', Validators.required],
       manufactureDate: ['', Validators.required],

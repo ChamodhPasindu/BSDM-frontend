@@ -4,9 +4,9 @@ export interface IBatch {
   manufactureDate: string;
   expiryDate: string;
   usableDays: number;
+  statusCode: number;
+  warehouseLocation: string;
   // remainingQuantity: number;
-  // statusCode: string;
-  // warehouseLocation: string;
   // createdAt: string;
   // createdBy: number;
 }

@@ -65,7 +65,7 @@ export class RouteViewComponent extends ModalControlDirective {
     this.createForm();
   }
 
-  protected createForm(): void {
+  private createForm(): void {
     this.routeForm = this.fb.group({
       routeName: ['', [Validators.required]],
       description: ['', [Validators.required]],

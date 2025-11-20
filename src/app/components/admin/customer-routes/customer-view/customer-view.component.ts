@@ -87,7 +87,7 @@ export class CustomerViewComponent
     this.setForm(this.customerForm);
   }
 
-  protected updateForm(): void {
+  private updateForm(): void {
     if (!this.action) return;
 
     this.selectedRoute = null;
@@ -126,7 +126,7 @@ export class CustomerViewComponent
     });
   }
 
-  protected loadRouteListData(): void {
+  private loadRouteListData(): void {
     this.routeService
       .getRouteList({ pageable: false })
       .pipe(untilDestroyed(this))
@@ -161,11 +161,11 @@ export class CustomerViewComponent
     });
   }
 
-  protected addCustomerForm(): void {
+  protected onAddCustomerForm(): void {
     this.customers.push(this.createCustomerForm());
   }
 
-  protected removeCustomer(i: number): void {
+  protected onRemoveCustomer(i: number): void {
     this.customers.removeAt(i);
   }
 
@@ -185,7 +185,7 @@ export class CustomerViewComponent
     }
   }
 
-  protected addCustomer(routeId: number, data: ICustomer[]): void {
+  private addCustomer(routeId: number, data: ICustomer[]): void {
     this.customerService
       .addCustomer(routeId, data)
       .pipe(untilDestroyed(this))
@@ -213,7 +213,7 @@ export class CustomerViewComponent
       });
   }
 
-  protected updateCustomer(routeId: number, data: ICustomer[]): void {
+  private updateCustomer(routeId: number, data: ICustomer[]): void {
     this.customerService
       .updateCustomer(routeId, data)
       .pipe(untilDestroyed(this))

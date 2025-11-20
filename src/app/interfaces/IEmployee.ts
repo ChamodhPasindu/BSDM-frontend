@@ -2,6 +2,7 @@ import { Status } from '../enums/Status.enum';
 import { UserRole } from '../enums/UserRole.enum';
 
 export interface IEmployee {
+  userId?:string,
   username: string;
   name: string;
   nic: string;

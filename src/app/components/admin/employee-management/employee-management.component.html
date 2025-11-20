@@ -138,7 +138,8 @@
             </button>
 
             <!-- Delete -->
-            <button (click)="delete()" cButton color="danger" size="sm" variant="ghost" title="Delete">
+            <button cButton color="danger" size="sm" variant="ghost" title="Delete"
+              (click)="onDeleteEmployee(employee.userId)">
               <svg cIcon name="cilTrash"></svg>
             </button>
           </td>

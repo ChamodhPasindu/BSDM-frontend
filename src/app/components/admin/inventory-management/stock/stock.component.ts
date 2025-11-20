@@ -20,6 +20,7 @@ import {
 import { HttpErrorResponse } from '@angular/common/http';
 import { SweetAlertResult } from 'sweetalert2';
 import { IStockData } from 'src/app/interfaces/IStockData';
+import { AddStockComponent } from './add-stock/add-stock.component';
 
 @UntilDestroy()
 @Component({
@@ -28,7 +29,8 @@ import { IStockData } from 'src/app/interfaces/IStockData';
   styleUrls: ['./stock.component.scss'],
 })
 export class StockComponent implements OnInit {
-  @ViewChild('stockModal') protected stockModal!: ViewStockComponent;
+  @ViewChild('viewStockModal') protected viewStockModal!: ViewStockComponent;
+  @ViewChild('addStockModal') protected addStockModal!: AddStockComponent;
 
   protected readonly ActionButton = ActionButton;
   protected stockList: IStockData[];
@@ -122,10 +124,14 @@ export class StockComponent implements OnInit {
     this.loadStockTableData();
   }
 
+  protected openAddStockView() {
+    this.addStockModal.visible = true;
+  }
+
   protected openStockView(action: ActionButton, stock?: IStockData) {
-    // this.stockModal.action = action;
-    this.stockModal.stock = stock;
-    this.stockModal.visible = true;
+    // this.viewStockModal.action = action;
+    this.viewStockModal.stock = stock;
+    this.viewStockModal.visible = true;
   }
 
   protected onClear(): void {

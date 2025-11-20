@@ -41,8 +41,8 @@ export class ProductService {
   public getProductList(
     payload: IPagination,
     inputValue: string,
-    fromDate: string | null,
-    toDate: string | null
+    fromDate?: string | null,
+    toDate?: string | null
   ): Observable<IResponse> {
     return this.httpClient.post<IResponse>(this.requestUrl + '/list', {
       ...payload,

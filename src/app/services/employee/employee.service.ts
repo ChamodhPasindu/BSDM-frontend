@@ -12,15 +12,6 @@ export class EmployeeService {
 
   constructor(private readonly httpClient: HttpClient) {}
 
-  public createEmployee(payload: IEmployee): Observable<IResponse> {
-    return this.httpClient.post<IResponse>(
-      this.requestUrl + '/sign-up/creat-user',
-      {
-        ...payload,
-      }
-    );
-  }
-
   public validateNIC(nic: string): Observable<IResponse> {
     return this.httpClient.post<IResponse>(
       this.requestUrl + '/sign-up/validate-nic',
@@ -34,6 +25,24 @@ export class EmployeeService {
       this.requestUrl + '/sign-up/validate-username',
       {},
       { params: { userName: username } }
+    );
+  }
+
+  public createEmployee(payload: IEmployee): Observable<IResponse> {
+    return this.httpClient.post<IResponse>(
+      this.requestUrl + '/sign-up/creat-user',
+      {
+        ...payload,
+      }
+    );
+  }
+
+  public updateEmployee(payload: IEmployee): Observable<IResponse> {
+    return this.httpClient.put<IResponse>(
+      this.requestUrl + '/sign-up/edit-user',
+      {
+        ...payload,
+      }
     );
   }
 

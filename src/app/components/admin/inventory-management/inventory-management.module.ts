@@ -35,6 +35,7 @@ import { ItemService } from 'src/app/services/item/item.service';
 import { BatchService } from 'src/app/services/batch/batch.service';
 import { ProductService } from 'src/app/services/product/product.service';
 import { StockService } from 'src/app/services/stock/stock.service';
+import { AddStockComponent } from './stock/add-stock/add-stock.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { StockService } from 'src/app/services/stock/stock.service';
     ViewItemComponent,
     ViewProductComponent,
     ViewStockComponent,
+    AddStockComponent,
     ViewSaleStockComponent,
     ViewReturnStockComponent,
   ],

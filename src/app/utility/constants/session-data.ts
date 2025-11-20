@@ -6,4 +6,5 @@ export const SESSION_DATA = {
   TOKEN_TYPE: 'tokenType',
   REFRESH_TOKEN: 'refreshToken',
   USERNAME: 'username',
+  PRO_IMG: 'profileImage',
 };

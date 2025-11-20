@@ -42,13 +42,10 @@
 
         <c-header-nav class="d-none d-lg-flex">
             <c-nav-item>
-                <span *ngIf="userRole === UserRole.SUPERADMIN; else admin">
-                    System Admin
+                <span>
+                    {{userRole}}
                 </span>
 
-                <ng-template #admin>
-                    Admin
-                </ng-template>
                 <div class="small text-medium-emphasis text-nowrap">
                     <span>
                         {{name | titlecase}}
@@ -99,16 +96,13 @@
 <ng-template #userDropdown>
     <c-dropdown alignment="end" variant="nav-item">
         <button cButton color="" [caret]="false" cDropdownToggle class="py-0">
-            <c-avatar cTextColor="primary" shape="rounded-1" size="md" src="./assets/images/user-img.jpg"
-                status="success">
+            <c-avatar size="md" class="rounded-circle border border-2 border-secondary" [src]="profileImg">
             </c-avatar>
         </button>
         <ul cDropdownMenu class="pt-0 pr-5 w-auto">
             <li class="d-lg-none px-3 pt-3 pb-2">
-                <div class="fw-semibold" *ngIf="userRole === UserRole.SUPERADMIN; else admin">System Admin</div>
-                <ng-template #admin>
-                    Admin
-                </ng-template>
+                <div class="fw-semibold">{{userRole}}</div>
+
                 <div class="small text-medium-emphasis">{{name | titlecase }}</div>
                 <hr class="my-2" />
             </li>
