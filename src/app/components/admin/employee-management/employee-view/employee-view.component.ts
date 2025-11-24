@@ -178,6 +178,7 @@ export class EmployeeViewComponent
       this.patchValue();
       this.employeeForm.enable();
       this.enablePasswordUpdate = false;
+      this.onTogglePasswordUpdate();
     }
 
     if (this.action === ActionButton.ADD) {
@@ -188,7 +189,7 @@ export class EmployeeViewComponent
 
   private patchValue(): void {
     this.employeeForm.patchValue({
-      // profileImage: this.employee?.profileImageBase64 || '',
+      profileImage: '',
       name: this.employee?.name,
       nic: this.employee?.nic,
       email: this.employee?.email,
@@ -200,6 +201,8 @@ export class EmployeeViewComponent
       password: '',
       confirmPassword: '',
     });
+
+    this.previewUrl = this.employee?.profileImageBase64 || null;
   }
 
   protected onFileSelected(event: any): void {
@@ -260,6 +263,7 @@ export class EmployeeViewComponent
       this.updateEmployee(
         {
           ...this.employeeForm?.value,
+          profileImage: this.previewUrl,
           userId: this.employee?.userId,
         },
         username !== this.employee?.username
@@ -327,6 +331,8 @@ export class EmployeeViewComponent
   }
 
   private updateEmployee(data: IEmployee, isUsernameUpdate: boolean): void {
+    console.log(data);
+
     let updatePipeline$: Observable<IResponse>;
 
     if (isUsernameUpdate) {

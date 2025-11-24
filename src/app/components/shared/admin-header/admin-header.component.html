@@ -122,7 +122,7 @@
 
             <li class="px-3 pb-2 text-secondary small">
                 <div>Last login</div>
-                <div class="fw-semibold text-dark">{{lastLoggedInTime}}</div>
+                <div class="fw-semibold text-dark">{{lastLoggedInTime | date:'dd MMM yyyy | HH:mm'}}</div>
             </li>
             <li>
                 <a routerLink="/settings" cDropdownItem>
@@ -151,8 +151,6 @@
             <svg cIcon name="cilBell" size="lg" class="text-body"></svg>
             <c-badge color="danger" position="top-end" shape="rounded-pill">{{ messages.length }}</c-badge>
         </button>
-
-
         <div cDropdownMenu class="pt-0 ">
             <li>
                 <h6 cDropdownHeader class="bg-light fw-semibold py-2">You have {{ messages.length }} messages</h6>

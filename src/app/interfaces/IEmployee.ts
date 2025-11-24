@@ -9,7 +9,7 @@ export interface IEmployee {
   email: string;
   password: string;
   role: UserRole;
-  status: Status;
+  status: number;
   mobileNumber: string;
   profileImage: string;
 }

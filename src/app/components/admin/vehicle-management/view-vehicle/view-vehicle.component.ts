@@ -1,14 +1,15 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ActionButton } from 'src/app/enums/ActionButton.enum';
+import { CommonCode } from 'src/app/enums/CommonCode.enum';
 import { IResponse } from 'src/app/interfaces/IResponse';
 import { IVehicle } from 'src/app/interfaces/IVehicle';
 import { IVehicleData } from 'src/app/interfaces/IVehicleData';
+import { GeneralService } from 'src/app/services/general/general.service';
 import { VehicleService } from 'src/app/services/vehicle/vehicle.service';
 import {
-  UserStatus,
   VehicleTypeList,
 } from 'src/app/utility/constants/other-constant';
 import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
@@ -30,7 +31,10 @@ import {
   templateUrl: './view-vehicle.component.html',
   styleUrls: ['./view-vehicle.component.scss'],
 })
-export class ViewVehicleComponent extends ModalControlDirective {
+export class ViewVehicleComponent
+  extends ModalControlDirective
+  implements OnInit
+{
   protected readonly ActionButton = ActionButton;
 
   private _vehicle: IVehicleData | undefined;
@@ -38,7 +42,7 @@ export class ViewVehicleComponent extends ModalControlDirective {
 
   protected vehicleForm: FormGroup;
 
-  protected statusList: Record<string, string>[] = UserStatus;
+  protected statusList: Record<string, string | number>[];
   protected vehicleTypeList: Record<string, string>[] = VehicleTypeList;
 
   @Input()
@@ -54,7 +58,6 @@ export class ViewVehicleComponent extends ModalControlDirective {
   @Input()
   public set action(value: ActionButton) {
     this._action = value;
-    this.updateForm();
   }
 
   public get action() {
@@ -63,10 +66,34 @@ export class ViewVehicleComponent extends ModalControlDirective {
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly vehicleService: VehicleService
+    private readonly vehicleService: VehicleService,
+    private readonly generalService: GeneralService
   ) {
     super();
     this.createForm();
+  }
+
+  ngOnInit(): void {
+    this.loadRoleList();
+  }
+
+  private loadRoleList():void {
+    this.generalService
+      .getStatusList(CommonCode.VEHICLE)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.statusList = res.body.content.dropdown;
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text: res.body.message || RESPONSE_MESSAGES.COMMON_ERROR_DES,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => errorMessageHandler(err),
+      });
   }
 
   private createForm(): void {

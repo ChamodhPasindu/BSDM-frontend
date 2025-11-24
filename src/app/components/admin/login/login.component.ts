@@ -109,6 +109,10 @@ export class LoginComponent implements OnInit {
                 SESSION_DATA.PRO_IMG,
                 res.body.content.profileImage
               );
+              this.storageService.set(
+                SESSION_DATA.LAST_LOGIN,
+                res.body.content.lastLogin
+              );
 
               this.router.navigate(['post-login'], { relativeTo: this.route });
             }

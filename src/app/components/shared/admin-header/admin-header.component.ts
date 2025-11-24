@@ -22,7 +22,7 @@ export class AdminHeaderComponent extends HeaderComponent implements OnInit {
 
   protected name: string;
   protected userRole: string;
-  protected lastLoggedInTime: string = '05 Nov 2025 | 12:50';
+  protected lastLoggedInTime: string ;
   protected profileImg: string = './assets/images/user-img.jpg';
 
   public newMessages = new Array(4);
@@ -90,6 +90,7 @@ export class AdminHeaderComponent extends HeaderComponent implements OnInit {
     this.name = this.storageService.get(SESSION_DATA.NAME)!;
     this.userRole = this.storageService.get(SESSION_DATA.ROLE)!;
     this.profileImg = this.storageService.get(SESSION_DATA.PRO_IMG)!;
+    this.lastLoggedInTime = this.storageService.get(SESSION_DATA.LAST_LOGIN)!;
   }
 
   protected onLogOut(): void {
