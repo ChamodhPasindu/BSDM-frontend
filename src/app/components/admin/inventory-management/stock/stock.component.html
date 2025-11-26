@@ -86,6 +86,7 @@
           </th>
           <th>Product Name</th>
           <th class="text-center">Total Quantity</th>
+          <th class="text-center">Remaining Quantity</th>
           <th class="text-center">Action</th>
         </tr>
       </thead>
@@ -105,16 +106,19 @@
           <td class="text-center">
             {{product.totalQuantity | empty}}
           </td>
+          <td>
+            {{product.remainingQuantity | empty}}
+          </td>
           <td class="text-center">
             <!-- View -->
             <button cButton color="info" size="sm" variant="ghost" class="me-2" title="View"
-              (click)="openStockView(ActionButton.VIEW)">
+              (click)="openStockView(ActionButton.VIEW,product)">
               <svg cIcon name="cilCommand"></svg>
             </button>
 
             <!-- Edit -->
             <button cButton color="warning" size="sm" variant="ghost" class="me-2" title="Edit"
-              (click)="openStockView(ActionButton.EDIT)">
+              (click)="openStockView(ActionButton.EDIT,product)">
               <svg cIcon name="cilPencil"></svg>
             </button>
 
@@ -133,5 +137,5 @@
 </c-card>
 
 
-<app-view-stock #viewStockModal></app-view-stock>
-<app-add-stock #addStockModal></app-add-stock>
+<app-view-stock (tableRefresh)="onRefresh()" #viewStockModal></app-view-stock>
+<app-add-stock (tableRefresh)="onRefresh()" #addStockModal></app-add-stock>

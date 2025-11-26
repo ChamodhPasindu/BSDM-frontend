@@ -3,11 +3,13 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ActionButton } from 'src/app/enums/ActionButton.enum';
+import { CommonCode } from 'src/app/enums/CommonCode.enum';
 import { ICustomer } from 'src/app/interfaces/ICustomer';
 import { ICustomerData } from 'src/app/interfaces/ICustomerData';
 import { IResponse } from 'src/app/interfaces/IResponse';
 import { IRouteData } from 'src/app/interfaces/IRouteData';
 import { CustomerService } from 'src/app/services/customer/customer.service';
+import { GeneralService } from 'src/app/services/general/general.service';
 import { RouteService } from 'src/app/services/route/route.service';
 import { UserStatus } from 'src/app/utility/constants/other-constant';
 import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
@@ -44,7 +46,7 @@ export class CustomerViewComponent
   protected routeList: IRouteData[];
   protected selectedRoute: IRouteData | null = null;
 
-  protected statusList: Record<string, string>[] = UserStatus;
+  protected statusList: Record<string, string | number>[];
 
   @Input()
   public set customer(value: ICustomerData | undefined) {
@@ -59,7 +61,6 @@ export class CustomerViewComponent
   @Input()
   public set action(value: ActionButton) {
     this._action = value;
-    this.updateForm();
   }
 
   public get action() {
@@ -69,7 +70,8 @@ export class CustomerViewComponent
   constructor(
     private readonly fb: FormBuilder,
     private readonly routeService: RouteService,
-    private readonly customerService: CustomerService
+    private readonly customerService: CustomerService,
+    private readonly generalService: GeneralService
   ) {
     super();
     this.createForm();
@@ -77,6 +79,26 @@ export class CustomerViewComponent
 
   ngOnInit() {
     this.loadRouteListData();
+    this.loadRoleList();
+  }
+
+  private loadRoleList(): void {
+    this.generalService
+      .getStatusList(CommonCode.CUSTOMER)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.statusList = res.body.content.dropdown;
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text: res.body.message || RESPONSE_MESSAGES.COMMON_ERROR_DES,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => errorMessageHandler(err),
+      });
   }
 
   private createForm(): void {
@@ -178,10 +200,12 @@ export class CustomerViewComponent
     if (this.action === ActionButton.ADD) {
       this.addCustomer(routeId, customers);
     } else {
-      this.updateCustomer(routeId, [{
-        ...customers[0],
-        customerId: this.customer?.customerId,
-      }]);
+      this.updateCustomer(routeId, [
+        {
+          ...customers[0],
+          customerId: this.customer?.customerId,
+        },
+      ]);
     }
   }
 

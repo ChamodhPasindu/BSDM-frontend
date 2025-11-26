@@ -118,6 +118,10 @@ export class ValidateDirective implements OnInit, OnDestroy {
       return `${this.fieldName} must be at least ${errors['minlength'].requiredLength} characters`;
     if (errors['maxlength'])
       return `${this.fieldName} cannot exceed ${errors['maxlength'].requiredLength} characters`;
+    if (errors['min'])
+      return `${this.fieldName} must be at least ${errors['min'].min}`;
+    if (errors['max'])
+      return `${this.fieldName} cannot exceed ${errors['max'].max}`;
     if (errors['passwordMismatch'])
       return `Your entered ${this.fieldName} do not match. Please Try again`;
     return `Invalid ${this.fieldName}`;

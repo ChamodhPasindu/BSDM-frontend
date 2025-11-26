@@ -6,14 +6,20 @@ import { PaginationType } from 'src/app/enums/PaginationType.enum';
 import { IPagination } from 'src/app/interfaces/IPagination';
 import { IProductData } from 'src/app/interfaces/IProductData';
 import { IResponse } from 'src/app/interfaces/IResponse';
+import { IStock } from 'src/app/interfaces/IStock';
 import { ProductService } from 'src/app/services/product/product.service';
+import { StockService } from 'src/app/services/stock/stock.service';
 import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
 import {
   RESPONSE_MESSAGES,
   RESPONSE_TITLES,
 } from 'src/app/utility/constants/response-message-title';
 import { ModalControlDirective } from 'src/app/utility/directives/modal-control.directive';
-import { alertError, errorMessageHandler } from 'src/app/utility/helper';
+import {
+  alertError,
+  alertSuccess,
+  errorMessageHandler,
+} from 'src/app/utility/helper';
 
 @UntilDestroy()
 @Component({
@@ -33,13 +39,15 @@ export class AddStockComponent extends ModalControlDirective implements OnInit {
   protected inputStockRemarkValue: string;
 
   protected selectedProduct: IProductData | null = null;
-  cartItems: any[] = [];
+  protected cartItems: any[] = [];
 
   protected productDetailForm: FormGroup;
+  protected openedIndex: number | null = null;
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly productService: ProductService
+    private readonly productService: ProductService,
+    private readonly stockService: StockService
   ) {
     super();
     this.createForm();
@@ -101,7 +109,8 @@ export class AddStockComponent extends ModalControlDirective implements OnInit {
     this.loadProductListData();
   }
 
-  protected onSelectProduct(product: IProductData): void {
+  protected onSelectProduct(product: IProductData, index: number): void {
+    this.openedIndex = index;
     this.selectedProduct = product;
 
     this.productDetailForm.reset();
@@ -119,17 +128,17 @@ export class AddStockComponent extends ModalControlDirective implements OnInit {
   }
 
   protected onAddToCart(): void {
-    // if (this.selectedProduct && this.selectedQuantity) {
-    //   this.cartItems.push({
-    //     ...this.selectedProduct,
-    //     quantity: this.selectedQuantity,
-    //     remark: this.selectedRemark,
-    //   });
-    //   // Clear selection
-    //   this.selectedProduct = null;
-    //   this.selectedQuantity = null;
-    //   this.selectedRemark = '';
-    // }
+    const { quantity, reason } = this.productDetailForm.value;
+    if (this.selectedProduct) {
+      this.cartItems.push({
+        product: this.selectedProduct,
+        quantity: quantity,
+        reason: reason,
+      });
+      this.selectedProduct = null;
+    }
+
+    this.openedIndex = null;
   }
 
   protected onRemoveFromCart(index: number) {
@@ -137,7 +146,37 @@ export class AddStockComponent extends ModalControlDirective implements OnInit {
   }
 
   protected onSubmit(): void {
-    // console.log('Stock Remark:', this.stockRemark);
-    // console.log('Cart Items:', this.cartItems);
+    const dataList: IStock[] = this.cartItems.map((item) => {
+      return {
+        productId: item.product.productId,
+        batchId: item.product.batchId,
+        quantity: item.quantity,
+        reason: item.reason,
+      };
+    });
+    this.stockService
+      .addStock(dataList, this.inputStockRemarkValue)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.tableRefresh.emit();
+            this.onCloseModal();
+            alertSuccess({
+              title: RESPONSE_TITLES.SUCCESS,
+              text:
+                res.body.message || RESPONSE_MESSAGES.STOCK_ADD_EDIT_SUCCESS,
+            });
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text: res.body.message || RESPONSE_MESSAGES.STOCK_ADD_EDIT_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
   }
 }

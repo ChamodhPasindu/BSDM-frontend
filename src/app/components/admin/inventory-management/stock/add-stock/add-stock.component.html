@@ -23,11 +23,11 @@
       <c-col md="8" class="mt-4">
         <div *ngIf="count > 0; else emptyList">
           <c-accordion>
-            <c-accordion-item *ngFor="let product of productList">
+            <c-accordion-item *ngFor="let product of productList;let i = index" [visible]="openedIndex === i">
               <ng-template cTemplateId="accordionHeader">
                 <div class="d-flex justify-content-between align-items-center w-100 me-2">
                   <span>{{ product.batchCode | empty}} - {{ product.productName | empty }} </span>
-                  <button cButton color="danger" variant="outline" size="sm" (click)="onSelectProduct(product)">
+                  <button cButton color="danger" variant="outline" size="sm" (click)="onSelectProduct(product,i)">
                     <svg cIcon name="cilHandPointUp"></svg> Pick
                   </button>
                 </div>
@@ -124,19 +124,19 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngIf="!cartItems || cartItems.length === 0">
+          <tr *ngIf="!cartItems || cartItems?.length === 0">
             <td colspan="6" class="text-center text-muted py-3">
               No data available
             </td>
           </tr>
           <tr *ngFor="let item of cartItems; let i = index">
-            <td class="text-center">{{ item.name }}</td>
-            <td>{{ item.quantity }}</td>
-            <td class="text-center">{{ item.remark }}</td>
+            <td class="text-center">{{ item.product.batchCode | empty}} - {{ item.product.productName | empty }}</td>
+            <td>{{ item.quantity | empty}}</td>
+            <td class="text-center">{{ item.reason | empty}}</td>
             <td class="text-center">
-              <button cButton color="warning" size="sm" variant="ghost" class="me-2" title="Edit">
+              <!-- <button cButton color="warning" size="sm" variant="ghost" class="me-2" title="Edit">
                 <svg cIcon name="cilPencil"></svg>
-              </button>
+              </button> -->
               <button (click)="onRemoveFromCart(i)" cButton color="danger" size="sm" variant="ghost" title="Delete">
                 <svg cIcon name="cilTrash"></svg>
               </button>
@@ -156,6 +156,6 @@
     <button (click)="onCloseModal()" cButton color="secondary" type="button">
       Close
     </button>
-    <button cButton color="primary" type="button" (click)="onSubmit()" >Add Stock</button>
+    <button cButton color="primary" type="button" (click)="onSubmit()">Add Stock</button>
   </c-modal-footer>
 </c-modal>

@@ -5,10 +5,12 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as moment from 'moment';
 import { take } from 'rxjs';
 import { ActionButton } from 'src/app/enums/ActionButton.enum';
+import { CommonCode } from 'src/app/enums/CommonCode.enum';
 import { IBatch } from 'src/app/interfaces/IBatch';
 import { IBatchData } from 'src/app/interfaces/IBatchData';
 import { IResponse } from 'src/app/interfaces/IResponse';
 import { BatchService } from 'src/app/services/batch/batch.service';
+import { GeneralService } from 'src/app/services/general/general.service';
 import { UserStatus } from 'src/app/utility/constants/other-constant';
 import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
 import {
@@ -42,7 +44,7 @@ export class ViewBatchComponent
 
   protected batchForm: FormGroup;
 
-  protected statusList: Record<string, string>[] = UserStatus;
+  protected statusList: Record<string, string | number>[];
 
   @Input()
   public set batch(value: IBatchData | undefined) {
@@ -57,7 +59,6 @@ export class ViewBatchComponent
   @Input()
   public set action(value: ActionButton) {
     this._action = value;
-    this.updateForm();
   }
 
   public get action() {
@@ -66,7 +67,8 @@ export class ViewBatchComponent
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly batchService: BatchService
+    private readonly batchService: BatchService,
+    private readonly generalService: GeneralService
   ) {
     super();
     this.createForm();
@@ -80,6 +82,27 @@ export class ViewBatchComponent
     this.batchForm.get('expiryDate')?.valueChanges.subscribe(() => {
       this.calculateUsableDays();
     });
+
+    this.loadRoleList();
+  }
+
+  private loadRoleList(): void {
+    this.generalService
+      .getStatusList(CommonCode.BATCH)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.statusList = res.body.content.dropdown;
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text: res.body.message || RESPONSE_MESSAGES.COMMON_ERROR_DES,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => errorMessageHandler(err),
+      });
   }
 
   private createForm(): void {

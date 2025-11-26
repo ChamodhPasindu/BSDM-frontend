@@ -79,7 +79,7 @@
               <select cFormControl id="statusCode" class="form-select" formControlName="statusCode" appValidate
                 fieldName="Status">
                 <option value=null>Select Status</option>
-                <option *ngFor="let status of statusList" [value]="status['value']">{{ status['title'] }}</option>
+                <option *ngFor="let status of statusList" [value]="status['code']">{{ status['description'] }}</option>
               </select>
             </c-col>
           </div>

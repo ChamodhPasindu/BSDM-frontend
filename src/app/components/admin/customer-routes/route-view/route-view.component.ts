@@ -1,11 +1,13 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ActionButton } from 'src/app/enums/ActionButton.enum';
+import { CommonCode } from 'src/app/enums/CommonCode.enum';
 import { IResponse } from 'src/app/interfaces/IResponse';
 import { IRoute } from 'src/app/interfaces/IRoute';
 import { IRouteData } from 'src/app/interfaces/IRouteData';
+import { GeneralService } from 'src/app/services/general/general.service';
 import { RouteService } from 'src/app/services/route/route.service';
 import { UserStatus } from 'src/app/utility/constants/other-constant';
 import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
@@ -27,7 +29,10 @@ import {
   templateUrl: './route-view.component.html',
   styleUrls: ['./route-view.component.scss'],
 })
-export class RouteViewComponent extends ModalControlDirective {
+export class RouteViewComponent
+  extends ModalControlDirective
+  implements OnInit
+{
   protected readonly ActionButton = ActionButton;
 
   private _route: IRouteData | undefined;
@@ -35,7 +40,7 @@ export class RouteViewComponent extends ModalControlDirective {
 
   protected routeForm: FormGroup;
 
-  protected statusList: Record<string, string>[] = UserStatus;
+  protected statusList: Record<string, string | number>[];
 
   @Input()
   public set route(value: IRouteData | undefined) {
@@ -59,10 +64,34 @@ export class RouteViewComponent extends ModalControlDirective {
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly routeService: RouteService
+    private readonly routeService: RouteService,
+    private readonly generalService: GeneralService
   ) {
     super();
     this.createForm();
+  }
+
+  ngOnInit(): void {
+    this.loadRoleList();
+  }
+
+  private loadRoleList(): void {
+    this.generalService
+      .getStatusList(CommonCode.ROUTES)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.statusList = res.body.content.dropdown;
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text: res.body.message || RESPONSE_MESSAGES.COMMON_ERROR_DES,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => errorMessageHandler(err),
+      });
   }
 
   private createForm(): void {

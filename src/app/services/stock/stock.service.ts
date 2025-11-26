@@ -12,10 +12,22 @@ export class StockService {
 
   constructor(private readonly httpClient: HttpClient) {}
 
-  public addStock(reason: string, payload: IStock[]): Observable<IResponse> {
+  public addStock(payload: IStock[], reason?: string): Observable<IResponse> {
     return this.httpClient.post<IResponse>(this.requestUrl + '/add-stock', {
       reason: reason,
       stockUpdates: payload,
+    });
+  }
+
+  public updateStock(
+    productId: number,
+    quantity: number,
+    reason: string
+  ): Observable<IResponse> {
+    return this.httpClient.put<IResponse>(this.requestUrl + '/adjust-stock', {
+      productId: productId,
+      quantity: quantity,
+      reason: reason,
     });
   }
 
@@ -42,5 +54,13 @@ export class StockService {
       fromDate: fromDate,
       toDate: toDate,
     });
+  }
+
+  public getStockById(id: number): Observable<IResponse> {
+    return this.httpClient.post<IResponse>(
+      this.requestUrl + '/store/detailsById',
+      {},
+      { params: { code: id } }
+    );
   }
 }

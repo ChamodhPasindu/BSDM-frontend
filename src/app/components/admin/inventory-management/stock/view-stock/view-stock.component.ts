@@ -1,97 +1,161 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { ActionButton } from 'src/app/enums/ActionButton.enum';
+import { IProductData } from 'src/app/interfaces/IProductData';
+import { IResponse } from 'src/app/interfaces/IResponse';
+import { IStock } from 'src/app/interfaces/IStock';
+import { IStockData } from 'src/app/interfaces/IStockData';
+import { StockService } from 'src/app/services/stock/stock.service';
+import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
+import {
+  RESPONSE_MESSAGES,
+  RESPONSE_TITLES,
+} from 'src/app/utility/constants/response-message-title';
+import { ModalControlDirective } from 'src/app/utility/directives/modal-control.directive';
+import {
+  alertError,
+  alertSuccess,
+  errorMessageHandler,
+} from 'src/app/utility/helper';
 
+@UntilDestroy()
 @Component({
   selector: 'app-view-stock',
   templateUrl: './view-stock.component.html',
   styleUrls: ['./view-stock.component.scss'],
 })
-export class ViewStockComponent implements OnInit{
-  ngOnInit(): void {
-    this.setupPagination();
+export class ViewStockComponent
+  extends ModalControlDirective
+  implements OnInit
+{
+  protected readonly ActionButton = ActionButton;
+
+  private _stock: IStockData | undefined;
+  private _action: ActionButton;
+
+  protected product: IProductData | null;
+
+  protected productDetailForm: FormGroup;
+
+  @Input()
+  public set stock(value: IStockData | undefined) {
+    this._stock = value;
+    this.updateForm();
   }
 
-  searchText = '';
-  stockRemark = '';
-  selectedProduct: any = null;
-  selectedQuantity: number | null = null;
-  selectedRemark: string = '';
-  cartItems: any[] = [];
-
-  products = [
-    { id: 1, name: 'Product A', category: 'Electronics', stock: 50 },
-    { id: 2, name: 'Product B', category: 'Furniture', stock: 30 },
-    { id: 3, name: 'Product C', category: 'Stationery', stock: 100 },
-    { id: 3, name: 'Product D', category: 'Stationery', stock: 100 },
-    { id: 3, name: 'Product E', category: 'Stationery', stock: 100 },
-    { id: 3, name: 'Product F', category: 'Stationery', stock: 100 },
-  ];
-
-  filteredProducts = [...this.products];
-
-  pageSize = 5;
-  currentPage = 1;
-  totalPages = 0;
-  paginatedProducts: any[] = [];
-
-  filterProducts() {
-    this.filteredProducts = this.products.filter((p) =>
-      p.name.toLowerCase().includes(this.searchText.toLowerCase())
-    );
-    this.setupPagination();
+  public get stock() {
+    return this._stock;
   }
 
-  setupPagination() {
-    this.totalPages = Math.ceil(this.filteredProducts.length / this.pageSize);
-    this.changePage(1);
+  @Input()
+  public set action(value: ActionButton) {
+    this._action = value;
   }
 
-  changePage(page: number) {
-    if (page < 1 || page > this.totalPages) return;
-    this.currentPage = page;
-    const startIndex = (page - 1) * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
-    this.paginatedProducts = this.filteredProducts.slice(startIndex, endIndex);
+  public get action() {
+    return this._action;
   }
 
-  selectProduct(product: any) {
-    this.selectedProduct = product;
-    this.selectedQuantity = null;
-    this.selectedRemark = '';
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly stockService: StockService
+  ) {
+    super();
+    this.createForm();
   }
 
-  addToCart() {
-    if (this.selectedProduct && this.selectedQuantity) {
-      this.cartItems.push({
-        ...this.selectedProduct,
-        quantity: this.selectedQuantity,
-        remark: this.selectedRemark,
+  ngOnInit(): void {}
+
+  private createForm(): void {
+    this.productDetailForm = this.fb.group({
+      quantity: [''],
+      reason: ['', [Validators.required]],
+    });
+    this.setForm(this.productDetailForm);
+  }
+
+  private updateForm(): void {
+    if (!this.action) return;
+
+    this.loadProductData(this.stock?.stockId!);
+  }
+
+  private loadProductData(id: number): void {
+    this.stockService
+      .getStockById(id)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.product = res.body.content;
+
+            if (this.action === ActionButton.VIEW) {
+              this.patchValue();
+              this.productDetailForm.disable();
+            }
+
+            if (this.action === ActionButton.EDIT) {
+              this.patchValue();
+              this.productDetailForm.enable();
+            }
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text: res.body.message || RESPONSE_MESSAGES.PRODUCT_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
       });
-
-      // Clear selection
-      this.selectedProduct = null;
-      this.selectedQuantity = null;
-      this.selectedRemark = '';
-    }
   }
 
-  removeFromCart(index: number) {
-    this.cartItems.splice(index, 1);
+  private patchValue(): void {
+    this.productDetailForm
+      .get('quantity')
+      ?.setValidators([
+        Validators.required,
+        Validators.min(1),
+        Validators.max(this.product?.remainingQuantity!),
+      ]);
+
+    this.productDetailForm.get('quantity')?.updateValueAndValidity();
+
+    this.productDetailForm.patchValue({
+      quantity: this.stock?.remainingQuantity,
+      reason: this.stock?.reason,
+    });
   }
 
-  addStock() {
-    console.log('Stock Remark:', this.stockRemark);
-    console.log('Cart Items:', this.cartItems);
-    this.closeModal();
-  }
+  protected onSubmit(): void {
+    const { quantity, reason } = this.productDetailForm.value;
 
-  @Input() stock: any;
-  public visible = false;
-
-  protected closeModal(): void {
-    this.visible = !this.visible;
-  }
-
-  protected changeModalVisibility(event: boolean): void {
-    this.visible = event;
+    this.stockService
+      .updateStock(this.product?.productId!, quantity, reason)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.tableRefresh.emit();
+            this.onCloseModal();
+            alertSuccess({
+              title: RESPONSE_TITLES.SUCCESS,
+              text:
+                res.body.message || RESPONSE_MESSAGES.STOCK_ADD_EDIT_SUCCESS,
+            });
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text: res.body.message || RESPONSE_MESSAGES.STOCK_ADD_EDIT_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
   }
 }
