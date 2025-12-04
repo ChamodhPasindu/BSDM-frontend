@@ -27,20 +27,24 @@
                   <td>{{product?.productName | empty }}</td>
                 </tr>
                 <tr>
-                  <th class="bg-light">Description</th>
-                  <td>{{product?.description | empty }}</td>
+                  <th class="bg-light">Batch Code</th>
+                  <td>{{product?.batchCode | empty }}</td>
                 </tr>
                 <tr>
-                  <th class="bg-light">Quantity</th>
-                  <td>{{product?.quantity | empty }}</td>
+                  <th class="bg-light">Total Added Quantity</th>
+                  <td>{{product?.totalAddedQuantity | empty }}</td>
+                </tr>
+                <tr>
+                  <th class="bg-light">Current Quantity</th>
+                  <td>{{product?.currentQuantity | empty }}</td>
                 </tr>
                 <tr>
                   <th class="bg-light">Min Price</th>
-                  <td>{{product?.minSalesPrice | empty }}</td>
+                  <td>{{product?.minSalesPrice | numberSeparate }}</td>
                 </tr>
                 <tr>
                   <th class="bg-light">Price</th>
-                  <td>{{product?.price | empty }}</td>
+                  <td>{{product?.price | numberSeparate }}</td>
                 </tr>
                 <tr>
                   <th class="bg-light">Manufacture Date</th>

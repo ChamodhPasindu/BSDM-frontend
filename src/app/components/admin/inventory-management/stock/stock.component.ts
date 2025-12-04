@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ViewStockComponent } from './view-stock/view-stock.component';
 import {
   alertError,
-  alertWarning,
   datePickerToDate,
   errorMessageHandler,
 } from 'src/app/utility/helper';
@@ -18,7 +17,6 @@ import {
   RESPONSE_TITLES,
 } from 'src/app/utility/constants/response-message-title';
 import { HttpErrorResponse } from '@angular/common/http';
-import { SweetAlertResult } from 'sweetalert2';
 import { IStockData } from 'src/app/interfaces/IStockData';
 import { AddStockComponent } from './add-stock/add-stock.component';
 

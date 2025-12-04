@@ -5,7 +5,8 @@ export interface IStockData {
   productNameId: number;
   totalQuantity: number;
   remainingQuantity: number;
-  reason:string;
+  salesQuantity: number;
+  reason: string;
   lastUpdated: string;
   updatedByUserId: number;
   updatedByUserName: string;

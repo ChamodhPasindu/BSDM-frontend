@@ -85,8 +85,9 @@
             ID
           </th>
           <th>Product Name</th>
-          <th class="text-center">Total Quantity</th>
+          <th>Total Quantity</th>
           <th class="text-center">Remaining Quantity</th>
+          <th class="text-center">Sales Quantity</th>
           <th class="text-center">Action</th>
         </tr>
       </thead>
@@ -103,11 +104,14 @@
           <td>
             {{product.productName | empty}}
           </td>
-          <td class="text-center">
+          <td>
             {{product.totalQuantity | empty}}
           </td>
-          <td>
+          <td class="text-center">
             {{product.remainingQuantity | empty}}
+          </td>
+          <td class="text-center">
+            {{product.salesQuantity | empty}}
           </td>
           <td class="text-center">
             <!-- View -->

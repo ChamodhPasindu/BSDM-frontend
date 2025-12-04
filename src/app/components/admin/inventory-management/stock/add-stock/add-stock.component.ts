@@ -7,6 +7,7 @@ import { IPagination } from 'src/app/interfaces/IPagination';
 import { IProductData } from 'src/app/interfaces/IProductData';
 import { IResponse } from 'src/app/interfaces/IResponse';
 import { IStock } from 'src/app/interfaces/IStock';
+import { IStockCart } from 'src/app/interfaces/IStockCart';
 import { ProductService } from 'src/app/services/product/product.service';
 import { StockService } from 'src/app/services/stock/stock.service';
 import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
@@ -39,7 +40,7 @@ export class AddStockComponent extends ModalControlDirective implements OnInit {
   protected inputStockRemarkValue: string;
 
   protected selectedProduct: IProductData | null = null;
-  protected cartItems: any[] = [];
+  protected cartItems: IStockCart[] = [];
 
   protected productDetailForm: FormGroup;
   protected openedIndex: number | null = null;

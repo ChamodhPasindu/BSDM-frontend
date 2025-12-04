@@ -91,15 +91,7 @@ export class ViewStockComponent
           if (res.body.status === RSP_SUCCESS) {
             this.product = res.body.content;
 
-            if (this.action === ActionButton.VIEW) {
-              this.patchValue();
-              this.productDetailForm.disable();
-            }
-
-            if (this.action === ActionButton.EDIT) {
-              this.patchValue();
-              this.productDetailForm.enable();
-            }
+            this.patchValue();
           } else {
             alertError({
               title: RESPONSE_TITLES.FAILED,
@@ -114,20 +106,28 @@ export class ViewStockComponent
   }
 
   private patchValue(): void {
-    this.productDetailForm
-      .get('quantity')
-      ?.setValidators([
-        Validators.required,
-        Validators.min(1),
-        Validators.max(this.product?.remainingQuantity!),
-      ]);
+    if (this.action === ActionButton.VIEW) {
+      this.productDetailForm.patchValue({
+        quantity: this.product?.currentQuantity,
+        reason: this.stock?.reason,
+      });
+      this.productDetailForm.disable();
+    }
 
-    this.productDetailForm.get('quantity')?.updateValueAndValidity();
+    if (this.action === ActionButton.EDIT) {
+      this.productDetailForm.enable();
 
-    this.productDetailForm.patchValue({
-      quantity: this.stock?.remainingQuantity,
-      reason: this.stock?.reason,
-    });
+      this.productDetailForm
+        .get('quantity')
+        ?.setValidators([
+          Validators.required,
+          Validators.min(1),
+          Validators.max(this.product?.minQuantity!),
+        ]);
+
+      this.productDetailForm.get('quantity')?.updateValueAndValidity();
+      this.productDetailForm.get('reason')?.setValue(this.stock?.reason);
+    }
   }
 
   protected onSubmit(): void {
