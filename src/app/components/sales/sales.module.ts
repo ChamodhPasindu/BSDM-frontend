@@ -33,6 +33,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { RouteComponent } from './route/route.component';
 import { NotificationComponent } from './notification/notification.component';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { EmployeeService } from 'src/app/services/employee/employee.service';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,6 @@ import { AuthService } from 'src/app/services/auth/auth.service';
     CollapseModule,
     AccordionModule,
   ],
-  providers: [AuthService],
+  providers: [AuthService,EmployeeService],
 })
 export class SalesModule {}

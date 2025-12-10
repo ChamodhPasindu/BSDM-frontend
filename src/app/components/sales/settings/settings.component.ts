@@ -1,9 +1,28 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { IResponse } from 'src/app/interfaces/IResponse';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { StorageService } from 'src/app/services/storage.service';
-import { alertWarning } from 'src/app/utility/helper';
+import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
+import {
+  RESPONSE_MESSAGES,
+  RESPONSE_TITLES,
+} from 'src/app/utility/constants/response-message-title';
+import {
+  REGEX_EMAIL,
+  REGEX_MOBILE,
+  REGEX_NAME,
+  REGEX_NIC,
+} from 'src/app/utility/constants/validation';
+import {
+  alertError,
+  alertWarning,
+  errorMessageHandler,
+} from 'src/app/utility/helper';
 import { SweetAlertResult } from 'sweetalert2';
 
 export enum SettingsTab {
@@ -26,16 +45,57 @@ export class SettingsComponent implements OnInit {
   protected isEditing: boolean = false;
   protected isDarkMode: boolean = false;
 
+  protected profileImg: string = './assets/images/user-img.jpg';
+
+  protected profileForm: FormGroup;
+
+  protected vehicleDetails:Record<string,string>;
+  protected otherDetails:Record<string,string>;
+
   constructor(
+    private readonly fb: FormBuilder,
     private readonly router: Router,
     private readonly authService: AuthService,
-    private readonly storageService: StorageService
+    private readonly storageService: StorageService,
+    private readonly employeeService: EmployeeService
   ) {
     this.activeTab = SettingsTab.PROFILE;
+    this.createForm();
   }
 
   ngOnInit() {
     this.isDarkMode = localStorage.getItem('dark-theme') === '1';
+
+    this.employeeService
+      .getProfileDetails()
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.profileForm.patchValue(res.body.content.profile);
+            this.profileImg = res.body.content.profile.profileImg;
+            this.vehicleDetails = res.body.content.vehicleDetails;
+            this.otherDetails = res.body.content.otherSettings;
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text: res.body.message || RESPONSE_MESSAGES.EMPLOYEE_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
+  }
+
+  private createForm(): void {
+    this.profileForm = this.fb.group({
+      fullName: ['', [Validators.required, Validators.pattern(REGEX_NAME)]],
+      email: ['', [Validators.required, Validators.pattern(REGEX_EMAIL)]],
+      nic: ['', [Validators.required, Validators.pattern(REGEX_NIC)]],
+      mobile: ['', [Validators.required, Validators.pattern(REGEX_MOBILE)]],
+    });
   }
 
   protected onLogOut(): void {
@@ -58,39 +118,25 @@ export class SettingsComponent implements OnInit {
     );
   }
 
-  user = {
-    image: '',
-    name: 'Chamodh Pasindu',
-    nic: '991234567V',
-    license: 'B1234567',
-    email: 'chamodh@example.com',
-    mobile: '0771234567',
-  };
-
   password = { current: '', new: '', confirm: '' };
 
-  vehicle = {
-    model: 'Panda Cross 2016',
-    brand: 'Geely',
-    noPlate: 'CBA-4567',
-    licenseExpiry: '2027-08-15',
-  };
+  protected onProfileSubmit(): void {}
 
-  saveChanges() {
+  protected saveChanges(): void {
     this.isEditing = false;
     alert('Profile updated successfully!');
   }
 
-  onImageChange(event: any) {
+  protected onImageChange(event: any): void {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (e: any) => (this.user.image = e.target.result);
+      reader.onload = (e: any) => (this.profileImg = e.target.result);
       reader.readAsDataURL(file);
     }
   }
 
-  changePassword() {
+  protected changePassword(): void {
     if (this.password.new !== this.password.confirm) {
       alert('Passwords do not match!');
       return;

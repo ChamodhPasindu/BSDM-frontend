@@ -59,4 +59,11 @@ export class EmployeeService {
       toDate: toDate,
     });
   }
+
+  public getProfileDetails(): Observable<IResponse> {
+    return this.httpClient.get<IResponse>(
+      this.requestUrl + '/sales-man/profile/',
+      {}
+    );
+  }
 }

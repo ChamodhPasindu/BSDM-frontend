@@ -32,7 +32,7 @@
 
         <div class="text-center mb-3">
           <div class="position-relative d-inline-block">
-            <img width="100" height="100" [src]="user.image || 'assets/images/user-img.jpg'" alt="User"
+            <img width="100" height="100" [src]="profileImg || 'assets/images/user-img.jpg'" alt="User"
               class="rounded-circle border border-2 border-primary shadow-sm" />
 
             <!-- Hidden File Input -->
@@ -46,42 +46,46 @@
           </div>
         </div>
 
-        <div class="row mb-2">
-          <div class="col-12 mb-2">
-            <label class="form-label small text-muted">Full Name</label>
-            <input type="text" class="form-control" [(ngModel)]="user.name" [readonly]="!isEditing" />
+        <form [formGroup]="profileForm" (ngSubmit)="onProfileSubmit()">
+          <div class="row mb-2">
+            <div class="col-12 mb-2">
+              <label class="form-label small text-muted">Full Name</label>
+              <input type="text" class="form-control" formControlName="fullName" appValidate fieldName="Full Name"
+                [readonly]="!isEditing" />
+            </div>
+            <div class="col-12 mb-2">
+              <label class="form-label small text-muted">Email</label>
+              <input type="email" class="form-control" formControlName="email" appValidate fieldName="Email"
+                [readonly]="!isEditing" />
+            </div>
+            <div class="col-12 mb-2">
+              <label class="form-label small text-muted">Mobile No</label>
+              <input type="text" class="form-control" formControlName="mobile" appValidate fieldName="Mobile"
+                [readonly]="!isEditing" />
+            </div>
+            <div class="col-12 mb-2">
+              <label class="form-label small text-muted">NIC</label>
+              <input type="text" class="form-control" formControlName="nic" appValidate fieldName="NIC readonly" />
+            </div>
           </div>
-          <div class="col-12 mb-2">
-            <label class="form-label small text-muted">Email</label>
-            <input type="email" class="form-control" [(ngModel)]="user.email" [readonly]="!isEditing" />
-          </div>
-          <div class="col-12 mb-2">
-            <label class="form-label small text-muted">Mobile No</label>
-            <input type="text" class="form-control" [(ngModel)]="user.mobile" [readonly]="!isEditing" />
-          </div>
-          <div class="col-12 mb-2">
-            <label class="form-label small text-muted">NIC</label>
-            <input type="text" class="form-control" [(ngModel)]="user.nic" readonly />
-          </div>
-          <div class="col-12 mb-2">
-            <label class="form-label small text-muted">License No</label>
-            <input type="text" class="form-control" [(ngModel)]="user.license" readonly />
-          </div>
-        </div>
 
-        <div class="d-flex justify-content-end mt-3">
-          <button *ngIf="!isEditing" cButton color="primary" class="px-4 rounded-3" (click)="enableEdit()">
-            Edit
-          </button>
-          <div *ngIf="isEditing">
-            <button cButton color="primary" class="me-2 rounded-3" (click)="saveChanges()">
-              Save
+          <div class=" d-flex justify-content-end mt-3">
+            <button *ngIf="!isEditing" type="button" cButton color="primary" class="px-4 rounded-3"
+              (click)="enableEdit()">
+              Edit
             </button>
-            <button cButton color="secondary" variant="outline" class="rounded-3" (click)="cancelEdit()">
-              Cancel
-            </button>
+            <div *ngIf="isEditing">
+              <button type="submit" cButton color="primary" class="me-2 rounded-3">
+                Save
+              </button>
+              <button type="button" cButton color="secondary" variant="outline" class="rounded-3"
+                (click)="cancelEdit()">
+                Cancel
+              </button>
+            </div>
           </div>
-        </div>
+        </form>
+
       </div>
 
       <!-- PASSWORD -->
@@ -113,20 +117,12 @@
 
         <div class="card p-3 border-0 bg-light">
           <div class="mb-2">
-            <span class="text-muted small d-block">Vehicle Model</span>
-            <span class="fw-semibold">{{ vehicle.model || 'N/A' }}</span>
+            <span class="text-muted small d-block">Vehicle Code</span>
+            <span class="fw-semibold">{{ vehicleDetails['vehicleCode'] | empty }}</span>
           </div>
           <div class="mb-2">
-            <span class="text-muted small d-block">Brand</span>
-            <span class="fw-semibold">{{ vehicle.brand || 'N/A' }}</span>
-          </div>
-          <div class="mb-2">
-            <span class="text-muted small d-block">Number Plate</span>
-            <span class="fw-semibold">{{ vehicle.noPlate || 'N/A' }}</span>
-          </div>
-          <div>
-            <span class="text-muted small d-block">License Expiry</span>
-            <span class="fw-semibold text-danger">{{ vehicle.licenseExpiry || 'N/A' }}</span>
+            <span class="text-muted small d-block">Vehicle No</span>
+            <span class="fw-semibold">{{ vehicleDetails['vehicleNumber'] | empty  }}</span>
           </div>
         </div>
       </div>
@@ -147,20 +143,20 @@
           <div class="small text-muted">
             <div class="mb-1">
               <svg cIcon name="cilPhone" class="me-2 text-dark"></svg>
-              Visco Admin - +94 77 123 4567
+              Admin Support Mobile - {{otherDetails['adminSupportMobile'] | empty}}
+            </div>
+            <div class="mb-1">
+              <svg cIcon name="cilEnvelopeClosed" class="me-2 text-dark"></svg>
+              Admin Support Email - {{otherDetails['adminSupportEmail'] | empty}}
             </div>
             <div class="mb-1">
               <svg cIcon name="cilPhone" class="me-2 text-dark"></svg>
-              RK TECH SYSTEMS - +94 77 123 4567
+              Software Support Mobile - {{otherDetails['softwareSupportMobile'] | empty}}
             </div>
-            <!-- <div class="mb-1">
+            <div class="mb-1">
               <svg cIcon name="cilEnvelopeClosed" class="me-2 text-dark"></svg>
-              support@salesportal.lk
+              Software Support Email - {{otherDetails['softwareSupportEmail'] | empty}}
             </div>
-            <div>
-              <svg cIcon name="cilGlobeAlt" class="me-2 text-dark"></svg>
-              www.salesportal.lk
-            </div> -->
           </div>
         </div>
 
