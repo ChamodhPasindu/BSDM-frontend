@@ -1,58 +1,182 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ViewSaleStockComponent } from './view-sale-stock/view-sale-stock.component';
-import { alertWarning } from 'src/app/utility/helper';
+import {
+  alertError,
+  alertSuccess,
+  alertWarning,
+  datePickerToDate,
+  errorMessageHandler,
+} from 'src/app/utility/helper';
+import { ActionButton } from 'src/app/enums/ActionButton.enum';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { ProductService } from 'src/app/services/product/product.service';
+import { IResponse } from 'src/app/interfaces/IResponse';
+import {
+  RESPONSE_MESSAGES,
+  RESPONSE_TITLES,
+} from 'src/app/utility/constants/response-message-title';
+import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
+import { HttpErrorResponse } from '@angular/common/http';
+import { SweetAlertResult } from 'sweetalert2';
+import { IPagination } from 'src/app/interfaces/IPagination';
+import { SaleStockService } from 'src/app/services/sale-stock/sale-stock.service';
 
+@UntilDestroy()
 @Component({
   selector: 'app-sales-stock',
   templateUrl: './sales-stock.component.html',
   styleUrls: ['./sales-stock.component.scss'],
 })
 export class SalesStockComponent implements OnInit {
-  @ViewChild('saleStockModal') protected saleStockModal!: ViewSaleStockComponent;
+  @ViewChild('saleStockModal')
+  protected saleStockModal!: ViewSaleStockComponent;
 
-  protected openSaleStockView(saleStock?: any) {
-    this.saleStockModal.saleStock = saleStock;
-    this.saleStockModal.visible = true;
+  protected readonly ActionButton = ActionButton;
+  protected saleStockList: any[];
+
+  protected currentPage: number = 1;
+  protected pageSize: number = 5;
+  protected count: number = 0;
+
+  protected searchForm: FormGroup;
+
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly saleStockService: SaleStockService
+  ) {
+    this.createForm();
   }
 
-  constructor() {}
-  protected users: any[] = [];
-  protected pagedUsers: any[] = [];
-
-  protected currentPage = 1;
-  protected pageSize = 5;
-
   ngOnInit(): void {
-    // sample data
-    this.users = Array.from({ length: 35 }, (_, i) => ({
-      name: `User ${i + 1}`,
-      nic: `NIC${1000 + i}`,
-    }));
+    this.loadSaleStockTableData();
+  }
 
-    this.updatePagedUsers();
+  private createForm(): void {
+    this.searchForm = this.fb.group({
+      inputValue: [''],
+      fromDate: [''],
+      toDate: [''],
+    });
+  }
+
+  protected onSubmit(): void {
+    this.loadSaleStockTableData();
+  }
+
+  protected onRefresh(): void {
+    this.loadSaleStockTableData();
+  }
+
+  private loadSaleStockTableData(): void {
+    const { inputValue, fromDate, toDate } = this.searchForm.value;
+
+    let formattedFromDate = null;
+    let formattedToDate = null;
+    if (fromDate) {
+      formattedFromDate = datePickerToDate(fromDate);
+    }
+
+    if (toDate) {
+      formattedToDate = datePickerToDate(toDate);
+    }
+
+    const paginationRequest: IPagination = {
+      pageable: true,
+      page: this.currentPage - 1,
+      size: this.pageSize,
+    };
+
+    this.saleStockService
+      .getSaleStockList(
+        paginationRequest,
+        inputValue || '',
+        formattedFromDate,
+        formattedToDate
+      )
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.saleStockList = res.body.content.content || [];
+            this.count = res.body.content.totalElements || 0;
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text: res.body.message || RESPONSE_MESSAGES.SALE_STOCK_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
   }
 
   protected goToPage(page: number): void {
     this.currentPage = page;
-    this.updatePagedUsers();
+    this.loadSaleStockTableData();
   }
 
   protected onPageSizeChange(newSize: number): void {
     this.pageSize = newSize;
     this.currentPage = 1;
-    this.updatePagedUsers();
+    this.loadSaleStockTableData();
   }
 
-  protected updatePagedUsers(): void {
-    const start = (this.currentPage - 1) * this.pageSize;
-    const end = start + this.pageSize;
-    this.pagedUsers = this.users.slice(start, end);
+  protected openSaleStockView(action: ActionButton, product?: any): void {
+    this.saleStockModal.action = action;
+    this.saleStockModal.saleStock = product;
+    this.saleStockModal.visible = true;
   }
 
-  protected delete() {
-    alertWarning({
-      title: 'Confirm Delete',
-      text: 'message',
-    });
+  protected onClear(): void {
+    this.searchForm.reset();
+    this.loadSaleStockTableData();
   }
+
+  protected hasAnyValue(): boolean {
+    const { inputValue, fromDate, toDate } = this.searchForm.value;
+
+    return !!(inputValue || fromDate || toDate);
+  }
+
+  // protected onDeleteSaleStock(id: number): void {
+  //   alertWarning(
+  //     {
+  //       title: RESPONSE_TITLES.WARNING,
+  //       text: RESPONSE_MESSAGES.DELETE_CONFIRMATION,
+  //     },
+  //     (result: SweetAlertResult<any>) => {
+  //       if (result.isConfirmed) {
+  //         this.saleStockService
+  //           .deleteSaleStock(id)
+  //           .pipe(untilDestroyed(this))
+  //           .subscribe({
+  //             next: (res: IResponse) => {
+  //               if (res.body.status === RSP_SUCCESS) {
+  //                 this.loadSaleStockTableData();
+  //                 alertSuccess({
+  //                   title: RESPONSE_TITLES.DONE,
+  //                   text:
+  //                     res.body.message ||
+  //                     RESPONSE_MESSAGES.SALE_STOCK_DELETE_SUCCESS,
+  //                 });
+  //               } else {
+  //                 alertError({
+  //                   title: RESPONSE_TITLES.FAILED,
+  //                   text:
+  //                     res.body.message ||
+  //                     RESPONSE_MESSAGES.SALE_STOCK_DELETE_FAILED,
+  //                 });
+  //               }
+  //             },
+  //             error: (err: HttpErrorResponse) => {
+  //               errorMessageHandler(err);
+  //             },
+  //           });
+  //       }
+  //     }
+  //   );
+  // }
 }

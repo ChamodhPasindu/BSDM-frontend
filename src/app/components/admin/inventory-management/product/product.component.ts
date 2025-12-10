@@ -165,7 +165,7 @@ export class ProductComponent implements OnInit {
                   alertError({
                     title: RESPONSE_TITLES.FAILED,
                     text:
-                      res.body.message || RESPONSE_MESSAGES.PRODUCT_GET_FAILED,
+                      res.body.message || RESPONSE_MESSAGES.PRODUCT_DELETE_FAILED,
                   });
                 }
               },

@@ -72,6 +72,16 @@ export const RESPONSE_MESSAGES = {
   STOCK_GET_FAILED: 'Failed to load Stock details. Please try again.',
   STOCK_DELETE_FAILED: 'Failed to remove Stock details. Please try again.',
   STOCK_DELETE_SUCCESS: 'Stock information has been removed successfully.',
+
+  SALE_STOCK_ADD_EDIT_SUCCESS:
+    'Sale Stock information has been saved successfully.',
+  SALE_STOCK_ADD_EDIT_FAILED:
+    'Sale Failed to save Stock information. Please try again.',
+  SALE_STOCK_GET_FAILED: 'Sale Failed to load Stock details. Please try again.',
+  SALE_STOCK_DELETE_FAILED:
+    'Sale Failed to remove Stock details. Please try again.',
+  SALE_STOCK_DELETE_SUCCESS:
+    'Sale Stock information has been removed successfully.',
 };
 
 export const RESPONSE_TITLES = {

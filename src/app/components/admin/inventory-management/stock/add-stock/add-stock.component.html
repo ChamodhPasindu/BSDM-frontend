@@ -13,7 +13,7 @@
           <input type="text" class="form-control" placeholder="Search product..." [(ngModel)]="inputSearchValue"
             (keyup.enter)="onSearch()" />
 
-          <button cButton color="primary" variant="outline" class="input-group-text" (click)="onSearch()">
+          <button cButton color="primary" variant="outline" class="input-group-text" type="button" (click)="onSearch()">
             <svg cIcon name="cilSearch" class="me-2"></svg>Search
           </button>
         </div>

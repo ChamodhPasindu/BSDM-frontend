@@ -36,6 +36,7 @@ import { BatchService } from 'src/app/services/batch/batch.service';
 import { ProductService } from 'src/app/services/product/product.service';
 import { StockService } from 'src/app/services/stock/stock.service';
 import { AddStockComponent } from './stock/add-stock/add-stock.component';
+import { SaleStockService } from 'src/app/services/sale-stock/sale-stock.service';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,6 @@ import { AddStockComponent } from './stock/add-stock/add-stock.component';
     BsDatepickerModule.forRoot(),
     NgMultiSelectDropDownModule.forRoot(),
   ],
-  providers: [ItemService, BatchService, ProductService, StockService],
+  providers: [ItemService, BatchService, ProductService, StockService,SaleStockService],
 })
 export class InventoryManagementModule {}

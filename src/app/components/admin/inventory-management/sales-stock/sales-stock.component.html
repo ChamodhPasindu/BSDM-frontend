@@ -109,19 +109,19 @@
         <h4 class="card-title mb-4" id="employee-list">Sale Stock List</h4>
       </c-col>
       <c-col xs="auto">
-        <button cButton type="button" (click)="openSaleStockView()">+ Add Sale Stock</button>
+        <button cButton type="button" (click)="openSaleStockView(ActionButton.ADD)">+ Add Sale Stock</button>
       </c-col>
     </c-row>
-    <form cRow class="align-items-end mb-4">
+    <form cRow class="align-items-end mb-4" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
       <c-col xs="auto" class="mb-2">
-        <label cLabel for="inputEmail4">Search Sale Stock</label>
-        <input cFormControl id="inputEmail4" type="email" />
+        <label cLabel for="inputValue">Search Sale Stock</label>
+        <input cFormControl id="inputValue" type="text" formControlName="inputValue" />
       </c-col>
 
       <c-col xs="auto" class="mb-2">
         <label cLabel for="datepicker">From Date</label>
         <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker />
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker formControlName="fromDate" />
           <span class="input-group-text bg-white">
             <svg cIcon name="cilCalendar" class="text-secondary"></svg>
           </span>
@@ -131,7 +131,7 @@
       <c-col xs="auto" class="mb-2">
         <label cLabel for="datepicker">To Date</label>
         <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker />
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker formControlName="toDate" />
           <span class="input-group-text bg-white">
             <svg cIcon name="cilCalendar" class="text-secondary"></svg>
           </span>
@@ -139,8 +139,13 @@
       </c-col>
 
       <c-col xs="auto" class="mb-2 d-flex align-items-center gap-2 flex-wrap">
-        <button cButton type="button" variant="outline" color="secondary">
+        <button cButton type="submit" variant="outline" color="secondary">
           <svg cIcon name="cilSearch" class="me-2"></svg>Search
+        </button>
+
+        <button *ngIf="searchForm.dirty && searchForm.value && hasAnyValue()" cButton type="button" variant="outline"
+          color="danger" (click)="onClear()">
+          <svg cIcon name="cilX" class="me-2"></svg>Clear
         </button>
 
         <button cButton type="button" variant="outline" color="info">
@@ -163,12 +168,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngIf="!pagedUsers || pagedUsers.length === 0">
+        <tr *ngIf="!saleStockList || saleStockList.length === 0">
           <td colspan="6" class="text-center text-muted py-3">
             No data available
           </td>
         </tr>
-        <tr *ngFor="let user of pagedUsers; index as i">
+        <tr *ngFor="let user of saleStockList; index as i">
           <td class="text-center">
             P12
           </td>
@@ -196,14 +201,14 @@
             </button>
 
             <!-- Delete -->
-            <button (click)="delete()" cButton color="danger" size="sm" variant="ghost" title="Delete">
+            <!-- <button (click)="onDeleteSaleStock(1)" cButton color="danger" size="sm" variant="ghost" title="Delete">
               <svg cIcon name="cilTrash"></svg>
-            </button>
+            </button> -->
           </td>
         </tr>
       </tbody>
     </table>
-    <app-paginator *ngIf="pagedUsers.length !== 0" [totalItems]="users.length" [(pageSize)]="pageSize"
+    <app-paginator *ngIf="count !== 0" [totalItems]="count" [(pageSize)]="pageSize"
     [(currentPage)]="currentPage" (currentPageChange)="goToPage($event)"
     (pageSizeChange)="onPageSizeChange($event)"></app-paginator>
   </c-card-body>

@@ -142,7 +142,7 @@ export class AddStockComponent extends ModalControlDirective implements OnInit {
     this.openedIndex = null;
   }
 
-  protected onRemoveFromCart(index: number) {
+  protected onRemoveFromCart(index: number): void {
     this.cartItems.splice(index, 1);
   }
 

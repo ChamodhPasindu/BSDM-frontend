@@ -47,10 +47,10 @@ export class EmployeeService {
   }
 
   public getEmployeeList(
-    payload: IPagination,
-    inputValue: string,
-    fromDate: string | null,
-    toDate: string | null
+    payload: Partial<IPagination>,
+    inputValue?: string,
+    fromDate?: string | null,
+    toDate?: string | null
   ): Observable<IResponse> {
     return this.httpClient.post<IResponse>(this.requestUrl + '/employee/list', {
       ...payload,
