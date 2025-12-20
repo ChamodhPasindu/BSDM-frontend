@@ -77,7 +77,9 @@ export class ViewProductComponent
     this.createForm();
   }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  public loadData(): void {
     this.loadItemListData();
     this.loadBatchListData();
   }

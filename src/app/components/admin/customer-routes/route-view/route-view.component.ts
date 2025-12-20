@@ -72,10 +72,10 @@ export class RouteViewComponent
   }
 
   ngOnInit(): void {
-    this.loadRoleList();
+    
   }
 
-  private loadRoleList(): void {
+  public loadData(): void {
     this.generalService
       .getStatusList(CommonCode.ROUTES)
       .pipe(untilDestroyed(this))

@@ -102,6 +102,10 @@ export class ViewSaleStockComponent
   }
 
   ngOnInit() {
+    
+  }
+
+  public loadData():void{
     this.loadDriverListData();
     this.loadVehicleListData();
     this.loadRouteListData();
@@ -137,7 +141,6 @@ export class ViewSaleStockComponent
     //   this.productForm.enable();
     // }
   }
-
 
   private loadDriverListData(): void {
     this.employeeService

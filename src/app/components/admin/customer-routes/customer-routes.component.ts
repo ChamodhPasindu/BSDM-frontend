@@ -230,6 +230,7 @@ export class CustomerRoutesComponent implements OnInit {
   }
 
   protected openRouteView(action: ActionButton, route?: IRouteData): void {
+    this.routeModal.loadData();
     this.routeModal.action = action;
     this.routeModal.route = route;
     this.routeModal.visible = true;
@@ -239,6 +240,7 @@ export class CustomerRoutesComponent implements OnInit {
     action: ActionButton,
     customer?: ICustomerData
   ): void {
+    this.customerModal.loadData();
     this.customerModal.action = action;
     this.customerModal.customer = customer;
     this.customerModal.visible = true;

@@ -125,6 +125,7 @@ export class VehicleManagementComponent implements OnInit {
   }
 
   protected openVehicleView(action: ActionButton, vehicle?: IVehicleData):void {
+    this.vehicleModal.loadData();
     this.vehicleModal.action = action;
     this.vehicleModal.vehicle = vehicle;
     this.vehicleModal.visible = true;

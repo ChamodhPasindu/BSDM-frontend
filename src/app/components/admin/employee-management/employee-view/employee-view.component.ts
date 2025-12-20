@@ -90,10 +90,9 @@ export class EmployeeViewComponent
   }
 
   ngOnInit(): void {
-    this.loadRoleListAndStatusList();
   }
 
-  private loadRoleListAndStatusList(): void {
+  public loadData(): void {
     forkJoin({
       roles: this.generalService.getDropDownList(CommonCode.USER_ROLES),
       status: this.generalService.getStatusList(CommonCode.USER_STATUS),

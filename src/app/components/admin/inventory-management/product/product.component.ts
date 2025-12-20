@@ -124,6 +124,7 @@ export class ProductComponent implements OnInit {
   }
 
   protected openProductView(action: ActionButton, product?: IProductData): void {
+    this.productModal.loadData();
     this.productModal.action = action;
     this.productModal.product = product;
     this.productModal.visible = true;

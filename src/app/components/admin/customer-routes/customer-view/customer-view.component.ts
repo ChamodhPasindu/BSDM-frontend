@@ -77,7 +77,9 @@ export class CustomerViewComponent
     this.createForm();
   }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  public loadData(): void {
     this.loadRouteListData();
     this.loadRoleList();
   }
@@ -98,6 +100,27 @@ export class CustomerViewComponent
           }
         },
         error: (err: HttpErrorResponse) => errorMessageHandler(err),
+      });
+  }
+
+  private loadRouteListData(): void {
+    this.routeService
+      .getRouteList({ pageable: false })
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.routeList = res.body.content || [];
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text: res.body.message || RESPONSE_MESSAGES.ROUTE_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
       });
   }
 
@@ -146,27 +169,6 @@ export class CustomerViewComponent
       address: this.customer?.address,
       statusCode: this.customer?.statusCode,
     });
-  }
-
-  private loadRouteListData(): void {
-    this.routeService
-      .getRouteList({ pageable: false })
-      .pipe(untilDestroyed(this))
-      .subscribe({
-        next: (res: IResponse) => {
-          if (res.body.status === RSP_SUCCESS) {
-            this.routeList = res.body.content || [];
-          } else {
-            alertError({
-              title: RESPONSE_TITLES.FAILED,
-              text: res.body.message || RESPONSE_MESSAGES.ROUTE_GET_FAILED,
-            });
-          }
-        },
-        error: (err: HttpErrorResponse) => {
-          errorMessageHandler(err);
-        },
-      });
   }
 
   get customers(): FormArray {

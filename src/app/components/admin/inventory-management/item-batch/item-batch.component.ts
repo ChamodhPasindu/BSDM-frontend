@@ -236,6 +236,7 @@ export class ItemBatchComponent implements OnInit {
   }
 
   protected openBatchView(action: ActionButton, batch?: IBatchData) {
+    this.batchModal.loadData();
     this.batchModal.action = action;
     this.batchModal.batch = batch;
     this.batchModal.visible = true;

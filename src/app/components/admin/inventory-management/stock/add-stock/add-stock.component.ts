@@ -55,7 +55,7 @@ export class AddStockComponent extends ModalControlDirective implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadProductListData();
+   
   }
 
   private createForm(): void {
@@ -66,7 +66,7 @@ export class AddStockComponent extends ModalControlDirective implements OnInit {
     this.setForm(this.productDetailForm);
   }
 
-  private loadProductListData(): void {
+  public loadData(): void {
     const paginationRequest: IPagination = {
       pageable: true,
       page: this.currentPage - 1,
@@ -96,18 +96,18 @@ export class AddStockComponent extends ModalControlDirective implements OnInit {
 
   protected onSearch(): void {
     this.currentPage = 1;
-    this.loadProductListData();
+    this.loadData();
   }
 
   protected goToPage(page: number): void {
     this.currentPage = page;
-    this.loadProductListData();
+    this.loadData();
   }
 
   protected onPageSizeChange(newSize: number): void {
     this.pageSize = newSize;
     this.currentPage = 1;
-    this.loadProductListData();
+    this.loadData();
   }
 
   protected onSelectProduct(product: IProductData, index: number): void {

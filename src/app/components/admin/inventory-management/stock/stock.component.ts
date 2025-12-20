@@ -123,6 +123,7 @@ export class StockComponent implements OnInit {
   }
 
   protected openAddStockView() {
+    this.addStockModal.loadData();
     this.addStockModal.visible = true;
   }
 

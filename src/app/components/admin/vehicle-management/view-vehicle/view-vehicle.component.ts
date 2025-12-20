@@ -74,10 +74,9 @@ export class ViewVehicleComponent
   }
 
   ngOnInit(): void {
-    this.loadRoleList();
   }
 
-  private loadRoleList():void {
+  public loadData():void {
     this.generalService
       .getStatusList(CommonCode.VEHICLE)
       .pipe(untilDestroyed(this))

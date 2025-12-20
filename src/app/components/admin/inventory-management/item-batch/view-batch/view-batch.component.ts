@@ -82,11 +82,9 @@ export class ViewBatchComponent
     this.batchForm.get('expiryDate')?.valueChanges.subscribe(() => {
       this.calculateUsableDays();
     });
-
-    this.loadRoleList();
   }
 
-  private loadRoleList(): void {
+  public loadData(): void {
     this.generalService
       .getStatusList(CommonCode.BATCH)
       .pipe(untilDestroyed(this))
