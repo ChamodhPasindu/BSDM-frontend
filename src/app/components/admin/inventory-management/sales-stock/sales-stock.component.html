@@ -109,7 +109,7 @@
         <h4 class="card-title mb-4" id="employee-list">Sale Stock List</h4>
       </c-col>
       <c-col xs="auto">
-        <button cButton type="button" (click)="openSaleStockView(ActionButton.ADD)">+ Add Sale Stock</button>
+        <button cButton type="button" (click)="openAddSaleStockView()">+ Add Sale Stock</button>
       </c-col>
     </c-row>
     <form cRow class="align-items-end mb-4" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
@@ -164,7 +164,7 @@
           <th class="text-center">Routes</th>
           <th class="text-center">Date</th>
           <th class="text-center">Status</th>
-          <!-- <th class="text-center">Action</th> -->
+          <th class="text-center">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -195,9 +195,10 @@
           </td>
           <td class="text-center">
             <!-- View -->
-            <!-- <button cButton color="info" size="sm" variant="ghost" class="me-2" title="View">
+            <button cButton color="info" size="sm" variant="ghost" class="me-2" title="View"
+              (click)="openSaleStockView(ActionButton.VIEW,saleStock)">
               <svg cIcon name="cilCommand"></svg>
-            </button> -->
+            </button>
 
             <!-- Edit -->
             <!-- <button cButton color="warning" size="sm" variant="ghost" class="me-2" title="Edit">
@@ -219,4 +220,5 @@
 </c-card>
 
 
-<app-view-sale-stock #saleStockModal (tableRefresh)="onRefresh()"></app-view-sale-stock>
+<app-view-sale-stock #viewSaleStockModal (tableRefresh)="onRefresh()"></app-view-sale-stock>
+<app-add-sale-stock #addSaleStockModal (tableRefresh)="onRefresh()"></app-add-sale-stock>

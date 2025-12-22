@@ -1,3 +1,4 @@
+
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -36,11 +37,11 @@ import {
 
 @UntilDestroy()
 @Component({
-  selector: 'app-view-sale-stock',
-  templateUrl: './view-sale-stock.component.html',
-  styleUrls: ['./view-sale-stock.component.scss'],
+  selector: 'app-add-sale-stock',
+  templateUrl: './add-sale-stock.component.html',
+  styleUrls: ['./add-sale-stock.component.scss'],
 })
-export class ViewSaleStockComponent
+export class AddSaleStockComponent
   extends ModalControlDirective
   implements OnInit
 {
@@ -56,20 +57,10 @@ export class ViewSaleStockComponent
     allowSearchFilter: true,
   };
 
-  stockList: any[] = [
-    {
-      stockId: 1,
-      productName: 'product one',
-      reason: 'reason',
-    },
-  ];
-
-  private _saleStock: any | undefined;
-  private _action: ActionButton;
-
   protected vehicleList: IVehicleData[];
   protected driverList: IEmployeeData[];
   protected routeList: IRouteData[];
+  protected stockList: IStockData[];
 
   protected statusList: Record<string, string | number>[];
 
@@ -87,26 +78,6 @@ export class ViewSaleStockComponent
   protected cartItems: ISaleStockCart[] = [];
 
   protected saleStockForm: FormGroup;
-
-  @Input()
-  public set saleStock(value: any | undefined) {
-    this._saleStock = value;
-    this.updateForm();
-  }
-
-  public get saleStock() {
-    return this._saleStock;
-  }
-
-  @Input()
-  public set action(value: ActionButton) {
-    this._action = value;
-    this.updateForm();
-  }
-
-  public get action() {
-    return this._action;
-  }
 
   constructor(
     private readonly fb: FormBuilder,
@@ -142,24 +113,6 @@ export class ViewSaleStockComponent
     });
     this.saleStockForm.get('loadDate')?.disable();
     this.setForm(this.saleStockForm);
-  }
-
-  private updateForm(): void {
-    if (!this.action) return;
-
-    // if (this.action === ActionButton.VIEW) {
-    //   this.patchValue();
-    //   this.productForm.disable();
-    // }
-
-    // if (this.action === ActionButton.EDIT) {
-    //   this.patchValue();
-    //   this.productForm.enable();
-    // }
-
-    // if (this.action === ActionButton.ADD) {
-    //   this.productForm.enable();
-    // }
   }
 
   public loadStatusList(): void {

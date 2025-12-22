@@ -37,6 +37,7 @@ import { ProductService } from 'src/app/services/product/product.service';
 import { StockService } from 'src/app/services/stock/stock.service';
 import { AddStockComponent } from './stock/add-stock/add-stock.component';
 import { SaleStockService } from 'src/app/services/sale-stock/sale-stock.service';
+import { AddSaleStockComponent } from './sales-stock/add-sale-stock/add-sale-stock.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { SaleStockService } from 'src/app/services/sale-stock/sale-stock.service
     ViewStockComponent,
     AddStockComponent,
     ViewSaleStockComponent,
+    AddSaleStockComponent,
     ViewReturnStockComponent,
   ],
   imports: [

@@ -22,6 +22,7 @@ import { SweetAlertResult } from 'sweetalert2';
 import { IPagination } from 'src/app/interfaces/IPagination';
 import { SaleStockService } from 'src/app/services/sale-stock/sale-stock.service';
 import { ISaleStockData } from 'src/app/interfaces/ISaleStockData';
+import { AddSaleStockComponent } from './add-sale-stock/add-sale-stock.component';
 
 @UntilDestroy()
 @Component({
@@ -30,8 +31,10 @@ import { ISaleStockData } from 'src/app/interfaces/ISaleStockData';
   styleUrls: ['./sales-stock.component.scss'],
 })
 export class SalesStockComponent implements OnInit {
-  @ViewChild('saleStockModal')
-  protected saleStockModal!: ViewSaleStockComponent;
+  @ViewChild('viewSaleStockModal')
+  protected viewSaleStockModal!: ViewSaleStockComponent;
+  @ViewChild('addSaleStockModal')
+  protected addSaleStockModal!: AddSaleStockComponent;
 
   protected readonly ActionButton = ActionButton;
   protected saleStockList: ISaleStockData[];
@@ -125,11 +128,16 @@ export class SalesStockComponent implements OnInit {
     this.loadSaleStockTableData();
   }
 
-  protected openSaleStockView(action: ActionButton, product?: any): void {
-    this.saleStockModal.loadData();
-    this.saleStockModal.action = action;
-    this.saleStockModal.saleStock = product;
-    this.saleStockModal.visible = true;
+  protected openAddSaleStockView(): void {
+    this.addSaleStockModal.loadData();
+    this.addSaleStockModal.visible = true;
+  }
+
+  protected openSaleStockView(action: ActionButton, product: any): void {
+    this.viewSaleStockModal.loadData();
+    this.viewSaleStockModal.action = action;
+    this.viewSaleStockModal.saleStock = product;
+    this.viewSaleStockModal.visible = true;
   }
 
   protected onClear(): void {
