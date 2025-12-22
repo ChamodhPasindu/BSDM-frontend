@@ -101,7 +101,7 @@ export class StockComponent implements OnInit {
           } else {
             alertError({
               title: RESPONSE_TITLES.FAILED,
-              text: res.body.message || RESPONSE_MESSAGES.PRODUCT_GET_FAILED,
+              text: res.body.message || RESPONSE_MESSAGES.STOCK_GET_FAILED,
             });
           }
         },

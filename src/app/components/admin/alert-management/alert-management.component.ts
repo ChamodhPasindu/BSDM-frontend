@@ -45,7 +45,6 @@ export class AlertManagementComponent implements OnInit {
 
   protected onSubmit(): void {
     const { fromDate, toDate } = this.searchForm.value;
-    console.log(this.searchForm.value, datePickerToDate(fromDate));
   }
 
   protected onExport(): void {}

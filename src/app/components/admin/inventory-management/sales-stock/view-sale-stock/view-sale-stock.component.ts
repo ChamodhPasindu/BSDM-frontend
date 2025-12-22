@@ -5,17 +5,23 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as moment from 'moment';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ActionButton } from 'src/app/enums/ActionButton.enum';
+import { CommonCode } from 'src/app/enums/CommonCode.enum';
 import { PaginationType } from 'src/app/enums/PaginationType.enum';
 import { IEmployeeData } from 'src/app/interfaces/IEmployeeData';
 import { IPagination } from 'src/app/interfaces/IPagination';
 import { IProductData } from 'src/app/interfaces/IProductData';
 import { IResponse } from 'src/app/interfaces/IResponse';
 import { IRouteData } from 'src/app/interfaces/IRouteData';
+import { ISaleStock } from 'src/app/interfaces/ISaleStock';
 import { ISaleStockCart } from 'src/app/interfaces/ISaleStockCart';
+import { IStockData } from 'src/app/interfaces/IStockData';
 import { IVehicleData } from 'src/app/interfaces/IVehicleData';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
+import { GeneralService } from 'src/app/services/general/general.service';
 import { ProductService } from 'src/app/services/product/product.service';
 import { RouteService } from 'src/app/services/route/route.service';
+import { SaleStockService } from 'src/app/services/sale-stock/sale-stock.service';
+import { StockService } from 'src/app/services/stock/stock.service';
 import { VehicleService } from 'src/app/services/vehicle/vehicle.service';
 import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
 import {
@@ -23,7 +29,11 @@ import {
   RESPONSE_TITLES,
 } from 'src/app/utility/constants/response-message-title';
 import { ModalControlDirective } from 'src/app/utility/directives/modal-control.directive';
-import { alertError, errorMessageHandler } from 'src/app/utility/helper';
+import {
+  alertError,
+  alertSuccess,
+  errorMessageHandler,
+} from 'src/app/utility/helper';
 
 @UntilDestroy()
 @Component({
@@ -53,7 +63,9 @@ export class ViewSaleStockComponent
   protected vehicleList: IVehicleData[];
   protected driverList: IEmployeeData[];
   protected routeList: IRouteData[];
-  protected productList: IProductData[];
+  protected stockList: IStockData[];
+
+  protected statusList: Record<string, string | number>[];
 
   protected currentPage: number = 1;
   protected pageSize: number = 5;
@@ -62,7 +74,7 @@ export class ViewSaleStockComponent
   protected inputSearchValue: string;
   protected openedIndex: number | null = null;
 
-  protected selectedProduct: IProductData | null = null;
+  protected selectedStock: IStockData | null = null;
   protected selectedDriver: IEmployeeData | null = null;
   protected selectedVehicle: IVehicleData | null = null;
 
@@ -92,7 +104,9 @@ export class ViewSaleStockComponent
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly productService: ProductService,
+    private readonly stockService: StockService,
+    private readonly generalService: GeneralService,
+    private readonly saleStockService: SaleStockService,
     private readonly employeeService: EmployeeService,
     private readonly vehicleService: VehicleService,
     private readonly routeService: RouteService
@@ -101,20 +115,20 @@ export class ViewSaleStockComponent
     this.createForm();
   }
 
-  ngOnInit() {
-    
-  }
+  ngOnInit() {}
 
-  public loadData():void{
+  public loadData(): void {
     this.loadDriverListData();
     this.loadVehicleListData();
     this.loadRouteListData();
-    this.loadProductListData();
+    this.loadStockListData();
+    this.loadStatusList();
   }
 
   private createForm(): void {
     this.saleStockForm = this.fb.group({
       loadDate: [moment().toDate(), Validators.required],
+      status: [null, Validators.required],
       vehicleId: [null, Validators.required],
       employeeId: [null, Validators.required],
       routes: [null, Validators.required],
@@ -140,6 +154,25 @@ export class ViewSaleStockComponent
     // if (this.action === ActionButton.ADD) {
     //   this.productForm.enable();
     // }
+  }
+
+  public loadStatusList(): void {
+    this.generalService
+      .getStatusList(CommonCode.SALESSTOCK)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.statusList = res.body.content.dropdown;
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text: res.body.message || RESPONSE_MESSAGES.COMMON_ERROR_DES,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => errorMessageHandler(err),
+      });
   }
 
   private loadDriverListData(): void {
@@ -205,25 +238,25 @@ export class ViewSaleStockComponent
       });
   }
 
-  private loadProductListData(): void {
+  private loadStockListData(): void {
     const paginationRequest: IPagination = {
       pageable: true,
       page: this.currentPage - 1,
       size: this.pageSize,
     };
 
-    this.productService
-      .getProductList(paginationRequest, this.inputSearchValue || '')
+    this.stockService
+      .getStockList(paginationRequest, this.inputSearchValue || '')
       .pipe(untilDestroyed(this))
       .subscribe({
         next: (res: IResponse) => {
           if (res.body.status === RSP_SUCCESS) {
-            this.productList = res.body.content.content || [];
+            this.stockList = res.body.content.content || [];
             this.count = res.body.content.totalElements || 0;
           } else {
             alertError({
               title: RESPONSE_TITLES.FAILED,
-              text: res.body.message || RESPONSE_MESSAGES.PRODUCT_GET_FAILED,
+              text: res.body.message || RESPONSE_MESSAGES.STOCK_GET_FAILED,
             });
           }
         },
@@ -235,20 +268,20 @@ export class ViewSaleStockComponent
 
   protected onSearch(): void {
     this.currentPage = 1;
-    this.loadProductListData();
+    this.loadStockListData();
   }
 
   protected goToPage(page: number): void {
     this.currentPage = page;
-    this.loadProductListData();
+    this.loadStockListData();
   }
 
   protected onPageSizeChange(newSize: number): void {
     this.pageSize = newSize;
     this.currentPage = 1;
-    this.loadProductListData();
+    this.loadStockListData();
   }
- 
+
   protected onDriverChange(event: IEmployeeData): void {
     this.selectedDriver = event;
   }
@@ -257,33 +290,89 @@ export class ViewSaleStockComponent
     this.selectedVehicle = event;
   }
 
-  protected onSelectProduct(product: IProductData, index: number): void {
+  protected onSelectProduct(stock: IStockData, index: number): void {
     this.openedIndex = index;
-    this.selectedProduct = product;
+    this.selectedStock = stock;
+
+    this.saleStockForm.get('quantity')?.setValue('');
+    const maxQty = stock.remainingQuantity ?? 0;
+
+    this.saleStockForm
+      .get('quantity')
+      ?.setValidators([
+        Validators.required,
+        Validators.min(1),
+        Validators.max(maxQty),
+      ]);
+
+    this.saleStockForm.get('quantity')?.updateValueAndValidity();
   }
 
   protected onAddToAssignList(): void {
-    console.log(this.saleStockForm.value);
-
-    const { quantity, routes } = this.saleStockForm.value;
-    if (this.selectedProduct) {
+    const { quantity } = this.saleStockForm.value;
+    if (this.selectedStock) {
       this.cartItems.push({
-        product: this.selectedProduct,
-        vehicle: this.selectedVehicle!,
-        driver: this.selectedDriver!,
-        routes: routes,
+        stock: this.selectedStock,
         quantity: quantity,
       });
-      this.selectedProduct = null;
+      this.selectedStock = null;
     }
     this.openedIndex = null;
   }
 
-  protected onRemoveFromCart(index: number):void {
+  protected onRemoveFromCart(index: number): void {
     this.cartItems.splice(index, 1);
   }
 
-  protected onSubmit():void {
-    alert('Stock assignment confirmed!');
+  protected onSubmit(): void {
+    const { routes, status } = this.saleStockForm.value;
+
+    const stockList: Record<string, number>[] = this.cartItems.map((item) => {
+      return {
+        productId: item.stock.productId,
+        quantityLoaded: item.quantity,
+      };
+    });
+
+    const routeList: number[] = routes.map(
+      (route: Record<string, number>) => route['routeId']
+    );
+
+    const payload: ISaleStock = {
+      vehicleId: this.selectedVehicle!.vehicleId,
+      employeeId: this.selectedDriver!.userId,
+      routeId: routeList,
+      loadDate: moment().format('YYYY-MM-DD'),
+      stockList: stockList,
+      statusCode: status,
+    };
+
+    this.saleStockService
+      .addSaleStock(payload)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.tableRefresh.emit();
+            this.onCloseModal();
+            alertSuccess({
+              title: RESPONSE_TITLES.SUCCESS,
+              text:
+                res.body.message ||
+                RESPONSE_MESSAGES.SALE_STOCK_ADD_EDIT_SUCCESS,
+            });
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message ||
+                RESPONSE_MESSAGES.SALE_STOCK_ADD_EDIT_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
   }
 }

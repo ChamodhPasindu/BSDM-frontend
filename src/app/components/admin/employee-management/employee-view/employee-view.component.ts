@@ -330,8 +330,6 @@ export class EmployeeViewComponent
   }
 
   private updateEmployee(data: IEmployee, isUsernameUpdate: boolean): void {
-    console.log(data);
-
     let updatePipeline$: Observable<IResponse>;
 
     if (isUsernameUpdate) {

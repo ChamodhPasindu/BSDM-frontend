@@ -81,10 +81,10 @@ export class CustomerViewComponent
 
   public loadData(): void {
     this.loadRouteListData();
-    this.loadRoleList();
+    this.loadStatusList();
   }
 
-  private loadRoleList(): void {
+  private loadStatusList(): void {
     this.generalService
       .getStatusList(CommonCode.CUSTOMER)
       .pipe(untilDestroyed(this))
@@ -197,7 +197,6 @@ export class CustomerViewComponent
     if (!onValidate(this.customerForm)) return;
 
     const { routeId, customers } = this.customerForm.value;
-    console.log(routeId, customers);
 
     if (this.action === ActionButton.ADD) {
       this.addCustomer(routeId, customers);

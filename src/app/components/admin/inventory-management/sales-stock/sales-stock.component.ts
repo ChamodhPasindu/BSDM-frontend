@@ -21,6 +21,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { SweetAlertResult } from 'sweetalert2';
 import { IPagination } from 'src/app/interfaces/IPagination';
 import { SaleStockService } from 'src/app/services/sale-stock/sale-stock.service';
+import { ISaleStockData } from 'src/app/interfaces/ISaleStockData';
 
 @UntilDestroy()
 @Component({
@@ -33,7 +34,7 @@ export class SalesStockComponent implements OnInit {
   protected saleStockModal!: ViewSaleStockComponent;
 
   protected readonly ActionButton = ActionButton;
-  protected saleStockList: any[];
+  protected saleStockList: ISaleStockData[];
 
   protected currentPage: number = 1;
   protected pageSize: number = 5;

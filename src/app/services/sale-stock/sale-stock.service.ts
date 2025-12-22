@@ -3,19 +3,23 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IPagination } from 'src/app/interfaces/IPagination';
 import { IResponse } from 'src/app/interfaces/IResponse';
+import { ISaleStock } from 'src/app/interfaces/ISaleStock';
 import { SECURE, getEndpoint } from 'src/app/utility/common/end-point';
 
 @Injectable()
 export class SaleStockService {
-  private requestUrl = `${getEndpoint(SECURE)}/stock/sales`;
+  private requestUrl = `${getEndpoint(SECURE)}/stock`;
 
   constructor(private readonly httpClient: HttpClient) {}
 
-  // public addProduct(payload: IProduct): Observable<IResponse> {
-  //   return this.httpClient.post<IResponse>(this.requestUrl + '/add-product', {
-  //     ...payload,
-  //   });
-  // }
+  public addSaleStock(payload: ISaleStock): Observable<IResponse> {
+    return this.httpClient.post<IResponse>(
+      this.requestUrl + '/assign-sales-stock',
+      {
+        ...payload,
+      }
+    );
+  }
 
   public getSaleStockList(
     payload: IPagination,
@@ -23,7 +27,7 @@ export class SaleStockService {
     fromDate?: string | null,
     toDate?: string | null
   ): Observable<IResponse> {
-    return this.httpClient.post<IResponse>(this.requestUrl + '/list', {
+    return this.httpClient.post<IResponse>(this.requestUrl + '/sales/list', {
       ...payload,
       loadIdOrEmployeeOrVehicle: inputValue,
       fromDate: fromDate,

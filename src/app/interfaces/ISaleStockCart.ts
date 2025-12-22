@@ -1,12 +1,6 @@
-import { IProductData } from './IProductData';
-import { IVehicleData } from './IVehicleData';
-import { IEmployeeData } from './IEmployeeData';
-import { IRouteData } from './IRouteData';
+import { IStockData } from './IStockData';
 
 export interface ISaleStockCart {
-  product: IProductData;
-  vehicle: IVehicleData;
-  driver: IEmployeeData;
-  routes: IRouteData[];
+  stock: IStockData;
   quantity: number;
 }

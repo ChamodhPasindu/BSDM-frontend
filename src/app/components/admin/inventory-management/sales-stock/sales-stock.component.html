@@ -9,16 +9,16 @@
       <ng-template cTemplateId="widgetFooterTemplate">
         <div class="d-flex justify-content-between align-items-center w-100">
           <div class="text-secondary"> Today</div>
-    
+
           <c-dropdown alignment="end" variant="btn-group">
             <button [caret]="false" cButton cDropdownToggle color="transparent" class="p-0 text-secondary">
-              <svg cIcon name="cilOptions" ></svg>
+              <svg cIcon name="cilOptions"></svg>
             </button>
             <div cDropdownMenu>
-              <a cDropdownItem >Today</a>
-              <a cDropdownItem >This Week</a>
-              <a cDropdownItem >This Month</a>
-              <a cDropdownItem >This Year</a>
+              <a cDropdownItem>Today</a>
+              <a cDropdownItem>This Week</a>
+              <a cDropdownItem>This Month</a>
+              <a cDropdownItem>This Year</a>
             </div>
           </c-dropdown>
         </div>
@@ -34,16 +34,16 @@
       <ng-template cTemplateId="widgetFooterTemplate">
         <div class="d-flex justify-content-between align-items-center w-100">
           <div class="text-secondary"> Today</div>
-    
+
           <c-dropdown alignment="end" variant="btn-group">
             <button [caret]="false" cButton cDropdownToggle color="transparent" class="p-0 text-secondary">
-              <svg cIcon name="cilOptions" ></svg>
+              <svg cIcon name="cilOptions"></svg>
             </button>
             <div cDropdownMenu>
-              <a cDropdownItem >Today</a>
-              <a cDropdownItem >This Week</a>
-              <a cDropdownItem >This Month</a>
-              <a cDropdownItem >This Year</a>
+              <a cDropdownItem>Today</a>
+              <a cDropdownItem>This Week</a>
+              <a cDropdownItem>This Month</a>
+              <a cDropdownItem>This Year</a>
             </div>
           </c-dropdown>
         </div>
@@ -59,16 +59,16 @@
       <ng-template cTemplateId="widgetFooterTemplate">
         <div class="d-flex justify-content-between align-items-center w-100">
           <div class="text-secondary"> Today</div>
-    
+
           <c-dropdown alignment="end" variant="btn-group">
             <button [caret]="false" cButton cDropdownToggle color="transparent" class="p-0 text-secondary">
-              <svg cIcon name="cilOptions" ></svg>
+              <svg cIcon name="cilOptions"></svg>
             </button>
             <div cDropdownMenu>
-              <a cDropdownItem >Today</a>
-              <a cDropdownItem >This Week</a>
-              <a cDropdownItem >This Month</a>
-              <a cDropdownItem >This Year</a>
+              <a cDropdownItem>Today</a>
+              <a cDropdownItem>This Week</a>
+              <a cDropdownItem>This Month</a>
+              <a cDropdownItem>This Year</a>
             </div>
           </c-dropdown>
         </div>
@@ -84,16 +84,16 @@
       <ng-template cTemplateId="widgetFooterTemplate">
         <div class="d-flex justify-content-between align-items-center w-100">
           <div class="text-secondary"> Today</div>
-    
+
           <c-dropdown alignment="end" variant="btn-group">
             <button [caret]="false" cButton cDropdownToggle color="transparent" class="p-0 text-secondary">
-              <svg cIcon name="cilOptions" ></svg>
+              <svg cIcon name="cilOptions"></svg>
             </button>
             <div cDropdownMenu>
-              <a cDropdownItem >Today</a>
-              <a cDropdownItem >This Week</a>
-              <a cDropdownItem >This Month</a>
-              <a cDropdownItem >This Year</a>
+              <a cDropdownItem>Today</a>
+              <a cDropdownItem>This Week</a>
+              <a cDropdownItem>This Month</a>
+              <a cDropdownItem>This Year</a>
             </div>
           </c-dropdown>
         </div>
@@ -158,13 +158,13 @@
       <thead cTableColor="light">
         <tr>
           <th class="text-center">
-            Product ID
+            Vehicle No
           </th>
-          <th>Description</th>
-          <th class="text-center">Quantity</th>
-          <th class="text-center">Price</th>
-          <th class="text-center">Min Sale Price</th>
-          <th class="text-center">Action</th>
+          <th>Driver Name</th>
+          <th class="text-center">Routes</th>
+          <th class="text-center">Date</th>
+          <th class="text-center">Status</th>
+          <!-- <th class="text-center">Action</th> -->
         </tr>
       </thead>
       <tbody>
@@ -173,32 +173,36 @@
             No data available
           </td>
         </tr>
-        <tr *ngFor="let user of saleStockList; index as i">
+        <tr *ngFor="let saleStock of saleStockList; index as i">
           <td class="text-center">
-            P12
+            {{saleStock.vehicleNumber | empty}}
           </td>
           <td>
-            Description
+            {{saleStock.employeeFullName | empty}}
           </td>
           <td class="text-center">
-            20
+            <div class="small text-medium-emphasis text-nowrap">
+              <span *ngFor="let route of saleStock.route">
+                {{ route.description | empty}}
+              </span>
+            </div>
           </td>
           <td class="text-center">
-            LKR 10,000
+            {{saleStock.loadDate | empty}}
           </td>
           <td class="text-center">
-            <div class="fw-semibold text-nowrap">LKR 1,230</div>
+            {{saleStock.statusDescription | empty}}
           </td>
           <td class="text-center">
             <!-- View -->
-            <button cButton color="info" size="sm" variant="ghost" class="me-2" title="View">
+            <!-- <button cButton color="info" size="sm" variant="ghost" class="me-2" title="View">
               <svg cIcon name="cilCommand"></svg>
-            </button>
+            </button> -->
 
             <!-- Edit -->
-            <button cButton color="warning" size="sm" variant="ghost" class="me-2" title="Edit">
+            <!-- <button cButton color="warning" size="sm" variant="ghost" class="me-2" title="Edit">
               <svg cIcon name="cilPencil"></svg>
-            </button>
+            </button> -->
 
             <!-- Delete -->
             <!-- <button (click)="onDeleteSaleStock(1)" cButton color="danger" size="sm" variant="ghost" title="Delete">
@@ -208,13 +212,11 @@
         </tr>
       </tbody>
     </table>
-    <app-paginator *ngIf="count !== 0" [totalItems]="count" [(pageSize)]="pageSize"
-    [(currentPage)]="currentPage" (currentPageChange)="goToPage($event)"
-    (pageSizeChange)="onPageSizeChange($event)"></app-paginator>
+    <app-paginator *ngIf="count !== 0" [totalItems]="count" [(pageSize)]="pageSize" [(currentPage)]="currentPage"
+      (currentPageChange)="goToPage($event)" (pageSizeChange)="onPageSizeChange($event)"></app-paginator>
   </c-card-body>
- 
+
 </c-card>
 
 
-<app-view-sale-stock #saleStockModal></app-view-sale-stock>
-
+<app-view-sale-stock #saleStockModal (tableRefresh)="onRefresh()"></app-view-sale-stock>
