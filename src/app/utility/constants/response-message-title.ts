@@ -82,6 +82,17 @@ export const RESPONSE_MESSAGES = {
     'Sale Failed to remove Stock details. Please try again.',
   SALE_STOCK_DELETE_SUCCESS:
     'Sale Stock information has been removed successfully.',
+
+  RETURN_STOCK_ADD_EDIT_SUCCESS:
+    'Return Stock information has been saved successfully.',
+  RETURN_STOCK_ADD_EDIT_FAILED:
+    'Sale Failed to save Return Stock information. Please try again.',
+  RETURN_STOCK_GET_FAILED:
+    'Sale Failed to load Return Stock details. Please try again.',
+  RETURN_STOCK_DELETE_FAILED:
+    'Sale Failed to remove Return Stock details. Please try again.',
+  RETURN_STOCK_DELETE_SUCCESS:
+    'Return Stock information has been removed successfully.',
 };
 
 export const RESPONSE_TITLES = {

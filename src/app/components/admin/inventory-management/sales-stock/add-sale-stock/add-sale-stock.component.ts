@@ -115,7 +115,7 @@ export class AddSaleStockComponent
     this.setForm(this.saleStockForm);
   }
 
-  public loadStatusList(): void {
+  private loadStatusList(): void {
     this.generalService
       .getStatusList(CommonCode.SALESSTOCK)
       .pipe(untilDestroyed(this))

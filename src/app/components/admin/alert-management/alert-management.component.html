@@ -44,7 +44,7 @@
 
       <c-col xs="auto" class="mb-2">
         <label cLabel for="inputEmail4">Alert Type</label>
-        <ng-select [searchable]="true" [clearable]="true" placeholder="Select Type" formControlName="type">
+        <ng-select cFormControl [searchable]="true" [clearable]="true" placeholder="Select Type" formControlName="type">
           <ng-option *ngFor="let alert of alertType" [value]="alert.id"> {{ alert.name }}</ng-option>
         </ng-select>
       </c-col>

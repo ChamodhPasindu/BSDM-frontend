@@ -2,15 +2,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ViewSaleStockComponent } from './view-sale-stock/view-sale-stock.component';
 import {
   alertError,
-  alertSuccess,
-  alertWarning,
   datePickerToDate,
   errorMessageHandler,
 } from 'src/app/utility/helper';
 import { ActionButton } from 'src/app/enums/ActionButton.enum';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { ProductService } from 'src/app/services/product/product.service';
 import { IResponse } from 'src/app/interfaces/IResponse';
 import {
   RESPONSE_MESSAGES,
@@ -18,7 +15,6 @@ import {
 } from 'src/app/utility/constants/response-message-title';
 import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
 import { HttpErrorResponse } from '@angular/common/http';
-import { SweetAlertResult } from 'sweetalert2';
 import { IPagination } from 'src/app/interfaces/IPagination';
 import { SaleStockService } from 'src/app/services/sale-stock/sale-stock.service';
 import { ISaleStockData } from 'src/app/interfaces/ISaleStockData';
@@ -133,10 +129,10 @@ export class SalesStockComponent implements OnInit {
     this.addSaleStockModal.visible = true;
   }
 
-  protected openSaleStockView(action: ActionButton, product: any): void {
+  protected openSaleStockView(action: ActionButton, saleStock: ISaleStockData): void {
     this.viewSaleStockModal.loadData();
     this.viewSaleStockModal.action = action;
-    this.viewSaleStockModal.saleStock = product;
+    this.viewSaleStockModal.saleStock = saleStock;
     this.viewSaleStockModal.visible = true;
   }
 

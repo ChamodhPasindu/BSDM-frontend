@@ -21,7 +21,7 @@
         <c-col>
           <label cLabel for="status">Status</label>
           <select cFormControl id="status" class="form-select" formControlName="status" appValidate fieldName="Status">
-            <option value=null>Select Role</option>
+            <option value=null>Select Status</option>
             <option *ngFor="let status of statusList" [value]="status['code']">{{ status['description'] }}</option>
           </select>
         </c-col>
@@ -30,15 +30,15 @@
       <c-row class="mb-3">
         <c-col>
           <label cLabel for="driverSelect">Select Driver</label>
-          <ng-select name="driver" [items]="driverList" bindLabel="name" bindValue="userId" [searchable]="true"
-            [clearable]="true" placeholder="Select a driver" formControlName="employeeId" appValidate fieldName="Driver"
-            (change)="onDriverChange($event)">
+          <ng-select cFormControl name="driver" [items]="driverList" bindLabel="name" bindValue="userId"
+            [searchable]="true" [clearable]="true" placeholder="Select a driver" formControlName="employeeId"
+            appValidate fieldName="Driver" (change)="onDriverChange($event)">
           </ng-select>
         </c-col>
 
         <c-col>
           <label cLabel for="vehicleSelect">Select Vehicle</label>
-          <ng-select name="vehicle" [items]="vehicleList" bindLabel="vehicleNumber" bindValue="vehicleId"
+          <ng-select cFormControl name="vehicle" [items]="vehicleList" bindLabel="vehicleNumber" bindValue="vehicleId"
             [searchable]="true" [clearable]="true" placeholder="Select a vehicle" formControlName="vehicleId"
             appValidate fieldName="Vehicle" (change)="onVehicleChange($event)">
           </ng-select>

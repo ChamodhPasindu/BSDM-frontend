@@ -38,6 +38,8 @@ import { StockService } from 'src/app/services/stock/stock.service';
 import { AddStockComponent } from './stock/add-stock/add-stock.component';
 import { SaleStockService } from 'src/app/services/sale-stock/sale-stock.service';
 import { AddSaleStockComponent } from './sales-stock/add-sale-stock/add-sale-stock.component';
+import { StockReturnService } from 'src/app/services/stock-return/stock-return.service';
+import { AddReturnStockComponent } from './return-stock/add-return-stock/add-return-stock.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +56,7 @@ import { AddSaleStockComponent } from './sales-stock/add-sale-stock/add-sale-sto
     ViewSaleStockComponent,
     AddSaleStockComponent,
     ViewReturnStockComponent,
+    AddReturnStockComponent,
   ],
   imports: [
     InventoryManagementRoutingModule,
@@ -76,6 +79,13 @@ import { AddSaleStockComponent } from './sales-stock/add-sale-stock/add-sale-sto
     BsDatepickerModule.forRoot(),
     NgMultiSelectDropDownModule.forRoot(),
   ],
-  providers: [ItemService, BatchService, ProductService, StockService,SaleStockService],
+  providers: [
+    ItemService,
+    BatchService,
+    ProductService,
+    StockService,
+    SaleStockService,
+    StockReturnService,
+  ],
 })
 export class InventoryManagementModule {}

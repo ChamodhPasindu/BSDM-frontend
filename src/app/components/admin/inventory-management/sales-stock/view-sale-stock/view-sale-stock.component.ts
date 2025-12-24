@@ -14,6 +14,7 @@ import { IResponse } from 'src/app/interfaces/IResponse';
 import { IRouteData } from 'src/app/interfaces/IRouteData';
 import { ISaleStock } from 'src/app/interfaces/ISaleStock';
 import { ISaleStockCart } from 'src/app/interfaces/ISaleStockCart';
+import { ISaleStockData } from 'src/app/interfaces/ISaleStockData';
 import { IStockData } from 'src/app/interfaces/IStockData';
 import { IVehicleData } from 'src/app/interfaces/IVehicleData';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
@@ -64,7 +65,7 @@ export class ViewSaleStockComponent
     },
   ];
 
-  private _saleStock: any | undefined;
+  private _saleStock: ISaleStockData | undefined;
   private _action: ActionButton;
 
   protected vehicleList: IVehicleData[];
@@ -101,7 +102,6 @@ export class ViewSaleStockComponent
   @Input()
   public set action(value: ActionButton) {
     this._action = value;
-    this.updateForm();
   }
 
   public get action() {
