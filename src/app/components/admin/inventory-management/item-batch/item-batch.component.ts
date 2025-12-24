@@ -1,6 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ViewItemComponent } from './view-item/view-item.component';
-import { ViewBatchComponent } from './view-batch/view-batch.component';
 import {
   alertError,
   alertSuccess,
@@ -24,6 +22,8 @@ import { IItemData } from 'src/app/interfaces/IItemData';
 import { IBatchData } from 'src/app/interfaces/IBatchData';
 import { ActionButton } from 'src/app/enums/ActionButton.enum';
 import { SweetAlertResult } from 'sweetalert2';
+import { AddEditViewItemComponent } from './add-edit-view-item/add-edit-view-item.component';
+import { AddEditViewBatchComponent } from './add-edit-view-batch/add-edit-view-batch.component';
 
 @UntilDestroy()
 @Component({
@@ -32,8 +32,9 @@ import { SweetAlertResult } from 'sweetalert2';
   styleUrls: ['./item-batch.component.scss'],
 })
 export class ItemBatchComponent implements OnInit {
-  @ViewChild('itemModal') protected itemModal!: ViewItemComponent;
-  @ViewChild('batchModal') protected batchModal!: ViewBatchComponent;
+  @ViewChild('addEditViewItemModal')
+  protected addEditViewItemModal!: AddEditViewItemComponent;
+  @ViewChild('addEditViewBatchModal') protected addEditViewBatchModal!: AddEditViewBatchComponent;
 
   protected readonly ActionButton = ActionButton;
 
@@ -230,16 +231,16 @@ export class ItemBatchComponent implements OnInit {
   }
 
   protected openItemView(action: ActionButton, item?: IItemData) {
-    this.itemModal.action = action;
-    this.itemModal.item = item;
-    this.itemModal.visible = true;
+    this.addEditViewItemModal.action = action;
+    this.addEditViewItemModal.item = item;
+    this.addEditViewItemModal.visible = true;
   }
 
   protected openBatchView(action: ActionButton, batch?: IBatchData) {
-    this.batchModal.loadData();
-    this.batchModal.action = action;
-    this.batchModal.batch = batch;
-    this.batchModal.visible = true;
+    this.addEditViewBatchModal.loadData();
+    this.addEditViewBatchModal.action = action;
+    this.addEditViewBatchModal.batch = batch;
+    this.addEditViewBatchModal.visible = true;
   }
 
   protected onDeleteItem(id: number) {

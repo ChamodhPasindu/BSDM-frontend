@@ -33,7 +33,7 @@
         <h4 class="card-title mb-4" id="employee-list">Employee List</h4>
       </c-col>
       <c-col xs="auto">
-        <button cButton type="button" (click)="openEmployeeView(ActionButton.ADD)">+ Add Employee</button>
+        <button cButton type="button" (click)="openAddEditViewEmployeeModal(ActionButton.ADD)">+ Add Employee</button>
       </c-col>
     </c-row>
     <form cRow class="align-items-end mb-4" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
@@ -128,13 +128,13 @@
           <td class="text-center">
             <!-- View -->
             <button cButton color="info" size="sm" variant="ghost" class="me-2" title="View"
-              (click)="openEmployeeView(ActionButton.VIEW,employee)">
+              (click)="openAddEditViewEmployeeModal(ActionButton.VIEW,employee)">
               <svg cIcon name="cilCommand"></svg>
             </button>
 
             <!-- Edit -->
             <button cButton color="warning" size="sm" variant="ghost" class="me-2" title="Edit"
-              (click)="openEmployeeView(ActionButton.EDIT,employee)">
+              (click)="openAddEditViewEmployeeModal(ActionButton.EDIT,employee)">
               <svg cIcon name="cilPencil"></svg>
             </button>
 
@@ -156,4 +156,4 @@
 </c-card>
 
 
-<app-employee-view (tableRefresh)="onRefresh()" #employeeModal></app-employee-view>
+<app-add-edit-view-employee (tableRefresh)="onRefresh()" #addEditViewEmployeeModal></app-add-edit-view-employee>

@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ViewProductComponent } from './view-product/view-product.component';
 import {
   alertError,
   alertSuccess,
@@ -21,6 +20,7 @@ import {
 import { HttpErrorResponse } from '@angular/common/http';
 import { SweetAlertResult } from 'sweetalert2';
 import { IProductData } from 'src/app/interfaces/IProductData';
+import { AddViewProductComponent } from './add-view-product/add-view-product.component';
 
 @UntilDestroy()
 @Component({
@@ -29,7 +29,8 @@ import { IProductData } from 'src/app/interfaces/IProductData';
   styleUrls: ['./product.component.scss'],
 })
 export class ProductComponent implements OnInit {
-  @ViewChild('productModal') protected productModal!: ViewProductComponent;
+  @ViewChild('addViewProductModal')
+  protected addViewProductModal!: AddViewProductComponent;
 
   protected readonly ActionButton = ActionButton;
   protected productList: IProductData[];
@@ -123,11 +124,14 @@ export class ProductComponent implements OnInit {
     this.loadProductTableData();
   }
 
-  protected openProductView(action: ActionButton, product?: IProductData): void {
-    this.productModal.loadData();
-    this.productModal.action = action;
-    this.productModal.product = product;
-    this.productModal.visible = true;
+  protected openProductView(
+    action: ActionButton,
+    product?: IProductData
+  ): void {
+    this.addViewProductModal.loadData();
+    this.addViewProductModal.action = action;
+    this.addViewProductModal.product = product;
+    this.addViewProductModal.visible = true;
   }
 
   protected onClear(): void {
@@ -166,7 +170,8 @@ export class ProductComponent implements OnInit {
                   alertError({
                     title: RESPONSE_TITLES.FAILED,
                     text:
-                      res.body.message || RESPONSE_MESSAGES.PRODUCT_DELETE_FAILED,
+                      res.body.message ||
+                      RESPONSE_MESSAGES.PRODUCT_DELETE_FAILED,
                   });
                 }
               },

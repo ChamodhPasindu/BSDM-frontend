@@ -30,20 +30,19 @@ import {
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { ChartjsModule } from '@coreui/angular-chartjs';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import { EmployeeViewComponent } from './employee-management/employee-view/employee-view.component';
-import { ViewVehicleComponent } from './vehicle-management/view-vehicle/view-vehicle.component';
-import { CustomerViewComponent } from './customer-routes/customer-view/customer-view.component';
-import { RouteViewComponent } from './customer-routes/route-view/route-view.component';
 import { ViewAuditComponent } from './audit-trail/view-audit/view-audit.component';
 import { AlertViewComponent } from './alert-management/alert-view/alert-view.component';
 import { ViewPaymentComponent } from './payments/view-payment/view-payment.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SettingsComponent } from './settings/settings.component';
-import { AuthService } from 'src/app/services/auth/auth.service';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { RouteService } from 'src/app/services/route/route.service';
 import { VehicleService } from 'src/app/services/vehicle/vehicle.service';
 import { CustomerService } from 'src/app/services/customer/customer.service';
+import { AddEditViewEmployeeComponent } from './employee-management/add-edit-view-employee/add-edit-view-employee.component';
+import { AddEditViewVehicleComponent } from './vehicle-management/add-edit-view-vehicle/add-edit-view-vehicle.component';
+import { AddEditViewCustomerComponent } from './customer-routes/add-edit-view-customer/add-edit-view-customer.component';
+import { AddEditViewRouteComponent } from './customer-routes/add-edit-view-route/add-edit-view-route.component';
 
 @NgModule({
   declarations: [
@@ -51,16 +50,16 @@ import { CustomerService } from 'src/app/services/customer/customer.service';
     LayoutComponent,
     DashboardComponent,
     CustomerRoutesComponent,
+    AddEditViewCustomerComponent,
+    AddEditViewRouteComponent,
     AlertManagementComponent,
     EmployeeManagementComponent,
+    AddEditViewEmployeeComponent,
     VehicleManagementComponent,
+    AddEditViewVehicleComponent,
     AuditTrailComponent,
     PaymentsComponent,
     SalesDeliveryTrackingComponent,
-    EmployeeViewComponent,
-    ViewVehicleComponent,
-    CustomerViewComponent,
-    RouteViewComponent,
     ViewAuditComponent,
     AlertViewComponent,
     ViewPaymentComponent,
@@ -87,6 +86,6 @@ import { CustomerService } from 'src/app/services/customer/customer.service';
     BsDatepickerModule.forRoot(),
     NgSelectModule,
   ],
-  providers: [EmployeeService,RouteService,VehicleService,CustomerService],
+  providers: [EmployeeService, RouteService, VehicleService, CustomerService],
 })
 export class AdminModule {}

@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ViewStockComponent } from './view-stock/view-stock.component';
 import {
   alertError,
   datePickerToDate,
@@ -19,6 +18,7 @@ import {
 import { HttpErrorResponse } from '@angular/common/http';
 import { IStockData } from 'src/app/interfaces/IStockData';
 import { AddStockComponent } from './add-stock/add-stock.component';
+import { EditViewStockComponent } from './edit-view-stock/edit-view-stock.component';
 
 @UntilDestroy()
 @Component({
@@ -27,7 +27,7 @@ import { AddStockComponent } from './add-stock/add-stock.component';
   styleUrls: ['./stock.component.scss'],
 })
 export class StockComponent implements OnInit {
-  @ViewChild('viewStockModal') protected viewStockModal!: ViewStockComponent;
+  @ViewChild('editViewStockModal') protected editViewStockModal!: EditViewStockComponent;
   @ViewChild('addStockModal') protected addStockModal!: AddStockComponent;
 
   protected readonly ActionButton = ActionButton;
@@ -128,9 +128,9 @@ export class StockComponent implements OnInit {
   }
 
   protected openStockView(action: ActionButton, stock?: IStockData) {
-    this.viewStockModal.action = action;
-    this.viewStockModal.stock = stock;
-    this.viewStockModal.visible = true;
+    this.editViewStockModal.action = action;
+    this.editViewStockModal.stock = stock;
+    this.editViewStockModal.visible = true;
   }
 
   protected onClear(): void {

@@ -22,11 +22,11 @@ import {
 
 @UntilDestroy()
 @Component({
-  selector: 'app-view-item',
-  templateUrl: './view-item.component.html',
-  styleUrls: ['./view-item.component.scss'],
+  selector: 'app-add-edit-view-item',
+  templateUrl: './add-edit-view-item.component.html',
+  styleUrls: ['./add-edit-view-item.component.scss'],
 })
-export class ViewItemComponent extends ModalControlDirective {
+export class AddEditViewItemComponent extends ModalControlDirective {
   protected readonly ActionButton = ActionButton;
 
   private _item: IItemData | undefined;

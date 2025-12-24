@@ -25,11 +25,11 @@ import {
 
 @UntilDestroy()
 @Component({
-  selector: 'app-route-view',
-  templateUrl: './route-view.component.html',
-  styleUrls: ['./route-view.component.scss'],
+  selector: 'app-add-edit-view-route',
+  templateUrl: './add-edit-view-route.component.html',
+  styleUrls: ['./add-edit-view-route.component.scss'],
 })
-export class RouteViewComponent
+export class AddEditViewRouteComponent
   extends ModalControlDirective
   implements OnInit
 {
@@ -71,9 +71,7 @@ export class RouteViewComponent
     this.createForm();
   }
 
-  ngOnInit(): void {
-    
-  }
+  ngOnInit(): void {}
 
   public loadData(): void {
     this.generalService

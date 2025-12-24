@@ -20,12 +20,8 @@ import {
   AccordionItemComponent,
   AccordionModule,
 } from '@coreui/angular';
-import { ViewBatchComponent } from './item-batch/view-batch/view-batch.component';
-import { ViewItemComponent } from './item-batch/view-item/view-item.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ChartjsModule } from '@coreui/angular-chartjs';
-import { ViewProductComponent } from './product/view-product/view-product.component';
-import { ViewStockComponent } from './stock/view-stock/view-stock.component';
 import { ViewSaleStockComponent } from './sales-stock/view-sale-stock/view-sale-stock.component';
 import { ViewReturnStockComponent } from './return-stock/view-return-stock/view-return-stock.component';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -35,24 +31,28 @@ import { ItemService } from 'src/app/services/item/item.service';
 import { BatchService } from 'src/app/services/batch/batch.service';
 import { ProductService } from 'src/app/services/product/product.service';
 import { StockService } from 'src/app/services/stock/stock.service';
-import { AddStockComponent } from './stock/add-stock/add-stock.component';
 import { SaleStockService } from 'src/app/services/sale-stock/sale-stock.service';
 import { AddSaleStockComponent } from './sales-stock/add-sale-stock/add-sale-stock.component';
 import { StockReturnService } from 'src/app/services/stock-return/stock-return.service';
 import { AddReturnStockComponent } from './return-stock/add-return-stock/add-return-stock.component';
+import { AddEditViewItemComponent } from './item-batch/add-edit-view-item/add-edit-view-item.component';
+import { AddEditViewBatchComponent } from './item-batch/add-edit-view-batch/add-edit-view-batch.component';
+import { AddViewProductComponent } from './product/add-view-product/add-view-product.component';
+import { AddStockComponent } from './stock/add-stock/add-stock.component';
+import { EditViewStockComponent } from './stock/edit-view-stock/edit-view-stock.component';
 
 @NgModule({
   declarations: [
     ProductComponent,
+    AddViewProductComponent,
     SalesStockComponent,
     StockComponent,
+    AddStockComponent,
+    EditViewStockComponent,
     ReturnStockComponent,
     ItemBatchComponent,
-    ViewBatchComponent,
-    ViewItemComponent,
-    ViewProductComponent,
-    ViewStockComponent,
-    AddStockComponent,
+    AddEditViewItemComponent,
+    AddEditViewBatchComponent,
     ViewSaleStockComponent,
     AddSaleStockComponent,
     ViewReturnStockComponent,

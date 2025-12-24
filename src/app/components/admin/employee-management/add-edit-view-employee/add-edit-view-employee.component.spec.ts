@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { RouteViewComponent } from './route-view.component';
+import { AddEditViewEmployeeComponent } from './add-edit-view-employee.component';
 
-describe('RouteViewComponent', () => {
-  let component: RouteViewComponent;
-  let fixture: ComponentFixture<RouteViewComponent>;
+describe('AddEditViewEmployeeComponent', () => {
+  let component: AddEditViewEmployeeComponent;
+  let fixture: ComponentFixture<AddEditViewEmployeeComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RouteViewComponent ]
+      declarations: [ AddEditViewEmployeeComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RouteViewComponent);
+    fixture = TestBed.createComponent(AddEditViewEmployeeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

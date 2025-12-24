@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { EmployeeViewComponent } from './employee-view/employee-view.component';
 import {
   alertError,
   alertWarning,
@@ -19,6 +18,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { IPagination } from 'src/app/interfaces/IPagination';
 import { IEmployeeData } from 'src/app/interfaces/IEmployeeData';
 import { ActionButton } from 'src/app/enums/ActionButton.enum';
+import { AddEditViewEmployeeComponent } from './add-edit-view-employee/add-edit-view-employee.component';
 
 @UntilDestroy()
 @Component({
@@ -27,7 +27,7 @@ import { ActionButton } from 'src/app/enums/ActionButton.enum';
   styleUrls: ['./employee-management.component.scss'],
 })
 export class EmployeeManagementComponent implements OnInit {
-  @ViewChild('employeeModal') protected employeeModal!: EmployeeViewComponent;
+  @ViewChild('addEditViewEmployeeModal') protected addEditViewEmployeeModal!: AddEditViewEmployeeComponent;
 
   protected readonly ActionButton = ActionButton;
   protected employeeList: IEmployeeData[];
@@ -121,14 +121,14 @@ export class EmployeeManagementComponent implements OnInit {
     this.loadEmployeeTableData();
   }
 
-  protected openEmployeeView(
+  protected openAddEditViewEmployeeModal(
     action: ActionButton,
     employee?: IEmployeeData
   ): void {
-    this.employeeModal.loadData();
-    this.employeeModal.action = action;
-    this.employeeModal.employee = employee;
-    this.employeeModal.visible = true;
+    this.addEditViewEmployeeModal.loadData();
+    this.addEditViewEmployeeModal.action = action;
+    this.addEditViewEmployeeModal.employee = employee;
+    this.addEditViewEmployeeModal.visible = true;
   }
 
   protected onClear(): void {

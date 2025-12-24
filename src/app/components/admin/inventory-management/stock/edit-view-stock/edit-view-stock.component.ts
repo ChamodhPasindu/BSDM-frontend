@@ -5,7 +5,6 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ActionButton } from 'src/app/enums/ActionButton.enum';
 import { IProductData } from 'src/app/interfaces/IProductData';
 import { IResponse } from 'src/app/interfaces/IResponse';
-import { IStock } from 'src/app/interfaces/IStock';
 import { IStockData } from 'src/app/interfaces/IStockData';
 import { StockService } from 'src/app/services/stock/stock.service';
 import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
@@ -22,11 +21,11 @@ import {
 
 @UntilDestroy()
 @Component({
-  selector: 'app-view-stock',
-  templateUrl: './view-stock.component.html',
-  styleUrls: ['./view-stock.component.scss'],
+  selector: 'app-edit-view-stock',
+  templateUrl: './edit-view-stock.component.html',
+  styleUrls: ['./edit-view-stock.component.scss'],
 })
-export class ViewStockComponent
+export class EditViewStockComponent
   extends ModalControlDirective
   implements OnInit
 {

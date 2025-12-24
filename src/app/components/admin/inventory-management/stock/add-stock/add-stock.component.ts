@@ -26,7 +26,7 @@ import {
 @Component({
   selector: 'app-add-stock',
   templateUrl: './add-stock.component.html',
-  styleUrls: ['./add-stock.component.scss'],
+  styleUrls: ['./add-stock.component.scss']
 })
 export class AddStockComponent extends ModalControlDirective implements OnInit {
   protected readonly PaginationType = PaginationType;

@@ -28,11 +28,11 @@ import {
 
 @UntilDestroy()
 @Component({
-  selector: 'app-customer-view',
-  templateUrl: './customer-view.component.html',
-  styleUrls: ['./customer-view.component.scss'],
+  selector: 'app-add-edit-view-customer',
+  templateUrl: './add-edit-view-customer.component.html',
+  styleUrls: ['./add-edit-view-customer.component.css'],
 })
-export class CustomerViewComponent
+export class AddEditViewCustomerComponent
   extends ModalControlDirective
   implements OnInit
 {

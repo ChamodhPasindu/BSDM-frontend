@@ -1,6 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { CustomerViewComponent } from './customer-view/customer-view.component';
-import { RouteViewComponent } from './route-view/route-view.component';
 import {
   alertError,
   alertSuccess,
@@ -24,6 +22,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { IRouteData } from 'src/app/interfaces/IRouteData';
 import { ICustomerData } from 'src/app/interfaces/ICustomerData';
 import { SweetAlertResult } from 'sweetalert2';
+import { AddEditViewCustomerComponent } from './add-edit-view-customer/add-edit-view-customer.component';
+import { AddEditViewRouteComponent } from './add-edit-view-route/add-edit-view-route.component';
 
 @UntilDestroy()
 @Component({
@@ -32,8 +32,8 @@ import { SweetAlertResult } from 'sweetalert2';
   styleUrls: ['./customer-routes.component.scss'],
 })
 export class CustomerRoutesComponent implements OnInit {
-  @ViewChild('customerModal') protected customerModal!: CustomerViewComponent;
-  @ViewChild('routeModal') protected routeModal!: RouteViewComponent;
+  @ViewChild('addEditViewCustomerModal') protected addEditViewCustomerModal!: AddEditViewCustomerComponent;
+  @ViewChild('addEditViewRouteModal') protected addEditViewRouteModal!: AddEditViewRouteComponent;
 
   protected readonly ActionButton = ActionButton;
 
@@ -230,20 +230,20 @@ export class CustomerRoutesComponent implements OnInit {
   }
 
   protected openRouteView(action: ActionButton, route?: IRouteData): void {
-    this.routeModal.loadData();
-    this.routeModal.action = action;
-    this.routeModal.route = route;
-    this.routeModal.visible = true;
+    this.addEditViewRouteModal.loadData();
+    this.addEditViewRouteModal.action = action;
+    this.addEditViewRouteModal.route = route;
+    this.addEditViewRouteModal.visible = true;
   }
 
   protected openCustomerView(
     action: ActionButton,
     customer?: ICustomerData
   ): void {
-    this.customerModal.loadData();
-    this.customerModal.action = action;
-    this.customerModal.customer = customer;
-    this.customerModal.visible = true;
+    this.addEditViewCustomerModal.loadData();
+    this.addEditViewCustomerModal.action = action;
+    this.addEditViewCustomerModal.customer = customer;
+    this.addEditViewCustomerModal.visible = true;
   }
 
   protected onDeleteRoute(id: number): void {

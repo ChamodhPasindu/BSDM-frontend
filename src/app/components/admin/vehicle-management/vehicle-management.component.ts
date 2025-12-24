@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ViewVehicleComponent } from './view-vehicle/view-vehicle.component';
 import {
   alertError,
   alertSuccess,
@@ -22,6 +21,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { IVehicleData } from 'src/app/interfaces/IVehicleData';
 import { VehicleTypeList } from 'src/app/utility/constants/other-constant';
 import { SweetAlertResult } from 'sweetalert2';
+import { AddEditViewVehicleComponent } from './add-edit-view-vehicle/add-edit-view-vehicle.component';
 
 @UntilDestroy()
 @Component({
@@ -30,7 +30,8 @@ import { SweetAlertResult } from 'sweetalert2';
   styleUrls: ['./vehicle-management.component.scss'],
 })
 export class VehicleManagementComponent implements OnInit {
-  @ViewChild('vehicleModal') protected vehicleModal!: ViewVehicleComponent;
+  @ViewChild('addEditViewVehicleModal')
+  protected addEditViewVehicleModal!: AddEditViewVehicleComponent;
 
   protected readonly ActionButton = ActionButton;
   protected vehicleList: IVehicleData[];
@@ -124,11 +125,14 @@ export class VehicleManagementComponent implements OnInit {
     this.loadVehicleTableData();
   }
 
-  protected openVehicleView(action: ActionButton, vehicle?: IVehicleData):void {
-    this.vehicleModal.loadData();
-    this.vehicleModal.action = action;
-    this.vehicleModal.vehicle = vehicle;
-    this.vehicleModal.visible = true;
+  protected openVehicleView(
+    action: ActionButton,
+    vehicle?: IVehicleData
+  ): void {
+    this.addEditViewVehicleModal.loadData();
+    this.addEditViewVehicleModal.action = action;
+    this.addEditViewVehicleModal.vehicle = vehicle;
+    this.addEditViewVehicleModal.visible = true;
   }
 
   protected onClear(): void {

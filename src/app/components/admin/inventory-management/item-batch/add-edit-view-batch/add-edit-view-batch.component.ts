@@ -11,7 +11,6 @@ import { IBatchData } from 'src/app/interfaces/IBatchData';
 import { IResponse } from 'src/app/interfaces/IResponse';
 import { BatchService } from 'src/app/services/batch/batch.service';
 import { GeneralService } from 'src/app/services/general/general.service';
-import { UserStatus } from 'src/app/utility/constants/other-constant';
 import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
 import {
   RESPONSE_MESSAGES,
@@ -29,11 +28,11 @@ import {
 
 @UntilDestroy()
 @Component({
-  selector: 'app-view-batch',
-  templateUrl: './view-batch.component.html',
-  styleUrls: ['./view-batch.component.scss'],
+  selector: 'app-add-edit-view-batch',
+  templateUrl: './add-edit-view-batch.component.html',
+  styleUrls: ['./add-edit-view-batch.component.scss'],
 })
-export class ViewBatchComponent
+export class AddEditViewBatchComponent
   extends ModalControlDirective
   implements OnInit
 {

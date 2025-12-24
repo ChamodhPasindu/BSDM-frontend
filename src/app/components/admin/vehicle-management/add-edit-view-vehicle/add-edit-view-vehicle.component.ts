@@ -9,9 +9,7 @@ import { IVehicle } from 'src/app/interfaces/IVehicle';
 import { IVehicleData } from 'src/app/interfaces/IVehicleData';
 import { GeneralService } from 'src/app/services/general/general.service';
 import { VehicleService } from 'src/app/services/vehicle/vehicle.service';
-import {
-  VehicleTypeList,
-} from 'src/app/utility/constants/other-constant';
+import { VehicleTypeList } from 'src/app/utility/constants/other-constant';
 import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
 import {
   RESPONSE_MESSAGES,
@@ -27,11 +25,11 @@ import {
 
 @UntilDestroy()
 @Component({
-  selector: 'app-view-vehicle',
-  templateUrl: './view-vehicle.component.html',
-  styleUrls: ['./view-vehicle.component.scss'],
+  selector: 'app-add-edit-view-vehicle',
+  templateUrl: './add-edit-view-vehicle.component.html',
+  styleUrls: ['./add-edit-view-vehicle.component.scss'],
 })
-export class ViewVehicleComponent
+export class AddEditViewVehicleComponent
   extends ModalControlDirective
   implements OnInit
 {
@@ -73,10 +71,9 @@ export class ViewVehicleComponent
     this.createForm();
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  public loadData():void {
+  public loadData(): void {
     this.generalService
       .getStatusList(CommonCode.VEHICLE)
       .pipe(untilDestroyed(this))
