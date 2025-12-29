@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ActionButton } from 'src/app/enums/ActionButton.enum';
@@ -31,7 +31,6 @@ import {
   styleUrls: ['./add-view-product.component.scss'],
 })
 export class AddViewProductComponent extends ModalControlDirective
-implements OnInit
 {
 protected readonly ActionButton = ActionButton;
 
@@ -75,8 +74,6 @@ constructor(
   super();
   this.createForm();
 }
-
-ngOnInit() {}
 
 protected override resetState(): void {}
 

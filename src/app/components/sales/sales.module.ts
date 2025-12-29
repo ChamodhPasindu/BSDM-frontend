@@ -34,6 +34,9 @@ import { RouteComponent } from './route/route.component';
 import { NotificationComponent } from './notification/notification.component';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
+import { ProductService } from 'src/app/services/product/product.service';
+import { RouteService } from 'src/app/services/route/route.service';
+import { CustomerService } from 'src/app/services/customer/customer.service';
 
 @NgModule({
   declarations: [
@@ -70,6 +73,12 @@ import { EmployeeService } from 'src/app/services/employee/employee.service';
     CollapseModule,
     AccordionModule,
   ],
-  providers: [AuthService,EmployeeService],
+  providers: [
+    AuthService,
+    EmployeeService,
+    ProductService,
+    RouteService,
+    CustomerService,
+  ],
 })
 export class SalesModule {}

@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -32,7 +32,7 @@ import { environment } from 'src/environment/environment';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent{
   protected readonly version = environment.version;
 
   protected loginForm: FormGroup;
@@ -46,8 +46,6 @@ export class LoginComponent implements OnInit {
   ) {
     this.createForm();
   }
-
-  ngOnInit(): void {}
 
   protected createForm(): void {
     this.loginForm = this.fb.group({

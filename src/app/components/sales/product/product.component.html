@@ -9,24 +9,30 @@
     </button>
   </div>
 
-  <div class="col" *ngFor="let product of products">
-    <c-card class="shadow-sm" [color]="product.quantity <= 5 ? 'danger' : 'light'"
-      [textColor]="product.quantity <= 5 ? 'white' : 'dark'">
+  <div class="col" *ngFor="let product of productList">
+    <c-card class="shadow-sm" [color]="product.availableQuantity <= 5 ? 'danger' : 'light'"
+      [textColor]="product.availableQuantity <= 5 ? 'white' : 'dark'">
       <c-card-body class="p-3">
         <div class="d-flex justify-content-between align-items-start">
-          <h5 class="fw-semibold mb-0">{{ product.name }}</h5>
-          <h1><c-badge [ngClass]="product.quantity <= 5 ? 'bg-warning text-dark' : 'bg-success'">&times;
-              {{ product.quantity }}</c-badge></h1>
+          <h5 class="fw-semibold mb-0">{{ product.productName }}</h5>
+          <h1><c-badge [ngClass]="product.availableQuantity <= 5 ? 'bg-warning text-dark' : 'bg-success'">&times;
+              {{ product.availableQuantity }}</c-badge></h1>
         </div>
 
-        <p class="small mb-2" [ngClass]="product.quantity <= 5 ? 'text-light opacity-75' : 'text-muted'">
+        <p class="small mb-2" [ngClass]="product.availableQuantity <= 5 ? 'text-light opacity-75' : 'text-muted'">
           {{ product.description }}
+        </p>
+        <p class="small mb-2" [ngClass]="product.availableQuantity <= 5 ? 'text-light opacity-75' : 'text-muted'">
+          M.Date - {{ product.manufactureDate }}
+        </p>
+        <p class="small mb-2" [ngClass]="product.availableQuantity <= 5 ? 'text-light opacity-75' : 'text-muted'">
+          EX.Date - {{ product.expiryDate }}
         </p>
 
         <div class="d-flex justify-content-between align-items-center">
           <div>
             <small class="d-block">Min Price</small>
-            <span class="fw-semibold text-secondary">LKR {{ product.minPrice | number }}</span>
+            <span class="fw-semibold text-secondary">LKR {{ product.minSalesPrice | number }}</span>
           </div>
           <div class="text-end">
             <small class="d-block">Price</small>
@@ -40,4 +46,4 @@
   </div>
 </div>
 
-<app-sales-empty-data name="Products"></app-sales-empty-data>
+<app-sales-empty-data name="Products" *ngIf="!productList.length"></app-sales-empty-data>

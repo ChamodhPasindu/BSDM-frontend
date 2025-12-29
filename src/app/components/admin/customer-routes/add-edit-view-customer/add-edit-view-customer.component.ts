@@ -77,7 +77,7 @@ export class AddEditViewCustomerComponent
     this.createForm();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadStatusList();
   }
 

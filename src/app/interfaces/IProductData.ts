@@ -2,7 +2,7 @@ export interface IProductData {
   productId: number;
   productName: string;
   nameId: number;
-  quantity:number;
+  quantity: number;
   minQuantity: number;
   currentQuantity: number;
   saleQuantity: number;
@@ -22,4 +22,9 @@ export interface IProductData {
   createdByUserName: string;
   createdByFullName: string;
   status: string;
+
+  // salesman specific
+  totalQuantity: number;
+  soldQuantity: number;
+  availableQuantity: number;
 }

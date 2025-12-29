@@ -8,7 +8,8 @@ import { SECURE, getEndpoint } from 'src/app/utility/common/end-point';
 
 @Injectable()
 export class CustomerService {
-  private requestUrl = `${getEndpoint(SECURE)}/customer`;
+  private adminRequestUrl = `${getEndpoint(SECURE)}/customer`;
+  private salesRequestUrl = `${getEndpoint(SECURE)}/sales-man`;
 
   constructor(private readonly httpClient: HttpClient) {}
 
@@ -16,7 +17,7 @@ export class CustomerService {
     routeId: number,
     payload: ICustomer[]
   ): Observable<IResponse> {
-    return this.httpClient.post<IResponse>(this.requestUrl + '/add', {
+    return this.httpClient.post<IResponse>(this.adminRequestUrl + '/add', {
       routeId: routeId,
       customerDetails: payload,
     });
@@ -26,7 +27,7 @@ export class CustomerService {
     routeId: number,
     payload: ICustomer[]
   ): Observable<IResponse> {
-    return this.httpClient.put<IResponse>(this.requestUrl + '/edit', {
+    return this.httpClient.put<IResponse>(this.adminRequestUrl + '/edit', {
       routeId: routeId,
       customerDetails: payload,
     });
@@ -36,7 +37,7 @@ export class CustomerService {
     routeId: number,
     payload: Partial<ICustomer>[]
   ): Observable<IResponse> {
-    return this.httpClient.delete<IResponse>(this.requestUrl + '/delete', {
+    return this.httpClient.delete<IResponse>(this.adminRequestUrl + '/delete', {
       body: {
         routeId: routeId,
         customerDetails: payload,
@@ -50,11 +51,21 @@ export class CustomerService {
     fromDate: string | null,
     toDate: string | null
   ): Observable<IResponse> {
-    return this.httpClient.post<IResponse>(this.requestUrl + '/list', {
+    return this.httpClient.post<IResponse>(this.adminRequestUrl + '/list', {
       ...payload,
       customerNameOrRouteNameOrShopName: inputValue,
       fromDate: fromDate,
       toDate: toDate,
     });
+  }
+
+  // Salesman API
+
+  public getSalesmanCustomerListByRouteId(id: number): Observable<IResponse> {
+    return this.httpClient.post<IResponse>(
+      this.salesRequestUrl + '/customer-list',
+      { pageable: false },
+      { params: { id: id } }
+    );
   }
 }

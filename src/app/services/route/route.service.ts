@@ -8,24 +8,25 @@ import { SECURE, getEndpoint } from 'src/app/utility/common/end-point';
 
 @Injectable()
 export class RouteService {
-  private requestUrl = `${getEndpoint(SECURE)}/route`;
+  private adminRequestUrl = `${getEndpoint(SECURE)}/route`;
+  private salesRequestUrl = `${getEndpoint(SECURE)}/sales-man`;
 
   constructor(private readonly httpClient: HttpClient) {}
 
   public addRoute(payload: IRoute): Observable<IResponse> {
-    return this.httpClient.post<IResponse>(this.requestUrl + '/add', {
+    return this.httpClient.post<IResponse>(this.adminRequestUrl + '/add', {
       ...payload,
     });
   }
 
   public updateRoute(payload: IRoute): Observable<IResponse> {
-    return this.httpClient.put<IResponse>(this.requestUrl + '/edit', {
+    return this.httpClient.put<IResponse>(this.adminRequestUrl + '/edit', {
       ...payload,
     });
   }
 
   public deleteRoute(routeId: number): Observable<IResponse> {
-    return this.httpClient.delete<IResponse>(this.requestUrl + '/delete', {
+    return this.httpClient.delete<IResponse>(this.adminRequestUrl + '/delete', {
       body: {
         routeId: routeId,
       },
@@ -38,11 +39,17 @@ export class RouteService {
     fromDate?: string | null,
     toDate?: string | null
   ): Observable<IResponse> {
-    return this.httpClient.post<IResponse>(this.requestUrl + '/list', {
+    return this.httpClient.post<IResponse>(this.adminRequestUrl + '/list', {
       ...payload,
       routeName: inputValue,
       fromDate: fromDate,
       toDate: toDate,
     });
+  }
+
+  // Salesman API
+
+  public getSalesmanRouteList(): Observable<IResponse> {
+    return this.httpClient.get<IResponse>(this.salesRequestUrl + '/route-list');
   }
 }

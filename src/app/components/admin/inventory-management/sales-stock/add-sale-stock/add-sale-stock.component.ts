@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as moment from 'moment';
@@ -41,7 +41,6 @@ import {
 })
 export class AddSaleStockComponent
   extends ModalControlDirective
-  implements OnInit
 {
   protected readonly ActionButton = ActionButton;
   protected readonly PaginationType = PaginationType;
@@ -89,8 +88,6 @@ export class AddSaleStockComponent
     super();
     this.createForm();
   }
-
-  ngOnInit() {}
 
   protected override resetState(): void {
     this.selectedStock = null;

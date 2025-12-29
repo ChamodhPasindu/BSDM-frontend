@@ -8,19 +8,23 @@ import { SECURE, getEndpoint } from 'src/app/utility/common/end-point';
 
 @Injectable()
 export class ProductService {
-  private requestUrl = `${getEndpoint(SECURE)}/product`;
+  private adminRequestUrl = `${getEndpoint(SECURE)}/product`;
+  private salesRequestUrl = `${getEndpoint(SECURE)}/sales-man/product`;
 
   constructor(private readonly httpClient: HttpClient) {}
 
   public addProduct(payload: IProduct): Observable<IResponse> {
-    return this.httpClient.post<IResponse>(this.requestUrl + '/add-product', {
-      ...payload,
-    });
+    return this.httpClient.post<IResponse>(
+      this.adminRequestUrl + '/add-product',
+      {
+        ...payload,
+      }
+    );
   }
 
   public updateProduct(payload: IProduct): Observable<IResponse> {
     return this.httpClient.put<IResponse>(
-      this.requestUrl + '/edit-product',
+      this.adminRequestUrl + '/edit-product',
       {
         ...payload,
       }
@@ -29,7 +33,7 @@ export class ProductService {
 
   public deleteProduct(productId: number): Observable<IResponse> {
     return this.httpClient.delete<IResponse>(
-      this.requestUrl + '/delete-product',
+      this.adminRequestUrl + '/delete-product',
       {
         body: {
           productId: productId,
@@ -44,11 +48,17 @@ export class ProductService {
     fromDate?: string | null,
     toDate?: string | null
   ): Observable<IResponse> {
-    return this.httpClient.post<IResponse>(this.requestUrl + '/list', {
+    return this.httpClient.post<IResponse>(this.adminRequestUrl + '/list', {
       ...payload,
       productNameOrBatchCodeOrDescription: inputValue,
       fromDate: fromDate,
       toDate: toDate,
     });
+  }
+
+  // Salesman API
+
+  public getSalesmanProductList(): Observable<IResponse> {
+    return this.httpClient.get<IResponse>(this.salesRequestUrl + '/list');
   }
 }
