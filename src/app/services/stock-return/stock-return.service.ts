@@ -38,6 +38,14 @@ export class StockReturnService {
     );
   }
 
+  public getReturnStockDetailsById(id: number): Observable<IResponse> {
+    return this.httpClient.post<IResponse>(
+      this.requestUrl + '/stock/return/details/list',
+      {},
+      { params: { code: id } }
+    );
+  }
+
   public getReturnDropDownList(): Observable<IResponse> {
     return this.httpClient.get<IResponse>(
       this.requestUrl + '/return/drop-down',

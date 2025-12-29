@@ -6,7 +6,95 @@
   </c-modal-header>
 
   <c-modal-body>
+    <c-row class="g-3">
+      <h6>Driver,Vehicle & Route Information</h6>
 
+      <c-col>
+        <div class="table-responsive">
+          <table class="table table-sm table-bordered align-middle bg-white">
+            <thead class="bg-light">
+              <!-- <tr>
+                  <th colspan="2" class="fw-semibold">Driver Details</th>
+                </tr> -->
+            </thead>
+            <tbody>
+              <tr>
+                <th class="bg-light">Load Date</th>
+                <td>{{ returnStock?.['loadDate'] | empty }}</td>
+              </tr>
+              <tr>
+                <th class="bg-light">Return Date</th>
+                <td>{{ returnStock?.['returnDate'] | empty }}</td>
+              </tr>
+              <tr>
+                <th class="bg-light">Status</th>
+                <td>{{ returnStock?.['statusDescription'] | empty }}</td>
+              </tr>
+              <tr>
+                <th class="bg-light">Driver Name</th>
+                <td>{{ returnStock?.['loadEmployeeFullName'] | empty }}</td>
+              </tr>
+            </tbody>
+            <thead class="bg-light">
+              <!-- <tr>
+                  <th colspan="2" class="fw-semibold">Vehicle Details</th>
+                </tr> -->
+            </thead>
+            <tbody>
+              <tr>
+                <th class="bg-light">Vehicle No</th>
+                <td>{{ returnStock?.['vehicleNumber'] | empty }}</td>
+              </tr>
+            </tbody>
+            <thead class="bg-light">
+              <tr>
+                <th colspan="2" class="fw-semibold">Route Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let route of returnStock?.route">
+                <th class="bg-light">Route Name</th>
+                <td>{{ route['description'] | empty }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </c-col>
+
+      <h6>Product Information</h6>
+
+      <c-col class="mt-4">
+        <div *ngIf="selectedSaleStockDetailsList.length > 0; else emptyList">
+          <c-accordion>
+            <c-accordion-item *ngFor="let product of selectedSaleStockDetailsList;let i = index">
+              <ng-template cTemplateId="accordionHeader">
+                <div class="d-flex justify-content-between align-items-center w-100 me-2">
+                  <span>{{ product['productName']| empty}} </span>
+                </div>
+              </ng-template>
+              <ng-template cTemplateId="accordionBody">
+                <div>
+                  <p><strong>Quantity Returned:</strong> {{ product['quantityReturned']| empty}}</p>
+                </div>
+              </ng-template>
+            </c-accordion-item>
+          </c-accordion>
+        </div>
+
+        <!--  Empty State -->
+        <ng-template #emptyList>
+          <c-alert color="secondary" class="text-center border-0">
+            <div class="d-flex flex-column align-items-center p-3">
+              <svg cIcon name="cilBan" size="4xl" class="mb-2 text-secondary"></svg>
+              <h6 class="fw-semibold mb-1 text-dark">No products found</h6>
+              <small class="text-muted">Please add or search for a product to get started</small>
+            </div>
+          </c-alert>
+        </ng-template>
+
+      </c-col>
+
+    </c-row>
   </c-modal-body>
 
 

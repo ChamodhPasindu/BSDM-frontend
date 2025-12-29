@@ -130,10 +130,10 @@ export class ReturnStockComponent implements OnInit {
     this.addReturnStockModal.visible = true;
   }
 
-  protected openReturnStockView(action: ActionButton, returnStock: any): void {
-    this.viewReturnStockModal.loadData();
+  protected openReturnStockView(action: ActionButton, returnStock: IReturnStockData): void {
     this.viewReturnStockModal.action = action;
     this.viewReturnStockModal.returnStock = returnStock;
+    this.viewReturnStockModal.loadData();
     this.viewReturnStockModal.visible = true;
   }
 
