@@ -1,16 +1,82 @@
 import { Component, OnInit } from '@angular/core';
 import { NgxBottomSheetService } from 'ngx-bottom-sheet';
 import { BillSummaryComponent } from '../bill-summary/bill-summary.component';
+import { SaleService } from 'src/app/services/sale/sale.service';
+import { RouteService } from 'src/app/services/route/route.service';
+import { CustomerService } from 'src/app/services/customer/customer.service';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { IResponse } from 'src/app/interfaces/IResponse';
+import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
+import { alertError, errorMessageHandler } from 'src/app/utility/helper';
+import {
+  RESPONSE_MESSAGES,
+  RESPONSE_TITLES,
+} from 'src/app/utility/constants/response-message-title';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ProductService } from 'src/app/services/product/product.service';
+import { IProductData } from 'src/app/interfaces/IProductData';
+import { ActivatedRoute, Router } from '@angular/router';
 
+@UntilDestroy()
 @Component({
   selector: 'app-select-product',
   templateUrl: './select-product.component.html',
   styleUrls: ['./select-product.component.scss'],
 })
 export class SelectProductComponent implements OnInit {
-  constructor(private bottomSheetService: NgxBottomSheetService) {}
+  protected productList: IProductData[] = [];
+  protected filteredProductList: IProductData[] = [];
 
-  ngOnInit() {}
+  protected productSearchTerm: string;
+
+  constructor(
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly bottomSheetService: NgxBottomSheetService,
+    private readonly saleService: SaleService,
+    private readonly routeService: RouteService,
+    private readonly customerService: CustomerService,
+    private readonly productService: ProductService
+  ) {}
+
+  ngOnInit() {
+    const saleInitData = this.saleService.getSaleInitData();
+    if (!saleInitData) {
+      this.router.navigate(['../select-route'], { relativeTo: this.route });
+    }
+    this.loadProductList();
+  }
+
+  private loadProductList(): void {
+    this.productService
+      .getSalesmanProductList()
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.productList = res.body.content;
+            this.filteredProductList = this.productList;
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text: res.body.message || RESPONSE_MESSAGES.PRODUCT_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
+  }
+
+  protected filterProducts(): void {
+    const term = this.productSearchTerm.toLowerCase();
+    this.filteredProductList = this.productList.filter(
+      (product) =>
+        product.productName.toLowerCase().includes(term) ||
+        product.description.toLowerCase().includes(term)
+    );
+  }
 
   products = [
     {
@@ -43,14 +109,6 @@ export class SelectProductComponent implements OnInit {
   ];
 
   filteredProducts = [...this.products];
-  productSearchTerm: string = '';
-
-  filterProducts() {
-    const term = this.productSearchTerm.toLowerCase();
-    this.filteredProducts = this.products.filter((p) =>
-      p.name.toLowerCase().includes(term)
-    );
-  }
 
   // Increase quantity
   increaseQty(product: any) {

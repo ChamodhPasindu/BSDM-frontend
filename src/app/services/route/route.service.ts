@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Optional } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ICustomizeRouteData } from 'src/app/interfaces/ICustomizeRouteData';
 import { IPagination } from 'src/app/interfaces/IPagination';
 import { IResponse } from 'src/app/interfaces/IResponse';
 import { IRoute } from 'src/app/interfaces/IRoute';
@@ -11,7 +12,17 @@ export class RouteService {
   private adminRequestUrl = `${getEndpoint(SECURE)}/route`;
   private salesRequestUrl = `${getEndpoint(SECURE)}/sales-man`;
 
+  private selectedRoute: ICustomizeRouteData | null;
+
   constructor(private readonly httpClient: HttpClient) {}
+
+  public setSelectedRoute(route: ICustomizeRouteData | null): void {
+    this.selectedRoute = route;
+  }
+
+  public getSelectedRoute(): ICustomizeRouteData | null {
+    return this.selectedRoute;
+  }
 
   public addRoute(payload: IRoute): Observable<IResponse> {
     return this.httpClient.post<IResponse>(this.adminRequestUrl + '/add', {

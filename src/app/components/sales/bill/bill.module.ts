@@ -8,6 +8,7 @@ import { SelectNewCustomerComponent } from './select-new-customer/select-new-cus
 import { SelectProductComponent } from './select-product/select-product.component';
 import { BillSummaryComponent } from './bill-summary/bill-summary.component';
 import { SharedModule } from '../../shared/shared.module';
+import { RouteService } from 'src/app/services/route/route.service';
 
 @NgModule({
   declarations: [

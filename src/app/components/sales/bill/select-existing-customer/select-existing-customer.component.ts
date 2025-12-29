@@ -1,42 +1,103 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { ICustomerData } from 'src/app/interfaces/ICustomerData';
+import { ICustomizeRouteData } from 'src/app/interfaces/ICustomizeRouteData';
+import { IResponse } from 'src/app/interfaces/IResponse';
+import { CustomerService } from 'src/app/services/customer/customer.service';
+import { RouteService } from 'src/app/services/route/route.service';
+import { SaleService } from 'src/app/services/sale/sale.service';
+import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
+import {
+  RESPONSE_MESSAGES,
+  RESPONSE_TITLES,
+} from 'src/app/utility/constants/response-message-title';
+import { alertError, errorMessageHandler } from 'src/app/utility/helper';
 
+@UntilDestroy()
 @Component({
   selector: 'app-select-existing-customer',
   templateUrl: './select-existing-customer.component.html',
   styleUrls: ['./select-existing-customer.component.scss'],
 })
 export class SelectExistingCustomerComponent implements OnInit {
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  protected selectedRoute: ICustomizeRouteData | null = null;
+  protected customerList: Partial<ICustomerData>[] = [];
+  protected filteredCustomerList: Partial<ICustomerData>[] = [];
+  protected customerSearchTerm: string;
 
-  ngOnInit() {}
+  constructor(
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly customerService: CustomerService,
+    private readonly routeService: RouteService,
+    private readonly saleService: SaleService
+  ) {}
 
-  // Step 2: Customers
-  customers = [
-    { id: 1, name: 'John Doe', shopName: 'JD Shop', address: 'Main Street' },
-    { id: 2, name: 'Jane Smith', shopName: 'Smith Mart', address: 'North Ave' },
-    {
-      id: 3,
-      name: 'Alice Brown',
-      shopName: 'Alice Store',
-      address: 'East Road',
-    },
-  ];
-  filteredCustomers = [...this.customers];
-  selectedCustomer: any = null;
-  customerSearchTerm: string = '';
+  ngOnInit(): void {
+    this.selectedRoute = this.routeService.getSelectedRoute();
+    if (!this.selectedRoute) {
+      this.router.navigate(['../select-route'], { relativeTo: this.route });
+    }
+    this.loadCustomerList();
+  }
 
-  filterCustomers() {
+  private loadCustomerList(): void {
+    this.customerService
+      .getSalesmanCustomerListByRouteId(this.selectedRoute?.routeId!)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.customerList = res.body.content;
+            this.filteredCustomerList = this.customerList;
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text: res.body.message || RESPONSE_MESSAGES.CUSTOMER_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
+  }
+
+  protected filterCustomers(): void {
     const term = this.customerSearchTerm.toLowerCase();
-    this.filteredCustomers = this.customers.filter(
-      (c) =>
-        c.name.toLowerCase().includes(term) ||
-        c.shopName.toLowerCase().includes(term) ||
-        c.address.toLowerCase().includes(term)
+    this.filteredCustomerList = this.customerList.filter(
+      (customer) =>
+        customer.customerName!.toLowerCase().includes(term) ||
+        customer.shopName!.toLowerCase().includes(term) ||
+        customer.address!.toLowerCase().includes(term)
     );
   }
 
-  navigateNext() {
-    this.router.navigate(['../select-product'], { relativeTo: this.route });
+  protected navigateNext(customer: Partial<ICustomerData>): void {
+    this.customerService.setSelectedCustomer(customer);
+
+    this.saleService
+      .saleInit(customer.customerId!, this.selectedRoute?.routeId!)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.saleService.setSaleInitData(res.body.content);
+            this.router.navigate(['../select-product'], {
+              relativeTo: this.route,
+            });
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text: res.body.message || RESPONSE_MESSAGES.COMMON_ERROR_DES,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
   }
 }

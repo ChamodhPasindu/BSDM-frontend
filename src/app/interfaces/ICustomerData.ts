@@ -4,12 +4,12 @@ export interface ICustomerData {
   routeName: string;
   customerName: string;
   phone:number;
-  shopName: number;
-  address: number;
+  shopName: string;
+  address: string;
   statusCode: number;
-  statusDescription: number;
-  addedDate: number;
+  statusDescription: string;
+  addedDate: string;
   createdByUserId: number;
-  createdByUserName: number;
-  createdByFullName: number;
+  createdByUserName: string;
+  createdByFullName: string;
 }

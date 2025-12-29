@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ICustomer } from 'src/app/interfaces/ICustomer';
+import { ICustomerData } from 'src/app/interfaces/ICustomerData';
 import { IPagination } from 'src/app/interfaces/IPagination';
 import { IResponse } from 'src/app/interfaces/IResponse';
 import { SECURE, getEndpoint } from 'src/app/utility/common/end-point';
@@ -11,7 +12,17 @@ export class CustomerService {
   private adminRequestUrl = `${getEndpoint(SECURE)}/customer`;
   private salesRequestUrl = `${getEndpoint(SECURE)}/sales-man`;
 
+  private selectedCustomer: Partial<ICustomerData> | null;
+
   constructor(private readonly httpClient: HttpClient) {}
+
+  public setSelectedCustomer(customer:  Partial<ICustomerData> | null): void {
+    this.selectedCustomer = customer;
+  }
+
+  public getSelectedCustomer():  Partial<ICustomerData> | null {
+    return this.selectedCustomer;
+  }
 
   public addCustomer(
     routeId: number,
