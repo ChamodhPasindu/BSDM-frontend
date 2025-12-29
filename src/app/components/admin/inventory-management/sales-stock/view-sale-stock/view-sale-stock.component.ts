@@ -1,39 +1,17 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import * as moment from 'moment';
 import { ActionButton } from 'src/app/enums/ActionButton.enum';
-import { CommonCode } from 'src/app/enums/CommonCode.enum';
-import { PaginationType } from 'src/app/enums/PaginationType.enum';
-import { UserRole } from 'src/app/enums/UserRole.enum';
-import { IEmployeeData } from 'src/app/interfaces/IEmployeeData';
-import { IPagination } from 'src/app/interfaces/IPagination';
-import { IProductData } from 'src/app/interfaces/IProductData';
 import { IResponse } from 'src/app/interfaces/IResponse';
-import { IRouteData } from 'src/app/interfaces/IRouteData';
-import { ISaleStock } from 'src/app/interfaces/ISaleStock';
-import { ISaleStockCart } from 'src/app/interfaces/ISaleStockCart';
 import { ISaleStockData } from 'src/app/interfaces/ISaleStockData';
-import { IStockData } from 'src/app/interfaces/IStockData';
-import { IVehicleData } from 'src/app/interfaces/IVehicleData';
-import { EmployeeService } from 'src/app/services/employee/employee.service';
-import { GeneralService } from 'src/app/services/general/general.service';
-import { RouteService } from 'src/app/services/route/route.service';
 import { SaleStockService } from 'src/app/services/sale-stock/sale-stock.service';
-import { StockService } from 'src/app/services/stock/stock.service';
-import { VehicleService } from 'src/app/services/vehicle/vehicle.service';
 import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
 import {
   RESPONSE_MESSAGES,
   RESPONSE_TITLES,
 } from 'src/app/utility/constants/response-message-title';
 import { ModalControlDirective } from 'src/app/utility/directives/modal-control.directive';
-import {
-  alertError,
-  alertSuccess,
-  errorMessageHandler,
-} from 'src/app/utility/helper';
+import { alertError, errorMessageHandler } from 'src/app/utility/helper';
 
 @UntilDestroy()
 @Component({
@@ -51,8 +29,8 @@ export class ViewSaleStockComponent
   private _action: ActionButton;
 
   protected saleStockDetails: Record<string, string> | null = null;
-  protected routeList: Record<string, string>[] =[];
-  protected productList: Record<string, string>[]=[];
+  protected routeList: Record<string, string>[] = [];
+  protected productList: Record<string, string>[] = [];
 
   @Input()
   public set saleStock(value: ISaleStockData | undefined) {

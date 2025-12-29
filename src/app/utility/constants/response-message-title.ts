@@ -85,6 +85,8 @@ export const RESPONSE_MESSAGES = {
 
   RETURN_STOCK_ADD_EDIT_SUCCESS:
     'Return Stock information has been saved successfully.',
+  RETURN_STOCK_ADD_EDIT_WARNING:
+    'Some products still have remaining quantities. Please add all remaining product quantities to the return before proceeding.',
   RETURN_STOCK_ADD_EDIT_FAILED:
     'Sale Failed to save Return Stock information. Please try again.',
   RETURN_STOCK_GET_FAILED:

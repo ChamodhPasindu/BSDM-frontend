@@ -18,6 +18,7 @@ import {
 import { HttpErrorResponse } from '@angular/common/http';
 import { ActionButton } from 'src/app/enums/ActionButton.enum';
 import { AddReturnStockComponent } from './add-return-stock/add-return-stock.component';
+import { IReturnStockData } from 'src/app/interfaces/IReturnStockData';
 
 @UntilDestroy()
 @Component({
@@ -32,7 +33,7 @@ export class ReturnStockComponent implements OnInit {
   protected addReturnStockModal!: AddReturnStockComponent;
 
   protected readonly ActionButton = ActionButton;
-  protected returnStockList: any[];
+  protected returnStockList: IReturnStockData[];
 
   protected currentPage: number = 1;
   protected pageSize: number = 5;

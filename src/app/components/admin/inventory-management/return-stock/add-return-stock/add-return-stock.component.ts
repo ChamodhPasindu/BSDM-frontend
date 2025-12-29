@@ -1,10 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { CommonCode } from 'src/app/enums/CommonCode.enum';
 import { IResponse } from 'src/app/interfaces/IResponse';
-import { GeneralService } from 'src/app/services/general/general.service';
+import { IReturnStock } from 'src/app/interfaces/IReturnStock';
 import { StockReturnService } from 'src/app/services/stock-return/stock-return.service';
 import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
 import {
@@ -12,7 +11,12 @@ import {
   RESPONSE_TITLES,
 } from 'src/app/utility/constants/response-message-title';
 import { ModalControlDirective } from 'src/app/utility/directives/modal-control.directive';
-import { alertError, errorMessageHandler } from 'src/app/utility/helper';
+import {
+  alertError,
+  alertSuccess,
+  alertWarning,
+  errorMessageHandler,
+} from 'src/app/utility/helper';
 
 @UntilDestroy()
 @Component({
@@ -24,16 +28,18 @@ export class AddReturnStockComponent
   extends ModalControlDirective
   implements OnInit
 {
-  protected saleStockList: Record<string, string | number>[];
-  protected statusList: Record<string, string | number>[];
+  protected saleStockList: Record<string, string | number>[] = [];
+  protected selectedSaleStockDetailsList: Record<string, string | number>[] =
+    [];
+  protected selectedProduct: Record<string, string | number> | null = null;
+  protected cartItems: Record<string, string>[] = [];
 
-  protected selectedSaleStock: any = null;
+  protected openedIndex: number | null = null;
 
   protected returnStockForm: FormGroup;
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly generalService: GeneralService,
     private readonly stockReturnService: StockReturnService
   ) {
     super();
@@ -42,33 +48,30 @@ export class AddReturnStockComponent
 
   ngOnInit(): void {}
 
+  public loadData(): void {
+    this.loadReturnStockList();
+  }
+
   private createForm(): void {
     this.returnStockForm = this.fb.group({
-      saleStock: [null, Validators.required],
-      status: [null, Validators.required],
+      returnQty: ['', Validators.required],
     });
     this.setForm(this.returnStockForm);
   }
 
-  public loadData(): void {
-    this.loadStatusList();
-    this.loadSaleStockList();
-  }
-
-  private loadSaleStockList(): void {}
-
-  private loadStatusList(): void {
-    this.generalService
-      .getStatusList(CommonCode.RETURN)
+  private loadReturnStockList(): void {
+    this.stockReturnService
+      .getReturnDropDownList()
       .pipe(untilDestroyed(this))
       .subscribe({
         next: (res: IResponse) => {
           if (res.body.status === RSP_SUCCESS) {
-            this.statusList = res.body.content.dropdown;
+            this.saleStockList = res.body.content;
           } else {
             alertError({
               title: RESPONSE_TITLES.FAILED,
-              text: res.body.message || RESPONSE_MESSAGES.COMMON_ERROR_DES,
+              text:
+                res.body.message || RESPONSE_MESSAGES.RETURN_STOCK_GET_FAILED,
             });
           }
         },
@@ -76,81 +79,140 @@ export class AddReturnStockComponent
       });
   }
 
-  protected onSaleStockChange(event: any): void {
-    this.selectedSaleStock = event;
-  }
-
-  assignedStocks = [
-    {
-      id: 1,
-      date: '2025-11-01',
-      driver: { id: 1, name: 'John Doe' },
-      vehicle: { id: 1, number: 'KA-4567' },
-      route: { id: 1, name: 'Colombo North' },
-      products: [
-        { id: 1, name: 'Cement Bag', category: 'Building', assignedQty: 50 },
-        { id: 2, name: 'Steel Rod', category: 'Hardware', assignedQty: 30 },
-      ],
-    },
-    {
-      id: 2,
-      date: '2025-11-02',
-      driver: { id: 2, name: 'Mark Silva' },
-      vehicle: { id: 2, number: 'BA-2345' },
-      route: { id: 2, name: 'Galle Route' },
-      products: [
-        { id: 3, name: 'Bricks', category: 'Building', assignedQty: 100 },
-      ],
-    },
-  ];
-
-  selectedAssign: any = null;
-  selectedProduct: any = null;
-  returnQuantity: number | null = null;
-
-  returnList: any[] = [];
-
-  // // Modal controls
-  // changeModalVisibility(event: boolean) {
-  //   this.visible = event;
-  // }
-
-  // closeModal() {
-  //   this.visible = false;
-  // }
-
-  onAssignChange() {
-    this.selectedProduct = null;
-    this.returnQuantity = null;
-    this.returnList = [];
-  }
-
-  selectProduct(product: any) {
-    this.selectedProduct = product;
-    this.returnQuantity = null;
-  }
-
-  addReturn() {
-    const existing = this.returnList.find(
-      (r) => r.id === this.selectedProduct.id
-    );
-    if (existing) {
-      existing.returnQty = this.returnQuantity;
-    } else {
-      this.returnList.push({
-        ...this.selectedProduct,
-        returnQty: this.returnQuantity,
+  protected onSaleStockChange(event: Record<string, string>): void {
+    this.cartItems = [];
+    this.stockReturnService
+      .getSaleStockDetailsById(event['code'])
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.selectedSaleStockDetailsList = res.body.content;
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message || RESPONSE_MESSAGES.RETURN_STOCK_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => errorMessageHandler(err),
       });
+  }
+
+  protected onSelectProduct(
+    product: Record<string, string | number>,
+    index: number
+  ): void {
+    this.openedIndex = index;
+    this.selectedProduct = product;
+
+    this.returnStockForm.get('returnQty')?.setValue('');
+    const maxQty = product['balanceQuantity'] ?? 0;
+
+    this.returnStockForm
+      .get('returnQty')
+      ?.setValidators([
+        Validators.required,
+        Validators.min(1),
+        Validators.max(Number(maxQty)),
+      ]);
+
+    this.returnStockForm.get('returnQty')?.updateValueAndValidity();
+  }
+
+  protected onAddToReturnList(): void {
+    const { returnQty } = this.returnStockForm.value;
+    if (this.selectedProduct) {
+      this.cartItems.push({
+        loadId: this.selectedProduct['loadId'] as string,
+        productId: this.selectedProduct['productId'] as string,
+        productName: this.selectedProduct['productName'] as string,
+        quantityLoaded: this.selectedProduct['quantityLoaded'] as string,
+        quantitySold: this.selectedProduct['quantitySold'] as string,
+        balanceQuantity: this.selectedProduct['balanceQuantity'] as string,
+        returnedQuantity: returnQty,
+      });
+
+      this.selectedProduct = null;
     }
-    this.selectedProduct = null;
-    this.returnQuantity = null;
+    this.openedIndex = null;
   }
 
-  removeReturn(index: number) {
-    this.returnList.splice(index, 1);
+  protected onRemoveFromCart(index: number): void {
+    this.cartItems.splice(index, 1);
   }
 
-  confirmReturn() {
-    alert('Return stock successfully recorded!');
+  protected onSubmit(): void {
+    if (this.hasUnreturnedProducts()) {
+      alertWarning({
+        title: RESPONSE_TITLES.WARNING,
+        text: RESPONSE_MESSAGES.RETURN_STOCK_ADD_EDIT_WARNING,
+        showCancelButton: false,
+        confirmButtonText: 'Okay',
+      });
+      return;
+    }
+
+    const loadId = this.cartItems[0]['loadId'];
+    const returnStockList: Record<string, number>[] = this.cartItems.map(
+      (item) => {
+        return {
+          productId: Number(item['productId']),
+          quantityReturned: Number(item['returnedQuantity']),
+        };
+      }
+    );
+
+    const payload: IReturnStock = {
+      loadId: Number(loadId),
+      returnDetailsList: returnStockList,
+    };
+
+    this.stockReturnService
+      .addReturnStock(payload)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.tableRefresh.emit();
+            this.selectedProduct = null;
+            this.cartItems = [];
+            this.returnStockForm.reset();
+
+            this.onCloseModal();
+
+            alertSuccess({
+              title: RESPONSE_TITLES.SUCCESS,
+              text:
+                res.body.message ||
+                RESPONSE_MESSAGES.RETURN_STOCK_ADD_EDIT_SUCCESS,
+            });
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message ||
+                RESPONSE_MESSAGES.RETURN_STOCK_ADD_EDIT_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
+  }
+
+  private hasUnreturnedProducts(): boolean {
+    return this.selectedSaleStockDetailsList.some((item) => {
+      const productId = Number(item['productId']);
+      const balanceQuantity = Number(item['balanceQuantity']);
+
+      const existsInCart = this.cartItems.some(
+        (cart) => Number(cart['productId']) === productId
+      );
+
+      return !existsInCart && balanceQuantity !== 0;
+    });
   }
 }

@@ -26,7 +26,7 @@ import {
 @Component({
   selector: 'app-add-stock',
   templateUrl: './add-stock.component.html',
-  styleUrls: ['./add-stock.component.scss']
+  styleUrls: ['./add-stock.component.scss'],
 })
 export class AddStockComponent extends ModalControlDirective implements OnInit {
   protected readonly PaginationType = PaginationType;
@@ -54,9 +54,7 @@ export class AddStockComponent extends ModalControlDirective implements OnInit {
     this.createForm();
   }
 
-  ngOnInit(): void {
-   
-  }
+  ngOnInit(): void {}
 
   private createForm(): void {
     this.productDetailForm = this.fb.group({
@@ -162,7 +160,10 @@ export class AddStockComponent extends ModalControlDirective implements OnInit {
         next: (res: IResponse) => {
           if (res.body.status === RSP_SUCCESS) {
             this.tableRefresh.emit();
+            this.selectedProduct = null;
+            this.cartItems = [];
             this.onCloseModal();
+            
             alertSuccess({
               title: RESPONSE_TITLES.SUCCESS,
               text:

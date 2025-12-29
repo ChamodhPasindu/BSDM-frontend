@@ -114,7 +114,7 @@
     </c-row>
     <form cRow class="align-items-end mb-4" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
       <c-col xs="auto" class="mb-2">
-        <label cLabel for="inputValue">Search Sale Stock</label>
+        <label cLabel for="inputValue">Search Return Stock</label>
         <input cFormControl id="inputValue" type="text" formControlName="inputValue" />
       </c-col>
 
@@ -158,47 +158,60 @@
       <thead cTableColor="light">
         <tr>
           <th class="text-center">
-            Product ID
+            ID
           </th>
-          <th>Description</th>
-          <th class="text-center">Quantity</th>
-          <th class="text-center">Price</th>
-          <th class="text-center">Min Sale Price</th>
+          <th>Load Date</th>
+          <th>Return Date</th>
+          <th class="text-center">Driver</th>
+          <th class="text-center">Vehicle</th>
+          <th class="text-center">Routes</th>
+          <th class="text-center">Status</th>
           <th class="text-center">Action</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngIf="!returnStockList || returnStockList.length === 0">
-          <td colspan="6" class="text-center text-muted py-3">
+          <td colspan="8" class="text-center text-muted py-3">
             No data available
           </td>
         </tr>
-        <tr *ngFor="let user of returnStockList; index as i">
+        <tr *ngFor="let returnStock of returnStockList; index as i">
           <td class="text-center">
-            P12
+            {{returnStock.returnId | empty}}
           </td>
           <td>
-            Description
+            {{returnStock.loadDate | empty}}
+          </td>
+          <td>
+            {{returnStock.returnDate | empty}}
           </td>
           <td class="text-center">
-            20
+            {{returnStock.employeeFullName | empty}}
           </td>
           <td class="text-center">
-            LKR 10,000
+            {{returnStock.vehicleNumber | empty}}
           </td>
           <td class="text-center">
-            <div class="fw-semibold text-nowrap">LKR 1,230</div>
+            <div class="small text-medium-emphasis text-nowrap">
+              <span *ngFor="let route of returnStock.route">
+                {{ route.description | empty}}
+              </span>
+            </div>
+          </td>
+          <td class="text-center">
+            {{returnStock.statusDescription | empty}}
           </td>
           <td class="text-center">
             <!-- View -->
-            <button cButton color="info" size="sm" variant="ghost" class="me-2" title="View">
+            <button cButton color="info" size="sm" variant="ghost" class="me-2" title="View"
+              (click)="openReturnStockView(ActionButton.EDIT,returnStock)">
               <svg cIcon name="cilCommand"></svg>
             </button>
 
             <!-- Edit -->
-            <button cButton color="warning" size="sm" variant="ghost" class="me-2" title="Edit">
+            <!-- <button cButton color="warning" size="sm" variant="ghost" class="me-2" title="Edit">
               <svg cIcon name="cilPencil"></svg>
-            </button>
+            </button> -->
 
             <!-- Delete -->
             <!-- <button (click)="delete()" cButton color="danger" size="sm" variant="ghost" title="Delete">

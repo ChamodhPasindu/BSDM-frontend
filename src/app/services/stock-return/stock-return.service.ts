@@ -8,13 +8,13 @@ import { SECURE, getEndpoint } from 'src/app/utility/common/end-point';
 
 @Injectable()
 export class StockReturnService {
-  private requestUrl = `${getEndpoint(SECURE)}/stock`;
+  private requestUrl = `${getEndpoint(SECURE)}`;
 
   constructor(private readonly httpClient: HttpClient) {}
 
   public addReturnStock(payload: IReturnStock): Observable<IResponse> {
     return this.httpClient.post<IResponse>(
-      this.requestUrl + '/return-sales-stock',
+      this.requestUrl + '/return/return-sales-stock',
       {
         ...payload,
       }
@@ -27,11 +27,28 @@ export class StockReturnService {
     fromDate?: string | null,
     toDate?: string | null
   ): Observable<IResponse> {
-    return this.httpClient.post<IResponse>(this.requestUrl + '/return/list', {
-      ...payload,
-      returnIdOrEmployeeOrLoadId: inputValue,
-      fromDate: fromDate,
-      toDate: toDate,
-    });
+    return this.httpClient.post<IResponse>(
+      this.requestUrl + '/stock/return/list',
+      {
+        ...payload,
+        returnIdOrEmployeeOrLoadId: inputValue,
+        fromDate: fromDate,
+        toDate: toDate,
+      }
+    );
+  }
+
+  public getReturnDropDownList(): Observable<IResponse> {
+    return this.httpClient.get<IResponse>(
+      this.requestUrl + '/return/drop-down',
+      {}
+    );
+  }
+
+  public getSaleStockDetailsById(id: string): Observable<IResponse> {
+    return this.httpClient.get<IResponse>(
+      this.requestUrl + '/return/sales-status',
+      { params: { id: id } }
+    );
   }
 }
