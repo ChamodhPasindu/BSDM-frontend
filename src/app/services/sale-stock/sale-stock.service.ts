@@ -34,4 +34,12 @@ export class SaleStockService {
       toDate: toDate,
     });
   }
+
+  public getSaleStockDetailsById(id: number): Observable<IResponse> {
+    return this.httpClient.post<IResponse>(
+      this.requestUrl + '/details/list',
+      {},
+      { params: { code: id } }
+    );
+  }
 }

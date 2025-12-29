@@ -1,114 +1,100 @@
 <c-modal id="liveDemoModal" size="lg" alignment="center" class="modal-scrollable" [visible]="visible"
   (visibleChange)="onChangeModalVisibility($event)">
-  <form cForm [formGroup]="saleStockForm" (ngSubmit)="onAddToAssignList()">
-    <c-modal-header>
-      <h5 cModalTitle> View Sale Stock</h5>
-      <button (click)="onCloseModal()" cButtonClose></button>
-    </c-modal-header>
-    <c-modal-body>
-      <c-row class="g-3">
-        <h6>Driver,Vehicle & Route Information</h6>
+  <c-modal-header>
+    <h5 cModalTitle> View Sale Stock</h5>
+    <button (click)="onCloseModal()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <c-row class="g-3">
+      <h6>Driver,Vehicle & Route Information</h6>
 
-        <c-col>
-          <div class="table-responsive">
-            <table class="table table-sm table-bordered align-middle bg-white">
-              <thead class="bg-light">
-                <tr>
+      <c-col>
+        <div class="table-responsive">
+          <table class="table table-sm table-bordered align-middle bg-white">
+            <thead class="bg-light">
+              <!-- <tr>
                   <th colspan="2" class="fw-semibold">Driver Details</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th class="bg-light">Driver Name</th>
-                  <td>{{ '-' | empty }}</td>
-                </tr>
-                <tr>
-                  <th class="bg-light">NIC</th>
-                  <td>{{ '-' | empty }}</td>
-                </tr>
-                <tr>
-                  <th class="bg-light">Email</th>
-                  <td>{{ '-' | empty }}</td>
-                </tr>
-                <tr>
-                  <th class="bg-light">Mobile</th>
-                  <td>{{ '-' | empty }}</td>
-                </tr>
-              </tbody>
-              <thead class="bg-light">
-                <tr>
+                </tr> -->
+            </thead>
+            <tbody>
+              <tr>
+                <th class="bg-light">Load Date</th>
+                <td>{{ saleStockDetails?.['loadDate'] | empty }}</td>
+              </tr>
+              <tr>
+                <th class="bg-light">Status</th>
+                <td>{{ saleStockDetails?.['statusDescription'] | empty }}</td>
+              </tr>
+              <tr>
+                <th class="bg-light">Driver Name</th>
+                <td>{{ saleStockDetails?.['employeeFullName'] | empty }}</td>
+              </tr>
+            </tbody>
+            <thead class="bg-light">
+              <!-- <tr>
                   <th colspan="2" class="fw-semibold">Vehicle Details</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th class="bg-light">Vehicle Code</th>
-                  <td>{{ '-' | empty }}</td>
-                </tr>
-                <tr>
-                  <th class="bg-light">Vehicle No</th>
-                  <td>{{ '-' | empty }}</td>
-                </tr>
-              </tbody>
-              <thead class="bg-light">
-                <tr>
-                  <th colspan="2" class="fw-semibold">Route Details</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th class="bg-light">Route Name</th>
-                  <td>{{ '-' | empty }}</td>
-                </tr>
-                <tr>
-                  <th class="bg-light">Description</th>
-                  <td>{{ '-' | empty }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </c-col>
+                </tr> -->
+            </thead>
+            <tbody>
+              <tr>
+                <th class="bg-light">Vehicle No</th>
+                <td>{{ saleStockDetails?.['vehicleNumber'] | empty }}</td>
+              </tr>
+            </tbody>
+            <thead class="bg-light">
+              <tr>
+                <th colspan="2" class="fw-semibold">Route Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let route of routeList">
+                <th class="bg-light">Route Name</th>
+                <td>{{ route['description'] | empty }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </c-col>
 
-        <h6>Product Information</h6>
+      <h6>Product Information</h6>
 
-        <c-col class="mt-4">
-          <div *ngIf="count > 0; else emptyList">
-            <c-accordion>
-              <c-accordion-item *ngFor="let stock of stockList;let i = index" [visible]="openedIndex === i">
-                <ng-template cTemplateId="accordionHeader">
-                  <div class="d-flex justify-content-between align-items-center w-100 me-2">
-                    <span>{{ stock.stockId| empty}} - {{ stock.productName | empty }} </span>
-                  </div>
-                </ng-template>
-                <ng-template cTemplateId="accordionBody">
-                  <div>
-                    <p><strong>Description:</strong> {{ stock.reason | empty}}</p>
-                  </div>
-                </ng-template>
-              </c-accordion-item>
-            </c-accordion>
-          </div>
+      <c-col class="mt-4">
+        <div *ngIf="productList.length > 0; else emptyList">
+          <c-accordion>
+            <c-accordion-item *ngFor="let product of productList;let i = index">
+              <ng-template cTemplateId="accordionHeader">
+                <div class="d-flex justify-content-between align-items-center w-100 me-2">
+                  <span>{{ product['productName']| empty}} </span>
+                </div>
+              </ng-template>
+              <ng-template cTemplateId="accordionBody">
+                <div>
+                  <p><strong>Quantity Loaded:</strong> {{ product['quantityLoaded']| empty}}</p>
+                </div>
+              </ng-template>
+            </c-accordion-item>
+          </c-accordion>
+        </div>
 
-          <!--  Empty State -->
-          <ng-template #emptyList>
-            <c-alert color="secondary" class="text-center border-0">
-              <div class="d-flex flex-column align-items-center p-3">
-                <svg cIcon name="cilBan" size="4xl" class="mb-2 text-secondary"></svg>
-                <h6 class="fw-semibold mb-1 text-dark">No products found</h6>
-                <small class="text-muted">Please add or search for a product to get started</small>
-              </div>
-            </c-alert>
-          </ng-template>
+        <!--  Empty State -->
+        <ng-template #emptyList>
+          <c-alert color="secondary" class="text-center border-0">
+            <div class="d-flex flex-column align-items-center p-3">
+              <svg cIcon name="cilBan" size="4xl" class="mb-2 text-secondary"></svg>
+              <h6 class="fw-semibold mb-1 text-dark">No products found</h6>
+              <small class="text-muted">Please add or search for a product to get started</small>
+            </div>
+          </c-alert>
+        </ng-template>
 
-        </c-col>
+      </c-col>
 
-      </c-row>
-    </c-modal-body>
+    </c-row>
+  </c-modal-body>
 
-    <c-modal-footer>
-      <button type="button" cButton color="secondary" (click)="onCloseModal()">
-        Close
-      </button>
-    </c-modal-footer>
-  </form>
+  <c-modal-footer>
+    <button type="button" cButton color="secondary" (click)="onCloseModal()">
+      Close
+    </button>
+  </c-modal-footer>
 </c-modal>

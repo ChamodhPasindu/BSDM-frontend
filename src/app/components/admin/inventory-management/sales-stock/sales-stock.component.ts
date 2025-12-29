@@ -130,9 +130,9 @@ export class SalesStockComponent implements OnInit {
   }
 
   protected openSaleStockView(action: ActionButton, saleStock: ISaleStockData): void {
-    this.viewSaleStockModal.loadData();
     this.viewSaleStockModal.action = action;
     this.viewSaleStockModal.saleStock = saleStock;
+    this.viewSaleStockModal.loadData();
     this.viewSaleStockModal.visible = true;
   }
 

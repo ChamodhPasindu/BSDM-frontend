@@ -19,11 +19,15 @@ import {
 import { StorageService } from 'src/app/services/storage.service';
 import { LoaderService } from 'src/app/services/loader/loader.service';
 import { Router } from '@angular/router';
-import { RESPONSE_MESSAGES, RESPONSE_TITLES } from '../constants/response-message-title';
+import {
+  RESPONSE_MESSAGES,
+  RESPONSE_TITLES,
+} from '../constants/response-message-title';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { SESSION_DATA } from '../constants/session-data';
 import { alertError } from '../helper';
 import { IResponse } from 'src/app/interfaces/IResponse';
+import { RSP_SUCCESS } from '../constants/response-code';
 
 @Injectable()
 export class Interceptor implements HttpInterceptor {
@@ -128,27 +132,34 @@ export class Interceptor implements HttpInterceptor {
           message: RESPONSE_MESSAGES.SESSION_EXPIRED_DES,
         }));
       }
-
+      RESPONSE_MESSAGES;
       return this.authService.refreshToken(refreshToken).pipe(
         switchMap((response: IResponse) => {
           this.isRefreshing = false;
 
-          // save new tokens
-          this.storageService.set(
-            SESSION_DATA.ACCESS_TOKEN,
-            response.body.content.accessToken
-          );
-          this.storageService.set(
-            SESSION_DATA.REFRESH_TOKEN,
-            response.body.content.refreshToken
-          );
+          if (response.body.status === RSP_SUCCESS) {
+            // save new tokens
+            this.storageService.set(
+              SESSION_DATA.ACCESS_TOKEN,
+              response.body.content.accessToken
+            );
+            this.storageService.set(
+              SESSION_DATA.REFRESH_TOKEN,
+              response.body.content.refreshToken
+            );
 
-          this.refreshTokenSubject.next(response.body.content.accessToken);
+            this.refreshTokenSubject.next(response.body.content.accessToken);
 
-          // retry original request
-          return next.handle(
-            this.addTokenHeader(request, response.body.content.accessToken)
-          );
+            // retry original request
+            return next.handle(
+              this.addTokenHeader(request, response.body.content.accessToken)
+            );
+          } else {
+            this.logout();
+            return throwError(() => ({
+              message: RESPONSE_MESSAGES.SESSION_EXPIRED_DES,
+            }));
+          }
         }),
         catchError(() => {
           this.isRefreshing = false;
