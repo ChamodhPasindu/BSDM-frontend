@@ -91,7 +91,7 @@
                 fieldName="Remark" />
             </div>
 
-            <button cButton type="submit" variant="outline" color="primary" class="w-100">
+            <button cButton type="submit" variant="outline" color="primary" class="w-100" [disabled]="productDetailForm.invalid">
               Add to Cart
             </button>
           </form>
@@ -156,6 +156,6 @@
     <button (click)="onCloseModal()" cButton color="secondary" type="button">
       Close
     </button>
-    <button cButton color="primary" type="button" (click)="onSubmit()">Add Stock</button>
+    <button cButton color="primary" type="button" (click)="onSubmit()" [disabled]="!cartItems.length">Add Stock</button>
   </c-modal-footer>
 </c-modal>

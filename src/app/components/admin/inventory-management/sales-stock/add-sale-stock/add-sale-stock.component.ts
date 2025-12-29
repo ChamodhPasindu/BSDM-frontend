@@ -1,6 +1,5 @@
-
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as moment from 'moment';
@@ -10,7 +9,6 @@ import { PaginationType } from 'src/app/enums/PaginationType.enum';
 import { UserRole } from 'src/app/enums/UserRole.enum';
 import { IEmployeeData } from 'src/app/interfaces/IEmployeeData';
 import { IPagination } from 'src/app/interfaces/IPagination';
-import { IProductData } from 'src/app/interfaces/IProductData';
 import { IResponse } from 'src/app/interfaces/IResponse';
 import { IRouteData } from 'src/app/interfaces/IRouteData';
 import { ISaleStock } from 'src/app/interfaces/ISaleStock';
@@ -93,6 +91,13 @@ export class AddSaleStockComponent
   }
 
   ngOnInit() {}
+
+  protected override resetState(): void {
+    this.selectedStock = null;
+    this.selectedDriver = null;
+    this.selectedVehicle = null;
+    this.cartItems = [];
+  }
 
   public loadData(): void {
     this.loadDriverListData();

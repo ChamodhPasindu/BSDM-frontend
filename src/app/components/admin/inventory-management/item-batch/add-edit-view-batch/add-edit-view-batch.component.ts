@@ -74,6 +74,7 @@ export class AddEditViewBatchComponent
   }
 
   ngOnInit(): void {
+    this.loadData();
     this.batchForm.get('manufactureDate')?.valueChanges.subscribe(() => {
       this.calculateUsableDays();
     });
@@ -82,6 +83,8 @@ export class AddEditViewBatchComponent
       this.calculateUsableDays();
     });
   }
+  
+  protected override resetState(): void {}
 
   public loadData(): void {
     this.generalService

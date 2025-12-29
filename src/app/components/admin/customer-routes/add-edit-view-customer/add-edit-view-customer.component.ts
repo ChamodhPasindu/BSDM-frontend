@@ -30,7 +30,7 @@ import {
 @Component({
   selector: 'app-add-edit-view-customer',
   templateUrl: './add-edit-view-customer.component.html',
-  styleUrls: ['./add-edit-view-customer.component.css'],
+  styleUrls: ['./add-edit-view-customer.component.scss'],
 })
 export class AddEditViewCustomerComponent
   extends ModalControlDirective
@@ -77,11 +77,14 @@ export class AddEditViewCustomerComponent
     this.createForm();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.loadStatusList();
+  }
+
+  protected override resetState(): void {}
 
   public loadData(): void {
     this.loadRouteListData();
-    this.loadStatusList();
   }
 
   private loadStatusList(): void {
@@ -92,6 +95,7 @@ export class AddEditViewCustomerComponent
         next: (res: IResponse) => {
           if (res.body.status === RSP_SUCCESS) {
             this.statusList = res.body.content.dropdown;
+            this.updateForm();
           } else {
             alertError({
               title: RESPONSE_TITLES.FAILED,

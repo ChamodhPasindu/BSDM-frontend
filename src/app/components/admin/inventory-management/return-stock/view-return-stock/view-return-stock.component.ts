@@ -53,6 +53,8 @@ export class ViewReturnStockComponent
 
   ngOnInit(): void {}
 
+  protected override resetState(): void {}
+
   public loadData(): void {
     this.loadReturnStockDetails();
   }

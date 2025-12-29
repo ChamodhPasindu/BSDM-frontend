@@ -78,6 +78,8 @@ constructor(
 
 ngOnInit() {}
 
+protected override resetState(): void {}
+
 public loadData(): void {
   this.loadItemListData();
   this.loadBatchListData();

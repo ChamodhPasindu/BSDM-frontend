@@ -89,7 +89,10 @@ constructor(
 }
 
 ngOnInit(): void {
+  this.loadData();
 }
+
+protected override resetState(): void {}
 
 public loadData(): void {
   forkJoin({

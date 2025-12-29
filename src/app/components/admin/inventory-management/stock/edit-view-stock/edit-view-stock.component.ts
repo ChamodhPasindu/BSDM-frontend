@@ -67,6 +67,8 @@ export class EditViewStockComponent
 
   ngOnInit(): void {}
 
+  protected override resetState(): void {}
+
   private createForm(): void {
     this.productDetailForm = this.fb.group({
       quantity: [''],

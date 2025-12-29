@@ -125,7 +125,6 @@ export class EmployeeManagementComponent implements OnInit {
     action: ActionButton,
     employee?: IEmployeeData
   ): void {
-    this.addEditViewEmployeeModal.loadData();
     this.addEditViewEmployeeModal.action = action;
     this.addEditViewEmployeeModal.employee = employee;
     this.addEditViewEmployeeModal.visible = true;

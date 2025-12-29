@@ -48,6 +48,11 @@ export class AddReturnStockComponent
 
   ngOnInit(): void {}
 
+  protected override resetState(): void {
+    this.selectedProduct = null;
+    this.cartItems = [];
+  }
+
   public loadData(): void {
     this.loadReturnStockList();
   }

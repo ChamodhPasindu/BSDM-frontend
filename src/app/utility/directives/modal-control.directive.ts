@@ -4,8 +4,7 @@ import { FormGroup } from '@angular/forms';
 @Directive({
   selector: '[appModalControl]',
 })
-export class ModalControlDirective {
-  
+export abstract class ModalControlDirective {
   @Output() public tableRefresh = new EventEmitter<void>();
 
   public visible: boolean = false;
@@ -23,8 +22,11 @@ export class ModalControlDirective {
 
   public onChangeModalVisibility(event: boolean): void {
     this.visible = event;
+    this.resetState();
     if (!event && this.formGroup) {
       this.formGroup.reset();
     }
   }
+
+  protected abstract resetState(): void;
 }

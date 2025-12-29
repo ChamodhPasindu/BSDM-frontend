@@ -56,6 +56,8 @@ export class ViewSaleStockComponent
 
   ngOnInit() {}
 
+  protected override resetState(): void {}
+
   public loadData(): void {
     this.loadSaleStockDetails();
   }

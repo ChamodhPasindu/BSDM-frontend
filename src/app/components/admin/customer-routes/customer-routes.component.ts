@@ -230,7 +230,6 @@ export class CustomerRoutesComponent implements OnInit {
   }
 
   protected openRouteView(action: ActionButton, route?: IRouteData): void {
-    this.addEditViewRouteModal.loadData();
     this.addEditViewRouteModal.action = action;
     this.addEditViewRouteModal.route = route;
     this.addEditViewRouteModal.visible = true;

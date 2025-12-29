@@ -156,6 +156,7 @@
     <button (click)="onCloseModal()" cButton color="secondary">
       Close
     </button>
-    <button cButton color="primary" (click)="onSubmit()">Return Stock</button>
+    <button cButton color="primary" (click)="onSubmit()"
+      [disabled]="!cartItems.length || returnStockForm.invalid">Return Stock</button>
   </c-modal-footer>
 </c-modal>

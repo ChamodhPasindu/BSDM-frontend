@@ -129,7 +129,6 @@ export class VehicleManagementComponent implements OnInit {
     action: ActionButton,
     vehicle?: IVehicleData
   ): void {
-    this.addEditViewVehicleModal.loadData();
     this.addEditViewVehicleModal.action = action;
     this.addEditViewVehicleModal.vehicle = vehicle;
     this.addEditViewVehicleModal.visible = true;

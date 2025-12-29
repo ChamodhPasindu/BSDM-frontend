@@ -62,6 +62,8 @@ export class AddEditViewItemComponent extends ModalControlDirective {
     this.createForm();
   }
 
+  protected override resetState(): void {}
+
   private createForm(): void {
     this.itemForm = this.fb.group({
       name: ['', [Validators.required, Validators.pattern(REGEX_NAME)]],

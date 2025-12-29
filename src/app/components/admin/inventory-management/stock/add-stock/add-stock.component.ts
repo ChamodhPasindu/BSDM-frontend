@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PaginationType } from 'src/app/enums/PaginationType.enum';
@@ -62,6 +62,11 @@ export class AddStockComponent extends ModalControlDirective implements OnInit {
       reason: ['', [Validators.required]],
     });
     this.setForm(this.productDetailForm);
+  }
+
+  protected override resetState(): void {
+    this.selectedProduct = null;
+    this.cartItems = [];
   }
 
   public loadData(): void {
@@ -163,7 +168,7 @@ export class AddStockComponent extends ModalControlDirective implements OnInit {
             this.selectedProduct = null;
             this.cartItems = [];
             this.onCloseModal();
-            
+
             alertSuccess({
               title: RESPONSE_TITLES.SUCCESS,
               text:
