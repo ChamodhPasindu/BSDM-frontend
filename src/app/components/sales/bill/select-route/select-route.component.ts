@@ -51,7 +51,7 @@ export class SelectRouteComponent implements OnInit {
           } else {
             alertError({
               title: RESPONSE_TITLES.FAILED,
-              text: res.body.message || RESPONSE_MESSAGES.PRODUCT_GET_FAILED,
+              text: res.body.message || RESPONSE_MESSAGES.ROUTE_GET_FAILED,
             });
           }
         },

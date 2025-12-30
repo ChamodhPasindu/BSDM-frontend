@@ -34,10 +34,6 @@ import { RouteComponent } from './route/route.component';
 import { NotificationComponent } from './notification/notification.component';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
-import { ProductService } from 'src/app/services/product/product.service';
-import { RouteService } from 'src/app/services/route/route.service';
-import { CustomerService } from 'src/app/services/customer/customer.service';
-import { SaleService } from 'src/app/services/sale/sale.service';
 
 @NgModule({
   declarations: [
@@ -77,10 +73,6 @@ import { SaleService } from 'src/app/services/sale/sale.service';
   providers: [
     AuthService,
     EmployeeService,
-    ProductService,
-    RouteService,
-    CustomerService,
-    SaleService,
   ],
 })
 export class SalesModule {}

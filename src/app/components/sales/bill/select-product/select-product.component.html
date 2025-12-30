@@ -7,38 +7,46 @@
 
 <!-- Product Cards -->
 <div class="d-flex flex-column gap-2">
-  <c-card *ngFor="let product of filteredProducts" class="shadow-sm product-card">
+  <c-card *ngFor="let product of filteredProductList" class="shadow-sm product-card">
     <c-card-body class="d-flex justify-content-between align-items-start">
       <!-- Left: Info -->
       <div class="flex-fill">
         <div class="d-flex align-items-center mb-1">
           <input type="checkbox" class="form-check-input me-2" [(ngModel)]="product.selected" />
-          <span class="fw-medium">{{ product.name }}</span>
+          <span class="fw-medium">{{ product.productName | empty }}</span>
         </div>
-        <div class="text-muted small">{{ product.description }}</div>
-        <div class="text-muted small">Price: {{ product.minPrice }} - {{ product.maxPrice }} LKR</div>
+        <div class="text-muted small">{{ product.description | empty}}</div>
+        <div class="text-muted small">Price: {{ product.minSalesPrice | numberSeparate}} - {{ product.price |
+          numberSeparate}} LKR</div>
       </div>
 
       <!-- Right: Qty + Price -->
       <div class="d-flex flex-column align-items-end gap-1 ms-3">
         <div class="d-flex align-items-center gap-1">
           <button class="btn btn-outline-secondary btn-sm" (click)="decreaseQty(product)"
-            [disabled]="product.qty <= 0">-</button>
+            [disabled]="product.selectedQuantity  <= 0">-</button>
 
           <input type="number" class="form-control form-control-sm text-center" style="width:60px"
-            [(ngModel)]="product.qty" [disabled]="!product.selected" placeholder="Qty" />
+            [(ngModel)]="product.selectedQuantity" [disabled]="!product.selected" placeholder="Qty" />
 
           <button class="btn btn-outline-secondary btn-sm" (click)="increaseQty(product)"
-            [disabled]="!product.selected">+</button>
+            [disabled]="!product.selected || product.selectedQuantity >= product.availableQuantity">+</button>
         </div>
 
-        <input type="number" class="form-control form-control-sm text-center" style="width:120px"
-          [(ngModel)]="product.maxPrice" [disabled]="!product.selected" placeholder="Sell Price" />
+        <input cFormControl type="number" class="form-control form-control-sm text-center" style="width:120px"
+          [(ngModel)]="product.selectedPrice" [disabled]="!product.selected" placeholder="Sell Price"
+          [min]="product.minSalesPrice" [max]="product.price" required #priceModel="ngModel" />
+        <div class="text-danger small" *ngIf="priceModel.invalid && priceModel.dirty ">
+          <span *ngIf="priceModel.errors?.['min']">Price must be at least LKR {{product.minSalesPrice |
+            numberSeparate}}</span>
+          <span *ngIf="priceModel.errors?.['max']">Price must be less than LKR {{product.price | numberSeparate}}</span>
+          <span *ngIf="priceModel.errors?.['required']">Price is required</span>
+        </div>
       </div>
     </c-card-body>
   </c-card>
 
-  <div *ngIf="!filteredProducts.length && productList.length" class="text-center text-muted py-3">
+  <div *ngIf="!filteredProductList.length && productList.length" class="text-center text-muted py-3">
     No products found
   </div>
 </div>
@@ -51,22 +59,21 @@
   <div class="d-flex justify-content-between align-items-center mb-1">
     <span class="text-muted small">Overdue</span>
     <span class="fw-semibold text-danger">
-      LKR 10,000
+      {{ 0 | currency:'LKR ' }}
     </span>
-    <!-- <span class="text-muted">—</span> -->
   </div>
 
   <div class="d-flex justify-content-between align-items-center mb-1">
     <span class="text-muted small">New Order Total</span>
     <span class="fw-semibold text-dark">
-      {{ getTotalAmount() | currency:'LKR' }}
+      {{ getTotalAmount() | currency:'LKR ' }}
     </span>
   </div>
 
   <div class="d-flex justify-content-between align-items-center mb-2 border-top pt-2">
     <span class="fw-semibold text-muted">Grand Total</span>
     <span class="fw-semibold text-success">
-      {{ getTotalAmount() | currency:'LKR' }}
+      {{ getTotalAmount() | currency:'LKR ' }}
     </span>
   </div>
 
@@ -74,10 +81,8 @@
     {{ getSelectedCount() }} item(s)
   </small>
 
-  <button class="btn btn-primary w-100 py-2 fw-semibold rounded-3" [disabled]="!hasSelectedProducts()"
+  <button class="btn btn-primary w-100 py-2 fw-semibold rounded-3" [disabled]="!hasValidSelectedProducts()"
     (click)="toggleBottomSheet()">
     Confirm Order
   </button>
 </div>
-
-<app-sales-empty-data name="Products"></app-sales-empty-data>

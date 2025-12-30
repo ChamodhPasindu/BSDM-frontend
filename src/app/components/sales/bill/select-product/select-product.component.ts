@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { NgxBottomSheetService } from 'ngx-bottom-sheet';
 import { BillSummaryComponent } from '../bill-summary/bill-summary.component';
 import { SaleService } from 'src/app/services/sale/sale.service';
-import { RouteService } from 'src/app/services/route/route.service';
-import { CustomerService } from 'src/app/services/customer/customer.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { IResponse } from 'src/app/interfaces/IResponse';
 import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
@@ -34,12 +32,10 @@ export class SelectProductComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly bottomSheetService: NgxBottomSheetService,
     private readonly saleService: SaleService,
-    private readonly routeService: RouteService,
-    private readonly customerService: CustomerService,
     private readonly productService: ProductService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     const saleInitData = this.saleService.getSaleInitData();
     if (!saleInitData) {
       this.router.navigate(['../select-route'], { relativeTo: this.route });
@@ -54,7 +50,12 @@ export class SelectProductComponent implements OnInit {
       .subscribe({
         next: (res: IResponse) => {
           if (res.body.status === RSP_SUCCESS) {
-            this.productList = res.body.content;
+            this.productList = res.body.content.map((p: IProductData) => ({
+              ...p,
+              selected: false,
+              selectedQuantity: 0,
+              selectedPrice: p.price,
+            }));
             this.filteredProductList = this.productList;
           } else {
             alertError({
@@ -78,84 +79,63 @@ export class SelectProductComponent implements OnInit {
     );
   }
 
-  products = [
-    {
-      id: 1,
-      name: 'Product A',
-      description: 'High-quality item',
-      minPrice: 100,
-      maxPrice: 150,
-      qty: 0,
-      selected: false,
-    },
-    {
-      id: 2,
-      name: 'Product B',
-      description: 'Durable and reliable',
-      minPrice: 200,
-      maxPrice: 250,
-      qty: 0,
-      selected: false,
-    },
-    {
-      id: 3,
-      name: 'Product C',
-      description: 'Best seller',
-      minPrice: 150,
-      maxPrice: 180,
-      qty: 0,
-      selected: false,
-    },
-  ];
-
-  filteredProducts = [...this.products];
-
-  // Increase quantity
-  increaseQty(product: any) {
-    product.qty += 1;
-    if (!product.selected) product.selected = true;
+  protected increaseQty(product: IProductData): void {
+    if (product.selectedQuantity! < product.availableQuantity) {
+      product.selectedQuantity! += 1;
+      product.selected = true;
+    }
   }
 
-  // Decrease quantity
-  decreaseQty(product: any) {
-    if (product.qty > 0) product.qty -= 1;
-    if (product.qty === 0) product.selected = false;
+  protected decreaseQty(product: IProductData): void {
+    if (product.selectedQuantity! > 0) {
+      product.selectedQuantity! -= 1;
+    }
+
+    if (product.selectedQuantity === 0) {
+      product.selected = false;
+    }
   }
 
-  // Check if any product is selected
-  hasSelectedProducts(): boolean {
-    return this.products.some((p) => p.selected && p.qty > 0);
+  protected getTotalAmount(): number {
+    return this.filteredProductList
+      .filter((p: IProductData) => p.selected)
+      .reduce((sum, p) => sum + (p.selectedQuantity * p.selectedPrice || 0), 0);
   }
 
-  // Confirm Order
-  confirmOrder() {
-    const selectedProducts = this.products.filter(
-      (p) => p.selected && p.qty > 0
+  protected getSelectedCount(): number {
+    return this.filteredProductList.filter(
+      (p) => p.selected && p.selectedQuantity > 0
+    ).length;
+  }
+
+  protected toggleBottomSheet() {
+    const selectedProductList = this.filteredProductList.filter(
+      (product: IProductData) => product.selected
     );
-    console.log('Order Confirmed:', selectedProducts);
-    alert('Order Confirmed!');
-    // Reset products
-    this.products.forEach((p) => {
-      p.qty = 0;
-      p.selected = false;
-    });
-  }
 
-  getTotalAmount(): number {
-    return this.filteredProducts
-      .filter((p) => p.selected)
-      .reduce((sum, p) => sum + (p.qty * p.maxPrice || 0), 0);
-  }
+    this.productService.setSelectedProductList(selectedProductList);
 
-  getSelectedCount(): number {
-    return this.filteredProducts.filter((p) => p.selected && p.qty > 0).length;
-  }
-
-  toggleBottomSheet() {
     this.bottomSheetService.open(BillSummaryComponent, {
       height: 'top',
       showCloseButton: false,
       backgroundColor: '#fff',
+    });
+  }
+
+  protected hasValidSelectedProducts(): boolean {
+    const selected = this.filteredProductList.filter(
+      (p) => p.selected && p.selectedQuantity > 0
+    );
+
+    if (!selected.length) return false;
+
+    return selected.every((product) => {
+      const price = Number(product.selectedPrice);
+      return (
+        !isNaN(price) &&
+        price >= product.minSalesPrice &&
+        price <= product.price
+      );
     });
   }
 }

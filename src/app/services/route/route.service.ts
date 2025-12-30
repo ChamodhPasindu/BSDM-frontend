@@ -7,7 +7,9 @@ import { IResponse } from 'src/app/interfaces/IResponse';
 import { IRoute } from 'src/app/interfaces/IRoute';
 import { SECURE, getEndpoint } from 'src/app/utility/common/end-point';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class RouteService {
   private adminRequestUrl = `${getEndpoint(SECURE)}/route`;
   private salesRequestUrl = `${getEndpoint(SECURE)}/sales-man`;

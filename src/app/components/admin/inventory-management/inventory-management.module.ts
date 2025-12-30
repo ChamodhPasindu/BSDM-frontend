@@ -29,7 +29,6 @@ import { SharedModule } from '../../shared/shared.module';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ItemService } from 'src/app/services/item/item.service';
 import { BatchService } from 'src/app/services/batch/batch.service';
-import { ProductService } from 'src/app/services/product/product.service';
 import { StockService } from 'src/app/services/stock/stock.service';
 import { SaleStockService } from 'src/app/services/sale-stock/sale-stock.service';
 import { AddSaleStockComponent } from './sales-stock/add-sale-stock/add-sale-stock.component';
@@ -82,7 +81,6 @@ import { EditViewStockComponent } from './stock/edit-view-stock/edit-view-stock.
   providers: [
     ItemService,
     BatchService,
-    ProductService,
     StockService,
     SaleStockService,
     StockReturnService,

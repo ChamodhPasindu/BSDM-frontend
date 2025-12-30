@@ -3,15 +3,28 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IPagination } from 'src/app/interfaces/IPagination';
 import { IProduct } from 'src/app/interfaces/IProduct';
+import { IProductData } from 'src/app/interfaces/IProductData';
 import { IResponse } from 'src/app/interfaces/IResponse';
 import { SECURE, getEndpoint } from 'src/app/utility/common/end-point';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ProductService {
   private adminRequestUrl = `${getEndpoint(SECURE)}/product`;
   private salesRequestUrl = `${getEndpoint(SECURE)}/sales-man/product`;
 
+  private selectedProductList: IProductData[] = [];
+
   constructor(private readonly httpClient: HttpClient) {}
+
+  public setSelectedProductList(data: IProductData[]): void {
+    this.selectedProductList = data;
+  }
+
+  public getSelectedProductList(): IProductData[] {
+    return this.selectedProductList;
+  }
 
   public addProduct(payload: IProduct): Observable<IResponse> {
     return this.httpClient.post<IResponse>(

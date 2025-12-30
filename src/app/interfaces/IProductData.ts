@@ -27,4 +27,7 @@ export interface IProductData {
   totalQuantity: number;
   soldQuantity: number;
   availableQuantity: number;
+  selected:boolean;
+  selectedQuantity: number;
+  selectedPrice: number;
 }

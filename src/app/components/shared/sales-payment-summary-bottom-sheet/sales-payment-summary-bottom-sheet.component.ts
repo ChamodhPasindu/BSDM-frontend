@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { NgxBottomSheetService } from 'ngx-bottom-sheet';
+import { ICustomerData } from 'src/app/interfaces/ICustomerData';
+import { IPayment } from 'src/app/interfaces/IPayment';
+import { IProductData } from 'src/app/interfaces/IProductData';
+import { CustomerService } from 'src/app/services/customer/customer.service';
+import { PaymentService } from 'src/app/services/payment/payment.service';
+import { ProductService } from 'src/app/services/product/product.service';
+import { SaleService } from 'src/app/services/sale/sale.service';
 import { BaseBottomSheetDirective } from 'src/app/utility/directives/base-bottom-sheet.directive';
 
 @Component({
@@ -7,9 +14,30 @@ import { BaseBottomSheetDirective } from 'src/app/utility/directives/base-bottom
   templateUrl: './sales-payment-summary-bottom-sheet.component.html',
   styleUrls: ['./sales-payment-summary-bottom-sheet.component.scss'],
 })
-export class SalesPaymentSummaryBottomSheetComponent extends BaseBottomSheetDirective {
-  constructor(public override bottomSheetService: NgxBottomSheetService) {
+export class SalesPaymentSummaryBottomSheetComponent
+  extends BaseBottomSheetDirective
+  implements OnInit
+{
+  protected customerDetails: Partial<ICustomerData> | null = null;
+  protected productList: IProductData[] = [];
+  protected saleCompleteData: Record<string, string> | null = null;
+  protected paymentCompleteData: IPayment | null = null;
+
+  constructor(
+    public override readonly bottomSheetService: NgxBottomSheetService,
+    private readonly customerService: CustomerService,
+    private readonly productService: ProductService,
+    private readonly saleService: SaleService,
+    private readonly paymentService: PaymentService
+  ) {
     super(bottomSheetService);
+  }
+
+  ngOnInit(): void {
+    this.customerDetails = this.customerService.getSelectedCustomer();
+    this.productList = this.productService.getSelectedProductList();
+    this.saleCompleteData = this.saleService.getSaleCompleteData();
+    this.paymentCompleteData = this.paymentService.getPaymentCompleteData();
   }
 
   customer = {

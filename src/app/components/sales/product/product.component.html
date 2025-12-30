@@ -32,12 +32,12 @@
         <div class="d-flex justify-content-between align-items-center">
           <div>
             <small class="d-block">Min Price</small>
-            <span class="fw-semibold text-secondary">LKR {{ product.minSalesPrice | number }}</span>
+            <span class="fw-semibold text-secondary">LKR {{ product.minSalesPrice | numberSeparate }}</span>
           </div>
           <div class="text-end">
             <small class="d-block">Price</small>
             <span class="fw-semibold text-dark">
-              LKR {{ product.price | number }}
+              LKR {{ product.price | numberSeparate }}
             </span>
           </div>
         </div>

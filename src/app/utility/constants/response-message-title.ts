@@ -95,6 +95,12 @@ export const RESPONSE_MESSAGES = {
     'Sale Failed to remove Return Stock details. Please try again.',
   RETURN_STOCK_DELETE_SUCCESS:
     'Return Stock information has been removed successfully.',
+
+  ORDER_ADD_SUCCESS: 'Order placed successfully.',
+  ORDER_ADD_QUESTION: 'Do you want pay the order now ?',
+  ORDER_ADD_FAILED: 'Something went wrong while placing your order.',
+
+  PAYMENT_SETTLE_FAILED: 'Failed to settle the payment. Please try again.',
 };
 
 export const RESPONSE_TITLES = {

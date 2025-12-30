@@ -7,7 +7,9 @@ import { IPagination } from 'src/app/interfaces/IPagination';
 import { IResponse } from 'src/app/interfaces/IResponse';
 import { SECURE, getEndpoint } from 'src/app/utility/common/end-point';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CustomerService {
   private adminRequestUrl = `${getEndpoint(SECURE)}/customer`;
   private salesRequestUrl = `${getEndpoint(SECURE)}/sales-man`;
@@ -16,11 +18,11 @@ export class CustomerService {
 
   constructor(private readonly httpClient: HttpClient) {}
 
-  public setSelectedCustomer(customer:  Partial<ICustomerData> | null): void {
+  public setSelectedCustomer(customer: Partial<ICustomerData> | null): void {
     this.selectedCustomer = customer;
   }
 
-  public getSelectedCustomer():  Partial<ICustomerData> | null {
+  public getSelectedCustomer(): Partial<ICustomerData> | null {
     return this.selectedCustomer;
   }
 

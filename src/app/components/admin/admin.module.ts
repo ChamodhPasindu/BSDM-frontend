@@ -36,9 +36,7 @@ import { ViewPaymentComponent } from './payments/view-payment/view-payment.compo
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SettingsComponent } from './settings/settings.component';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
-import { RouteService } from 'src/app/services/route/route.service';
 import { VehicleService } from 'src/app/services/vehicle/vehicle.service';
-import { CustomerService } from 'src/app/services/customer/customer.service';
 import { AddEditViewEmployeeComponent } from './employee-management/add-edit-view-employee/add-edit-view-employee.component';
 import { AddEditViewVehicleComponent } from './vehicle-management/add-edit-view-vehicle/add-edit-view-vehicle.component';
 import { AddEditViewCustomerComponent } from './customer-routes/add-edit-view-customer/add-edit-view-customer.component';
@@ -86,6 +84,6 @@ import { AddEditViewRouteComponent } from './customer-routes/add-edit-view-route
     BsDatepickerModule.forRoot(),
     NgSelectModule,
   ],
-  providers: [EmployeeService, RouteService, VehicleService, CustomerService],
+  providers: [EmployeeService, VehicleService],
 })
 export class AdminModule {}
