@@ -14,6 +14,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ProductService } from 'src/app/services/product/product.service';
 import { IProductData } from 'src/app/interfaces/IProductData';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ICustomerData } from 'src/app/interfaces/ICustomerData';
+import { CustomerService } from 'src/app/services/customer/customer.service';
 
 @UntilDestroy()
 @Component({
@@ -25,20 +27,28 @@ export class SelectProductComponent implements OnInit {
   protected productList: IProductData[] = [];
   protected filteredProductList: IProductData[] = [];
 
+  protected customerDetails: Partial<ICustomerData> | null = null;
+
   protected productSearchTerm: string;
 
   constructor(
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly bottomSheetService: NgxBottomSheetService,
-    private readonly saleService: SaleService,
-    private readonly productService: ProductService
+    private readonly customerService: CustomerService,
+    private readonly productService: ProductService,
+    private readonly saleService: SaleService
   ) {}
 
   ngOnInit(): void {
     const saleInitData = this.saleService.getSaleInitData();
-    if (!saleInitData) {
-      this.router.navigate(['../select-route'], { relativeTo: this.route });
+    this.customerDetails = this.customerService.getSelectedCustomer();
+
+    if (!saleInitData || !this.customerDetails) {
+      this.router.navigate(['../select-route'], {
+        relativeTo: this.route,
+        queryParamsHandling: 'preserve',
+      });
     }
     this.loadProductList();
   }
@@ -97,9 +107,14 @@ export class SelectProductComponent implements OnInit {
   }
 
   protected getTotalAmount(): number {
-    return this.filteredProductList
-      .filter((p: IProductData) => p.selected)
-      .reduce((sum, p) => sum + (p.selectedQuantity * p.selectedPrice || 0), 0);
+    return (
+      this.filteredProductList
+        .filter((p: IProductData) => p.selected)
+        .reduce(
+          (sum, p) => sum + (p.selectedQuantity * p.selectedPrice || 0),
+          0
+        ) + (this.customerDetails?.overdue || 0)
+    );
   }
 
   protected getSelectedCount(): number {

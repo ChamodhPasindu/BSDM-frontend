@@ -12,4 +12,7 @@ export interface ICustomerData {
   createdByUserId: number;
   createdByUserName: string;
   createdByFullName: string;
+
+  // salesman specific 
+  overdue:number;
 }

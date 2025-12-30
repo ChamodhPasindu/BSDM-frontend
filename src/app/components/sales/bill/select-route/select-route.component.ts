@@ -33,7 +33,7 @@ export class SelectRouteComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      this.entryType = params['context'];
+      this.entryType = params['type'];
     });
 
     this.loadRouteList();

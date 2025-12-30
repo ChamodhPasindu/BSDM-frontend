@@ -16,8 +16,8 @@
           <div class="fw-medium">{{ customer.customerName | empty}}</div>
           <small class="text-muted">{{ customer.shopName | empty}} - {{ customer.address | empty}}</small>
           <small class="text-muted">{{ customer.phone | empty}}</small>
-          <small class="text-danger fw-semibold">
-            Overdue: LKR 0.00
+          <small *ngIf="customer?.overdue! > 0" class="text-danger fw-semibold">
+            Overdue: {{ customer.overdue | currency:'LKR '}}
           </small>
         </div>
       </div>

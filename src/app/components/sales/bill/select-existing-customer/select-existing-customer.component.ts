@@ -38,7 +38,10 @@ export class SelectExistingCustomerComponent implements OnInit {
   ngOnInit(): void {
     this.selectedRoute = this.routeService.getSelectedRoute();
     if (!this.selectedRoute) {
-      this.router.navigate(['../select-route'], { relativeTo: this.route });
+      this.router.navigate(['../select-route'], {
+        relativeTo: this.route,
+        queryParamsHandling: 'preserve',
+      });
     }
     this.loadCustomerList();
   }
@@ -87,6 +90,7 @@ export class SelectExistingCustomerComponent implements OnInit {
             this.saleService.setSaleInitData(res.body.content);
             this.router.navigate(['../select-product'], {
               relativeTo: this.route,
+              queryParamsHandling: 'preserve',
             });
           } else {
             alertError({

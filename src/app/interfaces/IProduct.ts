@@ -6,6 +6,4 @@ export interface IProduct {
   description: number;
   price: number;
   minSalesPrice: number;
-  //   createdAt: number;
-  //   createdBy: number;
 }

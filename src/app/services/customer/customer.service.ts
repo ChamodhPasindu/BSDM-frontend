@@ -81,4 +81,14 @@ export class CustomerService {
       { params: { id: id } }
     );
   }
+
+  public addSalesmanCustomer(
+    routeId:number,
+    payload: Partial<ICustomer>
+  ): Observable<IResponse> {
+    return this.httpClient.post<IResponse>(this.salesRequestUrl + '/customer/add', {
+     ...payload,
+     routeId:routeId
+    });
+  }
 }

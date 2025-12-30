@@ -67,6 +67,10 @@ export class BillSummaryComponent
     );
   }
 
+  protected getGrandTotalAmount(): number {
+    return this.getTotalAmount() + (this.customerDetails?.overdue || 0);
+  }
+
   protected editOrder(): void {
     this.bottomSheetService.close();
   }

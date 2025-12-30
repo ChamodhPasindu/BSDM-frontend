@@ -48,23 +48,23 @@ export class SalesPayNowBottomSheetComponent
     this.customerDetails = this.customerService.getSelectedCustomer();
     this.saleCompleteData = this.saleService.getSaleCompleteData();
 
-    this.saleService
-      .getOrderSummary(this.saleCompleteData?.['orderReferenceNumber']!)
-      .pipe(untilDestroyed(this))
-      .subscribe({
-        next: (res: IResponse) => {
-          if (res.body.status === RSP_SUCCESS) {
-          } else {
-            alertError({
-              title: RESPONSE_TITLES.FAILED,
-              text: res.body.message || RESPONSE_MESSAGES.PAYMENT_SETTLE_FAILED,
-            });
-          }
-        },
-        error: (err: HttpErrorResponse) => {
-          errorMessageHandler(err);
-        },
-      });
+    // this.saleService
+    //   .getOrderSummary(this.saleCompleteData?.['orderReferenceNumber']!)
+    //   .pipe(untilDestroyed(this))
+    //   .subscribe({
+    //     next: (res: IResponse) => {
+    //       if (res.body.status === RSP_SUCCESS) {
+    //       } else {
+    //         alertError({
+    //           title: RESPONSE_TITLES.FAILED,
+    //           text: res.body.message || RESPONSE_MESSAGES.PAYMENT_SETTLE_FAILED,
+    //         });
+    //       }
+    //     },
+    //     error: (err: HttpErrorResponse) => {
+    //       errorMessageHandler(err);
+    //     },
+    //   });
   }
 
   protected checkPaymentType(): void {

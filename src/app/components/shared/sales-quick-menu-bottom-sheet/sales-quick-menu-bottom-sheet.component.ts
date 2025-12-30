@@ -17,10 +17,10 @@ export class SalesQuickMenuBottomSheetComponent extends BaseBottomSheetDirective
     super(bottomSheetService);
   }
 
-  protected navigateToBill(context: string) {
+  protected navigateToBill(type: string) {
     this.router.navigate(['/sales/post-login/bill'], {
       relativeTo: this.route,
-      queryParams: { context: context },
+      queryParams: { type: type },
     });
     this.bottomSheetService.close();
   }
