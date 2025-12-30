@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { ICustomerData } from 'src/app/interfaces/ICustomerData';
 import { ICustomizeRouteData } from 'src/app/interfaces/ICustomizeRouteData';
 import { IResponse } from 'src/app/interfaces/IResponse';
 import { CustomerService } from 'src/app/services/customer/customer.service';

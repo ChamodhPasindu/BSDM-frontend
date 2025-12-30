@@ -7,28 +7,27 @@
 
 <!-- Route Cards -->
 <div class="d-flex flex-column">
-  <c-card *ngFor="let route of filteredRoutes" class="shadow-sm route-card mb-2"
-    [class.selected]="selectedRoute === route" (click)="navigateNext()">
+  <c-card *ngFor="let route of filteredRouteList" class="shadow-sm route-card mb-2" (click)="navigateNext(route)">
     <c-card-body class="d-flex justify-content-between align-items-center py-2">
       <div class="d-flex align-items-center gap-3">
         <div
-          class="route-icon bg-primary bg-opacity-10 p-2 rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 route-svg" 
-          >
+          class="route-icon bg-primary bg-opacity-10 p-2 rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 route-svg">
           <svg cIcon name="cilMap" class="text-dark"></svg>
         </div>
         <div>
-          <div class="fw-semibold text-dark">{{ route}}</div>
-          <div class="text-muted">This is sample description</div>
+          <div class="fw-semibold text-dark">{{ route.routeName | empty}}</div>
+          <div class="text-muted">{{route.routeDescription | empty}}</div>
           <small class="text-muted">Tap to view customers</small>
         </div>
       </div>
+
       <svg cIcon name="cilChevronRight" class="text-secondary"></svg>
     </c-card-body>
   </c-card>
 
-  <div *ngIf="filteredRoutes.length === 0" class="text-center text-muted py-3">
+  <div *ngIf="!filteredRouteList.length && routeList.length" class="text-center text-muted py-3">
     No routes found
   </div>
 </div>
 
-<app-sales-empty-data name="Routes"></app-sales-empty-data>
+<app-sales-empty-data name="Routes" *ngIf="!routeList.length"></app-sales-empty-data>
