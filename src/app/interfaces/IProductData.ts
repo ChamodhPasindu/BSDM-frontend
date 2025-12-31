@@ -28,6 +28,6 @@ export interface IProductData {
   soldQuantity: number;
   availableQuantity: number;
   selected:boolean;
-  selectedQuantity: number;
+  selectedQuantity: number | null;
   selectedPrice: number;
 }

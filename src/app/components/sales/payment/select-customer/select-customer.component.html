@@ -8,20 +8,29 @@
   <c-card *ngFor="let customer of filteredCustomerList" class="shadow-sm route-card mb-2"
     (click)="navigateNext(customer)">
     <c-card-body class="d-flex justify-content-between align-items-center py-2">
+
       <div class="d-flex align-items-center">
-        <c-avatar color="primary" textColor="white" class="me-3">
-          {{ customer.customerName!.charAt(0) | empty}}
+        <c-avatar color="primary" textColor="white" class="me-3 flex-shrink-0" style="width:40px;height:40px">
+          {{ customer.customerName!.charAt(0) | empty }}
         </c-avatar>
+
         <div class="d-flex flex-column">
-          <div class="fw-medium">{{ customer.customerName | empty}}</div>
-          <small class="text-muted">{{ customer.shopName | empty}} - {{ customer.address | empty}}</small>
-          <small class="text-muted">{{ customer.phone | empty}}</small>
+          <div class="fw-medium">{{ customer.customerName | empty }}</div>
+
+          <small class="text-muted text-wrap">
+            {{ customer.shopName | empty }} - {{ customer.address | empty }}
+          </small>
+
+          <small class="text-muted">{{ customer.phone | empty }}</small>
+
           <small *ngIf="customer?.overdue! > 0" class="text-danger fw-semibold">
-            Overdue: {{ customer.overdue | currency:'LKR '}}
+            Overdue: {{ customer.overdue | currency:'LKR ' }}
           </small>
         </div>
       </div>
-      <svg cIcon name="cilChevronRight" class="text-secondary"></svg>
+
+      <svg cIcon name="cilChevronRight" class="text-secondary mt-1"></svg>
+
     </c-card-body>
   </c-card>
 

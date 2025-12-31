@@ -62,7 +62,7 @@ export class BillSummaryComponent
 
   protected getTotalAmount(): number {
     return this.productList.reduce(
-      (sum, p) => sum + (p.selectedQuantity * p.selectedPrice || 0),
+      (sum, p) => sum + (p.selectedQuantity! * p.selectedPrice || 0),
       0
     );
   }
@@ -79,7 +79,7 @@ export class BillSummaryComponent
     const orderProductList: IOrderItem[] = this.productList.map((product) => {
       return {
         productId: product.productId,
-        quantity: product.selectedQuantity,
+        quantity: product.selectedQuantity!,
         sellingPrice: product.selectedPrice,
       };
     });

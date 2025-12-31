@@ -35,7 +35,7 @@
           </small>
         </div>
         <div class="fw-semibold text-end">
-          {{ (product.selectedQuantity * product.selectedPrice) | currency:'LKR ' }}
+          {{ (product?.selectedQuantity! * product.selectedPrice) | currency:'LKR ' }}
         </div>
       </div>
     </div>

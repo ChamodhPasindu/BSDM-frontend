@@ -16,6 +16,7 @@ import { IProductData } from 'src/app/interfaces/IProductData';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ICustomerData } from 'src/app/interfaces/ICustomerData';
 import { CustomerService } from 'src/app/services/customer/customer.service';
+import { NgModel } from '@angular/forms';
 
 @UntilDestroy()
 @Component({
@@ -80,6 +81,25 @@ export class SelectProductComponent implements OnInit {
       });
   }
 
+  protected toggleProductSelection(product: IProductData): void {
+    if (product.availableQuantity === 0) return;
+
+    product.selected = !product.selected;
+
+    if (product.selected && !product.selectedQuantity) {
+      product.selectedQuantity = 1;
+    }
+
+    if (!product.selected) {
+      product.selectedQuantity = 0;
+      product.selectedPrice = product.price;
+    }
+  }
+
+  protected onQtyFocus(product: IProductData): void {
+    product.selectedQuantity = null;
+  }
+
   protected filterProducts(): void {
     const term = this.productSearchTerm.toLowerCase();
     this.filteredProductList = this.productList.filter(
@@ -103,6 +123,7 @@ export class SelectProductComponent implements OnInit {
 
     if (product.selectedQuantity === 0) {
       product.selected = false;
+      product.selectedPrice = product.price;
     }
   }
 
@@ -111,7 +132,7 @@ export class SelectProductComponent implements OnInit {
       this.filteredProductList
         .filter((p: IProductData) => p.selected)
         .reduce(
-          (sum, p) => sum + (p.selectedQuantity * p.selectedPrice || 0),
+          (sum, p) => sum + (p.selectedQuantity! * p.selectedPrice || 0),
           0
         ) + (this.customerDetails?.overdue || 0)
     );
@@ -119,7 +140,7 @@ export class SelectProductComponent implements OnInit {
 
   protected getSelectedCount(): number {
     return this.filteredProductList.filter(
-      (p) => p.selected && p.selectedQuantity > 0
+      (p) => p.selected && p.selectedQuantity! > 0
     ).length;
   }
 
@@ -139,17 +160,20 @@ export class SelectProductComponent implements OnInit {
 
   protected hasValidSelectedProducts(): boolean {
     const selected = this.filteredProductList.filter(
-      (p) => p.selected && p.selectedQuantity > 0
+      (p) => p.selected && p.selectedQuantity! > 0
     );
 
     if (!selected.length) return false;
 
     return selected.every((product) => {
       const price = Number(product.selectedPrice);
+      const qty = Number(product.selectedQuantity);
       return (
         !isNaN(price) &&
         price >= product.minSalesPrice &&
-        price <= product.price
+        price <= product.price &&
+        qty >= 1 &&
+        qty <= product.availableQuantity
       );
     });
   }

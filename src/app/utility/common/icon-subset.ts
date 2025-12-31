@@ -133,6 +133,8 @@ import {
   cilBurn,
   cilPhone,
   cilGlobeAlt,
+  cilWarning,
+  cilInfo
 } from '@coreui/icons';
 
 export const iconSubset = {
@@ -270,6 +272,8 @@ export const iconSubset = {
   cilBurn,
   cilPhone,
   cilGlobeAlt,
+  cilWarning,
+  cilInfo
 };
 
 export enum IconSubset {
@@ -406,5 +410,7 @@ export enum IconSubset {
   cilArrowLeft = 'cilArrowLeft',
   cilBurn = 'cilBurn',
   cilPhone = 'cilPhone',
-  cilGlobeAlt = 'cilGlobeAlt'
+  cilGlobeAlt = 'cilGlobeAlt',
+  cilWarning = 'cilWarning',
+  cilInfo = 'cilInfo'
 }
