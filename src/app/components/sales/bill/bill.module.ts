@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BillComponent } from './bill.component';
 import { BillRoutingModule } from './bill-routing.module';
-import { ProgressModule, BadgeModule } from '@coreui/angular';
+import { ProgressModule, BadgeModule, TooltipModule } from '@coreui/angular';
 import { SelectRouteComponent } from './select-route/select-route.component';
 import { SelectExistingCustomerComponent } from './select-existing-customer/select-existing-customer.component';
 import { SelectNewCustomerComponent } from './select-new-customer/select-new-customer.component';
@@ -18,6 +18,12 @@ import { SharedModule } from '../../shared/shared.module';
     SelectProductComponent,
     BillSummaryComponent,
   ],
-  imports: [BillRoutingModule, SharedModule, ProgressModule, BadgeModule],
+  imports: [
+    BillRoutingModule,
+    SharedModule,
+    ProgressModule,
+    BadgeModule,
+    TooltipModule,
+  ],
 })
 export class BillModule {}

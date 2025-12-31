@@ -76,10 +76,10 @@ export const RESPONSE_MESSAGES = {
   SALE_STOCK_ADD_EDIT_SUCCESS:
     'Sale Stock information has been saved successfully.',
   SALE_STOCK_ADD_EDIT_FAILED:
-    'Sale Failed to save Stock information. Please try again.',
-  SALE_STOCK_GET_FAILED: 'Sale Failed to load Stock details. Please try again.',
+    'Failed to save Sale Stock information. Please try again.',
+  SALE_STOCK_GET_FAILED: 'Failed to load Sale Stock details. Please try again.',
   SALE_STOCK_DELETE_FAILED:
-    'Sale Failed to remove Stock details. Please try again.',
+    'Failed to remove Sale Stock details. Please try again.',
   SALE_STOCK_DELETE_SUCCESS:
     'Sale Stock information has been removed successfully.',
 
@@ -88,17 +88,18 @@ export const RESPONSE_MESSAGES = {
   RETURN_STOCK_ADD_EDIT_WARNING:
     'Some products still have remaining quantities. Please add all remaining product quantities to the return before proceeding.',
   RETURN_STOCK_ADD_EDIT_FAILED:
-    'Sale Failed to save Return Stock information. Please try again.',
+    'Failed to save Return Stock information. Please try again.',
   RETURN_STOCK_GET_FAILED:
-    'Sale Failed to load Return Stock details. Please try again.',
+    'Failed to load Return Stock details. Please try again.',
   RETURN_STOCK_DELETE_FAILED:
-    'Sale Failed to remove Return Stock details. Please try again.',
+    'Failed to remove Return Stock details. Please try again.',
   RETURN_STOCK_DELETE_SUCCESS:
     'Return Stock information has been removed successfully.',
 
   ORDER_ADD_SUCCESS: 'Order placed successfully.',
   ORDER_ADD_QUESTION: 'Do you want pay the order now ?',
   ORDER_ADD_FAILED: 'Something went wrong while placing your order.',
+  ORDER_BILL_GET_FAILED: 'Failed to load Bills. Please try again.',
 
   PAYMENT_SETTLE_FAILED: 'Failed to settle the payment. Please try again.',
 };

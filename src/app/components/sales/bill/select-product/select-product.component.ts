@@ -159,21 +159,28 @@ export class SelectProductComponent implements OnInit {
   }
 
   protected hasValidSelectedProducts(): boolean {
-    const selected = this.filteredProductList.filter(
-      (p) => p.selected && p.selectedQuantity! > 0
-    );
+    const selected = this.filteredProductList.filter((p) => p.selected);
 
     if (!selected.length) return false;
 
     return selected.every((product) => {
-      const price = Number(product.selectedPrice);
       const qty = Number(product.selectedQuantity);
+      const price = Number(product.selectedPrice);
+
+      if (
+        product.selectedQuantity == null ||
+        product.selectedPrice == null ||
+        isNaN(qty) ||
+        isNaN(price)
+      ) {
+        return false;
+      }
+
       return (
-        !isNaN(price) &&
-        price >= product.minSalesPrice &&
-        price <= product.price &&
         qty >= 1 &&
-        qty <= product.availableQuantity
+        qty <= product.availableQuantity &&
+        price >= product.minSalesPrice &&
+        price <= product.price
       );
     });
   }

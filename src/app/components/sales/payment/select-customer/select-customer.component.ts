@@ -76,6 +76,7 @@ export class SelectCustomerComponent implements OnInit {
   }
 
   protected navigateNext(customer: Partial<ICustomerData>): void {
+    this.customerService.setSelectedCustomer(customer);
     this.router.navigate(['../select-bill'], { relativeTo: this.route });
   }
 }

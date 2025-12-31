@@ -1,0 +1,5 @@
+export enum BillStatus {
+  PENDING = 'PENDING',
+  FULL_PAYMENT = 'FULL_PAYMENT',
+  PARTIAL_PAYMENT = 'PARTIAL_PAYMENT',
+}

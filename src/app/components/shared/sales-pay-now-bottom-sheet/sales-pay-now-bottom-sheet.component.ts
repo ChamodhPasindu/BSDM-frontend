@@ -100,7 +100,7 @@ export class SalesPayNowBottomSheetComponent
         next: (res: IResponse) => {
           if (res.body.status === RSP_SUCCESS) {
             this.paymentService.setPaymentCompleteData(payload);
-            this.bottomSheetService.close();
+            this.bottomSheetService.close({ action: true });
             this.bottomSheetService.open(
               SalesPaymentSummaryBottomSheetComponent,
               {

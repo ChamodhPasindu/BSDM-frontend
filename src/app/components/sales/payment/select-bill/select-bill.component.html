@@ -1,48 +1,31 @@
 <h6 class="mb-3 fw-bold">Bill List</h6>
 
-<input
-  type="text"
-  class="form-control mb-3"
-  placeholder="Search bill..."
-  [(ngModel)]="billSearchTerm"
-  (ngModelChange)="filterBills()"
-/>
+<input type="text" class="form-control mb-3" placeholder="Search bill..." [(ngModel)]="billSearchTerm"
+  (ngModelChange)="filterBills()" />
 
 <div class="d-flex flex-column">
-  <c-card
-    *ngFor="let bill of filteredBills"
-    class="shadow-sm route-card mb-2"
-  >
+  <c-card *ngFor="let bill of filteredBillList" class="shadow-sm route-card mb-2">
     <c-card-body (click)="viewBill(bill)" class="d-flex justify-content-between align-items-center py-2">
       <!-- Left Section -->
       <div class="d-flex flex-column">
-        <div class="fw-semibold">Bill ID: {{ bill.id }}</div>
-        <small class="text-muted">Date: {{ bill.date | date:'mediumDate' }}</small>
-        <small class="text-muted fw-semibold">Amount: LKR12,200</small>
-        <!-- Payment Status -->
-        
+        <div class="fw-semibold">Bill ID: {{ bill.orderReferenceNumber | empty }}</div>
+        <small class="text-muted">Bill Date: {{ bill.orderDate | date:'mediumDate' }}</small>
+        <small class="text-muted">Paid Date: {{ bill.paymentDate | date:'mediumDate' | empty}}</small>
+        <small class="text-muted fw-semibold">Bill Amount: {{ bill.orderAmount | currency:'LKR ' }}</small>
       </div>
 
       <!-- Right Section -->
       <div class="d-flex align-items-center gap-2">
         <div class="mt-1">
-          <span
-            *ngIf="bill.status === 'Full Paid'"
-            class="badge bg-primary text-white px-2 py-1 "
-          >
+          <span *ngIf="bill.paymentStatus === BillStatus.FULL_PAYMENT" class="badge bg-primary text-white px-2 py-1 ">
             Full Paid
           </span>
-          <span
-            *ngIf="bill.status === 'Partial Paid'"
-            class="badge bg-warning text-dark px-2 py-1 "
-          >
+          <span *ngIf="bill.paymentStatus ===  BillStatus.PARTIAL_PAYMENT"
+            class="badge bg-warning text-dark px-2 py-1 ">
             Partial Paid
           </span>
-          <span
-            *ngIf="bill.status === 'Not Paid'"
-            class="badge bg-danger text-white px-2 py-1"
-          >
-            Not Paid
+          <span *ngIf="bill.paymentStatus ===  BillStatus.PENDING" class="badge bg-danger text-white px-2 py-1">
+            Pending
           </span>
         </div>
         <svg cIcon name="cilChevronRight" class="text-secondary"></svg>
@@ -50,9 +33,9 @@
     </c-card-body>
   </c-card>
 
-  <div *ngIf="filteredBills.length === 0" class="text-center text-muted py-3">
+  <div *ngIf="!filteredBillList.length && billList.length" class="text-center text-muted py-3">
     No bills found
   </div>
 </div>
 
-<app-sales-empty-data name="Bills"></app-sales-empty-data>
+<app-sales-empty-data name="Bills" *ngIf="!billList.length"></app-sales-empty-data>
