@@ -102,6 +102,7 @@ export const RESPONSE_MESSAGES = {
   ORDER_BILL_GET_FAILED: 'Failed to load Bills. Please try again.',
 
   PAYMENT_SETTLE_FAILED: 'Failed to settle the payment. Please try again.',
+  PAYMENT_SUMMARY_GET_FAILED: 'Failed to load the payment details. Please try again.',
 };
 
 export const RESPONSE_TITLES = {

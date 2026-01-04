@@ -4,32 +4,56 @@
   <!-- Customer + Bill Info -->
   <div class="d-flex align-items-start mb-3">
     <c-avatar color="primary" textColor="white" class="me-3">
-      {{ customerDetails?.customerName!.charAt(0) | empty}}
+      {{ customerDetails?.customerName?.charAt(0) | empty}}
     </c-avatar>
     <div class="flex-fill">
       <div class="fw-semibold">{{ customerDetails?.customerName | empty}}</div>
       <small class="text-muted d-block">{{ customerDetails?.shopName | empty}}</small>
       <small class="text-muted d-block">{{ customerDetails?.address | empty}}</small>
-      <small class="text-danger fw-semibold d-block">Previous Overdue: {{ 0 | currency:'LKR '
-        }}</small>
+      <!-- <small class="text-danger fw-semibold d-block">Previous Overdue: {{ customerDetails?.overdue | currency:'LKR '}}</small> -->
     </div>
   </div>
 
   <!-- Bill Info -->
   <div class="bg-light rounded-3 p-2 mb-3">
+
     <div class="d-flex justify-content-between small mb-1">
-      <span class="text-muted">Order ID</span>
+      <span class="text-muted">Bill ID</span>
       <span class="fw-semibold">{{ saleCompleteData?.['orderReferenceNumber'] | empty }}</span>
     </div>
+
     <div class="d-flex justify-content-between small mb-1">
-      <span class="text-muted">Order Date</span>
-      <span class="fw-semibold">{{ saleCompleteData?.['orderDate'] || today | date: 'mediumDate' }}</span>
+      <span class="text-muted">Bill Date</span>
+      <span class="fw-semibold">
+        {{ (saleCompleteData?.['orderDate'] || today) | date:'mediumDate' }}
+      </span>
     </div>
-    <div class="d-flex justify-content-between small">
-      <span class="text-muted">Total Amount</span>
-      <span class="fw-semibold text-dark">{{ saleCompleteData?.['orderTotalAmount'] | currency:'LKR ' }}</span>
+
+    <div class="d-flex justify-content-between small mb-1">
+      <span class="text-muted">Bill Amount</span>
+      <span class="fw-semibold">
+        {{ saleCompleteData?.['orderTotalAmount'] | currency:'LKR ' }}
+      </span>
     </div>
+
+    <!-- Overdue -->
+    <div *ngIf="customerDetails?.overdue" class="d-flex justify-content-between small mb-1 text-danger">
+      <span>Overdue Amount</span>
+      <span class="fw-semibold">
+        {{ customerDetails?.overdue | currency:'LKR ' }}
+      </span>
+    </div>
+
+    <!-- Total Payable -->
+    <div *ngIf="customerDetails?.overdue" class="d-flex justify-content-between small border-top pt-1 mt-1">
+      <span class="fw-semibold">Total Payable</span>
+      <span class="fw-bold text-dark">
+        {{ getGrandTotalAmount() | currency:'LKR ' }}
+      </span>
+    </div>
+
   </div>
+
 
   <!-- Payment Section -->
   <h6 class="fw-bold mb-2">Payment Details</h6>
@@ -53,7 +77,7 @@
   <div class="mb-3">
     <label class="form-label small text-muted mb-1">Note</label>
     <textarea class="form-control" rows="2" [(ngModel)]="note" placeholder="Enter any note..."
-      maxlength="20"></textarea>
+      maxlength="50"></textarea>
   </div>
 
   <button class="btn btn-primary w-100 py-2 fw-semibold rounded-3"

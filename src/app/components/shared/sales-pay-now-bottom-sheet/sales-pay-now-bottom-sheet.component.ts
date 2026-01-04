@@ -47,28 +47,10 @@ export class SalesPayNowBottomSheetComponent
   ngOnInit(): void {
     this.customerDetails = this.customerService.getSelectedCustomer();
     this.saleCompleteData = this.saleService.getSaleCompleteData();
-
-    // this.saleService
-    //   .getOrderSummary(this.saleCompleteData?.['orderReferenceNumber']!)
-    //   .pipe(untilDestroyed(this))
-    //   .subscribe({
-    //     next: (res: IResponse) => {
-    //       if (res.body.status === RSP_SUCCESS) {
-    //       } else {
-    //         alertError({
-    //           title: RESPONSE_TITLES.FAILED,
-    //           text: res.body.message || RESPONSE_MESSAGES.PAYMENT_SETTLE_FAILED,
-    //         });
-    //       }
-    //     },
-    //     error: (err: HttpErrorResponse) => {
-    //       errorMessageHandler(err);
-    //     },
-    //   });
   }
 
   protected checkPaymentType(): void {
-    const maxAmount = Number(this.saleCompleteData?.['orderTotalAmount']!);
+    const maxAmount = this.getGrandTotalAmount();
     const minAmount = maxAmount / 2;
 
     if (this.paymentAmount! === maxAmount) {
@@ -85,6 +67,13 @@ export class SalesPayNowBottomSheetComponent
     }
   }
 
+  protected getGrandTotalAmount(): number {
+    return (
+      Number(this.saleCompleteData?.['orderTotalAmount']!) +
+      (this.customerDetails?.overdue || 0)
+    );
+  }
+
   protected markAsSettled(): void {
     const payload: IPayment = {
       paidAmount: this.paymentAmount!,
@@ -99,7 +88,6 @@ export class SalesPayNowBottomSheetComponent
       .subscribe({
         next: (res: IResponse) => {
           if (res.body.status === RSP_SUCCESS) {
-            this.paymentService.setPaymentCompleteData(payload);
             this.bottomSheetService.close({ action: true });
             this.bottomSheetService.open(
               SalesPaymentSummaryBottomSheetComponent,

@@ -17,14 +17,14 @@
     <!-- Customer Info -->
     <div class="d-flex align-items-start mb-3">
       <c-avatar color="primary" textColor="white" class="me-3">
-        {{ customer.name.charAt(0) }}
+        {{ paymentSummaryData?.customerName?.charAt(0) | empty}}
       </c-avatar>
       <div class="flex-fill">
-        <div class="fw-semibold">{{ customer.name }}</div>
-        <small class="text-muted d-block">{{ customer.shopName }}</small>
-        <small class="text-muted d-block">{{ customer.address }}</small>
-        <small class="text-danger fw-semibold d-block">
-          Overdue: {{ customer.overdueAmount | currency:'LKR' }}
+        <div class="fw-semibold"> {{ paymentSummaryData?.customerName | empty}}</div>
+        <small class="text-muted d-block">{{ paymentSummaryData?.customerShopName | empty }}</small>
+        <!-- <small class="text-muted d-block">{{ customer.address }}</small> -->
+        <small *ngIf="paymentSummaryData?.needToPay" class="text-danger fw-semibold d-block">
+          Overdue: {{ paymentSummaryData?.needToPay | currency:'LKR ' }}
         </small>
       </div>
     </div>
@@ -33,23 +33,23 @@
     <div class="bg-light rounded-3 p-2 mb-3">
       <div class="d-flex justify-content-between small mb-1">
         <span class="text-muted">Bill ID</span>
-        <span class="fw-semibold">{{ bill.id }}</span>
+        <span class="fw-semibold">{{ paymentSummaryData?.orderReferenceNumber | empty }}</span>
       </div>
       <div class="d-flex justify-content-between small mb-1">
         <span class="text-muted">Bill Date</span>
-        <span class="fw-semibold">{{ bill.date | date:'mediumDate' }}</span>
+        <span class="fw-semibold">{{ paymentSummaryData?.orderDate | date:'medium' }}</span>
       </div>
       <div class="d-flex justify-content-between small mb-1">
         <span class="text-muted">Total Amount</span>
-        <span class="fw-semibold text-dark">{{ bill.total | currency:'LKR' }}</span>
+        <span class="fw-semibold text-dark">{{ paymentSummaryData?.totalAmount | currency:'LKR ' }}</span>
       </div>
       <div class="d-flex justify-content-between small">
         <span class="text-muted">Payment Status</span>
-        <span class="fw-semibold" [ngClass]="{
-          'text-success': bill.status === 'Full Payment',
-          'text-warning': bill.status === 'Partial Payment'
-        }">
-          {{ bill.status }}
+        <span *ngIf="paymentSummaryData?.paymentStatus === BillStatus.FULL_PAYMENT" class="fw-semibold text-primary">
+          Full Payment
+        </span>
+        <span *ngIf="paymentSummaryData?.paymentStatus === BillStatus.PARTIAL_PAYMENT" class="fw-semibold text-warning">
+          Partial Payment
         </span>
       </div>
     </div>
@@ -57,13 +57,15 @@
     <!-- Product List -->
     <div class="mb-3">
       <h6 class="fw-bold mb-2">Products Purchased</h6>
-      <div *ngFor="let item of bill.items" class="d-flex justify-content-between align-items-center border-bottom py-2">
+      <div *ngFor="let item of paymentSummaryData?.items"
+        class="d-flex justify-content-between align-items-center border-bottom py-2">
         <div>
-          <div class="fw-semibold">{{ item.name }}</div>
-          <small class="text-muted">Qty: {{ item.qty }} &times; LKR100</small>
+          <div class="fw-semibold">{{ item['productName'] | empty }}</div>
+          <small class="text-muted">Qty: {{ item['quantity'] | numberSeparate }} &times; {{ item['sellingPrice'] |
+            currency:'LKR ' }}</small>
         </div>
         <div class="fw-semibold">
-          {{ item.total | currency:'LKR' }}
+          {{ item['lineTotal'] | currency:'LKR ' }}
         </div>
       </div>
     </div>
@@ -71,13 +73,23 @@
     <!-- Payment Details -->
     <div class="bg-light rounded-3 p-2 mb-3">
       <h6 class="fw-bold mb-2">Payment Details</h6>
-      <div *ngFor="let payment of bill.payments; let i = index" class="d-flex justify-content-between small mb-1">
-        <span class="text-muted">#{{ i + 1 }} | {{ payment.date | date:'shortDate' }}</span>
-        <span class="fw-semibold text-dark">{{ payment.amount | currency:'LKR' }}</span>
+      <div class="d-flex justify-content-between small mb-1">
+        <span class="text-muted"># | First Paid Date</span>
+        <span class="fw-semibold text-dark">{{ paymentSummaryData?.paymentDates?.['getFirstPaidDate'] |
+          date:'medium' }}</span>
+      </div>
+      <div class="d-flex justify-content-between small mb-1">
+        <span class="text-muted"># | Bill Settled Date</span>
+        <span *ngIf="paymentSummaryData?.paymentStatus === BillStatus.FULL_PAYMENT" class="fw-semibold text-dark">{{
+          (paymentSummaryData?.paymentDates?.['getBillSettledDate']
+          || paymentSummaryData?.paymentDates?.['getFirstPaidDate']) | date:'medium' | empty}}</span>
+        <span *ngIf="paymentSummaryData?.paymentStatus === BillStatus.PARTIAL_PAYMENT" class="fw-semibold text-dark">{{
+          paymentSummaryData?.paymentDates?.['getBillSettledDate']
+          | date:'medium' | empty}}</span>
       </div>
       <div class="d-flex justify-content-between small mt-2 border-top pt-2">
         <span class="text-muted">Total Paid</span>
-        <span class="fw-semibold">{{ totalPaid | currency:'LKR' }}</span>
+        <span class="fw-semibold">{{ paymentSummaryData?.paidAmount | currency:'LKR ' }}</span>
       </div>
     </div>
   </div>

@@ -51,11 +51,4 @@ export class SaleService {
       }
     );
   }
-
-  public getOrderSummary(id: string): Observable<IResponse> {
-    return this.httpClient.get<IResponse>(
-      this.salesRequestUrl + '/order/summary',
-      { params: { referenceNumber: id } }
-    );
-  }
 }

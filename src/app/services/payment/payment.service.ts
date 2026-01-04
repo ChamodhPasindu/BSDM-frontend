@@ -12,18 +12,9 @@ import { SECURE, getEndpoint } from 'src/app/utility/common/end-point';
 export class PaymentService {
   private salesRequestUrl = `${getEndpoint(SECURE)}/sales-man`;
 
-  private paymentCompleteData: IPayment | null = null;
-  private selectedBill:IBillData | null = null;
+  private selectedBill: IBillData | null = null;
 
   constructor(private readonly httpClient: HttpClient) {}
-
-  public setPaymentCompleteData(data: IPayment): void {
-    this.paymentCompleteData = data;
-  }
-
-  public getPaymentCompleteData(): IPayment | null {
-    return this.paymentCompleteData;
-  }
 
   public setSelectedBill(bill: IBillData): void {
     this.selectedBill = bill;
@@ -52,6 +43,13 @@ export class PaymentService {
         customerId: customerId,
         routeId: routeId,
       }
+    );
+  }
+
+  public getPaymentSummary(id: string): Observable<IResponse> {
+    return this.httpClient.get<IResponse>(
+      this.salesRequestUrl + '/order/summary',
+      { params: { referenceNumber: id } }
     );
   }
 }

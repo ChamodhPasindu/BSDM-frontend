@@ -97,15 +97,15 @@ export class SelectBillComponent implements OnInit {
   protected viewBill(bill: IBillData): void {
     this.paymentService.setSelectedBill(bill);
 
+    const saleCompleteData: Record<string, string> = {
+      orderTotalAmount: bill.orderAmount.toString(),
+      orderReferenceNumber: bill.orderReferenceNumber,
+      orderDate: bill.orderDate,
+    };
+
+    this.saleService.setSaleCompleteData(saleCompleteData);
+
     if (bill.paymentStatus === BillStatus.PENDING) {
-      const saleCompleteData: Record<string, string> = {
-        orderTotalAmount: bill.orderAmount.toString(),
-        orderReferenceNumber: bill.orderReferenceNumber,
-        orderDate: bill.orderDate,
-      };
-
-      this.saleService.setSaleCompleteData(saleCompleteData);
-
       this.bottomSheetService
         .open(SalesPayNowBottomSheetComponent, {
           height: '515px',
