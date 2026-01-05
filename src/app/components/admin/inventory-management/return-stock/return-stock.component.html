@@ -109,7 +109,9 @@
         <h4 class="card-title mb-4" id="employee-list">Return Stock List</h4>
       </c-col>
       <c-col xs="auto">
-        <button cButton type="button" (click)="openAddReturnStockView()">+ Add Return Stock</button>
+        <button cButton type="button" class="me-2" (click)="openAddReturnStockView()">+ Add Return Stock</button>
+        <button cButton type="button" color="warning" (click)="openReviewReturnStockView()">Review Salesman
+          Returns</button>
       </c-col>
     </c-row>
     <form cRow class="align-items-end mb-4" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
@@ -230,3 +232,4 @@
 
 <app-view-return-stock #viewReturnStockModal></app-view-return-stock>
 <app-add-return-stock #addReturnStockModal (tableRefresh)="onRefresh()"></app-add-return-stock>
+<app-review-return-stock #reviewReturnStockModal (tableRefresh)="onRefresh()"></app-review-return-stock>

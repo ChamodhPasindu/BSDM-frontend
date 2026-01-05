@@ -19,6 +19,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ActionButton } from 'src/app/enums/ActionButton.enum';
 import { AddReturnStockComponent } from './add-return-stock/add-return-stock.component';
 import { IReturnStockData } from 'src/app/interfaces/IReturnStockData';
+import { ReviewReturnStockComponent } from './review-return-stock/review-return-stock.component';
 
 @UntilDestroy()
 @Component({
@@ -31,6 +32,8 @@ export class ReturnStockComponent implements OnInit {
   protected viewReturnStockModal!: ViewReturnStockComponent;
   @ViewChild('addReturnStockModal')
   protected addReturnStockModal!: AddReturnStockComponent;
+  @ViewChild('reviewReturnStockModal')
+  protected reviewReturnStockModal!: ReviewReturnStockComponent;
 
   protected readonly ActionButton = ActionButton;
   protected returnStockList: IReturnStockData[];
@@ -128,6 +131,11 @@ export class ReturnStockComponent implements OnInit {
   protected openAddReturnStockView(): void {
     this.addReturnStockModal.loadData();
     this.addReturnStockModal.visible = true;
+  }
+
+  protected openReviewReturnStockView(): void {
+    this.reviewReturnStockModal.loadData();
+    this.reviewReturnStockModal.visible = true;
   }
 
   protected openReturnStockView(action: ActionButton, returnStock: IReturnStockData): void {

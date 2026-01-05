@@ -39,6 +39,7 @@ import { AddEditViewBatchComponent } from './item-batch/add-edit-view-batch/add-
 import { AddViewProductComponent } from './product/add-view-product/add-view-product.component';
 import { AddStockComponent } from './stock/add-stock/add-stock.component';
 import { EditViewStockComponent } from './stock/edit-view-stock/edit-view-stock.component';
+import { ReviewReturnStockComponent } from './return-stock/review-return-stock/review-return-stock.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { EditViewStockComponent } from './stock/edit-view-stock/edit-view-stock.
     AddSaleStockComponent,
     ViewReturnStockComponent,
     AddReturnStockComponent,
+    ReviewReturnStockComponent,
   ],
   imports: [
     InventoryManagementRoutingModule,
