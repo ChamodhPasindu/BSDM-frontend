@@ -16,6 +16,7 @@ import {
   RESPONSE_TITLES,
 } from 'src/app/utility/constants/response-message-title';
 import { HttpErrorResponse } from '@angular/common/http';
+import { BottomSheetEventService } from 'src/app/services/bottom-sheet/bottom-sheet-event.service';
 
 @UntilDestroy()
 @Component({
@@ -37,6 +38,7 @@ export class SalesPayNowBottomSheetComponent
 
   constructor(
     public override readonly bottomSheetService: NgxBottomSheetService,
+    private readonly bottomSheetEventService: BottomSheetEventService,
     private readonly customerService: CustomerService,
     private readonly saleService: SaleService,
     private readonly paymentService: PaymentService
@@ -88,7 +90,8 @@ export class SalesPayNowBottomSheetComponent
       .subscribe({
         next: (res: IResponse) => {
           if (res.body.status === RSP_SUCCESS) {
-            this.bottomSheetService.close({ action: true });
+            this.bottomSheetEventService.emitClose({ action: 'pay-now' });
+            this.bottomSheetService.close();
             this.bottomSheetService.open(
               SalesPaymentSummaryBottomSheetComponent,
               {

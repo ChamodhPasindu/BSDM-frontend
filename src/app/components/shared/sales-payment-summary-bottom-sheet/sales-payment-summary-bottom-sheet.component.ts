@@ -4,8 +4,10 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NgxBottomSheetService } from 'ngx-bottom-sheet';
 import { BillStatus } from 'src/app/enums/BillStatus.enum';
 import { ICustomerData } from 'src/app/interfaces/ICustomerData';
+import { IPayment } from 'src/app/interfaces/IPayment';
 import { IPaymentSummary } from 'src/app/interfaces/IPaymentSummary';
 import { IResponse } from 'src/app/interfaces/IResponse';
+import { BottomSheetEventService } from 'src/app/services/bottom-sheet/bottom-sheet-event.service';
 import { CustomerService } from 'src/app/services/customer/customer.service';
 import { PaymentService } from 'src/app/services/payment/payment.service';
 import { SaleService } from 'src/app/services/sale/sale.service';
@@ -15,7 +17,13 @@ import {
   RESPONSE_TITLES,
 } from 'src/app/utility/constants/response-message-title';
 import { BaseBottomSheetDirective } from 'src/app/utility/directives/base-bottom-sheet.directive';
-import { alertError, errorMessageHandler } from 'src/app/utility/helper';
+import {
+  alertError,
+  alertSuccess,
+  alertWarning,
+  errorMessageHandler,
+} from 'src/app/utility/helper';
+import { SweetAlertResult } from 'sweetalert2';
 
 @UntilDestroy()
 @Component({
@@ -36,6 +44,7 @@ export class SalesPaymentSummaryBottomSheetComponent
 
   constructor(
     public override readonly bottomSheetService: NgxBottomSheetService,
+    private readonly bottomSheetEventService: BottomSheetEventService,
     private readonly customerService: CustomerService,
     private readonly saleService: SaleService,
     private readonly paymentService: PaymentService
@@ -73,6 +82,51 @@ export class SalesPaymentSummaryBottomSheetComponent
           errorMessageHandler(err);
         },
       });
+  }
+
+  protected settleOverdue(): void {
+    alertWarning(
+      {
+        title: RESPONSE_TITLES.WARNING,
+        text: RESPONSE_MESSAGES.PAYMENT_OVERDUE_SETTLE_CONFIRMATION,
+      },
+      (result: SweetAlertResult<any>) => {
+        if (result.isConfirmed) {
+          const payload: IPayment = {
+            paidAmount: this.paymentSummaryData?.needToPay!,
+            paymentMethod: 'Cash',
+            referenceNumber: this.saleCompleteData?.['orderReferenceNumber']!,
+            paymentReason: 'Direct Overdue Settlement',
+          };
+
+          this.paymentService
+            .settlePayment(payload)
+            .pipe(untilDestroyed(this))
+            .subscribe({
+              next: (res: IResponse) => {
+                if (res.body.status === RSP_SUCCESS) {
+                  this.bottomSheetEventService.emitClose({action:'payment-summary'});
+                  this.bottomSheetService.close();
+                  alertSuccess({
+                    title: RESPONSE_TITLES.SUCCESS,
+                    text: RESPONSE_MESSAGES.PAYMENT_OVERDUE_SETTLE_SUCCESS,
+                  });
+                } else {
+                  alertError({
+                    title: RESPONSE_TITLES.FAILED,
+                    text:
+                      res.body.message ||
+                      RESPONSE_MESSAGES.PAYMENT_SETTLE_FAILED,
+                  });
+                }
+              },
+              error: (err: HttpErrorResponse) => {
+                errorMessageHandler(err);
+              },
+            });
+        }
+      }
+    );
   }
 
   printStatus() {

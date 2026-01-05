@@ -17,17 +17,35 @@
     <!-- Customer Info -->
     <div class="d-flex align-items-start mb-3">
       <c-avatar color="primary" textColor="white" class="me-3">
-        {{ paymentSummaryData?.customerName?.charAt(0) | empty}}
+        {{ paymentSummaryData?.customerName?.charAt(0) | empty }}
       </c-avatar>
+
       <div class="flex-fill">
-        <div class="fw-semibold"> {{ paymentSummaryData?.customerName | empty}}</div>
-        <small class="text-muted d-block">{{ paymentSummaryData?.customerShopName | empty }}</small>
-        <!-- <small class="text-muted d-block">{{ customer.address }}</small> -->
-        <small *ngIf="paymentSummaryData?.needToPay" class="text-danger fw-semibold d-block">
-          Overdue: {{ paymentSummaryData?.needToPay | currency:'LKR ' }}
+
+        <div class="fw-semibold">
+          {{ paymentSummaryData?.customerName | empty }}
+        </div>
+
+        <small class="text-muted d-block">
+          {{ paymentSummaryData?.customerShopName | empty }}
         </small>
+
+        <!-- Overdue row with CTA -->
+        <div *ngIf="paymentSummaryData?.needToPay" class="d-flex justify-content-between align-items-center mt-1">
+
+          <small class="text-danger fw-semibold">
+            Overdue: {{ paymentSummaryData?.needToPay | currency:'LKR ' }}
+          </small>
+
+          <button class="btn btn-sm btn-outline-danger" (click)="settleOverdue()">
+            Settle Now
+          </button>
+
+        </div>
+
       </div>
     </div>
+
 
     <!-- Bill Info -->
     <div class="bg-light rounded-3 p-2 mb-3">

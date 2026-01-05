@@ -101,6 +101,8 @@ export const RESPONSE_MESSAGES = {
   ORDER_ADD_FAILED: 'Something went wrong while placing your order.',
   ORDER_BILL_GET_FAILED: 'Failed to load Bills. Please try again.',
 
+  PAYMENT_OVERDUE_SETTLE_SUCCESS: 'Direct Overdue settlement Successful',
+  PAYMENT_OVERDUE_SETTLE_CONFIRMATION: 'Are you sure you want to settle overdue payment now?',
   PAYMENT_SETTLE_FAILED: 'Failed to settle the payment. Please try again.',
   PAYMENT_SUMMARY_GET_FAILED: 'Failed to load the payment details. Please try again.',
 };

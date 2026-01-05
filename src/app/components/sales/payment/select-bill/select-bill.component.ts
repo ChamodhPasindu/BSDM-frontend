@@ -10,6 +10,7 @@ import { IBillData } from 'src/app/interfaces/IBillData';
 import { ICustomerData } from 'src/app/interfaces/ICustomerData';
 import { ICustomizeRouteData } from 'src/app/interfaces/ICustomizeRouteData';
 import { IResponse } from 'src/app/interfaces/IResponse';
+import { BottomSheetEventService } from 'src/app/services/bottom-sheet/bottom-sheet-event.service';
 import { CustomerService } from 'src/app/services/customer/customer.service';
 import { PaymentService } from 'src/app/services/payment/payment.service';
 import { RouteService } from 'src/app/services/route/route.service';
@@ -40,6 +41,7 @@ export class SelectBillComponent implements OnInit {
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly bottomSheetService: NgxBottomSheetService,
+    private readonly bottomSheetEventService: BottomSheetEventService,
     private readonly routeService: RouteService,
     private readonly customerService: CustomerService,
     private readonly saleService: SaleService,
@@ -55,6 +57,13 @@ export class SelectBillComponent implements OnInit {
         relativeTo: this.route,
       });
     }
+
+    this.bottomSheetEventService.onClose().pipe(untilDestroyed(this)).subscribe((res) => {
+      if (res?.action === 'pay-now' || res?.action === 'payment-summary') {
+        console.log(res.action);
+        this.loadBillList();
+      }
+    });
 
     this.loadBillList();
   }
@@ -106,17 +115,11 @@ export class SelectBillComponent implements OnInit {
     this.saleService.setSaleCompleteData(saleCompleteData);
 
     if (bill.paymentStatus === BillStatus.PENDING) {
-      this.bottomSheetService
-        .open(SalesPayNowBottomSheetComponent, {
-          height: '515px',
-          showCloseButton: false,
-          backgroundColor: '#fff',
-        })
-        .afterClosed$.subscribe((result) => {
-          if (result?.action) {
-            this.loadBillList();
-          }
-        });
+      this.bottomSheetService.open(SalesPayNowBottomSheetComponent, {
+        height: '515px',
+        showCloseButton: false,
+        backgroundColor: '#fff',
+      });
     } else {
       this.bottomSheetService.open(SalesPaymentSummaryBottomSheetComponent, {
         height: 'top',
