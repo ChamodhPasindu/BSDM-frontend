@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import * as moment from 'moment';
 import { NgxBottomSheetService } from 'ngx-bottom-sheet';
 import { SalesPayNowBottomSheetComponent } from 'src/app/components/shared/sales-pay-now-bottom-sheet/sales-pay-now-bottom-sheet.component';
 import { SalesPaymentSummaryBottomSheetComponent } from 'src/app/components/shared/sales-payment-summary-bottom-sheet/sales-payment-summary-bottom-sheet.component';
@@ -9,6 +10,7 @@ import { BillStatus } from 'src/app/enums/BillStatus.enum';
 import { IBillData } from 'src/app/interfaces/IBillData';
 import { ICustomerData } from 'src/app/interfaces/ICustomerData';
 import { ICustomizeRouteData } from 'src/app/interfaces/ICustomizeRouteData';
+import { IPaymentSummary } from 'src/app/interfaces/IPaymentSummary';
 import { IResponse } from 'src/app/interfaces/IResponse';
 import { BottomSheetEventService } from 'src/app/services/bottom-sheet/bottom-sheet-event.service';
 import { CustomerService } from 'src/app/services/customer/customer.service';
@@ -20,7 +22,11 @@ import {
   RESPONSE_MESSAGES,
   RESPONSE_TITLES,
 } from 'src/app/utility/constants/response-message-title';
-import { alertError, errorMessageHandler } from 'src/app/utility/helper';
+import {
+  alertError,
+  datePickerToDate,
+  errorMessageHandler,
+} from 'src/app/utility/helper';
 
 @UntilDestroy()
 @Component({
@@ -36,6 +42,8 @@ export class SelectBillComponent implements OnInit {
   protected billList: IBillData[] = [];
   protected filteredBillList: IBillData[] = [];
   protected billSearchTerm: string;
+
+  protected orderDateRange: Date[] = [new Date(), new Date()];
 
   constructor(
     private readonly router: Router,
@@ -58,49 +66,75 @@ export class SelectBillComponent implements OnInit {
       });
     }
 
-    this.bottomSheetEventService.onClose().pipe(untilDestroyed(this)).subscribe((res) => {
-      if (res?.action === 'pay-now' || res?.action === 'payment-summary') {
-        console.log(res.action);
-        this.loadBillList();
-      }
-    });
-
-    this.loadBillList();
+    this.bottomSheetEventService
+      .onClose()
+      .pipe(untilDestroyed(this))
+      .subscribe((res) => {
+        if (res?.action === 'pay-now' || res?.action === 'payment-summary') {
+          console.log(res.action);
+          this.loadBillList();
+        }
+      });
   }
 
-  private loadBillList(): void {
+  private loadBillList(fromDate?: string, toDate?: string): void {
+    const today = moment().format('YYYY-MM-DD');
+
+    const from = fromDate ?? today;
+    const to = toDate ?? today;
+
     this.paymentService
       .getBillList(
         this.customerDetails?.customerId!,
-        this.routeDetails?.routeId!
+        this.routeDetails?.routeId!,
+        from,
+        to
       )
       .pipe(untilDestroyed(this))
       .subscribe({
         next: (res: IResponse) => {
           if (res.body.status === RSP_SUCCESS) {
-            this.billList = res.body.content;
+            const filtered = res.body.content.filter(
+              (x: IBillData) =>
+                x.paymentType === null || x.paymentType === 'ORDER'
+            );
+
+            // Step 2: remove duplicates by orderId
+            const uniqueBillsMap = new Map<number, IBillData>();
+
+            filtered.forEach((bill: IBillData) => {
+              if (!uniqueBillsMap.has(bill.orderId)) {
+                uniqueBillsMap.set(bill.orderId, bill);
+              }
+            });
+
+            this.billList = Array.from(uniqueBillsMap.values());
+
             this.filteredBillList = this.billList;
           } else {
             alertError({
               title: RESPONSE_TITLES.FAILED,
               text: res.body.message || RESPONSE_MESSAGES.ORDER_BILL_GET_FAILED,
             });
+            this.billList = [];
+            this.filteredBillList = [];
           }
         },
         error: (err: HttpErrorResponse) => {
           errorMessageHandler(err);
+          this.billList = [];
+          this.filteredBillList = [];
         },
       });
   }
 
-  protected filterBills(): void {
-    const term = this.billSearchTerm.toLowerCase();
-    this.filteredBillList = this.billList.filter(
-      (bill) =>
-        bill.orderReferenceNumber.toLowerCase().includes(term) ||
-        bill.paymentStatus.toLowerCase().includes(term) ||
-        bill.orderAmount.toString().includes(term)
-    );
+  protected onDateRangeChange(value: (Date | undefined)[] | undefined) {
+    if (!value || value.length !== 2) {
+      return;
+    }
+    const [fromDate, toDate] = value;
+
+    this.loadBillList(datePickerToDate(fromDate), datePickerToDate(toDate));
   }
 
   protected viewBill(bill: IBillData): void {

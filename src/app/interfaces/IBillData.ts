@@ -1,4 +1,4 @@
-import { BillStatus } from "../enums/BillStatus.enum";
+import { BillStatus } from '../enums/BillStatus.enum';
 
 export interface IBillData {
   orderId: number;
@@ -9,4 +9,5 @@ export interface IBillData {
   orderAmount: number;
   paidAmount: number;
   balanceAmount: number;
+  paymentType: string;
 }

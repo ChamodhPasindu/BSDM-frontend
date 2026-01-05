@@ -6,6 +6,7 @@ import { SelectBillComponent } from './select-bill/select-bill.component';
 import { SelectRouteComponent } from './select-route/select-route.component';
 import { BadgeModule } from '@coreui/angular';
 import { SharedModule } from '../../shared/shared.module';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,6 @@ import { SharedModule } from '../../shared/shared.module';
     SelectCustomerComponent,
     SelectBillComponent,
   ],
-  imports: [PaymentRoutingModule, SharedModule, BadgeModule],
+  imports: [PaymentRoutingModule, SharedModule, BadgeModule,BsDatepickerModule.forRoot()],
 })
 export class PaymentModule {}

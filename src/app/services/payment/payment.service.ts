@@ -35,13 +35,17 @@ export class PaymentService {
 
   public getBillList(
     customerId: number,
-    routeId: number
+    routeId: number,
+    startOfDay: string | undefined,
+    endOfDay: string | undefined,
   ): Observable<IResponse> {
     return this.httpClient.post<IResponse>(
       this.salesRequestUrl + '/order/order-list',
       {
         customerId: customerId,
         routeId: routeId,
+        startOfDay: startOfDay,
+        endOfDay: endOfDay,
       }
     );
   }
