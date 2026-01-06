@@ -1,0 +1,136 @@
+<div class="container-fluid py-3">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <button cButton class="btn w-100" variant="outline" (click)="navigateToDraftOrders()">
+      <c-icon name="cilNotes" size="sm"></c-icon>
+      View Draft Orders
+    </button>
+  </div>
+
+  <div class="alert alert-info mb-3">
+    <c-icon name="cilInfo" size="sm"></c-icon>
+    Quick order mode - No customer or route selection required. Just pick products and submit!
+  </div>
+
+  <!-- Search Bar -->
+  <input type="text" class="form-control mb-3" placeholder="Search product..." [(ngModel)]="productSearchTerm"
+    (ngModelChange)="filterProducts()" />
+
+  <!-- Product Cards -->
+  <div class="d-flex flex-column gap-2">
+    <c-card *ngFor="let product of filteredProductList" class="shadow-sm product-card">
+
+      <div class="w-100 d-flex align-items-center gap-2 px-2 py-1 bg-danger bg-opacity-10 text-danger"
+        *ngIf="qtyModel.invalid && qtyModel.dirty">
+        <svg cIcon name="cilInfo" size="sm"></svg>
+        <small class="fw-semibold">
+          <span *ngIf="qtyModel.errors?.['min']">Minimum quantity is 1</span>
+          <span *ngIf="qtyModel.errors?.['max']">Maximum available: {{ product.availableQuantity }}</span>
+          <span *ngIf="qtyModel.errors?.['required']">Quantity is required</span>
+        </small>
+      </div>
+
+      <div class="w-100 d-flex align-items-center gap-2 px-2 py-1 bg-danger bg-opacity-10 text-danger"
+        *ngIf="priceModel.invalid && priceModel.dirty">
+        <svg cIcon name="cilInfo" size="sm"></svg>
+        <small class="fw-semibold">
+          <span *ngIf="priceModel.errors?.['min']">
+            Minimum price: {{ product.minSalesPrice | currency:'LKR ' }}
+          </span>
+          <span *ngIf="priceModel.errors?.['max']">
+            Maximum price: {{ product.price | currency:'LKR ' }}
+          </span>
+          <span *ngIf="priceModel.errors?.['required']">Price is required</span>
+        </small>
+      </div>
+
+      <c-card-body class="d-flex justify-content-between align-items-end">
+        <!-- Left: Info -->
+        <div class="flex-fill">
+          <div class="d-flex align-items-center mb-1" (click)="toggleProductSelection(product)">
+            <input type="checkbox" class="form-check-input me-2" [(ngModel)]="product.selected"
+              [disabled]="product.availableQuantity === 0" (click)="$event.stopPropagation()" />
+
+            <span class="fw-medium me-2">
+              {{ product.productName }}
+            </span>
+          </div>
+
+          <span *ngIf="product.availableQuantity > 0; else outOfStock" class="badge bg-success">
+            In stock · {{ product.availableQuantity }}
+          </span>
+
+          <ng-template #outOfStock>
+            <span class="badge bg-danger">
+              Out of stock
+            </span>
+          </ng-template>
+
+          <div class="text-muted small">{{ product.description }}</div>
+          <div class="text-muted small">Price: {{ product.minSalesPrice }} - {{ product.price }} LKR</div>
+        </div>
+
+        <div class="d-flex flex-column align-items-end gap-1 ms-3">
+          <div class="position-absolute top-0 end-0 pe-1 pt-2">
+            <span class="cursor-pointer" [cTooltip]="tooltipTpl" tooltipPlacement="left" tooltipTrigger="click"
+              tooltipHideOnClickOutside="true">
+              <svg cIcon name="cilOptions" size="lg" class="text-secondary"></svg>
+            </span>
+          </div>
+
+          <ng-template #tooltipTpl>
+            <div class="small">
+              <div class="fw-semibold mb-1">Product Details</div>
+              <div>• Manufacture Date : {{ product.manufactureDate }} </div>
+              <div>• Expire Date : {{ product.expiryDate }}</div>
+              <div class="mt-1">
+                • Sold Quantity : {{ product.soldQuantity }}
+              </div>
+            </div>
+          </ng-template>
+
+          <div class="d-flex align-items-center gap-1">
+            <button class="btn btn-outline-secondary btn-sm" (click)="decreaseQty(product)"
+              [disabled]="product?.selectedQuantity!  <= 0">-</button>
+
+            <input type="number" class="form-control form-control-sm text-center" placeholder="Qty" style="width:60px"
+              [(ngModel)]="product.selectedQuantity" [disabled]="!product.selected" (focus)="onQtyFocus(product)"
+              [min]="1" [max]="product.availableQuantity" required #qtyModel="ngModel" />
+
+            <button class="btn btn-outline-secondary btn-sm" (click)="increaseQty(product)"
+              [disabled]="!product.selected || product?.selectedQuantity! >= product.availableQuantity">+</button>
+          </div>
+
+          <input cFormControl type="number" class="form-control form-control-sm text-center" style="width:120px"
+            [(ngModel)]="product.selectedPrice" [disabled]="!product.selected" placeholder="Sell Price"
+            [min]="product.minSalesPrice" [max]="product.price" required #priceModel="ngModel" />
+
+        </div>
+      </c-card-body>
+    </c-card>
+
+    <div *ngIf="!filteredProductList.length && productList.length" class="text-center text-muted py-3">
+      No products found
+    </div>
+  </div>
+
+  <app-sales-empty-data name="Products" *ngIf="!productList.length"></app-sales-empty-data>
+
+  <!-- Summary Section -->
+  <div class="card shadow-sm mt-3 p-3 summary-card rounded-4 border-0">
+    <div class="d-flex justify-content-between align-items-center mb-1">
+      <span class="text-muted small">Order Total</span>
+      <span class="fw-semibold text-dark">
+        {{ getTotalAmount() | currency:'LKR ' }}
+      </span>
+    </div>
+
+    <small class="text-muted d-block mb-3">
+      {{ getSelectedCount() }} item(s)
+    </small>
+
+    <button class="btn btn-success w-100 py-2 fw-semibold rounded-3" [disabled]="!hasValidSelectedProducts()"
+      (click)="submitEasyOrder()">
+      Submit Easy Order
+    </button>
+  </div>
+</div>

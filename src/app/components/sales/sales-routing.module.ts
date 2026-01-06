@@ -45,6 +45,11 @@ const routes: Routes = [
           import('./payment/payment.module').then((m) => m.PaymentModule),
       },
       {
+        path: 'easy-order',
+        loadChildren: () =>
+          import('./easy-order/easy-order.module').then((m) => m.EasyOrderModule),
+      },
+      {
         path: 'route',
         component: RouteComponent,
         data: {

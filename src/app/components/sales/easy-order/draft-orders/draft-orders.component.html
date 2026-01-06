@@ -1,0 +1,89 @@
+<div class="container-fluid py-3">
+    <!-- Empty State -->
+    <div *ngIf="!draftOrders.length" class="text-center py-5">
+        <p class="text-muted">No draft orders found. Start by creating one!</p>
+        <button class="btn btn-primary" (click)="goBack()">Create Order</button>
+    </div>
+
+    <!-- Draft Orders List -->
+    <div *ngIf="draftOrders.length" class="d-flex flex-column gap-3">
+        <!-- Total Amount Display -->
+        <div class="card shadow-sm p-3 rounded-4 border-0">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="mb-0">Draft Orders</h5>
+                    <span class="text-muted">{{ draftOrders.length }} order(s)</span>
+                </div>
+                <div class="text-end">
+                    <div class="text-muted small">Total Amount</div>
+                    <div class="h4 fw-semibold text-primary mb-0">{{ 1000 | currency:'LKR ' }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Draft Orders Cards -->
+        <c-card *ngFor="let order of draftOrders" class="shadow-sm route-card mb-2">
+            <c-card-body class="d-flex justify-content-between align-items-center py-2">
+                <div class="d-flex align-items-start">
+                    <!-- Order Details -->
+                    <div class="flex-fill">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <div>
+                                <div class="fw-semibold">
+                                    Order #{{ order.id?.substring(0, 8) }}
+                                </div>
+                                <div class="text-muted small">
+                                    Created: {{ order.createdAt | date:'short' }}
+                                </div>
+                            </div>
+
+                            <div class="text-end">
+                                <div class="fw-semibold text-dark">{{ order.totalAmount | currency:'LKR ' }}</div>
+                                <div class="badge bg-seondary">{{ order.orderItems.length }} item(s)</div>
+                            </div>
+                        </div>
+
+                        <!-- Expanded Details -->
+                        <div *ngIf="expandedOrderId === order.id" class="mt-3 pt-3 border-top">
+                            <div class="table-responsive">
+                                <table class="table table-sm mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Product</th>
+                                            <th class="text-end">Qty</th>
+                                            <th class="text-end">Price</th>
+                                            <th class="text-end">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of order.orderItems">
+                                            <td>
+                                                <small>{{ item.productName }}</small>
+                                            </td>
+                                            <td class="text-end"><small>{{ item.quantity }}</small></td>
+                                            <td class="text-end"><small>{{ item.price | currency:'LKR ' }}</small></td>
+                                            <td class="text-end"><small class="fw-semibold">{{ item.totalAmount |
+                                                    currency:'LKR ' }}</small></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Collapsed State Toggle -->
+                        <div *ngIf="expandedOrderId !== order.id" class="mt-2">
+                            <button class="btn btn-sm p-0 text-secondary" (click)="toggleExpandOrder(order.id!)">
+                                View Details <c-icon name="cilChevronRight" size="sm"></c-icon>
+                            </button>
+                        </div>
+                        <div *ngIf="expandedOrderId === order.id" class="mt-2">
+                            <button class="btn btn-sm p-0 text-secondary" (click)="toggleExpandOrder(null)">
+                                Hide Details <c-icon name="cilChevronDown" size="sm"></c-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </c-card-body>
+        </c-card>
+    </div>
+</div>

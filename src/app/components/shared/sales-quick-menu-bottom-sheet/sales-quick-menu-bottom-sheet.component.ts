@@ -31,4 +31,11 @@ export class SalesQuickMenuBottomSheetComponent extends BaseBottomSheetDirective
     });
     this.bottomSheetService.close();
   }
+
+  protected navigateToEasyOrder() {
+    this.router.navigate(['/sales/post-login/easy-order'], {
+      relativeTo: this.route,
+    });
+    this.bottomSheetService.close();
+  }
 }
