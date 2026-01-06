@@ -31,6 +31,7 @@ import {
   alertError,
   alertSuccess,
   errorMessageHandler,
+  onValidate,
 } from 'src/app/utility/helper';
 
 @UntilDestroy()
@@ -39,9 +40,7 @@ import {
   templateUrl: './add-sale-stock.component.html',
   styleUrls: ['./add-sale-stock.component.scss'],
 })
-export class AddSaleStockComponent
-  extends ModalControlDirective
-{
+export class AddSaleStockComponent extends ModalControlDirective {
   protected readonly ActionButton = ActionButton;
   protected readonly PaginationType = PaginationType;
 
@@ -289,6 +288,8 @@ export class AddSaleStockComponent
   }
 
   protected onSubmit(): void {
+    if (!onValidate(this.saleStockForm)) return;
+
     const { routes, status } = this.saleStockForm.value;
 
     const stockList: Record<string, number>[] = this.cartItems.map((item) => {

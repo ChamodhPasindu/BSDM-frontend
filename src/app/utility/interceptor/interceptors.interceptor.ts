@@ -35,6 +35,10 @@ export class Interceptor implements HttpInterceptor {
   private isRefreshing = false;
   private refreshTokenSubject = new BehaviorSubject<string | null>(null);
 
+  protected newErrorRes = new HttpErrorResponse({
+    error: { message: RESPONSE_MESSAGES.SESSION_EXPIRED_DES },
+  });
+
   constructor(
     private readonly router: Router,
     private readonly storageService: StorageService,
@@ -128,11 +132,9 @@ export class Interceptor implements HttpInterceptor {
 
       if (!refreshToken) {
         this.logout();
-        return throwError(() => ({
-          message: RESPONSE_MESSAGES.SESSION_EXPIRED_DES,
-        }));
+        return throwError(() => this.newErrorRes);
       }
-      RESPONSE_MESSAGES;
+
       return this.authService.refreshToken(refreshToken).pipe(
         switchMap((response: IResponse) => {
           this.isRefreshing = false;
@@ -156,17 +158,13 @@ export class Interceptor implements HttpInterceptor {
             );
           } else {
             this.logout();
-            return throwError(() => ({
-              message: RESPONSE_MESSAGES.SESSION_EXPIRED_DES,
-            }));
+            return throwError(() => this.newErrorRes);
           }
         }),
         catchError(() => {
           this.isRefreshing = false;
           this.logout();
-          return throwError(() => ({
-            message: RESPONSE_MESSAGES.SESSION_EXPIRED_DES,
-          }));
+          return throwError(() => this.newErrorRes);
         })
       );
     }

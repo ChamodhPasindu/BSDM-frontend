@@ -99,7 +99,6 @@ export class SelectBillComponent implements OnInit {
                 x.paymentType === null || x.paymentType === 'ORDER'
             );
 
-            // Step 2: remove duplicates by orderId
             const uniqueBillsMap = new Map<number, IBillData>();
 
             filtered.forEach((bill: IBillData) => {

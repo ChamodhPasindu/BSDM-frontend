@@ -18,6 +18,7 @@ import {
   alertError,
   alertSuccess,
   errorMessageHandler,
+  onValidate,
 } from 'src/app/utility/helper';
 
 @UntilDestroy()
@@ -61,6 +62,8 @@ export class SelectNewCustomerComponent implements OnInit {
   }
 
   protected onSubmit(): void {
+    if (!onValidate(this.customerForm)) return;
+
     this.customerService
       .addSalesmanCustomer(
         this.selectedRoute?.routeId!,

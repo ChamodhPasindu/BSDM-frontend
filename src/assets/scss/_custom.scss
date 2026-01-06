@@ -194,6 +194,15 @@ a {
     color: #CCCCCC !important;
 }
 
+ng-multiselect-dropdown.is-invalid .multiselect-dropdown {
+    border: 1px solid #e55353;
+    border-radius: 4px;
+}
+
+ng-multiselect-dropdown.is-invalid .multiselect-dropdown .dropdown-btn {
+    border: none !important;
+}
+
 .ng-select.is-invalid .ng-select-container {
     border-color: #e55353 !important;
 }

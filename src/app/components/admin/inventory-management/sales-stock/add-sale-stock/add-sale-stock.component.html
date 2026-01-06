@@ -142,7 +142,7 @@
             </div>
 
             <button cButton type="submit" variant="outline" color="primary" class="w-100"
-              [disabled]="saleStockForm.invalid">
+              [disabled]="saleStockForm.get('quantity')?.invalid">
               Add to Assign List
             </button>
           </div>
@@ -172,7 +172,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngIf="!cartItems || cartItems?.length === 0">
+            <tr *ngIf="!cartItems || cartItems.length === 0">
               <td colspan="6" class="text-center text-muted py-3">
                 No data available
               </td>
@@ -197,8 +197,8 @@
       <button type="button" cButton color="secondary" (click)="onCloseModal()">
         Close
       </button>
-      <button type="button" cButton color="primary" (click)="onSubmit()"
-        [disabled]="!cartItems.length || saleStockForm.invalid">Assign Stock</button>
+      <button type="button" cButton color="primary" (click)="onSubmit()" [disabled]="!cartItems.length">Assign
+        Stock</button>
     </c-modal-footer>
   </form>
 </c-modal>
