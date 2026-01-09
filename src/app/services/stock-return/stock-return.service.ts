@@ -8,13 +8,14 @@ import { SECURE, getEndpoint } from 'src/app/utility/common/end-point';
 
 @Injectable()
 export class StockReturnService {
-  private requestUrl = `${getEndpoint(SECURE)}`;
+  private adminRequestUrl = `${getEndpoint(SECURE)}`;
+  private salesRequestUrl = `${getEndpoint(SECURE)}/sales-man`;
 
   constructor(private readonly httpClient: HttpClient) {}
 
   public addReturnStock(payload: IReturnStock): Observable<IResponse> {
     return this.httpClient.post<IResponse>(
-      this.requestUrl + '/return/return-sales-stock',
+      this.adminRequestUrl + '/return/return-sales-stock',
       {
         ...payload,
       }
@@ -28,7 +29,7 @@ export class StockReturnService {
     toDate?: string | null
   ): Observable<IResponse> {
     return this.httpClient.post<IResponse>(
-      this.requestUrl + '/stock/return/list',
+      this.adminRequestUrl + '/stock/return/list',
       {
         ...payload,
         returnIdOrEmployeeOrLoadId: inputValue,
@@ -40,7 +41,7 @@ export class StockReturnService {
 
   public getReturnStockDetailsById(id: number): Observable<IResponse> {
     return this.httpClient.post<IResponse>(
-      this.requestUrl + '/stock/return/details/list',
+      this.adminRequestUrl + '/stock/return/details/list',
       {},
       { params: { code: id } }
     );
@@ -48,15 +49,31 @@ export class StockReturnService {
 
   public getReturnDropDownList(): Observable<IResponse> {
     return this.httpClient.get<IResponse>(
-      this.requestUrl + '/return/drop-down',
+      this.adminRequestUrl + '/return/drop-down',
+      {}
+    );
+  }
+
+  public getReApprovedReturnDropDownList(): Observable<IResponse> {
+    return this.httpClient.get<IResponse>(
+      this.adminRequestUrl + '/return/pending',
       {}
     );
   }
 
   public getSaleStockDetailsById(id: string): Observable<IResponse> {
     return this.httpClient.get<IResponse>(
-      this.requestUrl + '/return/sales-status',
+      this.adminRequestUrl + '/return/sales-status',
       { params: { id: id } }
+    );
+  }
+
+  // Salesman API
+
+  public ReturnAllRemainingProduct(): Observable<IResponse> {
+    return this.httpClient.put<IResponse>(
+      this.salesRequestUrl + '/product/return',
+      {}
     );
   }
 }

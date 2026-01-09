@@ -58,8 +58,6 @@ export class AddSaleStockComponent extends ModalControlDirective {
   protected routeList: IRouteData[];
   protected stockList: IStockData[];
 
-  protected statusList: Record<string, string | number>[];
-
   protected currentPage: number = 1;
   protected pageSize: number = 5;
   protected count: number = 0;
@@ -100,13 +98,11 @@ export class AddSaleStockComponent extends ModalControlDirective {
     this.loadVehicleListData();
     this.loadRouteListData();
     this.loadStockListData();
-    this.loadStatusList();
   }
 
   private createForm(): void {
     this.saleStockForm = this.fb.group({
       loadDate: [moment().toDate(), Validators.required],
-      status: [null, Validators.required],
       vehicleId: [null, Validators.required],
       employeeId: [null, Validators.required],
       routes: [null, Validators.required],
@@ -114,25 +110,6 @@ export class AddSaleStockComponent extends ModalControlDirective {
     });
     this.saleStockForm.get('loadDate')?.disable();
     this.setForm(this.saleStockForm);
-  }
-
-  private loadStatusList(): void {
-    this.generalService
-      .getStatusList(CommonCode.SALESSTOCK)
-      .pipe(untilDestroyed(this))
-      .subscribe({
-        next: (res: IResponse) => {
-          if (res.body.status === RSP_SUCCESS) {
-            this.statusList = res.body.content.dropdown;
-          } else {
-            alertError({
-              title: RESPONSE_TITLES.FAILED,
-              text: res.body.message || RESPONSE_MESSAGES.COMMON_ERROR_DES,
-            });
-          }
-        },
-        error: (err: HttpErrorResponse) => errorMessageHandler(err),
-      });
   }
 
   private loadDriverListData(): void {
@@ -290,7 +267,7 @@ export class AddSaleStockComponent extends ModalControlDirective {
   protected onSubmit(): void {
     if (!onValidate(this.saleStockForm)) return;
 
-    const { routes, status } = this.saleStockForm.value;
+    const { routes } = this.saleStockForm.value;
 
     const stockList: Record<string, number>[] = this.cartItems.map((item) => {
       return {
@@ -309,7 +286,6 @@ export class AddSaleStockComponent extends ModalControlDirective {
       routeId: routeList,
       loadDate: moment().format('YYYY-MM-DD'),
       stockList: stockList,
-      statusCode: status,
     };
 
     this.saleStockService

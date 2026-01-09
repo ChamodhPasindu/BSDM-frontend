@@ -3,7 +3,8 @@
 <div class="row row-cols-1 g-2">
   <div class="col">
     <button cButton color="danger" variant="outline"
-      class="w-100 fw-semibold mb-2 d-flex align-items-center justify-content-center gap-2">
+      class="w-100 fw-semibold mb-2 d-flex align-items-center justify-content-center gap-2"
+      [disabled]="!productList.length" (click)="returnAllProducts()">
       <svg cIcon name="cilActionUndo" size="sm"></svg>
       Return All
     </button>

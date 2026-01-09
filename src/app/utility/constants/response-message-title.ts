@@ -96,6 +96,11 @@ export const RESPONSE_MESSAGES = {
   RETURN_STOCK_DELETE_SUCCESS:
     'Return Stock information has been removed successfully.',
 
+  RETURN_ALL_REMAINING_PRODUCT_CONFIRMATION:
+    'Are you sure you want to return all remaining products ({number})?',
+
+  
+
   ORDER_ADD_SUCCESS: 'Order placed successfully.',
   ORDER_ADD_QUESTION: 'Do you want pay the order now ?',
   ORDER_ADD_FAILED: 'Something went wrong while placing your order.',

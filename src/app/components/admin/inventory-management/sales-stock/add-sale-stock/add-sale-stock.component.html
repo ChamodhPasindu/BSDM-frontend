@@ -18,13 +18,6 @@
             </span>
           </div>
         </c-col>
-        <c-col>
-          <label cLabel for="status">Status</label>
-          <select cFormControl id="status" class="form-select" formControlName="status" appValidate fieldName="Status">
-            <option value=null>Select Status</option>
-            <option *ngFor="let status of statusList" [value]="status['code']">{{ status['description'] }}</option>
-          </select>
-        </c-col>
       </c-row>
 
       <c-row class="mb-3">
