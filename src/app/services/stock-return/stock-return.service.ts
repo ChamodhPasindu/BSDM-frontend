@@ -68,6 +68,14 @@ export class StockReturnService {
     );
   }
 
+  public reconfirmReturn(id: number): Observable<IResponse> {
+    return this.httpClient.post<IResponse>(
+      this.adminRequestUrl + '/return/confirm',
+      {},
+      { params: { loadId: id } }
+    );
+  }
+
   // Salesman API
 
   public ReturnAllRemainingProduct(): Observable<IResponse> {

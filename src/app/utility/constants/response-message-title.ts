@@ -99,6 +99,9 @@ export const RESPONSE_MESSAGES = {
   RETURN_ALL_REMAINING_PRODUCT_CONFIRMATION:
     'Are you sure you want to return all remaining products ({number})?',
 
+  RETURN_STOCK_RECONFIRM_SUCCESS: 'Return stock has been confirmed successfully.',
+  RETURN_STOCK_RECONFIRM_FAILED:
+    'Failed to confirm return stock. Please try again.',
   
 
   ORDER_ADD_SUCCESS: 'Order placed successfully.',

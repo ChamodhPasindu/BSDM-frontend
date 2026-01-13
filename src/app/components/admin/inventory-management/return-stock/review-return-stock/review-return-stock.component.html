@@ -51,6 +51,7 @@
     <button (click)="onCloseModal()" cButton color="secondary">
       Close
     </button>
-    <button cButton color="success" (click)="onSubmit()">Return Approved</button>
+    <button cButton color="success" [disabled]="!selectedSaleStockDetailsList.length" (click)="onSubmit()">Return
+      Approved</button>
   </c-modal-footer>
 </c-modal>

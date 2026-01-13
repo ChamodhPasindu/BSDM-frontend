@@ -9,7 +9,11 @@ import {
   RESPONSE_TITLES,
 } from 'src/app/utility/constants/response-message-title';
 import { ModalControlDirective } from 'src/app/utility/directives/modal-control.directive';
-import { alertError, errorMessageHandler } from 'src/app/utility/helper';
+import {
+  alertError,
+  alertSuccess,
+  errorMessageHandler,
+} from 'src/app/utility/helper';
 
 @UntilDestroy()
 @Component({
@@ -24,6 +28,8 @@ export class ReviewReturnStockComponent
   protected saleStockList: Record<string, string | number>[] = [];
   protected selectedSaleStockDetailsList: Record<string, string | number>[] =
     [];
+  protected loadId: string;
+
   constructor(private readonly stockReturnService: StockReturnService) {
     super();
   }
@@ -68,6 +74,7 @@ export class ReviewReturnStockComponent
       .subscribe({
         next: (res: IResponse) => {
           if (res.body.status === RSP_SUCCESS) {
+            this.loadId = event['code'] as string;
             this.selectedSaleStockDetailsList = res.body.content;
           } else {
             alertError({
@@ -81,5 +88,33 @@ export class ReviewReturnStockComponent
       });
   }
 
-  protected onSubmit() {}
+  protected onSubmit() {
+    this.stockReturnService
+      .reconfirmReturn(Number(this.loadId))
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.tableRefresh.emit();
+            this.saleStockList = [];
+            this.selectedSaleStockDetailsList = [];
+            this.onCloseModal();
+            alertSuccess({
+              title: RESPONSE_TITLES.SUCCESS,
+              text:
+                res.body.message ||
+                RESPONSE_MESSAGES.RETURN_STOCK_RECONFIRM_SUCCESS,
+            });
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message ||
+                RESPONSE_MESSAGES.RETURN_STOCK_RECONFIRM_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => errorMessageHandler(err),
+      });
+  }
 }

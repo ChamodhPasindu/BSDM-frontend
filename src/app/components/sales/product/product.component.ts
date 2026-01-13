@@ -86,7 +86,7 @@ export class ProductComponent implements OnInit {
                     text: RESPONSE_MESSAGES.RETURN_STOCK_ADD_EDIT_SUCCESS,
                   });
 
-                  this.loadProductList();
+                  this.productList = [];
                 } else {
                   alertError({
                     title: RESPONSE_TITLES.FAILED,
