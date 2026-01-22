@@ -11,7 +11,7 @@
         <c-col>
           <label cLabel for="datepicker">Load Date</label>
           <div class="input-group">
-            <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker formControlName="loadDate"
+            <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" formControlName="loadDate"
               appValidate fieldName="Load Date" />
             <span class="input-group-text bg-white">
               <svg cIcon name="cilCalendar" class="text-secondary"></svg>

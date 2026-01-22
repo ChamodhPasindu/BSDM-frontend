@@ -22,7 +22,7 @@
         <c-col [md]="6">
           <label cLabel for="manufactureDate">Manufacture Date</label>
           <div class="input-group">
-            <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker
+            <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }"
               formControlName="manufactureDate" appValidate fieldName="Manufacture Date" />
             <span class="input-group-text bg-white">
               <svg cIcon name="cilCalendar" class="text-secondary"></svg>
@@ -32,7 +32,7 @@
         <c-col [md]="6">
           <label cLabel for="expiryDate">Expire Date</label>
           <div class="input-group">
-            <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker
+            <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }"
               formControlName="expiryDate" appValidate fieldName="Expire Date" />
             <span class="input-group-text bg-white">
               <svg cIcon name="cilCalendar" class="text-secondary"></svg>

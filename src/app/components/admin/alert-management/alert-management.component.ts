@@ -13,6 +13,7 @@ export class AlertManagementComponent implements OnInit {
   @ViewChild('alertModal') protected alertModal!: AlertViewComponent;
 
   protected searchForm: FormGroup;
+  protected today = new Date();
 
   //temporary alert types
   alertType = [
@@ -38,8 +39,8 @@ export class AlertManagementComponent implements OnInit {
     this.searchForm = this.fb.group({
       content: [''],
       type: [null],
-      fromDate: [''],
-      toDate: [''],
+      fromDate: [this.today],
+      toDate: [this.today],
     });
   }
 

@@ -27,7 +27,8 @@ import { EditViewStockComponent } from './edit-view-stock/edit-view-stock.compon
   styleUrls: ['./stock.component.scss'],
 })
 export class StockComponent implements OnInit {
-  @ViewChild('editViewStockModal') protected editViewStockModal!: EditViewStockComponent;
+  @ViewChild('editViewStockModal')
+  protected editViewStockModal!: EditViewStockComponent;
   @ViewChild('addStockModal') protected addStockModal!: AddStockComponent;
 
   protected readonly ActionButton = ActionButton;
@@ -38,10 +39,11 @@ export class StockComponent implements OnInit {
   protected count: number = 0;
 
   protected searchForm: FormGroup;
+  protected today = new Date();
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly stockService: StockService
+    private readonly stockService: StockService,
   ) {
     this.createForm();
   }
@@ -53,8 +55,8 @@ export class StockComponent implements OnInit {
   private createForm(): void {
     this.searchForm = this.fb.group({
       inputValue: [''],
-      fromDate: [''],
-      toDate: [''],
+      fromDate: [this.today],
+      toDate: [this.today],
     });
   }
 
@@ -90,7 +92,7 @@ export class StockComponent implements OnInit {
         paginationRequest,
         inputValue || '',
         formattedFromDate,
-        formattedToDate
+        formattedToDate,
       )
       .pipe(untilDestroyed(this))
       .subscribe({
@@ -134,7 +136,10 @@ export class StockComponent implements OnInit {
   }
 
   protected onClear(): void {
-    this.searchForm.reset();
+    this.searchForm.reset({
+      fromDate: this.today,
+      toDate: this.today,
+    });
     this.loadStockTableData();
   }
 

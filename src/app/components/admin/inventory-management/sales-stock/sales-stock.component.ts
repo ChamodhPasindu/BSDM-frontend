@@ -40,6 +40,7 @@ export class SalesStockComponent implements OnInit {
   protected count: number = 0;
 
   protected searchForm: FormGroup;
+  protected today = new Date();
 
   constructor(
     private readonly fb: FormBuilder,
@@ -55,8 +56,8 @@ export class SalesStockComponent implements OnInit {
   private createForm(): void {
     this.searchForm = this.fb.group({
       inputValue: [''],
-      fromDate: [''],
-      toDate: [''],
+      fromDate: [this.today],
+      toDate: [this.today],
     });
   }
 
@@ -137,7 +138,10 @@ export class SalesStockComponent implements OnInit {
   }
 
   protected onClear(): void {
-    this.searchForm.reset();
+   this.searchForm.reset({
+      fromDate: this.today,
+      toDate: this.today,
+    });
     this.loadSaleStockTableData();
   }
 

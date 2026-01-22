@@ -41,9 +41,11 @@ export class ProductComponent implements OnInit {
 
   protected searchForm: FormGroup;
 
+  private today = new Date();
+
   constructor(
     private readonly fb: FormBuilder,
-    private readonly productService: ProductService
+    private readonly productService: ProductService,
   ) {
     this.createForm();
   }
@@ -55,8 +57,8 @@ export class ProductComponent implements OnInit {
   private createForm(): void {
     this.searchForm = this.fb.group({
       inputValue: [''],
-      fromDate: [''],
-      toDate: [''],
+      fromDate: [this.today],
+      toDate: [this.today],
     });
   }
 
@@ -92,7 +94,7 @@ export class ProductComponent implements OnInit {
         paginationRequest,
         inputValue || '',
         formattedFromDate,
-        formattedToDate
+        formattedToDate,
       )
       .pipe(untilDestroyed(this))
       .subscribe({
@@ -126,7 +128,7 @@ export class ProductComponent implements OnInit {
 
   protected openProductView(
     action: ActionButton,
-    product?: IProductData
+    product?: IProductData,
   ): void {
     this.addViewProductModal.action = action;
     this.addViewProductModal.product = product;
@@ -134,7 +136,10 @@ export class ProductComponent implements OnInit {
   }
 
   protected onClear(): void {
-    this.searchForm.reset();
+    this.searchForm.reset({
+      fromDate: this.today,
+      toDate: this.today,
+    });
     this.loadProductTableData();
   }
 
@@ -179,7 +184,7 @@ export class ProductComponent implements OnInit {
               },
             });
         }
-      }
+      },
     );
   }
 }

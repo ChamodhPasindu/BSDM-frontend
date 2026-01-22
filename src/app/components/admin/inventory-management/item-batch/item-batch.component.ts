@@ -52,6 +52,7 @@ export class ItemBatchComponent implements OnInit {
 
   protected searchItemForm: FormGroup;
   protected searchBatchForm: FormGroup;
+  protected today = new Date();
 
   constructor(
     private readonly fb: FormBuilder,
@@ -69,14 +70,14 @@ export class ItemBatchComponent implements OnInit {
   private createForm(): void {
     this.searchItemForm = this.fb.group({
       inputValue: [''],
-      fromDate: [''],
-      toDate: [''],
+      fromDate: [this.today],
+      toDate: [this.today],
     });
 
     this.searchBatchForm = this.fb.group({
       inputValue: [''],
-      fromDate: [''],
-      toDate: [''],
+      fromDate: [this.today],
+      toDate: [this.today],
     });
   }
 
@@ -209,12 +210,18 @@ export class ItemBatchComponent implements OnInit {
   }
 
   protected onItemClear(): void {
-    this.searchItemForm.reset();
+     this.searchItemForm.reset({
+      fromDate: this.today,
+      toDate: this.today,
+    });
     this.loadItemTableData();
   }
 
   protected onBatchClear(): void {
-    this.searchBatchForm.reset();
+     this.searchBatchForm.reset({
+      fromDate: this.today,
+      toDate: this.today,
+    });
     this.loadBatchTableData();
   }
 
