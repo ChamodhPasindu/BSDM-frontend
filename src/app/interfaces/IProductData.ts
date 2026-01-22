@@ -23,11 +23,15 @@ export interface IProductData {
   createdByFullName: string;
   status: string;
 
+  quantityP: number;
+  assignedStockQuantityP: number;
+  balanceQuantityP: number;
+
   // salesman specific
   totalQuantity: number;
   soldQuantity: number;
   availableQuantity: number;
-  selected:boolean;
+  selected: boolean;
   selectedQuantity: number | null;
   selectedPrice: number;
 }

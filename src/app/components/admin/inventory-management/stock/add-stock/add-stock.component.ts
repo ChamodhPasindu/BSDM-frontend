@@ -8,7 +8,6 @@ import { IProductData } from 'src/app/interfaces/IProductData';
 import { IResponse } from 'src/app/interfaces/IResponse';
 import { IStock } from 'src/app/interfaces/IStock';
 import { IStockCart } from 'src/app/interfaces/IStockCart';
-import { ProductService } from 'src/app/services/product/product.service';
 import { StockService } from 'src/app/services/stock/stock.service';
 import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
 import {
@@ -47,7 +46,6 @@ export class AddStockComponent extends ModalControlDirective implements OnInit {
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly productService: ProductService,
     private readonly stockService: StockService
   ) {
     super();
@@ -67,6 +65,7 @@ export class AddStockComponent extends ModalControlDirective implements OnInit {
   protected override resetState(): void {
     this.selectedProduct = null;
     this.cartItems = [];
+    this.inputStockRemarkValue = '';
   }
 
   public loadData(): void {
@@ -76,8 +75,8 @@ export class AddStockComponent extends ModalControlDirective implements OnInit {
       size: this.pageSize,
     };
 
-    this.productService
-      .getProductList(paginationRequest, this.inputSearchValue || '')
+    this.stockService
+      .getStockAssignedProductList(paginationRequest, this.inputSearchValue || '')
       .pipe(untilDestroyed(this))
       .subscribe({
         next: (res: IResponse) => {
@@ -118,7 +117,7 @@ export class AddStockComponent extends ModalControlDirective implements OnInit {
     this.selectedProduct = product;
 
     this.productDetailForm.reset();
-    const maxQty = product.remainingQuantity ?? 0;
+    const maxQty = product.balanceQuantityP ?? 0;
 
     this.productDetailForm
       .get('quantity')

@@ -22,7 +22,7 @@ export class StockService {
   public updateStock(
     productId: number,
     quantity: number,
-    reason: string
+    reason: string,
   ): Observable<IResponse> {
     return this.httpClient.put<IResponse>(this.requestUrl + '/adjust-stock', {
       productId: productId,
@@ -38,7 +38,7 @@ export class StockService {
         body: {
           productId: productId,
         },
-      }
+      },
     );
   }
 
@@ -46,7 +46,7 @@ export class StockService {
     payload: IPagination,
     inputValue: string,
     fromDate?: string | null,
-    toDate?: string | null
+    toDate?: string | null,
   ): Observable<IResponse> {
     return this.httpClient.post<IResponse>(this.requestUrl + '/store/list', {
       ...payload,
@@ -60,7 +60,21 @@ export class StockService {
     return this.httpClient.post<IResponse>(
       this.requestUrl + '/store/detailsById',
       {},
-      { params: { code: id } }
+      { params: { code: id } },
     );
+  }
+
+  public getStockAssignedProductList(
+    payload: IPagination,
+    inputValue: string,
+    fromDate?: string | null,
+    toDate?: string | null,
+  ): Observable<IResponse> {
+    return this.httpClient.post<IResponse>(this.requestUrl + '/list', {
+      ...payload,
+      productNameOrBatchCodeOrDescription: inputValue,
+      fromDate: fromDate,
+      toDate: toDate,
+    });
   }
 }

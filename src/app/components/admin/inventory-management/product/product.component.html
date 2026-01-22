@@ -101,7 +101,30 @@
               </span>
             </div>
           </th>
-          <th class="text-center">Quantity</th>
+          <th class="text-center">
+            <div>Total</div>
+            <div class="small text-medium-emphasis text-nowrap">
+              <span>
+                (Quantity)
+              </span>
+            </div>
+          </th>
+          <th class="text-center">
+            <div>Assigned Stock</div>
+            <div class="small text-medium-emphasis text-nowrap">
+              <span>
+                (Quantity)
+              </span>
+            </div>
+          </th>
+          <th class="text-center">
+            <div>Balance</div>
+            <div class="small text-medium-emphasis text-nowrap">
+              <span>
+                (Quantity)
+              </span>
+            </div>
+          </th>
           <th>
             <div>Data</div>
             <div class="small text-medium-emphasis text-nowrap">
@@ -116,7 +139,7 @@
       </thead>
       <tbody>
         <tr *ngIf="!productList || productList.length === 0">
-          <td colspan="8" class="text-center text-muted py-3">
+          <td colspan="11" class="text-center text-muted py-3">
             No data available
           </td>
         </tr>
@@ -139,7 +162,13 @@
             {{product.minSalesPrice | numberSeparate}}
           </td>
           <td class="text-center">
-            {{product.quantity | empty}}
+            {{product.quantityP | empty}}
+          </td>
+          <td class="text-center">
+            {{product.assignedStockQuantityP | empty}}
+          </td>
+          <td class="text-center">
+            {{product.balanceQuantityP | empty}}
           </td>
           <td>
             <div class="small text-medium-emphasis text-nowrap">

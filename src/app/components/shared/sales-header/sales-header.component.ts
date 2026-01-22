@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { Location } from '@angular/common';
+import { StorageService } from 'src/app/services/storage.service';
+import { SESSION_DATA } from 'src/app/utility/constants/session-data';
 
 @Component({
   selector: 'app-sales-header',
@@ -9,16 +11,18 @@ import { Location } from '@angular/common';
   styleUrls: ['./sales-header.component.scss'],
 })
 export class SalesHeaderComponent implements OnInit {
-  pageTitle = 'Hi ,Chamodh';
-  isSubPage = false;
-
+  protected pageTitle: string;
+  protected isSubPage = false;
+  protected name: string;
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private location: Location
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly location: Location,
+    private readonly storageService: StorageService
   ) {}
 
   ngOnInit(): void {
+    this.name = `Hi, ${this.storageService.get(SESSION_DATA.NAME)}`;
     this.updateHeader(this.router.url);
 
     this.router.events
@@ -32,7 +36,7 @@ export class SalesHeaderComponent implements OnInit {
       });
   }
 
-  updateHeader(url: string): void {
+  protected updateHeader(url: string): void {
     if (url.includes('/sales/post-login/product')) {
       this.pageTitle = 'Products';
       this.isSubPage = true;
@@ -55,12 +59,12 @@ export class SalesHeaderComponent implements OnInit {
       this.pageTitle = 'Easy Order';
       this.isSubPage = true;
     } else {
-      this.pageTitle = 'Hi ,Chamodh';
+      this.pageTitle = this.name;
       this.isSubPage = false;
     }
   }
 
-  goBack(): void {
+  protected goBack(): void {
     this.location.back();
   }
 }

@@ -128,7 +128,6 @@ export class ProductComponent implements OnInit {
     action: ActionButton,
     product?: IProductData
   ): void {
-    this.addViewProductModal.loadData();
     this.addViewProductModal.action = action;
     this.addViewProductModal.product = product;
     this.addViewProductModal.visible = true;
