@@ -32,7 +32,6 @@ import { ChartjsModule } from '@coreui/angular-chartjs';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ViewAuditComponent } from './audit-trail/view-audit/view-audit.component';
 import { AlertViewComponent } from './alert-management/alert-view/alert-view.component';
-import { ViewPaymentComponent } from './payments/view-payment/view-payment.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SettingsComponent } from './settings/settings.component';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
@@ -41,6 +40,7 @@ import { AddEditViewEmployeeComponent } from './employee-management/add-edit-vie
 import { AddEditViewVehicleComponent } from './vehicle-management/add-edit-view-vehicle/add-edit-view-vehicle.component';
 import { AddEditViewCustomerComponent } from './customer-routes/add-edit-view-customer/add-edit-view-customer.component';
 import { AddEditViewRouteComponent } from './customer-routes/add-edit-view-route/add-edit-view-route.component';
+import { EditViewPaymentComponent } from './payments/edit-view-payment/edit-view-payment.component';
 
 @NgModule({
   declarations: [
@@ -57,10 +57,10 @@ import { AddEditViewRouteComponent } from './customer-routes/add-edit-view-route
     AddEditViewVehicleComponent,
     AuditTrailComponent,
     PaymentsComponent,
+    EditViewPaymentComponent,
     SalesDeliveryTrackingComponent,
     ViewAuditComponent,
     AlertViewComponent,
-    ViewPaymentComponent,
     SettingsComponent,
   ],
   imports: [

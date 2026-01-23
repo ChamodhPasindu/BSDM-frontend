@@ -1,13 +1,13 @@
 <c-modal id="liveDemoModal" size="lg" alignment="center" class="modal-scrollable" [visible]="visible"
-  (visibleChange)="changeModalVisibility($event)">
+  (visibleChange)="onChangeModalVisibility($event)">
   <c-modal-header>
     <h5 cModalTitle> Add New Payment</h5>
-    <button (click)="closeModal()" cButtonClose></button>
+    <button (click)="onCloseModal()" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
   </c-modal-body>
   <c-modal-footer>
-    <button (click)="closeModal()" cButton color="secondary">
+    <button (click)="onCloseModal()" cButton color="secondary">
       Close
     </button>
     <button cButton color="primary">Payment</button>

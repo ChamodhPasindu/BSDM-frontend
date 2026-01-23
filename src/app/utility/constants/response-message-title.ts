@@ -99,10 +99,10 @@ export const RESPONSE_MESSAGES = {
   RETURN_ALL_REMAINING_PRODUCT_CONFIRMATION:
     'Are you sure you want to return all remaining products ({number})?',
 
-  RETURN_STOCK_RECONFIRM_SUCCESS: 'Return stock has been confirmed successfully.',
+  RETURN_STOCK_RECONFIRM_SUCCESS:
+    'Return stock has been confirmed successfully.',
   RETURN_STOCK_RECONFIRM_FAILED:
     'Failed to confirm return stock. Please try again.',
-  
 
   ORDER_ADD_SUCCESS: 'Order placed successfully.',
   ORDER_ADD_QUESTION: 'Do you want pay the order now ?',
@@ -110,9 +110,18 @@ export const RESPONSE_MESSAGES = {
   ORDER_BILL_GET_FAILED: 'Failed to load Bills. Please try again.',
 
   PAYMENT_OVERDUE_SETTLE_SUCCESS: 'Direct Overdue settlement Successful',
-  PAYMENT_OVERDUE_SETTLE_CONFIRMATION: 'Are you sure you want to settle overdue payment now?',
+  PAYMENT_OVERDUE_SETTLE_CONFIRMATION:
+    'Are you sure you want to settle overdue payment now?',
   PAYMENT_SETTLE_FAILED: 'Failed to settle the payment. Please try again.',
-  PAYMENT_SUMMARY_GET_FAILED: 'Failed to load the payment details. Please try again.',
+  PAYMENT_SUMMARY_GET_FAILED:
+    'Failed to load the payment details. Please try again.',
+
+  PAYMENT_ADD_EDIT_SUCCESS: 'Payment information has been saved successfully.',
+  PAYMENT_ADD_EDIT_FAILED:
+    'Failed to save Payment information. Please try again.',
+  PAYMENT_GET_FAILED: 'Failed to load Payment details. Please try again.',
+  PAYMENT_DELETE_FAILED: 'Failed to remove Payment details. Please try again.',
+  PAYMENT_DELETE_SUCCESS: 'Payment information has been removed successfully.',
 };
 
 export const RESPONSE_TITLES = {

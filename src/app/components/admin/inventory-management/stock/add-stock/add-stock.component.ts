@@ -46,7 +46,7 @@ export class AddStockComponent extends ModalControlDirective implements OnInit {
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly stockService: StockService
+    private readonly stockService: StockService,
   ) {
     super();
     this.createForm();
@@ -69,6 +69,10 @@ export class AddStockComponent extends ModalControlDirective implements OnInit {
   }
 
   public loadData(): void {
+    this.getStockAssignedProductList();
+  }
+
+  private getStockAssignedProductList(): void {
     const paginationRequest: IPagination = {
       pageable: true,
       page: this.currentPage - 1,
@@ -76,7 +80,10 @@ export class AddStockComponent extends ModalControlDirective implements OnInit {
     };
 
     this.stockService
-      .getStockAssignedProductList(paginationRequest, this.inputSearchValue || '')
+      .getStockAssignedProductList(
+        paginationRequest,
+        this.inputSearchValue || '',
+      )
       .pipe(untilDestroyed(this))
       .subscribe({
         next: (res: IResponse) => {

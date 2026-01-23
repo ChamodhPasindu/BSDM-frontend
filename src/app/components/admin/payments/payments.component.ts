@@ -1,93 +1,185 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ViewPaymentComponent } from './view-payment/view-payment.component';
-import { ChartConfiguration, ChartOptions } from 'chart.js';
-import Swal from 'sweetalert2';
-import { alertWarning } from 'src/app/utility/helper';
+import {
+  alertError,
+  datePickerToDate,
+  errorMessageHandler,
+} from 'src/app/utility/helper';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { PaymentService } from 'src/app/services/payment/payment.service';
+import { IPagination } from 'src/app/interfaces/IPagination';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { IResponse } from 'src/app/interfaces/IResponse';
+import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
+import {
+  RESPONSE_MESSAGES,
+  RESPONSE_TITLES,
+} from 'src/app/utility/constants/response-message-title';
+import { HttpErrorResponse } from '@angular/common/http';
+import { IPaymentData } from 'src/app/interfaces/IPaymentData';
+import { EditViewPaymentComponent } from './edit-view-payment/edit-view-payment.component';
+import { ActionButton } from 'src/app/enums/ActionButton.enum';
 
 const DATA_COUNT = 5;
 const NUMBER_CFG = { count: DATA_COUNT, min: 0, max: 100 };
 
+@UntilDestroy()
 @Component({
   selector: 'app-payments',
   templateUrl: './payments.component.html',
   styleUrls: ['./payments.component.scss'],
 })
 export class PaymentsComponent implements OnInit {
-  @ViewChild('paymentModal') paymentModal!: ViewPaymentComponent;
+  @ViewChild('editViewPaymentModal')
+  protected editViewPaymentModal!: EditViewPaymentComponent;
 
-  protected openPaymentView(payment?: any) {
-    this.paymentModal.payment = payment;
-    this.paymentModal.visible = true;
+  protected readonly statusList: Record<string, string>[] = [
+    { code: 'ALL', description: 'All' },
+    { code: 'PARTIAL_PAYMENT', description: 'Partial payment' },
+    { code: 'FULL_PAYMENT', description: 'Full Payment' },
+  ];
+
+  protected readonly ActionButton = ActionButton;
+  protected paymentList: IPaymentData[];
+
+  protected currentPage: number = 1;
+  protected pageSize: number = 5;
+  protected count: number = 0;
+
+  protected searchForm: FormGroup;
+
+  protected today = new Date();
+
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly paymentService: PaymentService,
+  ) {
+    this.createForm();
   }
-
-  protected users: any[] = [];
-  protected routes: any[] = [];
-  protected pagedUsers: any[] = [];
-  protected pagedRoutes: any[] = [];
-
-  protected currentUserPage = 1;
-  protected currentRoutePage = 1;
-  protected userPageSize = 5;
-  protected routePageSize = 5;
 
   ngOnInit(): void {
-    // sample data
-    this.users = Array.from({ length: 35 }, (_, i) => ({
-      name: `User ${i + 1}`,
-      nic: `NIC${1000 + i}`,
-    }));
-
-    this.routes = Array.from({ length: 35 }, (_, i) => ({
-      name: `User ${i + 1}`,
-      nic: `NIC${1000 + i}`,
-    }));
-
-    this.updatePagedUsers();
-    this.updatePagedRoute();
+    this.loadPaymentTableData();
   }
 
-  protected goToUserPage(page: number): void {
-    this.currentUserPage = page;
-    this.updatePagedUsers();
-  }
-
-  protected goToRoutePage(page: number): void {
-    this.currentRoutePage = page;
-    this.updatePagedUsers();
-  }
-
-  protected onUserPageSizeChange(newSize: number): void {
-    this.userPageSize = newSize;
-    this.currentUserPage = 1;
-    this.updatePagedUsers();
-  }
-
-  protected onRoutePageSizeChange(newSize: number): void {
-    this.routePageSize = newSize;
-    this.currentRoutePage = 1;
-    this.updatePagedRoute();
-  }
-
-  protected updatePagedUsers(): void {
-    const start = (this.currentUserPage - 1) * this.userPageSize;
-    const end = start + this.userPageSize;
-    this.pagedUsers = this.users.slice(start, end);
-  }
-
-  protected updatePagedRoute(): void {
-    const start = (this.currentRoutePage - 1) * this.routePageSize;
-    const end = start + this.routePageSize;
-    this.pagedRoutes = this.routes.slice(start, end);
-  }
-
-  protected delete() {
-    alertWarning({
-      title: 'Confirm Delete',
-      text: 'message',
+  private createForm(): void {
+    this.searchForm = this.fb.group({
+      inputPaymentValue: [''],
+      inputCustomerValue: [''],
+      inputDriverValue: [''],
+      status: ['ALL'],
+      fromDate: [this.today],
+      toDate: [this.today],
     });
   }
 
+  protected onSubmit(): void {
+    this.loadPaymentTableData();
+  }
+
+  protected onRefresh(): void {
+    this.loadPaymentTableData();
+  }
+
+  private loadPaymentTableData(): void {
+    const {
+      inputPaymentValue,
+      inputCustomerValue,
+      inputDriverValue,
+      status,
+      fromDate,
+      toDate,
+    } = this.searchForm.value;
+
+    let formattedFromDate = null;
+    let formattedToDate = null;
+    if (fromDate) {
+      formattedFromDate = datePickerToDate(fromDate);
+    }
+
+    if (toDate) {
+      formattedToDate = datePickerToDate(toDate);
+    }
+
+    const paginationRequest: IPagination = {
+      pageable: true,
+      page: this.currentPage - 1,
+      size: this.pageSize,
+    };
+
+    this.paymentService
+      .getPaymentList(
+        paginationRequest,
+        inputPaymentValue,
+        inputCustomerValue,
+        inputDriverValue,
+        status,
+        formattedFromDate,
+        formattedToDate,
+      )
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.paymentList = res.body.content.content || [];
+            this.count = res.body.content.totalElements || 0;
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text: res.body.message || RESPONSE_MESSAGES.PAYMENT_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
+  }
+
+  protected goToPage(page: number): void {
+    this.currentPage = page;
+    this.loadPaymentTableData();
+  }
+
+  protected onPageSizeChange(newSize: number): void {
+    this.pageSize = newSize;
+    this.currentPage = 1;
+    this.loadPaymentTableData();
+  }
+
+  protected openEditViewPaymentModal(action: ActionButton, payment?: any) {
+    this.editViewPaymentModal.action = action;
+    this.editViewPaymentModal.payment = payment;
+    this.editViewPaymentModal.loadData();
+    this.editViewPaymentModal.visible = true;
+  }
+
+  protected onClear(): void {
+    this.searchForm.reset({
+      status: 'ALL',
+      fromDate: this.today,
+      toDate: this.today,
+    });
+    this.loadPaymentTableData();
+  }
+
+  protected hasAnyValue(): boolean {
+    const {
+      inputPaymentValue,
+      inputCustomerValue,
+      inputDriverValue,
+      status,
+      fromDate,
+      toDate,
+    } = this.searchForm.value;
+
+    return !!(
+      inputPaymentValue ||
+      inputCustomerValue ||
+      inputDriverValue ||
+      status ||
+      fromDate ||
+      toDate
+    );
+  }
 
   months = [
     'January',
@@ -172,6 +264,4 @@ export class PaymentsComponent implements OnInit {
   get randomData() {
     return Math.round(Math.random() * 100);
   }
-
-  
 }
