@@ -1,15 +1,172 @@
 <c-modal id="liveDemoModal" size="lg" alignment="center" class="modal-scrollable" [visible]="visible"
   (visibleChange)="onChangeModalVisibility($event)">
-  <c-modal-header>
-    <h5 cModalTitle> Add New Payment</h5>
-    <button (click)="onCloseModal()" cButtonClose></button>
-  </c-modal-header>
-  <c-modal-body>
-  </c-modal-body>
-  <c-modal-footer>
-    <button (click)="onCloseModal()" cButton color="secondary">
-      Close
-    </button>
-    <button cButton color="primary">Payment</button>
-  </c-modal-footer>
+  <form cForm [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
+    <c-modal-header>
+      <h5 cModalTitle *ngIf="action === ActionButton.VIEW">View Payment Details</h5>
+      <h5 cModalTitle *ngIf="action === ActionButton.EDIT">Settle Payment</h5>
+      <button (click)="onCloseModal()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+      <div *ngIf="paymentDetail">
+        <!-- Customer Information -->
+        <c-row class="mb-4">
+          <c-col>
+            <h6 class="text-secondary mb-3">Customer Information</h6>
+            <c-row class="g-3">
+              <c-col [md]="6">
+                <label cLabel class="fw-semibold">Customer Name</label>
+                <p class="mb-0">{{ paymentDetail.customerName | empty }}</p>
+              </c-col>
+              <c-col [md]="6">
+                <label cLabel class="fw-semibold">Shop Name</label>
+                <p class="mb-0">{{ paymentDetail.shopName | empty }}</p>
+              </c-col>
+              <c-col [md]="6">
+                <label cLabel class="fw-semibold">Phone</label>
+                <p class="mb-0">{{ paymentDetail.customerPhone | empty }}</p>
+              </c-col>
+              <c-col [md]="6">
+                <label cLabel class="fw-semibold">Route</label>
+                <p class="mb-0">{{ paymentDetail.routeName | empty }}</p>
+              </c-col>
+              <c-col [md]="12">
+                <label cLabel class="fw-semibold">Address</label>
+                <p class="mb-0">{{ paymentDetail.customerAddress | empty }}</p>
+              </c-col>
+            </c-row>
+          </c-col>
+        </c-row>
+
+        <c-row>
+          <c-col>
+            <hr />
+          </c-col>
+        </c-row>
+
+        <!-- Order & Payment Summary -->
+        <c-row class="mb-4">
+          <c-col>
+            <h6 class="text-secondary mb-3">Order & Payment Summary</h6>
+            <c-row class="g-3">
+              <c-col [md]="6">
+                <label cLabel class="fw-semibold">Order Reference</label>
+                <p class="mb-0">{{ paymentDetail.orderReferenceNumber | empty }}</p>
+              </c-col>
+              <c-col [md]="6">
+                <label cLabel class="fw-semibold">Payment Status</label>
+                <p class="mb-0">
+                  <c-badge *ngIf="paymentDetail.orderPaymentStatus === 'PARTIAL_PAYMENT'" color="warning"> Partial
+                    Payment
+                  </c-badge>
+                  <c-badge *ngIf="paymentDetail.orderPaymentStatus === 'FULL_PAYMENT'" color="primary"> Full Payment
+                  </c-badge>
+                </p>
+              </c-col>
+              <c-col [md]="6">
+                <label cLabel class="fw-semibold">Order Total Amount</label>
+                <p class="mb-0 text-primary fw-bold">{{ paymentDetail.orderTotalAmount | currency:'LKR ' }}</p>
+              </c-col>
+              <c-col [md]="6">
+                <label cLabel class="fw-semibold">Total Paid Amount</label>
+                <p class="mb-0 text-success fw-bold">{{ paymentDetail.orderPaidAmount | currency:'LKR ' }}</p>
+              </c-col>
+              <c-col [md]="6">
+                <label cLabel class="fw-semibold">Balance Amount</label>
+                <p class="mb-0 text-danger fw-bold">{{ paymentDetail.orderBalanceAmount | currency:'LKR ' }}</p>
+              </c-col>
+              <c-col [md]="6">
+                <label cLabel class="fw-semibold">Payment Type</label>
+                <p class="mb-0">{{ paymentDetail.paymentType | empty }}</p>
+              </c-col>
+            </c-row>
+          </c-col>
+        </c-row>
+
+        <c-row>
+          <c-col>
+            <hr />
+          </c-col>
+        </c-row>
+
+        <!-- Current Payment Details -->
+        <c-row class="mb-4">
+          <c-col>
+            <h6 class="text-secondary mb-3">Current Payment Details</h6>
+            <c-row class="g-3">
+              <c-col [md]="6">
+                <label cLabel class="fw-semibold">Payment Date</label>
+                <p class="mb-0">{{ paymentDetail.paymentDate | date:'medium' }}</p>
+              </c-col>
+              <c-col [md]="6">
+                <label cLabel class="fw-semibold">Paid Amount</label>
+                <p class="mb-0 fw-bold">{{ paymentDetail.paidAmount | currency:'LKR ' }}</p>
+              </c-col>
+              <c-col [md]="6">
+                <label cLabel class="fw-semibold">Payment Method</label>
+                <p class="mb-0">{{ paymentDetail.paymentMethod | empty }}</p>
+              </c-col>
+              <c-col [md]="6">
+                <label cLabel class="fw-semibold">Payment Status</label>
+                <p class="mb-0">
+                  <c-badge *ngIf="paymentDetail.orderPaymentStatus === 'PARTIAL_PAYMENT'" color="warning"> Partial
+                    Payment
+                  </c-badge>
+                  <c-badge *ngIf="paymentDetail.orderPaymentStatus === 'FULL_PAYMENT'" color="primary"> Full Payment
+                  </c-badge>
+                </p>
+              </c-col>
+              <c-col [md]="12">
+                <label cLabel class="fw-semibold">Payment Reason</label>
+                <p class="mb-0">{{ paymentDetail.paymentReason | empty }}</p>
+              </c-col>
+            </c-row>
+          </c-col>
+        </c-row>
+
+        <!-- Settle Payment Form (Only for EDIT mode with balance) -->
+        <div *ngIf="action === ActionButton.EDIT && paymentDetail.orderBalanceAmount > 0">
+          <c-row>
+            <c-col>
+              <hr />
+            </c-col>
+          </c-row>
+
+          <c-row class="mb-3">
+            <c-col>
+              <h6 class="text-secondary mb-3">Settle Remaining Balance</h6>
+              <c-alert color="info" class="d-flex align-items-center">
+                <svg cIcon name="cilInfo" class="flex-shrink-0 me-2"></svg>
+                <div>
+                  Outstanding balance: <strong>{{ paymentDetail.orderBalanceAmount | currency:'LKR ' }}</strong>
+                </div>
+              </c-alert>
+            </c-col>
+          </c-row>
+
+          <c-row class="g-3">
+            <c-col [md]="6">
+              <label cLabel for="settlementAmount">Settlement Amount <span class="text-danger">*</span></label>
+              <input cFormControl id="settlementAmount" type="number" formControlName="settlementAmount" appValidate
+                fieldName="Settlement Amount" placeholder="Enter amount to pay" />
+            </c-col>
+
+            <c-col [md]="6">
+              <label cLabel for="paymentReason">Payment Reason</label>
+              <textarea cFormControl id="paymentReason" rows="1" formControlName="paymentReason"
+                placeholder="Enter payment reason (optional)"></textarea>
+            </c-col>
+          </c-row>
+        </div>
+      </div>
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="onCloseModal()" cButton color="secondary" type="button">
+        Close
+      </button>
+      <button *ngIf="action === ActionButton.EDIT" cButton color="primary" type="submit"
+        [disabled]="paymentForm.invalid">
+        Settle Payment
+      </button>
+    </c-modal-footer>
+  </form>
 </c-modal>
