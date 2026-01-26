@@ -1,8 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ActionButton } from 'src/app/enums/ActionButton.enum';
+import { BillStatus } from 'src/app/enums/BillStatus.enum';
+import { IPaymentAdmin } from 'src/app/interfaces/IPaymentAdmin';
 import { IPaymentData } from 'src/app/interfaces/IPaymentData';
 import { IPaymentDetail } from 'src/app/interfaces/IPaymentDetail';
 import { IResponse } from 'src/app/interfaces/IResponse';
@@ -13,7 +15,12 @@ import {
   RESPONSE_TITLES,
 } from 'src/app/utility/constants/response-message-title';
 import { ModalControlDirective } from 'src/app/utility/directives/modal-control.directive';
-import { alertError, alertSuccess, errorMessageHandler, onValidate } from 'src/app/utility/helper';
+import {
+  alertError,
+  alertSuccess,
+  errorMessageHandler,
+  onValidate,
+} from 'src/app/utility/helper';
 
 @UntilDestroy()
 @Component({
@@ -21,19 +28,15 @@ import { alertError, alertSuccess, errorMessageHandler, onValidate } from 'src/a
   templateUrl: './edit-view-payment.component.html',
   styleUrls: ['./edit-view-payment.component.scss'],
 })
-export class EditViewPaymentComponent
-  extends ModalControlDirective
-  implements OnInit
-{
+export class EditViewPaymentComponent extends ModalControlDirective {
   protected readonly ActionButton = ActionButton;
+  protected readonly BillStatus = BillStatus;
 
   private _payment: IPaymentData | undefined;
   private _action: ActionButton;
 
   protected paymentDetail: IPaymentDetail | null;
   protected paymentForm: FormGroup;
-
-  @Output() paymentSettled = new EventEmitter<void>();
 
   @Input()
   public set payment(value: IPaymentData | undefined) {
@@ -55,7 +58,7 @@ export class EditViewPaymentComponent
 
   constructor(
     private readonly paymentService: PaymentService,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
   ) {
     super();
     this.createForm();
@@ -66,8 +69,6 @@ export class EditViewPaymentComponent
     this.paymentForm.reset();
   }
 
-  ngOnInit() {}
-
   private createForm(): void {
     this.paymentForm = this.fb.group({
       settlementAmount: ['', Validators.required],
@@ -76,10 +77,10 @@ export class EditViewPaymentComponent
   }
 
   public loadData(): void {
-    this.getPaymentDetails();
+    this.getPaymentData();
   }
 
-  private getPaymentDetails(): void {
+  private getPaymentData(): void {
     this.paymentService
       .getPaymentById(this.payment?.paymentId!)
       .pipe(untilDestroyed(this))
@@ -91,7 +92,7 @@ export class EditViewPaymentComponent
           } else {
             alertError({
               title: RESPONSE_TITLES.FAILED,
-              text: res.body.message || RESPONSE_MESSAGES.COMMON_ERROR_DES,
+              text: res.body.message || RESPONSE_MESSAGES.PAYMENT_GET_FAILED,
             });
           }
         },
@@ -105,11 +106,13 @@ export class EditViewPaymentComponent
     if (this.action === ActionButton.EDIT && this.paymentDetail) {
       // Set max validation for settlement amount
       const balanceAmount = this.paymentDetail.orderBalanceAmount;
-      this.paymentForm.get('settlementAmount')?.setValidators([
-        Validators.required,
-        Validators.min(balanceAmount),
-        Validators.max(balanceAmount)
-      ]);
+      this.paymentForm
+        .get('settlementAmount')
+        ?.setValidators([
+          Validators.required,
+          Validators.min(balanceAmount),
+          Validators.max(balanceAmount),
+        ]);
       this.paymentForm.get('settlementAmount')?.updateValueAndValidity();
     }
   }
@@ -117,35 +120,37 @@ export class EditViewPaymentComponent
   protected onSubmit(): void {
     if (!onValidate(this.paymentForm) || !this.paymentDetail) return;
 
-    const { settlementAmount, paymentMethod, paymentReason } = this.paymentForm.value;
+    const { settlementAmount, paymentReason } = this.paymentForm.value;
 
-    const paymentData = {
-      orderId: this.paymentDetail.orderId,
+    const payload: IPaymentAdmin = {
+      orderId: this.paymentDetail.orderId.toString(),
       paidAmount: settlementAmount,
-      paymentMethod: paymentMethod,
-      paymentReason: paymentReason || '',
+      orderReferenceNumber: this.paymentDetail.orderReferenceNumber,
+      paymentId: this.paymentDetail.paymentId.toString(),
     };
 
-    // this.paymentService
-    //   .settlePayment(paymentData)
-    //   .pipe(untilDestroyed(this))
-    //   .subscribe({
-    //     next: (res: IResponse) => {
-    //       if (res.body.status === RSP_SUCCESS) {
-    //         alertSuccess({
-    //           title: RESPONSE_TITLES.SUCCESS,
-    //           text: res.body.message || 'Payment settled successfully',
-    //         });
-    //         this.paymentSettled.emit();
-    //         this.onCloseModal();
-    //       } else {
-    //         alertError({
-    //           title: RESPONSE_TITLES.FAILED,
-    //           text: res.body.message || RESPONSE_MESSAGES.COMMON_ERROR_DES,
-    //         });
-    //       }
-    //     },
-    //     error: (err: HttpErrorResponse) => errorMessageHandler(err),
-    //   });
+    this.paymentService
+      .adminSettlePayment(payload)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.tableRefresh.emit();
+            this.onCloseModal();
+            alertSuccess({
+              title: RESPONSE_TITLES.SUCCESS,
+              text:
+                res.body.message || RESPONSE_MESSAGES.PAYMENT_ADD_EDIT_SUCCESS,
+            });
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message || RESPONSE_MESSAGES.PAYMENT_ADD_EDIT_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => errorMessageHandler(err),
+      });
   }
 }

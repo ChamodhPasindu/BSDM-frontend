@@ -55,10 +55,12 @@
               <c-col [md]="6">
                 <label cLabel class="fw-semibold">Payment Status</label>
                 <p class="mb-0">
-                  <c-badge *ngIf="paymentDetail.orderPaymentStatus === 'PARTIAL_PAYMENT'" color="warning"> Partial
+                  <c-badge *ngIf="paymentDetail.orderPaymentStatus === BillStatus.PARTIAL_PAYMENT" color="warning">
+                    Partial
                     Payment
                   </c-badge>
-                  <c-badge *ngIf="paymentDetail.orderPaymentStatus === 'FULL_PAYMENT'" color="primary"> Full Payment
+                  <c-badge *ngIf="paymentDetail.orderPaymentStatus === BillStatus.FULL_PAYMENT" color="primary"> Full
+                    Payment
                   </c-badge>
                 </p>
               </c-col>
@@ -108,10 +110,12 @@
               <c-col [md]="6">
                 <label cLabel class="fw-semibold">Payment Status</label>
                 <p class="mb-0">
-                  <c-badge *ngIf="paymentDetail.orderPaymentStatus === 'PARTIAL_PAYMENT'" color="warning"> Partial
+                  <c-badge *ngIf="paymentDetail.orderPaymentStatus === BillStatus.PARTIAL_PAYMENT" color="warning">
+                    Partial
                     Payment
                   </c-badge>
-                  <c-badge *ngIf="paymentDetail.orderPaymentStatus === 'FULL_PAYMENT'" color="primary"> Full Payment
+                  <c-badge *ngIf="paymentDetail.orderPaymentStatus === BillStatus.FULL_PAYMENT" color="primary"> Full
+                    Payment
                   </c-badge>
                 </p>
               </c-col>

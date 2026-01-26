@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as moment from 'moment';
 import { ActionButton } from 'src/app/enums/ActionButton.enum';
-import { CommonCode } from 'src/app/enums/CommonCode.enum';
 import { PaginationType } from 'src/app/enums/PaginationType.enum';
 import { UserRole } from 'src/app/enums/UserRole.enum';
 import { IEmployeeData } from 'src/app/interfaces/IEmployeeData';
@@ -76,7 +75,6 @@ export class AddSaleStockComponent extends ModalControlDirective {
   constructor(
     private readonly fb: FormBuilder,
     private readonly stockService: StockService,
-    private readonly generalService: GeneralService,
     private readonly saleStockService: SaleStockService,
     private readonly employeeService: EmployeeService,
     private readonly vehicleService: VehicleService,

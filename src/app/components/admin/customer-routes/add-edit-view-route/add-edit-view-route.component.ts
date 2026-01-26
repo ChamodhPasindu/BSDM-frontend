@@ -9,7 +9,6 @@ import { IRoute } from 'src/app/interfaces/IRoute';
 import { IRouteData } from 'src/app/interfaces/IRouteData';
 import { GeneralService } from 'src/app/services/general/general.service';
 import { RouteService } from 'src/app/services/route/route.service';
-import { UserStatus } from 'src/app/utility/constants/other-constant';
 import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
 import {
   RESPONSE_MESSAGES,
@@ -65,7 +64,7 @@ export class AddEditViewRouteComponent
   constructor(
     private readonly fb: FormBuilder,
     private readonly routeService: RouteService,
-    private readonly generalService: GeneralService
+    private readonly generalService: GeneralService,
   ) {
     super();
     this.createForm();
@@ -77,7 +76,7 @@ export class AddEditViewRouteComponent
 
   protected override resetState(): void {}
 
-  public loadData(): void {
+  private loadData(): void {
     this.generalService
       .getStatusList(CommonCode.ROUTES)
       .pipe(untilDestroyed(this))

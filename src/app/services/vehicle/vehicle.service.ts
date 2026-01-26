@@ -31,7 +31,7 @@ export class VehicleService {
         body: {
           vehicleId: vehicleId,
         },
-      }
+      },
     );
   }
 
@@ -39,7 +39,7 @@ export class VehicleService {
     payload: Partial<IPagination>,
     inputValue?: string,
     fromDate?: string | null,
-    toDate?: string | null
+    toDate?: string | null,
   ): Observable<IResponse> {
     return this.httpClient.post<IResponse>(this.requestUrl + '/list', {
       ...payload,
@@ -47,5 +47,12 @@ export class VehicleService {
       fromDate: fromDate,
       toDate: toDate,
     });
+  }
+
+  public getVehicleWidget(): Observable<IResponse> {
+    return this.httpClient.get<IResponse>(
+      this.requestUrl + '/card-details',
+      {},
+    );
   }
 }

@@ -94,7 +94,7 @@ ngOnInit(): void {
 
 protected override resetState(): void {}
 
-public loadData(): void {
+private loadData(): void {
   forkJoin({
     roles: this.generalService.getDropDownList(CommonCode.USER_ROLES),
     status: this.generalService.getStatusList(CommonCode.USER_STATUS),

@@ -18,6 +18,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { IPaymentData } from 'src/app/interfaces/IPaymentData';
 import { EditViewPaymentComponent } from './edit-view-payment/edit-view-payment.component';
 import { ActionButton } from 'src/app/enums/ActionButton.enum';
+import { BillStatus } from 'src/app/enums/BillStatus.enum';
 
 const DATA_COUNT = 5;
 const NUMBER_CFG = { count: DATA_COUNT, min: 0, max: 100 };
@@ -31,6 +32,8 @@ const NUMBER_CFG = { count: DATA_COUNT, min: 0, max: 100 };
 export class PaymentsComponent implements OnInit {
   @ViewChild('editViewPaymentModal')
   protected editViewPaymentModal!: EditViewPaymentComponent;
+
+  protected readonly BillStatus = BillStatus;
 
   protected readonly statusList: Record<string, string>[] = [
     { code: 'ALL', description: 'All' },

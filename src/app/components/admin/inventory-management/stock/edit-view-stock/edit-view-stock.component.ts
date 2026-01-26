@@ -17,6 +17,7 @@ import {
   alertError,
   alertSuccess,
   errorMessageHandler,
+  onValidate,
 } from 'src/app/utility/helper';
 
 @UntilDestroy()
@@ -59,7 +60,7 @@ export class EditViewStockComponent
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly stockService: StockService
+    private readonly stockService: StockService,
   ) {
     super();
     this.createForm();
@@ -132,6 +133,8 @@ export class EditViewStockComponent
   }
 
   protected onSubmit(): void {
+    if (!onValidate(this.productDetailForm)) return;
+
     const { quantity, reason } = this.productDetailForm.value;
 
     this.stockService

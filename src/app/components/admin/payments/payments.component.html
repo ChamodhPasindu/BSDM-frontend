@@ -196,8 +196,8 @@
           </td>
           <td class="text-center">
             <div class="small text-medium-emphasis"> {{payment.paymentDate | date:'short'}} </div>
-            <c-badge *ngIf="payment.paymentStatus === 'PARTIAL_PAYMENT'" color="warning"> Partial Payment </c-badge>
-            <c-badge *ngIf="payment.paymentStatus === 'FULL_PAYMENT'" color="primary"> Full Payment </c-badge>
+            <c-badge *ngIf="payment.paymentStatus === BillStatus.PARTIAL_PAYMENT" color="warning"> Partial Payment </c-badge>
+            <c-badge *ngIf="payment.paymentStatus === BillStatus.FULL_PAYMENT" color="primary"> Full Payment </c-badge>
           </td>
           <td class="text-center">
             <!-- View -->
@@ -207,7 +207,7 @@
             </button>
 
             <!-- Edit -->
-            <button *ngIf="payment.paymentStatus === 'PARTIAL_PAYMENT'" cButton color="warning" size="sm"
+            <button *ngIf="payment.paymentStatus === BillStatus.PARTIAL_PAYMENT" cButton color="warning" size="sm"
               variant="ghost" class="me-2" title="Edit" (click)="openEditViewPaymentModal(ActionButton.EDIT,payment)">
               <svg cIcon name="cilPencil"></svg>
             </button>
@@ -339,4 +339,4 @@
 </c-row>
 
 
-<app-edit-view-payment (paymentSettled)="onRefresh()" #editViewPaymentModal></app-edit-view-payment>
+<app-edit-view-payment (tableRefresh)="onRefresh()" #editViewPaymentModal></app-edit-view-payment>

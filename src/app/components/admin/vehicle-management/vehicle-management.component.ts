@@ -40,17 +40,22 @@ export class VehicleManagementComponent implements OnInit {
   protected pageSize: number = 5;
   protected count: number = 0;
 
+  protected activeCount: number = 0;
+  protected deactivateCount: number = 0;
+  protected suspendCount: number = 0;
+
   protected searchForm: FormGroup;
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly vehicleService: VehicleService
+    private readonly vehicleService: VehicleService,
   ) {
     this.createForm();
   }
 
   ngOnInit(): void {
     this.loadVehicleTableData();
+    this.loadVehicleWidgetData();
   }
 
   private createForm(): void {
@@ -67,6 +72,40 @@ export class VehicleManagementComponent implements OnInit {
 
   protected onRefresh(): void {
     this.loadVehicleTableData();
+    this.loadVehicleWidgetData();
+  }
+
+  private loadVehicleWidgetData(): void {
+    this.vehicleService
+      .getVehicleWidget()
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.activeCount =
+              res.body.content.statusWiseCounts.find(
+                (x: Record<string, string>) => x['statusCode'] === 'ACTIVE',
+              )?.count || 0;
+            this.deactivateCount =
+              res.body.content.statusWiseCounts.find(
+                (x: Record<string, string>) => x['statusCode'] === 'DEACTIVE',
+              )?.count || 0;
+            this.suspendCount =
+              res.body.content.statusWiseCounts.find(
+                (x: Record<string, string>) => x['statusCode'] === 'DELETED',
+              )?.count || 0;
+          } else {
+            alertWarning({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message || RESPONSE_MESSAGES.VEHICLE_WIDGET_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
   }
 
   private loadVehicleTableData(): void {
@@ -93,7 +132,7 @@ export class VehicleManagementComponent implements OnInit {
         paginationRequest,
         inputValue || '',
         formattedFromDate,
-        formattedToDate
+        formattedToDate,
       )
       .pipe(untilDestroyed(this))
       .subscribe({
@@ -127,7 +166,7 @@ export class VehicleManagementComponent implements OnInit {
 
   protected openVehicleView(
     action: ActionButton,
-    vehicle?: IVehicleData
+    vehicle?: IVehicleData,
   ): void {
     this.addEditViewVehicleModal.action = action;
     this.addEditViewVehicleModal.vehicle = vehicle;
@@ -147,7 +186,7 @@ export class VehicleManagementComponent implements OnInit {
 
   protected getVehicleType(value: string): string | undefined {
     return VehicleTypeList.find(
-      (x: Record<string, string>) => x['value'] === value
+      (x: Record<string, string>) => x['value'] === value,
     )?.['title'];
   }
 
@@ -186,7 +225,7 @@ export class VehicleManagementComponent implements OnInit {
               },
             });
         }
-      }
+      },
     );
   }
 }

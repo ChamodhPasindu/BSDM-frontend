@@ -19,6 +19,8 @@ import { IPagination } from 'src/app/interfaces/IPagination';
 import { IEmployeeData } from 'src/app/interfaces/IEmployeeData';
 import { ActionButton } from 'src/app/enums/ActionButton.enum';
 import { AddEditViewEmployeeComponent } from './add-edit-view-employee/add-edit-view-employee.component';
+import { UserRole } from 'src/app/enums/UserRole.enum';
+import { UserStatus } from 'src/app/utility/constants/other-constant';
 
 @UntilDestroy()
 @Component({
@@ -27,7 +29,8 @@ import { AddEditViewEmployeeComponent } from './add-edit-view-employee/add-edit-
   styleUrls: ['./employee-management.component.scss'],
 })
 export class EmployeeManagementComponent implements OnInit {
-  @ViewChild('addEditViewEmployeeModal') protected addEditViewEmployeeModal!: AddEditViewEmployeeComponent;
+  @ViewChild('addEditViewEmployeeModal')
+  protected addEditViewEmployeeModal!: AddEditViewEmployeeComponent;
 
   protected readonly ActionButton = ActionButton;
   protected employeeList: IEmployeeData[];
@@ -36,17 +39,22 @@ export class EmployeeManagementComponent implements OnInit {
   protected pageSize: number = 5;
   protected count: number = 0;
 
+  protected activeCount: number = 0;
+  protected deactivateCount: number = 0;
+  protected suspendCount: number = 0;
+
   protected searchForm: FormGroup;
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly employeeService: EmployeeService
+    private readonly employeeService: EmployeeService,
   ) {
     this.createForm();
   }
 
   ngOnInit(): void {
     this.loadEmployeeTableData();
+    this.loadEmployeeWidgetData();
   }
 
   private createForm(): void {
@@ -63,6 +71,50 @@ export class EmployeeManagementComponent implements OnInit {
 
   protected onRefresh(): void {
     this.loadEmployeeTableData();
+    this.loadEmployeeWidgetData();
+  }
+
+  private loadEmployeeWidgetData(): void {
+    this.employeeService
+      .getEmployeeWidget()
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.activeCount =
+              res.body.content.statusWiseCounts.find(
+                (x: Record<string, string>) =>
+                  x['roleCode'] === UserRole.SALESMAN &&
+                  x['statusId'] === 'ACTIVE',
+              )?.count || 0;
+
+            this.deactivateCount =
+              res.body.content.statusWiseCounts.find(
+                (x: Record<string, string>) =>
+                  x['roleCode'] === UserRole.SALESMAN &&
+                  x['statusId'] === 'DEACTIVE',
+              )?.count || 0;
+
+            this.suspendCount =
+              res.body.content.statusWiseCounts.find(
+                (x: Record<string, string>) =>
+                  x['roleCode'] === UserRole.SALESMAN &&
+                  x['statusId'] === 'DELETED',
+              )?.count || 0;
+
+          } else {
+            alertWarning({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message ||
+                RESPONSE_MESSAGES.EMPLOYEE_WIDGET_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
   }
 
   private loadEmployeeTableData(): void {
@@ -89,7 +141,7 @@ export class EmployeeManagementComponent implements OnInit {
         paginationRequest,
         inputValue || '',
         formattedFromDate,
-        formattedToDate
+        formattedToDate,
       )
       .pipe(untilDestroyed(this))
       .subscribe({
@@ -123,7 +175,7 @@ export class EmployeeManagementComponent implements OnInit {
 
   protected openAddEditViewEmployeeModal(
     action: ActionButton,
-    employee?: IEmployeeData
+    employee?: IEmployeeData,
   ): void {
     this.addEditViewEmployeeModal.action = action;
     this.addEditViewEmployeeModal.employee = employee;
@@ -139,12 +191,5 @@ export class EmployeeManagementComponent implements OnInit {
     const { inputValue, fromDate, toDate } = this.searchForm.value;
 
     return !!(inputValue || fromDate || toDate);
-  }
-
-  protected onDeleteEmployee(id: number): void {
-    alertWarning({
-      title: 'Confirm Delete',
-      text: 'message',
-    });
   }
 }

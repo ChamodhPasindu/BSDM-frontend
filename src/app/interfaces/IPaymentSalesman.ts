@@ -1,4 +1,4 @@
-export interface IPayment {
+export interface IPaymentSalesman {
   paidAmount: number;
   paymentMethod: string;
   referenceNumber: string;

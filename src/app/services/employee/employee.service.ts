@@ -16,7 +16,7 @@ export class EmployeeService {
     return this.httpClient.post<IResponse>(
       this.requestUrl + '/sign-up/validate-nic',
       {},
-      { params: { nic: nic } }
+      { params: { nic: nic } },
     );
   }
 
@@ -24,7 +24,7 @@ export class EmployeeService {
     return this.httpClient.post<IResponse>(
       this.requestUrl + '/sign-up/validate-username',
       {},
-      { params: { userName: username } }
+      { params: { userName: username } },
     );
   }
 
@@ -33,7 +33,7 @@ export class EmployeeService {
       this.requestUrl + '/sign-up/creat-user',
       {
         ...payload,
-      }
+      },
     );
   }
 
@@ -42,7 +42,7 @@ export class EmployeeService {
       this.requestUrl + '/sign-up/edit-user',
       {
         ...payload,
-      }
+      },
     );
   }
 
@@ -50,7 +50,7 @@ export class EmployeeService {
     payload: Partial<IPagination>,
     inputValue?: string,
     fromDate?: string | null,
-    toDate?: string | null
+    toDate?: string | null,
   ): Observable<IResponse> {
     return this.httpClient.post<IResponse>(this.requestUrl + '/employee/list', {
       ...payload,
@@ -60,10 +60,19 @@ export class EmployeeService {
     });
   }
 
+  public getEmployeeWidget(): Observable<IResponse> {
+    return this.httpClient.get<IResponse>(
+      this.requestUrl + '/employee/card-details',
+      {},
+    );
+  }
+
+  // Salesman API
+
   public getProfileDetails(): Observable<IResponse> {
     return this.httpClient.get<IResponse>(
       this.requestUrl + '/sales-man/profile/',
-      {}
+      {},
     );
   }
 }

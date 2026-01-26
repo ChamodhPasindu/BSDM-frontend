@@ -4,7 +4,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NgxBottomSheetService } from 'ngx-bottom-sheet';
 import { BillStatus } from 'src/app/enums/BillStatus.enum';
 import { ICustomerData } from 'src/app/interfaces/ICustomerData';
-import { IPayment } from 'src/app/interfaces/IPayment';
+import { IPaymentSalesman } from 'src/app/interfaces/IPaymentSalesman';
 import { IPaymentSummary } from 'src/app/interfaces/IPaymentSummary';
 import { IResponse } from 'src/app/interfaces/IResponse';
 import { BottomSheetEventService } from 'src/app/services/bottom-sheet/bottom-sheet-event.service';
@@ -92,7 +92,7 @@ export class SalesPaymentSummaryBottomSheetComponent
       },
       (result: SweetAlertResult<any>) => {
         if (result.isConfirmed) {
-          const payload: IPayment = {
+          const payload: IPaymentSalesman = {
             paidAmount: this.paymentSummaryData?.needToPay!,
             paymentMethod: 'Cash',
             referenceNumber: this.saleCompleteData?.['orderReferenceNumber']!,
@@ -100,7 +100,7 @@ export class SalesPaymentSummaryBottomSheetComponent
           };
 
           this.paymentService
-            .settlePayment(payload)
+            .salesmanSettlePayment(payload)
             .pipe(untilDestroyed(this))
             .subscribe({
               next: (res: IResponse) => {

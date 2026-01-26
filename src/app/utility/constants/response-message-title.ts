@@ -22,6 +22,8 @@ export const RESPONSE_MESSAGES = {
   EMPLOYEE_ADD_EDIT_FAILED:
     'Failed to save employee information. Please try again.',
   EMPLOYEE_GET_FAILED: 'Failed to load employee details. Please try again.',
+  EMPLOYEE_WIDGET_GET_FAILED:
+    'Failed to load employee widget details. Please try again.',
 
   ROUTE_ADD_EDIT_SUCCESS: 'Route information has been saved successfully.',
   ROUTE_ADD_EDIT_FAILED: 'Failed to save route information. Please try again.',
@@ -35,6 +37,8 @@ export const RESPONSE_MESSAGES = {
   VEHICLE_GET_FAILED: 'Failed to load Vehicle details. Please try again.',
   VEHICLE_DELETE_FAILED: 'Failed to remove Vehicle details. Please try again.',
   VEHICLE_DELETE_SUCCESS: 'Vehicle information has been removed successfully.',
+  VEHICLE_WIDGET_GET_FAILED:
+    'Failed to load vehicle widget details. Please try again.',
 
   CUSTOMER_ADD_EDIT_SUCCESS:
     'Customer information has been saved successfully.',

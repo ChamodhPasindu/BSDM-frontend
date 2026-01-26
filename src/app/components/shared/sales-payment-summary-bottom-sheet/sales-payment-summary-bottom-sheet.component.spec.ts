@@ -2,22 +2,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { SalesPaymentSummaryBottomSheetComponent } from './sales-payment-summary-bottom-sheet.component';
 
-import { SalesPaymentSummaryComponent } from './sales-payment-summary.component';
 
-describe('SalesPaymentSummaryComponent', () => {
-  let component: SalesPaymentSummaryComponent;
-  let fixture: ComponentFixture<SalesPaymentSummaryComponent>;
+describe('SalesPaymentSummaryBottomSheetComponent', () => {
+  let component: SalesPaymentSummaryBottomSheetComponent;
+  let fixture: ComponentFixture<SalesPaymentSummaryBottomSheetComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SalesPaymentSummaryComponent ]
+      declarations: [ SalesPaymentSummaryBottomSheetComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SalesPaymentSummaryComponent);
+    fixture = TestBed.createComponent(SalesPaymentSummaryBottomSheetComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

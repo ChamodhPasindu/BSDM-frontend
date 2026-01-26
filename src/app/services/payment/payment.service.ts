@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IBillData } from 'src/app/interfaces/IBillData';
 import { IPagination } from 'src/app/interfaces/IPagination';
-import { IPayment } from 'src/app/interfaces/IPayment';
+import { IPaymentSalesman } from 'src/app/interfaces/IPaymentSalesman';
+import { IPaymentAdmin } from 'src/app/interfaces/IPaymentAdmin';
 import { IResponse } from 'src/app/interfaces/IResponse';
 import { SECURE, getEndpoint } from 'src/app/utility/common/end-point';
 
@@ -54,7 +55,18 @@ export class PaymentService {
     );
   }
 
-  public settlePayment(payload: IPayment): Observable<IResponse> {
+  public adminSettlePayment(payload: IPaymentAdmin): Observable<IResponse> {
+    return this.httpClient.post<IResponse>(
+      this.adminRequestUrl + '/pay',
+      {
+        ...payload,
+      },
+    );
+  }
+
+  // Salesman API
+
+  public salesmanSettlePayment(payload: IPaymentSalesman): Observable<IResponse> {
     return this.httpClient.post<IResponse>(
       this.salesRequestUrl + '/payment/pay',
       {

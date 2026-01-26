@@ -6,7 +6,7 @@ import { CustomerService } from 'src/app/services/customer/customer.service';
 import { SaleService } from 'src/app/services/sale/sale.service';
 import { ICustomerData } from 'src/app/interfaces/ICustomerData';
 import { PaymentService } from 'src/app/services/payment/payment.service';
-import { IPayment } from 'src/app/interfaces/IPayment';
+import { IPaymentSalesman } from 'src/app/interfaces/IPaymentSalesman';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { IResponse } from 'src/app/interfaces/IResponse';
 import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
@@ -77,7 +77,7 @@ export class SalesPayNowBottomSheetComponent
   }
 
   protected markAsSettled(): void {
-    const payload: IPayment = {
+    const payload: IPaymentSalesman = {
       paidAmount: this.paymentAmount!,
       paymentMethod: 'Cash',
       referenceNumber: this.saleCompleteData?.['orderReferenceNumber']!,
@@ -85,7 +85,7 @@ export class SalesPayNowBottomSheetComponent
     };
 
     this.paymentService
-      .settlePayment(payload)
+      .salesmanSettlePayment(payload)
       .pipe(untilDestroyed(this))
       .subscribe({
         next: (res: IResponse) => {
