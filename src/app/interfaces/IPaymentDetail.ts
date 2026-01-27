@@ -1,12 +1,4 @@
 export interface IPaymentDetail {
-  paymentId: number;
-  orderReferenceNumber: string;
-  paidAmount: number;
-  paymentMethod: string;
-  paymentStatus: string;
-  paymentReason: string;
-  paymentDate: string;
-  paymentType: string;
   orderId: number;
   orderTotalAmount: number;
   orderPaidAmount: number;
@@ -19,4 +11,16 @@ export interface IPaymentDetail {
   customerAddress: string;
   routeId: number;
   routeName: string;
+  payments: IPaymentList[];
+}
+
+export interface IPaymentList {
+  paymentId: number;
+  orderReferenceNumber: string;
+  paidAmount: number;
+  paymentMethod: string;
+  paymentStatus: string;
+  paymentReason: string;
+  paymentDate: string;
+  paymentType: string;
 }

@@ -49,10 +49,6 @@
             <h6 class="text-secondary mb-3">Order & Payment Summary</h6>
             <c-row class="g-3">
               <c-col [md]="6">
-                <label cLabel class="fw-semibold">Order Reference</label>
-                <p class="mb-0">{{ paymentDetail.orderReferenceNumber | empty }}</p>
-              </c-col>
-              <c-col [md]="6">
                 <label cLabel class="fw-semibold">Payment Status</label>
                 <p class="mb-0">
                   <c-badge *ngIf="paymentDetail.orderPaymentStatus === BillStatus.PARTIAL_PAYMENT" color="warning">
@@ -76,10 +72,6 @@
                 <label cLabel class="fw-semibold">Balance Amount</label>
                 <p class="mb-0 text-danger fw-bold">{{ paymentDetail.orderBalanceAmount | currency:'LKR ' }}</p>
               </c-col>
-              <c-col [md]="6">
-                <label cLabel class="fw-semibold">Payment Type</label>
-                <p class="mb-0">{{ paymentDetail.paymentType | empty }}</p>
-              </c-col>
             </c-row>
           </c-col>
         </c-row>
@@ -90,40 +82,62 @@
           </c-col>
         </c-row>
 
-        <!-- Current Payment Details -->
+        <!-- Payment History -->
         <c-row class="mb-4">
           <c-col>
-            <h6 class="text-secondary mb-3">Current Payment Details</h6>
-            <c-row class="g-3">
-              <c-col [md]="6">
-                <label cLabel class="fw-semibold">Payment Date</label>
-                <p class="mb-0">{{ paymentDetail.paymentDate | date:'medium' }}</p>
-              </c-col>
-              <c-col [md]="6">
-                <label cLabel class="fw-semibold">Paid Amount</label>
-                <p class="mb-0 fw-bold">{{ paymentDetail.paidAmount | currency:'LKR ' }}</p>
-              </c-col>
-              <c-col [md]="6">
-                <label cLabel class="fw-semibold">Payment Method</label>
-                <p class="mb-0">{{ paymentDetail.paymentMethod | empty }}</p>
-              </c-col>
-              <c-col [md]="6">
-                <label cLabel class="fw-semibold">Payment Status</label>
-                <p class="mb-0">
-                  <c-badge *ngIf="paymentDetail.orderPaymentStatus === BillStatus.PARTIAL_PAYMENT" color="warning">
-                    Partial
-                    Payment
-                  </c-badge>
-                  <c-badge *ngIf="paymentDetail.orderPaymentStatus === BillStatus.FULL_PAYMENT" color="primary"> Full
-                    Payment
-                  </c-badge>
-                </p>
-              </c-col>
-              <c-col [md]="12">
-                <label cLabel class="fw-semibold">Payment Reason</label>
-                <p class="mb-0">{{ paymentDetail.paymentReason | empty }}</p>
-              </c-col>
-            </c-row>
+            <h6 class="text-secondary mb-3">Payment History</h6>
+            <div *ngIf="paymentDetail.payments && paymentDetail.payments.length > 0">
+              <div class="table-responsive">
+                <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
+                  <thead cTableColor="light">
+                    <tr>
+                      <th>Date</th>
+                      <th>Order Ref</th>
+                      <th>Amount</th>
+                      <th>Method</th>
+                      <th>Type</th>
+                      <th>Status</th>
+                      <th>Reason</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let payment of paymentDetail.payments">
+                      <td>
+                        <small>{{ payment.paymentDate | date:'short' }}</small>
+                      </td>
+                      <td>
+                        <small>{{ payment.orderReferenceNumber }}</small>
+                      </td>
+                      <td>
+                        <strong class="text-success">{{ payment.paidAmount | currency:'LKR ' }}</strong>
+                      </td>
+                      <td>
+                        <small>{{ payment.paymentMethod }}</small>
+                      </td>
+                      <td>
+                        <small>{{ payment.paymentType }}</small>
+                      </td>
+                      <td>
+                        <c-badge *ngIf="payment.paymentStatus === BillStatus.PARTIAL_PAYMENT" color="warning">
+                          Partial
+                          Payment
+                        </c-badge>
+                        <c-badge *ngIf="payment.paymentStatus === BillStatus.FULL_PAYMENT" color="primary">
+                          Full
+                          Payment
+                        </c-badge>
+                      </td>
+                      <td>
+                        <small>{{ payment.paymentReason || '-' }}</small>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <c-alert *ngIf="!paymentDetail.payments || paymentDetail.payments.length === 0" color="info">
+              No payment history available
+            </c-alert>
           </c-col>
         </c-row>
 

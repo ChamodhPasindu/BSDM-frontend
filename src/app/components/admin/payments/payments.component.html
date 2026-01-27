@@ -171,13 +171,14 @@
           <th>Customer</th>
           <th class="text-center">Driver</th>
           <th class="text-center">Amount</th>
+          <th class="text-center">Type</th>
           <th class="text-center">Status</th>
           <th class="text-center">Action</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngIf="!paymentList || paymentList.length === 0">
-          <td colspan="7" class="text-center text-muted py-3">
+          <td colspan="8" class="text-center text-muted py-3">
             No data available
           </td>
         </tr>
@@ -195,9 +196,12 @@
             {{ payment.paidAmount | numberSeparate}}
           </td>
           <td class="text-center">
+            {{ payment.paymentType | empty}}
+          </td>
+          <td class="text-center">
             <div class="small text-medium-emphasis"> {{payment.paymentDate | date:'short'}} </div>
-            <c-badge *ngIf="payment.paymentStatus === BillStatus.PARTIAL_PAYMENT" color="warning"> Partial Payment </c-badge>
-            <c-badge *ngIf="payment.paymentStatus === BillStatus.FULL_PAYMENT" color="primary"> Full Payment </c-badge>
+            <c-badge *ngIf="payment.orderPaymentStatus === BillStatus.PARTIAL_PAYMENT" color="warning"> Partial Payment </c-badge>
+            <c-badge *ngIf="payment.orderPaymentStatus === BillStatus.FULL_PAYMENT" color="primary"> Full Payment </c-badge>
           </td>
           <td class="text-center">
             <!-- View -->
@@ -207,7 +211,7 @@
             </button>
 
             <!-- Edit -->
-            <button *ngIf="payment.paymentStatus === BillStatus.PARTIAL_PAYMENT" cButton color="warning" size="sm"
+            <button *ngIf="payment.orderPaymentStatus === BillStatus.PARTIAL_PAYMENT" cButton color="warning" size="sm"
               variant="ghost" class="me-2" title="Edit" (click)="openEditViewPaymentModal(ActionButton.EDIT,payment)">
               <svg cIcon name="cilPencil"></svg>
             </button>

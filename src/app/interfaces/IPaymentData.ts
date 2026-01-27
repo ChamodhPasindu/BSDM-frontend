@@ -12,4 +12,5 @@ export interface IPaymentData {
   customerName: string;
   employeeId: number;
   employeeName: string;
+  orderPaymentStatus: string;
 }

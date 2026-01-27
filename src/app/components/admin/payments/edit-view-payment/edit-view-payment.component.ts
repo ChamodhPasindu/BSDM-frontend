@@ -6,7 +6,10 @@ import { ActionButton } from 'src/app/enums/ActionButton.enum';
 import { BillStatus } from 'src/app/enums/BillStatus.enum';
 import { IPaymentAdmin } from 'src/app/interfaces/IPaymentAdmin';
 import { IPaymentData } from 'src/app/interfaces/IPaymentData';
-import { IPaymentDetail } from 'src/app/interfaces/IPaymentDetail';
+import {
+  IPaymentDetail,
+  IPaymentList,
+} from 'src/app/interfaces/IPaymentDetail';
 import { IResponse } from 'src/app/interfaces/IResponse';
 import { PaymentService } from 'src/app/services/payment/payment.service';
 import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
@@ -82,7 +85,7 @@ export class EditViewPaymentComponent extends ModalControlDirective {
 
   private getPaymentData(): void {
     this.paymentService
-      .getPaymentById(this.payment?.paymentId!)
+      .getPaymentById(this.payment?.orderReferenceNumber!)
       .pipe(untilDestroyed(this))
       .subscribe({
         next: (res: IResponse) => {
@@ -125,8 +128,7 @@ export class EditViewPaymentComponent extends ModalControlDirective {
     const payload: IPaymentAdmin = {
       orderId: this.paymentDetail.orderId.toString(),
       paidAmount: settlementAmount,
-      orderReferenceNumber: this.paymentDetail.orderReferenceNumber,
-      paymentId: this.paymentDetail.paymentId.toString(),
+      orderReferenceNumber: this.payment?.orderReferenceNumber!,
     };
 
     this.paymentService

@@ -39,6 +39,7 @@ export class EmployeeManagementComponent implements OnInit {
   protected pageSize: number = 5;
   protected count: number = 0;
 
+  protected totalCount: number = 0;
   protected activeCount: number = 0;
   protected deactivateCount: number = 0;
   protected suspendCount: number = 0;
@@ -81,6 +82,7 @@ export class EmployeeManagementComponent implements OnInit {
       .subscribe({
         next: (res: IResponse) => {
           if (res.body.status === RSP_SUCCESS) {
+            this.totalCount = res.body.content.totalEmployee;
             this.activeCount =
               res.body.content.statusWiseCounts.find(
                 (x: Record<string, string>) =>

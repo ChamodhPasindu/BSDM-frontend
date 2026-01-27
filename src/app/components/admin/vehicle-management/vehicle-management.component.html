@@ -2,7 +2,15 @@
 
 <c-row>
   <c-col>
-    <c-widget-stat-f [title]="'Active'" class="mb-3" color="primary" padding [value]="activeCount">
+    <c-widget-stat-f [title]="'Total'" class="mb-3" color="primary" padding [value]="totalCount">
+      <ng-template cTemplateId="widgetIconTemplate">
+        <svg cIcon name="cilTruck" size="xl" width="24"></svg>
+      </ng-template>
+    </c-widget-stat-f>
+  </c-col>
+
+   <c-col>
+    <c-widget-stat-f [title]="'Active'" class="mb-3" color="success" padding [value]="activeCount">
       <ng-template cTemplateId="widgetIconTemplate">
         <svg cIcon name="cilTruck" size="xl" width="24"></svg>
       </ng-template>

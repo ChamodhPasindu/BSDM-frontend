@@ -47,11 +47,11 @@ export class PaymentService {
     });
   }
 
-  public getPaymentById(id: number): Observable<IResponse> {
+  public getPaymentById(id: string): Observable<IResponse> {
     return this.httpClient.post<IResponse>(
-      this.adminRequestUrl + '/details',
+      this.adminRequestUrl + '/pay-details',
       {},
-      { params: { id: id } },
+      { params: { reference: id } },
     );
   }
 
