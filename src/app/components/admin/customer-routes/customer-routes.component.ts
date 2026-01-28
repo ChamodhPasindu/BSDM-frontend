@@ -32,8 +32,10 @@ import { AddEditViewRouteComponent } from './add-edit-view-route/add-edit-view-r
   styleUrls: ['./customer-routes.component.scss'],
 })
 export class CustomerRoutesComponent implements OnInit {
-  @ViewChild('addEditViewCustomerModal') protected addEditViewCustomerModal!: AddEditViewCustomerComponent;
-  @ViewChild('addEditViewRouteModal') protected addEditViewRouteModal!: AddEditViewRouteComponent;
+  @ViewChild('addEditViewCustomerModal')
+  protected addEditViewCustomerModal!: AddEditViewCustomerComponent;
+  @ViewChild('addEditViewRouteModal')
+  protected addEditViewRouteModal!: AddEditViewRouteComponent;
 
   protected readonly ActionButton = ActionButton;
 
@@ -49,13 +51,23 @@ export class CustomerRoutesComponent implements OnInit {
   protected routeCount: number = 0;
   protected customerCount: number = 0;
 
+  protected totalRouteCount: number = 0;
+  protected activeRouteCount: number = 0;
+  protected deactivateRouteCount: number = 0;
+  protected suspendRouteCount: number = 0;
+
+  protected totalCustomerCount: number = 0;
+  protected activeCustomerCount: number = 0;
+  protected deactivateCustomerCount: number = 0;
+  protected suspendCustomerCount: number = 0;
+
   protected searchRouteForm: FormGroup;
   protected searchCustomerForm: FormGroup;
 
   constructor(
     private readonly fb: FormBuilder,
     private readonly routeService: RouteService,
-    private readonly customerService: CustomerService
+    private readonly customerService: CustomerService,
   ) {
     this.createForm();
   }
@@ -63,6 +75,7 @@ export class CustomerRoutesComponent implements OnInit {
   ngOnInit(): void {
     this.loadRouteTableData();
     this.loadCustomerTableData();
+    this.loadRouteAndCustomerWidgetData();
   }
 
   private createForm(): void {
@@ -119,7 +132,7 @@ export class CustomerRoutesComponent implements OnInit {
         paginationRequest,
         inputValue || '',
         formattedFromDate,
-        formattedToDate
+        formattedToDate,
       )
       .pipe(untilDestroyed(this))
       .subscribe({
@@ -131,6 +144,67 @@ export class CustomerRoutesComponent implements OnInit {
             alertError({
               title: RESPONSE_TITLES.FAILED,
               text: res.body.message || RESPONSE_MESSAGES.CUSTOMER_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
+  }
+
+  private loadRouteAndCustomerWidgetData(): void {
+    this.routeService
+      .getRouteWidget()
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            // route widget data
+            this.totalRouteCount =
+              res.body.content.routeDashboardResponseDTO.totalRoute;
+            this.activeRouteCount =
+              res.body.content.routeDashboardResponseDTO.statusWiseCounts.find(
+                (x: Record<string, string>) =>
+                  x['statusDescription'] === 'ACTIVE',
+              )?.count || 0;
+
+            this.deactivateRouteCount =
+              res.body.content.routeDashboardResponseDTO.statusWiseCounts.find(
+                (x: Record<string, string>) =>
+                  x['statusDescription'] === 'DEACTIVE',
+              )?.count || 0;
+
+            this.suspendRouteCount =
+              res.body.content.routeDashboardResponseDTO.statusWiseCounts.find(
+                (x: Record<string, string>) =>
+                  x['statusDescription'] === 'DELETED',
+              )?.count || 0;
+
+            // customer widget data
+            this.totalCustomerCount =
+              res.body.content.customerDashboardResponseDTO.totalCustomer;
+
+            this.activeCustomerCount =
+              res.body.content.customerDashboardResponseDTO.statusWiseCounts.find(
+                (x: Record<string, string>) => x['statusCode'] === 'ACTIVE',
+              )?.count || 0;
+
+            this.deactivateCustomerCount =
+              res.body.content.customerDashboardResponseDTO.statusWiseCounts.find(
+                (x: Record<string, string>) => x['statusCode'] === 'DEACTIVE',
+              )?.count || 0;
+
+            this.suspendCustomerCount =
+              res.body.content.customerDashboardResponseDTO.statusWiseCounts.find(
+                (x: Record<string, string>) => x['statusCode'] === 'DELETED',
+              )?.count || 0;
+          } else {
+            alertWarning({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message ||
+                RESPONSE_MESSAGES.ROUTE_AND_CUSTOMER_WIDGET_GET_FAILED,
             });
           }
         },
@@ -164,7 +238,7 @@ export class CustomerRoutesComponent implements OnInit {
         paginationRequest,
         inputValue || '',
         formattedFromDate,
-        formattedToDate
+        formattedToDate,
       )
       .pipe(untilDestroyed(this))
       .subscribe({
@@ -237,7 +311,7 @@ export class CustomerRoutesComponent implements OnInit {
 
   protected openCustomerView(
     action: ActionButton,
-    customer?: ICustomerData
+    customer?: ICustomerData,
   ): void {
     this.addEditViewCustomerModal.loadData();
     this.addEditViewCustomerModal.action = action;
@@ -279,7 +353,7 @@ export class CustomerRoutesComponent implements OnInit {
               },
             });
         }
-      }
+      },
     );
   }
 
@@ -318,7 +392,7 @@ export class CustomerRoutesComponent implements OnInit {
               },
             });
         }
-      }
+      },
     );
   }
 }

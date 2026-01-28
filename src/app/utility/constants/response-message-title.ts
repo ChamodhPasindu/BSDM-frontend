@@ -31,6 +31,9 @@ export const RESPONSE_MESSAGES = {
   ROUTE_DELETE_FAILED: 'Failed to remove Route details. Please try again.',
   ROUTE_DELETE_SUCCESS: 'Route information has been removed successfully.',
 
+  ROUTE_AND_CUSTOMER_WIDGET_GET_FAILED:
+    'Failed to load route and customer widget details. Please try again.',
+
   VEHICLE_ADD_EDIT_SUCCESS: 'Vehicle information has been saved successfully.',
   VEHICLE_ADD_EDIT_FAILED:
     'Failed to save Vehicle information. Please try again.',

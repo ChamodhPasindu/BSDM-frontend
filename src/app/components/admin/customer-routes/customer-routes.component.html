@@ -2,7 +2,7 @@
 
 <c-row>
   <c-col>
-    <c-widget-stat-f [title]="'Total Routes'" class="mb-3" color="primary" padding value="100">
+    <c-widget-stat-f [title]="'Total Routes'" class="mb-3" color="primary" padding [value]="totalRouteCount">
       <ng-template cTemplateId="widgetIconTemplate">
         <svg cIcon name="cilStream" size="xl" width="24"></svg>
       </ng-template>
@@ -10,7 +10,7 @@
   </c-col>
 
   <c-col>
-    <c-widget-stat-f [title]="'Active Routes'" class="mb-3" color="success" padding value="50">
+    <c-widget-stat-f [title]="'Active Routes'" class="mb-3" color="success" padding [value]="activeRouteCount">
       <ng-template cTemplateId="widgetIconTemplate">
         <svg cIcon name="cilStream" size="xl" width="24"></svg>
       </ng-template>
@@ -18,7 +18,15 @@
   </c-col>
 
   <c-col>
-    <c-widget-stat-f [title]="'Suspended Routes'" class="mb-3" color="danger" padding value="75">
+    <c-widget-stat-f [title]="'Deactivated Routes'" class="mb-3" color="warning" padding [value]="deactivateRouteCount">
+      <ng-template cTemplateId="widgetIconTemplate">
+        <svg cIcon name="cilStream" size="xl" width="24"></svg>
+      </ng-template>
+    </c-widget-stat-f>
+  </c-col>
+
+  <c-col>
+    <c-widget-stat-f [title]="'Suspended Routes'" class="mb-3" color="danger" padding [value]="suspendRouteCount">
       <ng-template cTemplateId="widgetIconTemplate">
         <svg cIcon name="cilStream" size="xl" width="24"></svg>
       </ng-template>
@@ -45,7 +53,8 @@
       <c-col xs="auto" class="mb-2">
         <label cLabel for="datepicker">From Date</label>
         <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" formControlName="fromDate" />
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker
+            [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" formControlName="fromDate" />
           <span class="input-group-text bg-white">
             <svg cIcon name="cilCalendar" class="text-secondary"></svg>
           </span>
@@ -55,7 +64,8 @@
       <c-col xs="auto" class="mb-2">
         <label cLabel for="datepicker">To Date</label>
         <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" formControlName="toDate" />
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker
+            [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" formControlName="toDate" />
           <span class="input-group-text bg-white">
             <svg cIcon name="cilCalendar" class="text-secondary"></svg>
           </span>
@@ -147,7 +157,7 @@
 
 <c-row>
   <c-col>
-    <c-widget-stat-f [title]="'Total Customers'" class="mb-3" color="primary" padding value="100">
+    <c-widget-stat-f [title]="'Total Customers'" class="mb-3" color="primary" padding [value]="totalCustomerCount">
       <ng-template cTemplateId="widgetIconTemplate">
         <svg cIcon name="cilGroup" size="xl" width="24"></svg>
       </ng-template>
@@ -155,7 +165,7 @@
   </c-col>
 
   <c-col>
-    <c-widget-stat-f [title]="'Active Customers'" class="mb-3" color="success" padding value="50">
+    <c-widget-stat-f [title]="'Active Customers'" class="mb-3" color="success" padding [value]="activeCustomerCount">
       <ng-template cTemplateId="widgetIconTemplate">
         <svg cIcon name="cilUser" size="xl" width="24"></svg>
       </ng-template>
@@ -163,7 +173,16 @@
   </c-col>
 
   <c-col>
-    <c-widget-stat-f [title]="'Suspended Customers'" class="mb-3" color="danger" padding value="75">
+    <c-widget-stat-f [title]="'Deactivated Customers'" class="mb-3" color="warning" padding
+      [value]="deactivateCustomerCount">
+      <ng-template cTemplateId="widgetIconTemplate">
+        <svg cIcon name="cilUser" size="xl" width="24"></svg>
+      </ng-template>
+    </c-widget-stat-f>
+  </c-col>
+
+  <c-col>
+    <c-widget-stat-f [title]="'Suspended Customers'" class="mb-3" color="danger" padding [value]="suspendCustomerCount">
       <ng-template cTemplateId="widgetIconTemplate">
         <svg cIcon name="cilUserUnfollow" size="xl" width="24"></svg>
       </ng-template>
@@ -190,7 +209,8 @@
       <c-col xs="auto" class="mb-2">
         <label cLabel for="datepicker">From Date</label>
         <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" formControlName="fromDate" />
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker
+            [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" formControlName="fromDate" />
           <span class="input-group-text bg-white">
             <svg cIcon name="cilCalendar" class="text-secondary"></svg>
           </span>
@@ -200,7 +220,8 @@
       <c-col xs="auto" class="mb-2">
         <label cLabel for="datepicker">To Date</label>
         <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" formControlName="toDate" />
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker
+            [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" formControlName="toDate" />
           <span class="input-group-text bg-white">
             <svg cIcon name="cilCalendar" class="text-secondary"></svg>
           </span>

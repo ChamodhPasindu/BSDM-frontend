@@ -50,7 +50,7 @@ export class RouteService {
     payload: Partial<IPagination>,
     inputValue?: string,
     fromDate?: string | null,
-    toDate?: string | null
+    toDate?: string | null,
   ): Observable<IResponse> {
     return this.httpClient.post<IResponse>(this.adminRequestUrl + '/list', {
       ...payload,
@@ -58,6 +58,13 @@ export class RouteService {
       fromDate: fromDate,
       toDate: toDate,
     });
+  }
+
+  public getRouteWidget(): Observable<IResponse> {
+    return this.httpClient.get<IResponse>(
+      this.adminRequestUrl + '/card-details',
+      {},
+    );
   }
 
   // Salesman API
