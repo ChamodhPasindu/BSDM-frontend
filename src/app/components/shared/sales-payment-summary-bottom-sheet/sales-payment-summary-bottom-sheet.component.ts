@@ -10,6 +10,7 @@ import { IResponse } from 'src/app/interfaces/IResponse';
 import { BottomSheetEventService } from 'src/app/services/bottom-sheet/bottom-sheet-event.service';
 import { CustomerService } from 'src/app/services/customer/customer.service';
 import { PaymentService } from 'src/app/services/payment/payment.service';
+import { ReceiptPrinterService } from 'src/app/services/general/receipt-printer.service';
 import { SaleService } from 'src/app/services/sale/sale.service';
 import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
 import {
@@ -47,7 +48,8 @@ export class SalesPaymentSummaryBottomSheetComponent
     private readonly bottomSheetEventService: BottomSheetEventService,
     private readonly customerService: CustomerService,
     private readonly saleService: SaleService,
-    private readonly paymentService: PaymentService
+    private readonly paymentService: PaymentService,
+    private readonly receiptPrinterService: ReceiptPrinterService
   ) {
     super(bottomSheetService);
   }
@@ -129,7 +131,14 @@ export class SalesPaymentSummaryBottomSheetComponent
     );
   }
 
-  printStatus() {
-    window.print();
+  protected printStatus() {
+    if (this.paymentSummaryData) {
+      this.receiptPrinterService.printReceipt({
+        paymentData: this.paymentSummaryData,
+        companyName: 'VISCO BAKEHOUSE',
+        mobileNumber: '+94 (0) 123 456 789',
+        receiptTitle: 'PAYMENT RECEIPT',
+      });
+    }
   }
 }
