@@ -150,7 +150,7 @@
           <svg cIcon name="cilX" class="me-2"></svg>Clear
         </button>
 
-        <button cButton type="button" variant="outline" color="info">
+        <button cButton type="button" variant="outline" color="info" (click)="onExport()">
           <svg cIcon name="cilCloudDownload" class="me-2"></svg>Export
         </button>
       </c-col>
@@ -167,13 +167,14 @@
           <th class="text-center">Driver</th>
           <th class="text-center">Vehicle</th>
           <th class="text-center">Routes</th>
+          <th class="text-center">Created Date</th>
           <th class="text-center">Status</th>
           <th class="text-center">Action</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngIf="!returnStockList || returnStockList.length === 0">
-          <td colspan="8" class="text-center text-muted py-3">
+          <td colspan="9" class="text-center text-muted py-3">
             No data available
           </td>
         </tr>
@@ -199,6 +200,9 @@
                 {{ route.description | empty}}
               </span>
             </div>
+          </td>
+          <td class="text-center">
+            {{returnStock.createdAt | date:'mediumDate' | empty}}
           </td>
           <td class="text-center">
             {{returnStock.statusDescription | empty}}

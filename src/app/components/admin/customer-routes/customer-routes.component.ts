@@ -24,6 +24,8 @@ import { ICustomerData } from 'src/app/interfaces/ICustomerData';
 import { SweetAlertResult } from 'sweetalert2';
 import { AddEditViewCustomerComponent } from './add-edit-view-customer/add-edit-view-customer.component';
 import { AddEditViewRouteComponent } from './add-edit-view-route/add-edit-view-route.component';
+import * as moment from 'moment';
+import { PdfExportService } from 'src/app/services/general/pdf-export.service';
 
 @UntilDestroy()
 @Component({
@@ -68,6 +70,7 @@ export class CustomerRoutesComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly routeService: RouteService,
     private readonly customerService: CustomerService,
+    private readonly pdfExportService: PdfExportService,
   ) {
     this.createForm();
   }
@@ -279,6 +282,84 @@ export class CustomerRoutesComponent implements OnInit {
     this.routePageSize = newSize;
     this.currentRoutePage = 1;
     this.loadRouteTableData();
+  }
+
+  protected onRouteExport(): void {
+    if (!this.routeList || this.routeList.length === 0) {
+      alertError({
+        title: RESPONSE_TITLES.FAILED,
+        text: RESPONSE_MESSAGES.ROUTE_EXPORT_FAILED,
+      });
+      return;
+    }
+
+    const columns = [
+      { header: 'ID', width: 0.05 },
+      { header: 'Route Name', width: 0.2 },
+      { header: 'Description', width: 0.35 },
+      { header: 'Created Date', width: 0.2 },
+      { header: 'Status', width: 0.2 },
+    ];
+
+    const data = this.routeList.map((route) => [
+      route.routeId.toString(),
+      route.routeName || '',
+      route.description || '',
+      route.createdAt ? moment(route.createdAt).format('YYYY-MM-DD') : '',
+      route.statusDescription || '',
+    ]);
+
+    this.pdfExportService.exportToPdf({
+      title: 'Route Management Report',
+      columns: columns,
+      data: data,
+      filename: `Route_Report_${moment().format('YYYY-MM-DD_HH-mm-ss')}.pdf`,
+      companyName: 'Visco Bakehouse Sales Delivery Monitoring System',
+      mobileNumber: '+94 (0) 123 456 789',
+      orientation: 'landscape',
+    });
+  }
+
+  protected onCustomerExport(): void {
+    if (!this.customerList || this.customerList.length === 0) {
+      alertError({
+        title: RESPONSE_TITLES.FAILED,
+        text: RESPONSE_MESSAGES.CUSTOMER_EXPORT_FAILED,
+      });
+      return;
+    }
+
+    const columns = [
+      { header: 'ID', width: 0.06 },
+      { header: 'Customer Name', width: 0.15 },
+      { header: 'Address', width: 0.2 },
+      { header: 'Mobile', width: 0.1 },
+      { header: 'Shop Name', width: 0.2 },
+      { header: 'Route Name', width: 0.11 },
+      { header: 'Created Date', width: 0.1 },
+      { header: 'Status', width: 0.06 },
+    ];
+
+    const data = this.customerList.map((customer) => [
+      customer.customerId.toString(),
+      customer.customerName || '',
+      customer.address || '',
+      customer.phone || '',
+      customer.shopName || '',
+      customer.routeName || '',
+      customer.addedDate ? moment(customer.addedDate).format('YYYY-MM-DD') : '',
+      customer.statusDescription || '',
+    ]);
+
+    this.pdfExportService.exportToPdf({
+      title: 'Customer Management Report',
+      columns: columns,
+      data: data,
+      filename: `Customer_Report_${moment().format('YYYY-MM-DD_HH-mm-ss')}.pdf`,
+      companyName: 'Visco Bakehouse Sales Delivery Monitoring System',
+      mobileNumber: '+94 (0) 123 456 789',
+      orientation: 'landscape',
+    });
   }
 
   protected onRouteClear(): void {

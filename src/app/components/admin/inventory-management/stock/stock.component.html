@@ -72,7 +72,7 @@
           <svg cIcon name="cilX" class="me-2"></svg>Clear
         </button>
 
-        <button cButton type="button" variant="outline" color="info">
+        <button cButton type="button" variant="outline" color="info" (click)="onExport()">
           <svg cIcon name="cilCloudDownload" class="me-2"></svg>Export
         </button>
       </c-col>
@@ -88,12 +88,13 @@
           <th>Total Quantity</th>
           <th class="text-center">Remaining Quantity</th>
           <th class="text-center">Sales Quantity</th>
+          <th class="text-center">Last Updated</th>
           <th class="text-center">Action</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngIf="!stockList || stockList.length === 0">
-          <td colspan="6" class="text-center text-muted py-3">
+          <td colspan="7" class="text-center text-muted py-3">
             No data available
           </td>
         </tr>
@@ -112,6 +113,9 @@
           </td>
           <td class="text-center">
             {{product.salesQuantity | empty}}
+          </td>
+           <td class="text-center">
+            {{product.lastUpdated | date:'mediumDate' | empty}}
           </td>
           <td class="text-center">
             <!-- View -->

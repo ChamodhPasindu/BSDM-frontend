@@ -9,7 +9,7 @@
     </c-widget-stat-f>
   </c-col>
 
-   <c-col>
+  <c-col>
     <c-widget-stat-f [title]="'Active'" class="mb-3" color="success" padding [value]="activeCount">
       <ng-template cTemplateId="widgetIconTemplate">
         <svg cIcon name="cilTruck" size="xl" width="24"></svg>
@@ -82,7 +82,7 @@
           <svg cIcon name="cilX" class="me-2"></svg>Clear
         </button>
 
-        <button cButton type="button" variant="outline" color="info">
+        <button cButton type="button" variant="outline" color="info" (click)="onExport()">
           <svg cIcon name="cilCloudDownload" class="me-2"></svg>Export
         </button>
       </c-col>
@@ -98,6 +98,7 @@
             Vehicle No
           </th>
           <th class="text-center">Vehicle Type</th>
+          <th class="text-center">Created Date</th>
           <th class="text-center">Status</th>
           <th class="text-center">Action</th>
         </tr>
@@ -117,6 +118,9 @@
           </td>
           <td class="text-center">
             {{getVehicleType(vehicle.vehicleCode.split('-')[0]) | empty}}
+          </td>
+          <td class="text-center">
+            {{vehicle.createdAt | date:'mediumDate' | empty}}
           </td>
           <td class="text-center">
             {{vehicle.statusDescription | empty}}

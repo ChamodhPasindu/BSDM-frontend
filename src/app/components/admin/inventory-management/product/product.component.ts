@@ -21,6 +21,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { SweetAlertResult } from 'sweetalert2';
 import { IProductData } from 'src/app/interfaces/IProductData';
 import { AddViewProductComponent } from './add-view-product/add-view-product.component';
+import * as moment from 'moment';
+import { PdfExportService } from 'src/app/services/general/pdf-export.service';
 
 @UntilDestroy()
 @Component({
@@ -46,6 +48,7 @@ export class ProductComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly productService: ProductService,
+    private readonly pdfExportService: PdfExportService,
   ) {
     this.createForm();
   }
@@ -133,6 +136,50 @@ export class ProductComponent implements OnInit {
     this.addViewProductModal.action = action;
     this.addViewProductModal.product = product;
     this.addViewProductModal.visible = true;
+  }
+
+  protected onExport(): void {
+    if (!this.productList || this.productList.length === 0) {
+      alertError({
+        title: RESPONSE_TITLES.FAILED,
+        text: RESPONSE_MESSAGES.PRODUCT_EXPORT_FAILED,
+      });
+      return;
+    }
+
+    const columns = [
+      { header: 'Batch Code', width: 0.13 },
+      { header: 'Product Name', width: 0.1 },
+      { header: 'Min Price(LKR)', width: 0.1 },
+      { header: 'Price(LKR)', width: 0.1 },
+      { header: 'Total(Qty)', width: 0.1 },
+      { header: 'Assign Stock(Qty)', width: 0.1 },
+      { header: 'Balance(Qty)', width: 0.12 },
+      { header: 'Date(Manufacture & Expire)', width: 0.15 },
+      { header: 'Usable Days', width: 0.1 },
+    ];
+
+    const data = this.productList.map((product) => [
+      product.batchCode || '',
+      product.productName || '',
+      product.minSalesPrice || '',
+      product.price || '',
+      product.quantityP || '',
+      product.assignedStockQuantityP || '',
+      product.balanceQuantityP || '',
+      `${moment(product.manufactureDate).format('YYYY-MM-DD')} - ${moment(product.expiryDate).format('YYYY-MM-DD')}`,
+      product.usableDays || '',
+    ]);
+
+    this.pdfExportService.exportToPdf({
+      title: 'Product Report',
+      columns: columns,
+      data: data,
+      filename: `Product_Report_${moment().format('YYYY-MM-DD_HH-mm-ss')}.pdf`,
+      companyName: 'Visco Bakehouse Sales Delivery Monitoring System',
+      mobileNumber: '+94 (0) 123 456 789',
+      orientation: 'landscape',
+    });
   }
 
   protected onClear(): void {

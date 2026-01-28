@@ -45,7 +45,8 @@
       <c-col xs="auto" class="mb-2">
         <label cLabel for="datepicker">From Date</label>
         <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" formControlName="fromDate" />
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker
+            [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" formControlName="fromDate" />
           <span class="input-group-text bg-white">
             <svg cIcon name="cilCalendar" class="text-secondary"></svg>
           </span>
@@ -55,7 +56,8 @@
       <c-col xs="auto" class="mb-2">
         <label cLabel for="datepicker">To Date</label>
         <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" formControlName="toDate" />
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker
+            [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" formControlName="toDate" />
           <span class="input-group-text bg-white">
             <svg cIcon name="cilCalendar" class="text-secondary"></svg>
           </span>
@@ -72,7 +74,7 @@
           <svg cIcon name="cilX" class="me-2"></svg>Clear
         </button>
 
-        <button cButton type="button" variant="outline" color="info">
+        <button cButton type="button" variant="outline" color="info" (click)="onItemExport()">
           <svg cIcon name="cilCloudDownload" class="me-2"></svg>Export
         </button>
       </c-col>
@@ -87,6 +89,7 @@
           <th>Name</th>
           <th>Description</th>
           <th class="text-center">Alert Quantity</th>
+          <th class="text-center">Created Date</th>
           <th class="text-center">Action</th>
         </tr>
       </thead>
@@ -108,6 +111,9 @@
           </td>
           <td class="text-center">
             {{ item.alertQuantity | numberSeparate}}
+          </td>
+          <td class="text-center">
+            {{ item.createdAt | date:'mediumDate' | empty }}
           </td>
           <td class="text-center">
             <!-- View -->
@@ -186,7 +192,8 @@
       <c-col xs="auto" class="mb-2">
         <label cLabel for="datepicker">From Date</label>
         <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" formControlName="fromDate" />
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker
+            [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" formControlName="fromDate" />
           <span class="input-group-text bg-white">
             <svg cIcon name="cilCalendar" class="text-secondary"></svg>
           </span>
@@ -196,7 +203,8 @@
       <c-col xs="auto" class="mb-2">
         <label cLabel for="datepicker">To Date</label>
         <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" formControlName="toDate" />
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker
+            [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" formControlName="toDate" />
           <span class="input-group-text bg-white">
             <svg cIcon name="cilCalendar" class="text-secondary"></svg>
           </span>
@@ -213,7 +221,7 @@
           <svg cIcon name="cilX" class="me-2"></svg>Clear
         </button>
 
-        <button cButton type="button" variant="outline" color="info">
+        <button cButton type="button" variant="outline" color="info" (click)="onBatchExport()">
           <svg cIcon name="cilCloudDownload" class="me-2"></svg>Export
         </button>
       </c-col>
@@ -231,12 +239,13 @@
           <th class="text-center">Usable Days</th>
           <th class="text-center">Quantity</th>
           <th class="text-center">Warehouse</th>
+          <th class="text-center">Created Date</th>
           <th class="text-center">Action</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngIf="!batchList || batchList.length === 0">
-          <td colspan="8" class="text-center text-muted py-3">
+          <td colspan="9" class="text-center text-muted py-3">
             No data available
           </td>
         </tr>
@@ -261,6 +270,9 @@
           </td>
           <td class="text-center">
             {{batch.warehouseLocation | empty}}
+          </td>
+          <td class="text-center">
+            {{batch.createdAt | date:'mediumDate' | empty}}
           </td>
 
           <td class="text-center">

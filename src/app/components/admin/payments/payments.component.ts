@@ -19,6 +19,8 @@ import { IPaymentData } from 'src/app/interfaces/IPaymentData';
 import { EditViewPaymentComponent } from './edit-view-payment/edit-view-payment.component';
 import { ActionButton } from 'src/app/enums/ActionButton.enum';
 import { BillStatus } from 'src/app/enums/BillStatus.enum';
+import * as moment from 'moment';
+import { PdfExportService } from 'src/app/services/general/pdf-export.service';
 
 const DATA_COUNT = 5;
 const NUMBER_CFG = { count: DATA_COUNT, min: 0, max: 100 };
@@ -55,6 +57,7 @@ export class PaymentsComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly paymentService: PaymentService,
+    private readonly pdfExportService: PdfExportService,
   ) {
     this.createForm();
   }
@@ -148,11 +151,58 @@ export class PaymentsComponent implements OnInit {
     this.loadPaymentTableData();
   }
 
-  protected openEditViewPaymentModal(action: ActionButton, payment?: any) {
+  protected openEditViewPaymentModal(
+    action: ActionButton,
+    payment?: any,
+  ): void {
     this.editViewPaymentModal.action = action;
     this.editViewPaymentModal.payment = payment;
     this.editViewPaymentModal.loadData();
     this.editViewPaymentModal.visible = true;
+  }
+
+  protected onExport(): void {
+    if (!this.paymentList || this.paymentList.length === 0) {
+      alertError({
+        title: RESPONSE_TITLES.FAILED,
+        text: RESPONSE_MESSAGES.PAYMENT_EXPORT_FAILED,
+      });
+      return;
+    }
+
+    const columns = [
+      { header: 'Order ID', width: 0.06 },
+      { header: 'Customer', width: 0.18 },
+      { header: 'Driver', width: 0.18 },
+      { header: 'Paid Amount (LKR)', width: 0.2 },
+      { header: 'Type', width: 0.1 },
+      { header: 'Date', width: 0.1 },
+      { header: 'Status', width: 0.16 },
+    ];
+
+    const data = this.paymentList.map((payment) => [
+      payment.orderId.toString(),
+      payment.customerName || '',
+      payment.employeeName || '',
+      payment.paidAmount || '',
+      payment.paymentType || '',
+      payment.paymentDate
+        ? moment(payment.paymentDate).format('YYYY-MM-DD')
+        : '',
+      payment.orderPaymentStatus === BillStatus.FULL_PAYMENT
+        ? 'Full Payment'
+        : 'Partial Payment',
+    ]);
+
+    this.pdfExportService.exportToPdf({
+      title: 'Payment Report',
+      columns: columns,
+      data: data,
+      filename: `Payment_Report_${moment().format('YYYY-MM-DD_HH-mm-ss')}.pdf`,
+      companyName: 'Visco Bakehouse Sales Delivery Monitoring System',
+      mobileNumber: '+94 (0) 123 456 789',
+      orientation: 'landscape',
+    });
   }
 
   protected onClear(): void {

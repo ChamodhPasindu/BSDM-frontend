@@ -19,6 +19,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { IStockData } from 'src/app/interfaces/IStockData';
 import { AddStockComponent } from './add-stock/add-stock.component';
 import { EditViewStockComponent } from './edit-view-stock/edit-view-stock.component';
+import * as moment from 'moment';
+import { PdfExportService } from 'src/app/services/general/pdf-export.service';
 
 @UntilDestroy()
 @Component({
@@ -44,6 +46,7 @@ export class StockComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly stockService: StockService,
+    private readonly pdfExportService: PdfExportService,
   ) {
     this.createForm();
   }
@@ -133,6 +136,44 @@ export class StockComponent implements OnInit {
     this.editViewStockModal.action = action;
     this.editViewStockModal.stock = stock;
     this.editViewStockModal.visible = true;
+  }
+
+  protected onExport(): void {
+    if (!this.stockList || this.stockList.length === 0) {
+      alertError({
+        title: RESPONSE_TITLES.FAILED,
+        text: RESPONSE_MESSAGES.STOCK_EXPORT_FAILED,
+      });
+      return;
+    }
+
+    const columns = [
+      { header: 'ID', width: 0.12 },
+      { header: 'Product Name', width: 0.28 },
+      { header: 'Total Quantity', width: 0.15 },
+      { header: 'Remaining Quantity', width: 0.17 },
+      { header: 'Sales Quantity', width: 0.12 },
+      { header: 'Last Updated', width: 0.16 },
+    ];
+
+    const data = this.stockList.map((stock) => [
+      stock.stockId || '',
+      stock.productName || '',
+      stock.totalQuantity || '',
+      stock.remainingQuantity || '',
+      stock.salesQuantity || '',
+      stock.lastUpdated ? moment(stock.lastUpdated).format('YYYY-MM-DD') : '',
+    ]);
+
+    this.pdfExportService.exportToPdf({
+      title: 'Stock Report',
+      columns: columns,
+      data: data,
+      filename: `Stock_Report_${moment().format('YYYY-MM-DD_HH-mm-ss')}.pdf`,
+      companyName: 'Visco Bakehouse Sales Delivery Monitoring System',
+      mobileNumber: '+94 (0) 123 456 789',
+      orientation: 'landscape',
+    });
   }
 
   protected onClear(): void {

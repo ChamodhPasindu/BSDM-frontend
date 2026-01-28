@@ -20,7 +20,8 @@ import { IEmployeeData } from 'src/app/interfaces/IEmployeeData';
 import { ActionButton } from 'src/app/enums/ActionButton.enum';
 import { AddEditViewEmployeeComponent } from './add-edit-view-employee/add-edit-view-employee.component';
 import { UserRole } from 'src/app/enums/UserRole.enum';
-import { UserStatus } from 'src/app/utility/constants/other-constant';
+import { PdfExportService } from 'src/app/services/general/pdf-export.service';
+import * as moment from 'moment';
 
 @UntilDestroy()
 @Component({
@@ -49,6 +50,7 @@ export class EmployeeManagementComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly employeeService: EmployeeService,
+    private readonly pdfExportService: PdfExportService,
   ) {
     this.createForm();
   }
@@ -103,7 +105,6 @@ export class EmployeeManagementComponent implements OnInit {
                   x['roleCode'] === UserRole.SALESMAN &&
                   x['statusId'] === 'DELETED',
               )?.count || 0;
-
           } else {
             alertWarning({
               title: RESPONSE_TITLES.FAILED,
@@ -182,6 +183,50 @@ export class EmployeeManagementComponent implements OnInit {
     this.addEditViewEmployeeModal.action = action;
     this.addEditViewEmployeeModal.employee = employee;
     this.addEditViewEmployeeModal.visible = true;
+  }
+
+  protected onExport(): void {
+    if (!this.employeeList || this.employeeList.length === 0) {
+      alertError({
+        title: RESPONSE_TITLES.FAILED,
+        text: RESPONSE_MESSAGES.EMPLOYEE_EXPORT_FAILED,
+      });
+      return;
+    }
+
+    const columns = [
+      { header: 'ID', width: 0.06 },
+      { header: 'Username', width: 0.12 },
+      { header: 'Name', width: 0.15 },
+      { header: 'NIC', width: 0.12 },
+      { header: 'Email', width: 0.15 },
+      { header: 'Mobile', width: 0.1 },
+      { header: 'Role', width: 0.12 },
+      { header: 'Created Date', width: 0.1 },
+      { header: 'Status', width: 0.08 },
+    ];
+
+    const data = this.employeeList.map((emp) => [
+      emp.userId.toString(),
+      emp.username || '',
+      emp.name || '',
+      emp.nic || '',
+      emp.email || '',
+      emp.mobileNumber || '',
+      emp.roleName || '',
+      emp.createdDate ? moment(emp.createdDate).format('YYYY-MM-DD') : '',
+      emp.statusDescription || '',
+    ]);
+
+    this.pdfExportService.exportToPdf({
+      title: 'Employee Management Report',
+      columns: columns,
+      data: data,
+      filename: `Employee_Report_${moment().format('YYYY-MM-DD_HH-mm-ss')}.pdf`,
+      companyName: 'Visco Bakehouse Sales Delivery Monitoring System',
+      mobileNumber: '+94 (0) 123 456 789',
+      orientation: 'landscape',
+    });
   }
 
   protected onClear(): void {

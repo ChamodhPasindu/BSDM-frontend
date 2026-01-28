@@ -82,7 +82,7 @@
           <svg cIcon name="cilX" class="me-2"></svg>Clear
         </button>
 
-        <button cButton type="button" variant="outline" color="info">
+        <button cButton type="button" variant="outline" color="info" (click)="onRouteExport()">
           <svg cIcon name="cilCloudDownload" class="me-2"></svg>Export
         </button>
       </c-col>
@@ -98,6 +98,7 @@
             Route Name
           </th>
           <th>Description</th>
+          <th class="text-center">Created Date</th>
           <th class="text-center">Status</th>
           <th class="text-center">Action</th>
         </tr>
@@ -117,6 +118,9 @@
           </td>
           <td>
             {{route.description | empty}}
+          </td>
+          <td class="text-center">
+            {{route.createdAt | date:'mediumDate' | empty}}
           </td>
           <td class="text-center">
             {{route.statusDescription | empty}}
@@ -238,7 +242,7 @@
           <svg cIcon name="cilX" class="me-2"></svg>Clear
         </button>
 
-        <button cButton type="button" variant="outline" color="info">
+        <button cButton type="button" variant="outline" color="info" (click)="onCustomerExport()">
           <svg cIcon name="cilCloudDownload" class="me-2"></svg>Export
         </button>
       </c-col>
@@ -254,13 +258,14 @@
           </th>
           <th class="text-center">Mobile</th>
           <th class="text-center">Route</th>
+          <th class="text-center">Created Date</th>
           <th class="text-center">Status</th>
           <th class="text-center">Action</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngIf="!customerList || customerList.length === 0">
-          <td colspan="7" class="text-center text-muted py-3">
+          <td colspan="8" class="text-center text-muted py-3">
             No data available
           </td>
         </tr>
@@ -284,6 +289,9 @@
           </td>
           <td class="text-center">
             {{customer.routeName | empty}}
+          </td>
+          <td class="text-center">
+            {{customer.addedDate | date:'mediumDate' | empty}}
           </td>
           <td class="text-center">
             {{customer.statusDescription | empty}}

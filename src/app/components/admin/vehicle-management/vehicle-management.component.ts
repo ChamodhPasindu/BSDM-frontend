@@ -22,6 +22,8 @@ import { IVehicleData } from 'src/app/interfaces/IVehicleData';
 import { VehicleTypeList } from 'src/app/utility/constants/other-constant';
 import { SweetAlertResult } from 'sweetalert2';
 import { AddEditViewVehicleComponent } from './add-edit-view-vehicle/add-edit-view-vehicle.component';
+import { PdfExportService } from 'src/app/services/general/pdf-export.service';
+import * as moment from 'moment';
 
 @UntilDestroy()
 @Component({
@@ -50,6 +52,7 @@ export class VehicleManagementComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly vehicleService: VehicleService,
+    private readonly pdfExportService: PdfExportService,
   ) {
     this.createForm();
   }
@@ -173,6 +176,42 @@ export class VehicleManagementComponent implements OnInit {
     this.addEditViewVehicleModal.action = action;
     this.addEditViewVehicleModal.vehicle = vehicle;
     this.addEditViewVehicleModal.visible = true;
+  }
+
+  protected onExport(): void {
+    if (!this.vehicleList || this.vehicleList.length === 0) {
+      alertError({
+        title: RESPONSE_TITLES.FAILED,
+        text: RESPONSE_MESSAGES.VEHICLE_EXPORT_FAILED,
+      });
+      return;
+    }
+
+    const columns = [
+      { header: 'ID', width: 0.20 },
+      { header: 'Vehicle No', width: 0.20 },
+      { header: 'Vehicle Type', width: 0.20 },
+      { header: 'Created Date', width: 0.20 },
+      { header: 'Status', width: 0.20 },
+    ];
+
+    const data = this.vehicleList.map((vehicle) => [
+      vehicle.vehicleId.toString(),
+      vehicle.vehicleNumber || '',
+      vehicle.vehicleCode.split('-')[0] || '',
+      vehicle.createdAt ? moment(vehicle.createdAt).format('YYYY-MM-DD') : '',
+      vehicle.statusDescription || ''
+    ]);
+
+    this.pdfExportService.exportToPdf({
+      title: 'Vehicle Management Report',
+      columns: columns,
+      data: data,
+      filename: `Vehicle_Report_${moment().format('YYYY-MM-DD_HH-mm-ss')}.pdf`,
+      companyName: 'Visco Bakehouse Sales Delivery Monitoring System',
+      mobileNumber: '+94 (0) 123 456 789',
+      orientation: 'landscape',
+    });
   }
 
   protected onClear(): void {

@@ -24,6 +24,8 @@ import { ActionButton } from 'src/app/enums/ActionButton.enum';
 import { SweetAlertResult } from 'sweetalert2';
 import { AddEditViewItemComponent } from './add-edit-view-item/add-edit-view-item.component';
 import { AddEditViewBatchComponent } from './add-edit-view-batch/add-edit-view-batch.component';
+import * as moment from 'moment';
+import { PdfExportService } from 'src/app/services/general/pdf-export.service';
 
 @UntilDestroy()
 @Component({
@@ -34,7 +36,8 @@ import { AddEditViewBatchComponent } from './add-edit-view-batch/add-edit-view-b
 export class ItemBatchComponent implements OnInit {
   @ViewChild('addEditViewItemModal')
   protected addEditViewItemModal!: AddEditViewItemComponent;
-  @ViewChild('addEditViewBatchModal') protected addEditViewBatchModal!: AddEditViewBatchComponent;
+  @ViewChild('addEditViewBatchModal')
+  protected addEditViewBatchModal!: AddEditViewBatchComponent;
 
   protected readonly ActionButton = ActionButton;
 
@@ -57,7 +60,8 @@ export class ItemBatchComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly itemService: ItemService,
-    private readonly batchService: BatchService
+    private readonly batchService: BatchService,
+    private readonly pdfExportService: PdfExportService,
   ) {
     this.createForm();
   }
@@ -121,7 +125,7 @@ export class ItemBatchComponent implements OnInit {
         paginationRequest,
         inputValue || '',
         formattedFromDate,
-        formattedToDate
+        formattedToDate,
       )
       .pipe(untilDestroyed(this))
       .subscribe({
@@ -166,7 +170,7 @@ export class ItemBatchComponent implements OnInit {
         paginationRequest,
         inputValue || '',
         formattedFromDate,
-        formattedToDate
+        formattedToDate,
       )
       .pipe(untilDestroyed(this))
       .subscribe({
@@ -209,8 +213,88 @@ export class ItemBatchComponent implements OnInit {
     this.loadBatchTableData();
   }
 
+  protected onItemExport(): void {
+    if (!this.itemList || this.itemList.length === 0) {
+      alertError({
+        title: RESPONSE_TITLES.FAILED,
+        text: RESPONSE_MESSAGES.ITEM_EXPORT_FAILED,
+      });
+      return;
+    }
+
+    const columns = [
+      { header: 'ID', width: 0.1 },
+      { header: 'Name', width: 0.2 },
+      { header: 'Description', width: 0.3 },
+      { header: 'Alert Quantity', width: 0.2 },
+      { header: 'Created Date', width: 0.2 },
+    ];
+
+    const data = this.itemList.map((item) => [
+      item.nameId.toString(),
+      item.name || '',
+      item.description || '',
+      item.alertQuantity || '',
+      item.createdAt ? moment(item.createdAt).format('YYYY-MM-DD') : '',
+    ]);
+
+    this.pdfExportService.exportToPdf({
+      title: 'Item Report',
+      columns: columns,
+      data: data,
+      filename: `Item_Report_${moment().format('YYYY-MM-DD_HH-mm-ss')}.pdf`,
+      companyName: 'Visco Bakehouse Sales Delivery Monitoring System',
+      mobileNumber: '+94 (0) 123 456 789',
+      orientation: 'landscape',
+    });
+  }
+
+  protected onBatchExport(): void {
+    if (!this.batchList || this.batchList.length === 0) {
+      alertError({
+        title: RESPONSE_TITLES.FAILED,
+        text: RESPONSE_MESSAGES.BATCH_EXPORT_FAILED,
+      });
+      return;
+    }
+
+    const columns = [
+      { header: 'ID', width: 0.06 },
+      { header: 'Batch Code', width: 0.14 },
+      { header: 'Manufacture Date', width: 0.18 },
+      { header: 'Expire Date', width: 0.16 },
+      { header: 'Usable Days', width: 0.1 },
+      { header: 'Quantity', width: 0.1 },
+      { header: 'Warehouse', width: 0.13 },
+      { header: 'Created Date', width: 0.13 },
+    ];
+
+    const data = this.batchList.map((batch) => [
+      batch.batchId.toString(),
+      batch.batchCode || '',
+      batch.manufactureDate
+        ? moment(batch.manufactureDate).format('YYYY-MM-DD')
+        : '',
+      batch.expiryDate ? moment(batch.expiryDate).format('YYYY-MM-DD') : '',
+      batch.usableDays || '',
+      batch.remainingQuantity || '',
+      batch.warehouseLocation || '',
+      batch.createdAt ? moment(batch.createdAt).format('YYYY-MM-DD') : '',
+    ]);
+
+    this.pdfExportService.exportToPdf({
+      title: 'Batch Report',
+      columns: columns,
+      data: data,
+      filename: `Batch_Report_${moment().format('YYYY-MM-DD_HH-mm-ss')}.pdf`,
+      companyName: 'Visco Bakehouse Sales Delivery Monitoring System',
+      mobileNumber: '+94 (0) 123 456 789',
+      orientation: 'landscape',
+    });
+  }
+
   protected onItemClear(): void {
-     this.searchItemForm.reset({
+    this.searchItemForm.reset({
       fromDate: this.today,
       toDate: this.today,
     });
@@ -218,7 +302,7 @@ export class ItemBatchComponent implements OnInit {
   }
 
   protected onBatchClear(): void {
-     this.searchBatchForm.reset({
+    this.searchBatchForm.reset({
       fromDate: this.today,
       toDate: this.today,
     });
@@ -282,7 +366,7 @@ export class ItemBatchComponent implements OnInit {
               },
             });
         }
-      }
+      },
     );
   }
 
@@ -320,7 +404,7 @@ export class ItemBatchComponent implements OnInit {
               },
             });
         }
-      }
+      },
     );
   }
 }

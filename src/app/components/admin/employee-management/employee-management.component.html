@@ -82,7 +82,7 @@
           <svg cIcon name="cilX" class="me-2"></svg>Clear
         </button>
 
-        <button cButton type="button" variant="outline" color="info">
+        <button cButton type="button" variant="outline" color="info" (click)="onExport()">
           <svg cIcon name="cilCloudDownload" class="me-2"></svg>Export
         </button>
       </c-col>
@@ -101,12 +101,13 @@
           <th>NIC</th>
           <th class="text-center">Mobile</th>
           <th class="text-center">Role</th>
+          <th class="text-center">Created Date</th>
           <th class="text-center">Action</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngIf="!employeeList || employeeList.length === 0">
-          <td colspan="7" class="text-center text-muted py-3">
+          <td colspan="8" class="text-center text-muted py-3">
             No data available
           </td>
         </tr>
@@ -134,6 +135,9 @@
           </td>
           <td class="text-center">
             {{employee.roleName | empty | titlecase}}
+          </td>
+          <td class="text-center">
+            {{employee.createdDate | date:'mediumDate' | empty}}
           </td>
           <td class="text-center">
             <!-- View -->

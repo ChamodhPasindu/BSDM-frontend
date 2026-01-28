@@ -24,12 +24,14 @@ export const RESPONSE_MESSAGES = {
   EMPLOYEE_GET_FAILED: 'Failed to load employee details. Please try again.',
   EMPLOYEE_WIDGET_GET_FAILED:
     'Failed to load employee widget details. Please try again.',
+  EMPLOYEE_EXPORT_FAILED: 'No employee data available to export.',
 
   ROUTE_ADD_EDIT_SUCCESS: 'Route information has been saved successfully.',
   ROUTE_ADD_EDIT_FAILED: 'Failed to save route information. Please try again.',
   ROUTE_GET_FAILED: 'Failed to load route details. Please try again.',
   ROUTE_DELETE_FAILED: 'Failed to remove Route details. Please try again.',
   ROUTE_DELETE_SUCCESS: 'Route information has been removed successfully.',
+  ROUTE_EXPORT_FAILED: 'No route data available to export.',
 
   ROUTE_AND_CUSTOMER_WIDGET_GET_FAILED:
     'Failed to load route and customer widget details. Please try again.',
@@ -42,6 +44,7 @@ export const RESPONSE_MESSAGES = {
   VEHICLE_DELETE_SUCCESS: 'Vehicle information has been removed successfully.',
   VEHICLE_WIDGET_GET_FAILED:
     'Failed to load vehicle widget details. Please try again.',
+  VEHICLE_EXPORT_FAILED: 'No vehicle data available to export.',
 
   CUSTOMER_ADD_EDIT_SUCCESS:
     'Customer information has been saved successfully.',
@@ -52,12 +55,14 @@ export const RESPONSE_MESSAGES = {
     'Failed to remove Customer details. Please try again.',
   CUSTOMER_DELETE_SUCCESS:
     'Customer information has been removed successfully.',
+  CUSTOMER_EXPORT_FAILED: 'No customer data available to export.',
 
   ITEM_ADD_EDIT_SUCCESS: 'Item information has been saved successfully.',
   ITEM_ADD_EDIT_FAILED: 'Failed to save Item information. Please try again.',
   ITEM_GET_FAILED: 'Failed to load Item details. Please try again.',
   ITEM_DELETE_FAILED: 'Failed to remove Item details. Please try again.',
   ITEM_DELETE_SUCCESS: 'Item information has been removed successfully.',
+  ITEM_EXPORT_FAILED: 'No item data available to export.',
 
   BATCH_ADD_EDIT_SUCCESS: 'Batch information has been saved successfully.',
   BATCH_ADD_EDIT_FAILED: 'Failed to save Batch information. Please try again.',
@@ -66,6 +71,7 @@ export const RESPONSE_MESSAGES = {
   BATCH_DELETE_SUCCESS: 'Batch information has been removed successfully.',
   BATCH_CODE_GENERATE_FAILED:
     'Unable to generate or retrieve the batch code. Please try again.',
+  BATCH_EXPORT_FAILED: 'No batch data available to export.',
 
   PRODUCT_ADD_EDIT_SUCCESS: 'Product information has been saved successfully.',
   PRODUCT_ADD_EDIT_FAILED:
@@ -73,12 +79,14 @@ export const RESPONSE_MESSAGES = {
   PRODUCT_GET_FAILED: 'Failed to load Product details. Please try again.',
   PRODUCT_DELETE_FAILED: 'Failed to remove Product details. Please try again.',
   PRODUCT_DELETE_SUCCESS: 'Product information has been removed successfully.',
+  PRODUCT_EXPORT_FAILED: 'No product data available to export.',
 
   STOCK_ADD_EDIT_SUCCESS: 'Stock information has been saved successfully.',
   STOCK_ADD_EDIT_FAILED: 'Failed to save Stock information. Please try again.',
   STOCK_GET_FAILED: 'Failed to load Stock details. Please try again.',
   STOCK_DELETE_FAILED: 'Failed to remove Stock details. Please try again.',
   STOCK_DELETE_SUCCESS: 'Stock information has been removed successfully.',
+  STOCK_EXPORT_FAILED: 'No stock data available to export.',
 
   SALE_STOCK_ADD_EDIT_SUCCESS:
     'Sale Stock information has been saved successfully.',
@@ -89,6 +97,7 @@ export const RESPONSE_MESSAGES = {
     'Failed to remove Sale Stock details. Please try again.',
   SALE_STOCK_DELETE_SUCCESS:
     'Sale Stock information has been removed successfully.',
+  SALE_STOCK_EXPORT_FAILED: 'No sale stock data available to export.',
 
   RETURN_STOCK_ADD_EDIT_SUCCESS:
     'Return Stock information has been saved successfully.',
@@ -102,6 +111,7 @@ export const RESPONSE_MESSAGES = {
     'Failed to remove Return Stock details. Please try again.',
   RETURN_STOCK_DELETE_SUCCESS:
     'Return Stock information has been removed successfully.',
+  RETURN_STOCK_EXPORT_FAILED: 'No return stock data available to export.',
 
   RETURN_ALL_REMAINING_PRODUCT_CONFIRMATION:
     'Are you sure you want to return all remaining products ({number})?',
@@ -129,6 +139,7 @@ export const RESPONSE_MESSAGES = {
   PAYMENT_GET_FAILED: 'Failed to load Payment details. Please try again.',
   PAYMENT_DELETE_FAILED: 'Failed to remove Payment details. Please try again.',
   PAYMENT_DELETE_SUCCESS: 'Payment information has been removed successfully.',
+  PAYMENT_EXPORT_FAILED: 'No payment data available to export.',
 };
 
 export const RESPONSE_TITLES = {

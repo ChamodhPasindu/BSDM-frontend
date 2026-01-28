@@ -20,6 +20,8 @@ import { ActionButton } from 'src/app/enums/ActionButton.enum';
 import { AddReturnStockComponent } from './add-return-stock/add-return-stock.component';
 import { IReturnStockData } from 'src/app/interfaces/IReturnStockData';
 import { ReviewReturnStockComponent } from './review-return-stock/review-return-stock.component';
+import { PdfExportService } from 'src/app/services/general/pdf-export.service';
+import * as moment from 'moment';
 
 @UntilDestroy()
 @Component({
@@ -47,7 +49,8 @@ export class ReturnStockComponent implements OnInit {
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly stockReturnService: StockReturnService
+    private readonly stockReturnService: StockReturnService,
+    private readonly pdfExportService: PdfExportService,
   ) {
     this.createForm();
   }
@@ -96,7 +99,7 @@ export class ReturnStockComponent implements OnInit {
         paginationRequest,
         inputValue || '',
         formattedFromDate,
-        formattedToDate
+        formattedToDate,
       )
       .pipe(untilDestroyed(this))
       .subscribe({
@@ -139,11 +142,58 @@ export class ReturnStockComponent implements OnInit {
     this.reviewReturnStockModal.visible = true;
   }
 
-  protected openReturnStockView(action: ActionButton, returnStock: IReturnStockData): void {
+  protected openReturnStockView(
+    action: ActionButton,
+    returnStock: IReturnStockData,
+  ): void {
     this.viewReturnStockModal.action = action;
     this.viewReturnStockModal.returnStock = returnStock;
     this.viewReturnStockModal.loadData();
     this.viewReturnStockModal.visible = true;
+  }
+
+  protected onExport(): void {
+    if (!this.returnStockList || this.returnStockList.length === 0) {
+      alertError({
+        title: RESPONSE_TITLES.FAILED,
+        text: RESPONSE_MESSAGES.RETURN_STOCK_EXPORT_FAILED,
+      });
+      return;
+    }
+
+    const columns = [
+      { header: 'ID', width: 0.09 },
+      { header: 'Load Date', width: 0.12 },
+      { header: 'Return Date', width: 0.12 },
+      { header: 'Driver', width: 0.17 },
+      { header: 'Vehicle No', width: 0.1 },
+      { header: 'Routes', width: 0.14 },
+      { header: 'Created Date', width: 0.14 },
+      { header: 'Status', width: 0.12 },
+    ];
+
+    const data = this.returnStockList.map((returnStock) => [
+      returnStock.loadId || '',
+      returnStock.loadDate || '',
+      returnStock.returnDate || '',
+      returnStock.employeeFullName || '',
+      returnStock.vehicleNumber || '',
+      returnStock.route?.map((route) => route.description).join(', ') || '',
+      returnStock.createdAt
+        ? moment(returnStock.createdAt).format('YYYY-MM-DD')
+        : '',
+      returnStock.statusDescription || '',
+    ]);
+
+    this.pdfExportService.exportToPdf({
+      title: 'Return Stock Report',
+      columns: columns,
+      data: data,
+      filename: `Return_Stock_Report_${moment().format('YYYY-MM-DD_HH-mm-ss')}.pdf`,
+      companyName: 'Visco Bakehouse Sales Delivery Monitoring System',
+      mobileNumber: '+94 (0) 123 456 789',
+      orientation: 'landscape',
+    });
   }
 
   protected onClear(): void {

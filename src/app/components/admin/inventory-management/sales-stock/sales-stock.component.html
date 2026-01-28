@@ -148,7 +148,7 @@
           <svg cIcon name="cilX" class="me-2"></svg>Clear
         </button>
 
-        <button cButton type="button" variant="outline" color="info">
+        <button cButton type="button" variant="outline" color="info" (click)="onExport()">
           <svg cIcon name="cilCloudDownload" class="me-2"></svg>Export
         </button>
       </c-col>
@@ -162,14 +162,15 @@
           </th>
           <th>Driver Name</th>
           <th class="text-center">Routes</th>
-          <th class="text-center">Date</th>
+          <th class="text-center">Load Date</th>
+          <th class="text-center">Created Date</th>
           <th class="text-center">Status</th>
           <th class="text-center">Action</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngIf="!saleStockList || saleStockList.length === 0">
-          <td colspan="6" class="text-center text-muted py-3">
+          <td colspan="7" class="text-center text-muted py-3">
             No data available
           </td>
         </tr>
@@ -182,13 +183,14 @@
           </td>
           <td class="text-center">
             <div class="small text-medium-emphasis text-nowrap">
-              <span *ngFor="let route of saleStock.route">
-                {{ route.description | empty}}
-              </span>
+               {{ saleStock.routeNames?.join(', ') | empty}}
             </div>
           </td>
           <td class="text-center">
             {{saleStock.loadDate | empty}}
+          </td>
+          <td class="text-center">
+            {{saleStock.createdAt | date:'mediumDate' | empty}}
           </td>
           <td class="text-center">
             {{saleStock.statusDescription | empty}}

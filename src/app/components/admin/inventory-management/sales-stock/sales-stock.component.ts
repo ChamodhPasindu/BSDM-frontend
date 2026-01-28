@@ -19,6 +19,8 @@ import { IPagination } from 'src/app/interfaces/IPagination';
 import { SaleStockService } from 'src/app/services/sale-stock/sale-stock.service';
 import { ISaleStockData } from 'src/app/interfaces/ISaleStockData';
 import { AddSaleStockComponent } from './add-sale-stock/add-sale-stock.component';
+import { PdfExportService } from 'src/app/services/general/pdf-export.service';
+import * as moment from 'moment';
 
 @UntilDestroy()
 @Component({
@@ -44,7 +46,8 @@ export class SalesStockComponent implements OnInit {
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly saleStockService: SaleStockService
+    private readonly saleStockService: SaleStockService,
+    private readonly pdfExportService: PdfExportService,
   ) {
     this.createForm();
   }
@@ -93,7 +96,7 @@ export class SalesStockComponent implements OnInit {
         paginationRequest,
         inputValue || '',
         formattedFromDate,
-        formattedToDate
+        formattedToDate,
       )
       .pipe(untilDestroyed(this))
       .subscribe({
@@ -130,15 +133,60 @@ export class SalesStockComponent implements OnInit {
     this.addSaleStockModal.visible = true;
   }
 
-  protected openSaleStockView(action: ActionButton, saleStock: ISaleStockData): void {
+  protected openSaleStockView(
+    action: ActionButton,
+    saleStock: ISaleStockData,
+  ): void {
     this.viewSaleStockModal.action = action;
     this.viewSaleStockModal.saleStock = saleStock;
     this.viewSaleStockModal.loadData();
     this.viewSaleStockModal.visible = true;
   }
 
+  protected onExport(): void {
+    if (!this.saleStockList || this.saleStockList.length === 0) {
+      alertError({
+        title: RESPONSE_TITLES.FAILED,
+        text: RESPONSE_MESSAGES.SALE_STOCK_EXPORT_FAILED,
+      });
+      return;
+    }
+
+    const columns = [
+      { header: 'ID', width: 0.1 },
+      { header: 'Vehicle No', width: 0.14 },
+      { header: 'Driver Name', width: 0.2 },
+      { header: 'Routes', width: 0.14 },
+      { header: 'Load Date', width: 0.12 },
+      { header: 'Created Date', width: 0.16 },
+      { header: 'Status', width: 0.14 },
+    ];
+
+    const data = this.saleStockList.map((saleStock) => [
+      saleStock.loadId || '',
+      saleStock.vehicleNumber || '',
+      saleStock.employeeFullName || '',
+      saleStock.routeNames?.join(', ') || '',
+      saleStock.loadDate || '',
+      saleStock.createdAt
+        ? moment(saleStock.createdAt).format('YYYY-MM-DD')
+        : '',
+      saleStock.statusDescription || '',
+    ]);
+
+    this.pdfExportService.exportToPdf({
+      title: 'Sale Stock Report',
+      columns: columns,
+      data: data,
+      filename: `Sale_Stock_Report_${moment().format('YYYY-MM-DD_HH-mm-ss')}.pdf`,
+      companyName: 'Visco Bakehouse Sales Delivery Monitoring System',
+      mobileNumber: '+94 (0) 123 456 789',
+      orientation: 'landscape',
+    });
+  }
+
   protected onClear(): void {
-   this.searchForm.reset({
+    this.searchForm.reset({
       fromDate: this.today,
       toDate: this.today,
     });
