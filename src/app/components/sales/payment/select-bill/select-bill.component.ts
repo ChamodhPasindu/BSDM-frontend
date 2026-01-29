@@ -149,14 +149,14 @@ export class SelectBillComponent implements OnInit {
 
     if (bill.paymentStatus === BillStatus.PENDING) {
       this.bottomSheetService.open(SalesPayNowBottomSheetComponent, {
-        height: '515px',
-        showCloseButton: false,
+        height: '535px',
+        showCloseButton: true,
         backgroundColor: '#fff',
       });
     } else {
       this.bottomSheetService.open(SalesPaymentSummaryBottomSheetComponent, {
         height: 'top',
-        showCloseButton: false,
+        showCloseButton: true,
         backgroundColor: '#fff',
       });
     }

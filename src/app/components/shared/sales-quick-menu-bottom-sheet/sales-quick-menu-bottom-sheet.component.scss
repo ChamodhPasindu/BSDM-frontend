@@ -1,0 +1,14 @@
+// Handle for drag indication
+.bottom-sheet-handle {
+  width: 40px;
+  height: 4px;
+  background-color: #d0d0d0;
+  border-radius: 2px;
+  margin: 8px auto 12px;
+  cursor: grab;
+  flex-shrink: 0;
+  
+  &:active {
+    cursor: grabbing;
+  }
+}

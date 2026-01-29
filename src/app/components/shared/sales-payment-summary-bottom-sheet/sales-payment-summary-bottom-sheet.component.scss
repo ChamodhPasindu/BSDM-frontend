@@ -1,0 +1,34 @@
+// // Ensure the ngx-bottom-sheet-container itself can be transformed
+// :host ::ng-deep .ngx-bottom-sheet-container {
+//   will-change: transform;
+//   backface-visibility: hidden;
+//   // Allow the container to move beyond its original bounds
+//   overflow: visible !important;
+//   pointer-events: auto;
+// }
+
+// // Bottom sheet container for swipe gesture handling
+// .bottom-sheet-container {
+//   display: flex;
+//   flex-direction: column;
+//   touch-action: auto; // Allow touch events
+//   user-select: none;
+//   width: 100%;
+//   max-width: 100%;
+//   pointer-events: auto;
+// }
+
+// Handle for drag indication
+.bottom-sheet-handle {
+  width: 40px;
+  height: 4px;
+  background-color: #d0d0d0;
+  border-radius: 2px;
+  margin: 8px auto 12px;
+  cursor: grab;
+  flex-shrink: 0;
+  
+  &:active {
+    cursor: grabbing;
+  }
+}

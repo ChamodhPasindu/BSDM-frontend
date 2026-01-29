@@ -169,19 +169,19 @@ export class CustomerRoutesComponent implements OnInit {
             this.activeRouteCount =
               res.body.content.routeDashboardResponseDTO.statusWiseCounts.find(
                 (x: Record<string, string>) =>
-                  x['statusDescription'] === 'ACTIVE',
+                  x['statusCode'] === 'ACTIVE',
               )?.count || 0;
 
             this.deactivateRouteCount =
               res.body.content.routeDashboardResponseDTO.statusWiseCounts.find(
                 (x: Record<string, string>) =>
-                  x['statusDescription'] === 'DEACTIVE',
+                  x['statusCode'] === 'DEACTIVE',
               )?.count || 0;
 
             this.suspendRouteCount =
               res.body.content.routeDashboardResponseDTO.statusWiseCounts.find(
                 (x: Record<string, string>) =>
-                  x['statusDescription'] === 'DELETED',
+                  x['statusCode'] === 'DELETED',
               )?.count || 0;
 
             // customer widget data

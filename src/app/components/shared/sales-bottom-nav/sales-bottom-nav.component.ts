@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { NgxBottomSheetService } from 'ngx-bottom-sheet';
-import { IconModule } from '@coreui/icons-angular';
 import { SalesQuickMenuBottomSheetComponent } from '../sales-quick-menu-bottom-sheet/sales-quick-menu-bottom-sheet.component';
 
 @Component({
@@ -10,14 +8,12 @@ import { SalesQuickMenuBottomSheetComponent } from '../sales-quick-menu-bottom-s
   styleUrls: ['./sales-bottom-nav.component.scss'],
 })
 export class SalesBottomNavComponent {
-  constructor(private bottomSheetService: NgxBottomSheetService) {}
-
-  showBottomSheet = false;
+  constructor(private readonly bottomSheetService: NgxBottomSheetService) {}
 
   protected toggleBottomSheet() {
     this.bottomSheetService.open(SalesQuickMenuBottomSheetComponent, {
       height: '210px',
-      showCloseButton: false,
+      showCloseButton: true,
       backgroundColor: '#fff',
     });
   }

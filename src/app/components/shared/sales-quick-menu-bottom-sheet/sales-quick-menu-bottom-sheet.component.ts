@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxBottomSheetService } from 'ngx-bottom-sheet';
 import { BaseBottomSheetDirective } from 'src/app/utility/directives/base-bottom-sheet.directive';
@@ -11,8 +11,8 @@ import { BaseBottomSheetDirective } from 'src/app/utility/directives/base-bottom
 export class SalesQuickMenuBottomSheetComponent extends BaseBottomSheetDirective {
   constructor(
     public override bottomSheetService: NgxBottomSheetService,
-    private router: Router,
-    private route: ActivatedRoute
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
   ) {
     super(bottomSheetService);
   }

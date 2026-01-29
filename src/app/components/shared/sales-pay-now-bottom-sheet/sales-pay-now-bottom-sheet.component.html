@@ -1,5 +1,13 @@
-<div class="bottom-sheet-handle"></div>
-<div class="card border-0 p-3">
+<div #bottomSheetContainer 
+     class="bottom-sheet-wrapper"
+     (touchstart)="onTouchStart($event)"
+     (touchmove)="onTouchMove($event)"
+     (touchend)="onTouchEnd($event)">
+  <div class="bottom-sheet-handle"
+       (touchstart)="onTouchStart($event)"
+       (touchmove)="onTouchMove($event)"
+       (touchend)="onTouchEnd($event)"></div>
+  <div class="card border-0 p-3">
 
   <!-- Customer + Bill Info -->
   <div class="d-flex align-items-start mb-3">
@@ -84,4 +92,5 @@
     [disabled]="paymentStatus !== 'Full Payment' && paymentStatus !== 'Partial Payment'" (click)="markAsSettled()">
     Mark as Settled
   </button>
+</div>
 </div>

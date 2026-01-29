@@ -111,8 +111,8 @@ export class BillSummaryComponent
                   this.bottomSheetService.open(
                     SalesPayNowBottomSheetComponent,
                     {
-                      height: '515px',
-                      showCloseButton: false,
+                      height: '535px',
+                      showCloseButton: true,
                       backgroundColor: '#fff',
                     }
                   );

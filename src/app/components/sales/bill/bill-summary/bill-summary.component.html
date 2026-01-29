@@ -1,5 +1,12 @@
-<div class="bottom-sheet-container d-flex flex-column h-100">
-  <div class="bottom-sheet-handle"></div>
+<div #bottomSheetContainer 
+     class="bottom-sheet-container d-flex flex-column h-100"
+     (touchstart)="onTouchStart($event)"
+     (touchmove)="onTouchMove($event)"
+     (touchend)="onTouchEnd($event)">
+  <div class="bottom-sheet-handle"
+       (touchstart)="onTouchStart($event)"
+       (touchmove)="onTouchMove($event)"
+       (touchend)="onTouchEnd($event)"></div>
   <h6 class="fw-bold mb-3 text-center text-success">Order Summary</h6>
 
   <div class="bottom-sheet-header px-3">

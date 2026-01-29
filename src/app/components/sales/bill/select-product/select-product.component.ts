@@ -153,7 +153,7 @@ export class SelectProductComponent implements OnInit {
 
     this.bottomSheetService.open(BillSummaryComponent, {
       height: 'top',
-      showCloseButton: false,
+      showCloseButton: true,
       backgroundColor: '#fff',
     });
   }
