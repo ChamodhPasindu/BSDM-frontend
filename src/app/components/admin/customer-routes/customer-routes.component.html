@@ -40,7 +40,7 @@
       <c-col sm="5">
         <h4 class="card-title mb-4" id="employee-list">Route List</h4>
       </c-col>
-      <c-col xs="auto">
+      <c-col xs="auto" class="mb-4">
         <button cButton type="button" (click)="openRouteView(ActionButton.ADD)">+ Add Route</button>
       </c-col>
     </c-row>
@@ -200,13 +200,13 @@
       <c-col sm="5">
         <h4 class="card-title mb-4" id="employee-list">Customer List</h4>
       </c-col>
-      <c-col xs="auto">
+      <c-col xs="auto" class="mb-4">
         <button cButton type="button" (click)="openCustomerView(ActionButton.ADD)">+ Add Customer</button>
       </c-col>
     </c-row>
     <form cRow class="align-items-end mb-4" [formGroup]="searchCustomerForm" (ngSubmit)="onCustomerSubmit()">
       <c-col xs="auto" class="mb-2">
-        <label cLabel for="inputValue">Search Route</label>
+        <label cLabel for="inputValue">Search Customer</label>
         <input cFormControl id="inputValue" type="text" formControlName="inputValue" />
       </c-col>
 

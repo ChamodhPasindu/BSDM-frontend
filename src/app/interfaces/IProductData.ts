@@ -2,6 +2,7 @@ export interface IProductData {
   productId: number;
   productName: string;
   nameId: number;
+  alertQuantity:number;
   quantity: number;
   minQuantity: number;
   currentQuantity: number;

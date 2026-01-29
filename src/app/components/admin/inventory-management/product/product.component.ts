@@ -32,7 +32,7 @@ import { PdfExportService } from 'src/app/services/general/pdf-export.service';
 })
 export class ProductComponent implements OnInit {
   @ViewChild('addViewProductModal')
-  protected addViewProductModal!: AddViewProductComponent;
+  private readonly addViewProductModal!: AddViewProductComponent;
 
   protected readonly ActionButton = ActionButton;
   protected productList: IProductData[];

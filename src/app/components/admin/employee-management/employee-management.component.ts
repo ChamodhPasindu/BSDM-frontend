@@ -31,7 +31,7 @@ import * as moment from 'moment';
 })
 export class EmployeeManagementComponent implements OnInit {
   @ViewChild('addEditViewEmployeeModal')
-  protected addEditViewEmployeeModal!: AddEditViewEmployeeComponent;
+  private readonly addEditViewEmployeeModal!: AddEditViewEmployeeComponent;
 
   protected readonly ActionButton = ActionButton;
   protected employeeList: IEmployeeData[];

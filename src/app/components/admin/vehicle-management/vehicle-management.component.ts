@@ -33,7 +33,7 @@ import * as moment from 'moment';
 })
 export class VehicleManagementComponent implements OnInit {
   @ViewChild('addEditViewVehicleModal')
-  protected addEditViewVehicleModal!: AddEditViewVehicleComponent;
+  private readonly addEditViewVehicleModal!: AddEditViewVehicleComponent;
 
   protected readonly ActionButton = ActionButton;
   protected vehicleList: IVehicleData[];

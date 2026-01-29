@@ -35,9 +35,9 @@ import { PdfExportService } from 'src/app/services/general/pdf-export.service';
 })
 export class CustomerRoutesComponent implements OnInit {
   @ViewChild('addEditViewCustomerModal')
-  protected addEditViewCustomerModal!: AddEditViewCustomerComponent;
+  private readonly addEditViewCustomerModal!: AddEditViewCustomerComponent;
   @ViewChild('addEditViewRouteModal')
-  protected addEditViewRouteModal!: AddEditViewRouteComponent;
+  private readonly addEditViewRouteModal!: AddEditViewRouteComponent;
 
   protected readonly ActionButton = ActionButton;
 

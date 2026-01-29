@@ -30,9 +30,9 @@ import * as moment from 'moment';
 })
 export class SalesStockComponent implements OnInit {
   @ViewChild('viewSaleStockModal')
-  protected viewSaleStockModal!: ViewSaleStockComponent;
+  private readonly viewSaleStockModal!: ViewSaleStockComponent;
   @ViewChild('addSaleStockModal')
-  protected addSaleStockModal!: AddSaleStockComponent;
+  private readonly addSaleStockModal!: AddSaleStockComponent;
 
   protected readonly ActionButton = ActionButton;
   protected saleStockList: ISaleStockData[];

@@ -30,8 +30,8 @@ import { PdfExportService } from 'src/app/services/general/pdf-export.service';
 })
 export class StockComponent implements OnInit {
   @ViewChild('editViewStockModal')
-  protected editViewStockModal!: EditViewStockComponent;
-  @ViewChild('addStockModal') protected addStockModal!: AddStockComponent;
+  private readonly editViewStockModal!: EditViewStockComponent;
+  @ViewChild('addStockModal') private readonly addStockModal!: AddStockComponent;
 
   protected readonly ActionButton = ActionButton;
   protected stockList: IStockData[];

@@ -33,7 +33,7 @@ const NUMBER_CFG = { count: DATA_COUNT, min: 0, max: 100 };
 })
 export class PaymentsComponent implements OnInit {
   @ViewChild('editViewPaymentModal')
-  protected editViewPaymentModal!: EditViewPaymentComponent;
+  private readonly editViewPaymentModal!: EditViewPaymentComponent;
 
   protected readonly BillStatus = BillStatus;
 

@@ -35,9 +35,9 @@ import { PdfExportService } from 'src/app/services/general/pdf-export.service';
 })
 export class ItemBatchComponent implements OnInit {
   @ViewChild('addEditViewItemModal')
-  protected addEditViewItemModal!: AddEditViewItemComponent;
+  private readonly addEditViewItemModal!: AddEditViewItemComponent;
   @ViewChild('addEditViewBatchModal')
-  protected addEditViewBatchModal!: AddEditViewBatchComponent;
+  private readonly addEditViewBatchModal!: AddEditViewBatchComponent;
 
   protected readonly ActionButton = ActionButton;
 

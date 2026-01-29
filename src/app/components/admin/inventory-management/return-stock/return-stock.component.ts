@@ -31,12 +31,12 @@ import * as moment from 'moment';
 })
 export class ReturnStockComponent implements OnInit {
   @ViewChild('viewReturnStockModal')
-  protected viewReturnStockModal!: ViewReturnStockComponent;
+  private readonly viewReturnStockModal!: ViewReturnStockComponent;
   @ViewChild('addReturnStockModal')
-  protected addReturnStockModal!: AddReturnStockComponent;
+  private readonly addReturnStockModal!: AddReturnStockComponent;
   @ViewChild('reviewReturnStockModal')
-  protected reviewReturnStockModal!: ReviewReturnStockComponent;
-
+  private readonly reviewReturnStockModal!: ReviewReturnStockComponent;
+  
   protected readonly ActionButton = ActionButton;
   protected returnStockList: IReturnStockData[];
 
