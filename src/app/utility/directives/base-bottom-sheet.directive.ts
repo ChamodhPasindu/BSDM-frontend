@@ -1,4 +1,4 @@
-import { Directive, ViewChild, ElementRef, ChangeDetectorRef, AfterViewInit, OnDestroy } from '@angular/core';
+import { Directive, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { NgxBottomSheetService } from 'ngx-bottom-sheet';
 import { App } from '@capacitor/app';
 

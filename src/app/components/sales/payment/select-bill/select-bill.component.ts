@@ -10,7 +10,6 @@ import { BillStatus } from 'src/app/enums/BillStatus.enum';
 import { IBillData } from 'src/app/interfaces/IBillData';
 import { ICustomerData } from 'src/app/interfaces/ICustomerData';
 import { ICustomizeRouteData } from 'src/app/interfaces/ICustomizeRouteData';
-import { IPaymentSummary } from 'src/app/interfaces/IPaymentSummary';
 import { IResponse } from 'src/app/interfaces/IResponse';
 import { BottomSheetEventService } from 'src/app/services/bottom-sheet/bottom-sheet-event.service';
 import { CustomerService } from 'src/app/services/customer/customer.service';

@@ -1,0 +1,111 @@
+<c-modal id="liveDemoModal" size="xl" alignment="center" class="modal-scrollable" [visible]="visible"
+  (visibleChange)="onChangeModalVisibility($event)">
+  <form cForm>
+    <c-modal-header>
+      <h5 cModalTitle>View Sale Item Details</h5>
+      <button (click)="onCloseModal()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+      <div *ngIf="saleItemDetail">
+        <!-- Item Summary -->
+        <c-row class="mb-4">
+          <c-col>
+            <h6 class="text-secondary mb-3">Item Summary</h6>
+            <c-row class="g-3">
+              <c-col [md]="6">
+                <div class="fw-semibold">Item Name</div>
+                <p class="mb-0">{{ saleItemDetail.itemName | empty }}</p>
+              </c-col>
+              <c-col [md]="6">
+                <div class="fw-semibold">Item ID</div>
+                <p class="mb-0">{{ saleItemDetail.itemId | empty }}</p>
+              </c-col>
+              <c-col [md]="6">
+                <div class="fw-semibold">Total Quantity Sold</div>
+                <p class="mb-0">{{ saleItemDetail.totalQuantitySold | empty }}</p>
+              </c-col>
+              <c-col [md]="6">
+                <div class="fw-semibold">Total Sales Amount</div>
+                <p class="mb-0 text-primary fw-bold">
+                  {{ saleItemDetail.totalSalesAmount | currency:'LKR ' }}
+                </p>
+              </c-col>
+              <c-col [md]="6">
+                <div class="fw-semibold">Min Price</div>
+                <p class="mb-0">{{ saleItemDetail.minPrice | currency:'LKR ' }}</p>
+              </c-col>
+              <c-col [md]="6">
+                <div class="fw-semibold">Max Price</div>
+                <p class="mb-0">{{ saleItemDetail.maxPrice | currency:'LKR ' }}</p>
+              </c-col>
+              <c-col [md]="6">
+                <div class="fw-semibold">Quantity Loaded</div>
+                <p class="mb-0">{{ saleItemDetail.quantityLoaded | empty }}</p>
+              </c-col>
+              <c-col [md]="6">
+                <div class="fw-semibold">Average Sale Price</div>
+                <p class="mb-0">{{ saleItemDetail.averageSalePrice | currency:'LKR ' }}</p>
+              </c-col>
+            </c-row>
+          </c-col>
+        </c-row>
+
+        <c-row>
+          <c-col>
+            <hr />
+          </c-col>
+        </c-row>
+
+        <!-- Order History -->
+        <c-row class="mb-3">
+          <c-col>
+            <h6 class="text-secondary mb-3">Order History</h6>
+            <div *ngIf="pagedOrderDetailList && pagedOrderDetailList.length > 0">
+              <div class="table-responsive">
+                <table [hover]="true" [responsive]="true" [striped]="true" cTable class="mb-0 border">
+                  <thead cTableColor="light">
+                    <tr>
+                      <th>Order ID</th>
+                      <th>Salesman</th>
+                      <th>Customer</th>
+                      <th>Shop</th>
+                      <th>Route</th>
+                      <th class="text-end">Qty</th>
+                      <th class="text-end">Price</th>
+                      <th class="text-end">Discount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let order of pagedOrderDetailList">
+                      <td>{{ order.orderId | empty }}</td>
+                      <td>{{ order.salesMan | empty }}</td>
+                      <td>{{ order.customerName | empty }}</td>
+                      <td>{{ order.shopName | empty }}</td>
+                      <td>{{ order.routeName | empty }}</td>
+                      <td class="text-end">{{ order.qtySale | empty }}</td>
+                      <td class="text-end">{{ order.sellingPrice | numberSeparate }}</td>
+                      <td class="text-end">{{ order.discount | numberSeparate }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <app-paginator *ngIf="totalOrders !== 0" [paginationType]="PaginationType.SHORT_PAGINATOR"
+                [totalItems]="totalOrders" [pageSize]="pageSize" [currentPage]="currentPage"
+                (currentPageChange)="goToPage($event)" (pageSizeChange)="onPageSizeChange($event)">
+              </app-paginator>
+            </div>
+            <c-alert *ngIf="!orderDetailList || orderDetailList.length === 0" color="info">
+              No order history available
+            </c-alert>
+          </c-col>
+        </c-row>
+      </div>
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="onCloseModal()" cButton color="secondary" type="button">
+        Close
+      </button>
+    </c-modal-footer>
+  </form>
+</c-modal>

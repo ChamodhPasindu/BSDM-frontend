@@ -1,0 +1,134 @@
+<c-modal id="liveDemoModal" size="lg" alignment="center" class="modal-scrollable" [visible]="visible"
+  (visibleChange)="onChangeModalVisibility($event)">
+  <form cForm>
+    <c-modal-header>
+      <h5 cModalTitle>View Sale Details</h5>
+      <button (click)="onCloseModal()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+      <div *ngIf="sale">
+        <!-- Customer Information -->
+        <c-row class="mb-4">
+          <c-col>
+            <h6 class="text-secondary mb-3">Customer Information</h6>
+            <c-row class="g-3">
+              <c-col [md]="6">
+                <label cLabel class="fw-semibold">Customer Name</label>
+                <p class="mb-0">{{ sale.customerName | empty }}</p>
+              </c-col>
+              <c-col [md]="6">
+                <label cLabel class="fw-semibold">Shop Name</label>
+                <p class="mb-0">{{ sale.customerShop | empty }}</p>
+              </c-col>
+              <c-col [md]="6">
+                <label cLabel class="fw-semibold">Route</label>
+                <p class="mb-0">{{ sale.routeName | empty }}</p>
+              </c-col>
+              <c-col [md]="6">
+                <label cLabel class="fw-semibold">Order Date</label>
+                <p class="mb-0">{{ sale.orderDate | date:'medium' | empty }}</p>
+              </c-col>
+            </c-row>
+          </c-col>
+        </c-row>
+
+        <c-row>
+          <c-col>
+            <hr />
+          </c-col>
+        </c-row>
+
+        <!-- Sale Summary -->
+        <c-row class="mb-4">
+          <c-col>
+            <h6 class="text-secondary mb-3">Sale Summary</h6>
+            <c-row class="g-3">
+              <c-col [md]="6">
+                <label cLabel class="fw-semibold">Order Reference</label>
+                <p class="mb-0">{{ sale.orderReferenceNumber | empty }}</p>
+              </c-col>
+              <c-col [md]="6">
+                <label cLabel class="fw-semibold">Status</label>
+                <p class="mb-0">
+                  <c-badge color="info">{{ sale.statusDescription | empty }}</c-badge>
+                </p>
+              </c-col>
+              <c-col [md]="6">
+                <label cLabel class="fw-semibold">Payment Status</label>
+                <p class="mb-0">
+                  <c-badge *ngIf="sale.paymentStatus === BillStatus.PARTIAL_PAYMENT" color="warning">
+                    Partial
+                    Payment
+                  </c-badge>
+                  <c-badge *ngIf="sale.paymentStatus === BillStatus.FULL_PAYMENT" color="primary"> Full
+                    Payment
+                  </c-badge>
+                </p>
+              </c-col>
+              <c-col [md]="6">
+                <label cLabel class="fw-semibold">Total Amount</label>
+                <p class="mb-0 text-primary fw-bold">{{ sale.totalAmount | currency:'LKR ' }}</p>
+              </c-col>
+              <c-col [md]="6">
+                <label cLabel class="fw-semibold">Salesman</label>
+                <p class="mb-0">{{ sale.employeeName | empty }}</p>
+              </c-col>
+              <c-col [md]="6">
+                <label cLabel class="fw-semibold">Vehicle Number</label>
+                <p class="mb-0">{{ sale.vehicleNumber | empty }}</p>
+              </c-col>
+            </c-row>
+          </c-col>
+        </c-row>
+
+        <c-row>
+          <c-col>
+            <hr />
+          </c-col>
+        </c-row>
+
+        <!-- Order Items -->
+        <c-row class="mb-3">
+          <c-col>
+            <h6 class="text-secondary mb-3">Order Items</h6>
+            <div *ngIf="saleOrderDetailList && saleOrderDetailList.length > 0">
+              <div class="table-responsive">
+                <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
+                  <thead cTableColor="light">
+                    <tr>
+                      <th class="text-center">Product</th>
+                      <th class="text-center">Qty</th>
+                      <th class="text-center">Price</th>
+                      <th class="text-center">Total</th>
+                      <th class="text-center">Discount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of saleOrderDetailList">
+                      <td>
+                        <div class="fw-semibold">{{ item.productName }}</div>
+                        <small class="text-muted">Code: {{ item.productCode | empty }}</small>
+                      </td>
+                      <td class="text-center">{{ item.sellingQuantity | empty}}</td>
+                      <td class="text-center">{{ item.sellingPrice | currency:'LKR ' }}</td>
+                      <td class="text-center fw-semibold">{{ item.totalPrice | currency:'LKR ' }}</td>
+                      <td class="text-center">{{ item.discountAmount | currency:'LKR ' }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <c-alert *ngIf="!saleOrderDetailList || saleOrderDetailList.length === 0" color="info">
+              No order items available
+            </c-alert>
+          </c-col>
+        </c-row>
+      </div>
+    </c-modal-body>
+    <c-modal-footer>
+      <button (click)="onCloseModal()" cButton color="secondary" type="button">
+        Close
+      </button>
+    </c-modal-footer>
+  </form>
+</c-modal>

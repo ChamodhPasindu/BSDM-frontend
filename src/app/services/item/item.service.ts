@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { IItem } from 'src/app/interfaces/IItem';
 import { IPagination } from 'src/app/interfaces/IPagination';
 import { IResponse } from 'src/app/interfaces/IResponse';
-import { IVehicle } from 'src/app/interfaces/IVehicle';
 import { SECURE, getEndpoint } from 'src/app/utility/common/end-point';
 
 @Injectable()

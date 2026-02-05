@@ -133,6 +133,11 @@ export const RESPONSE_MESSAGES = {
   PAYMENT_SUMMARY_GET_FAILED:
     'Failed to load the payment details. Please try again.',
 
+  SALE_GET_FAILED: 'Failed to load Sale details. Please try again.',
+  SALE_ITEM_GET_FAILED: 'Failed to load Sale Item details. Please try again.',
+  SALE_EXPORT_FAILED: 'No sale data available to export.',
+  SALE_ITEM_EXPORT_FAILED: 'No sale item data available to export.',
+
   PAYMENT_ADD_EDIT_SUCCESS: 'Payment information has been saved successfully.',
   PAYMENT_ADD_EDIT_FAILED:
     'Failed to save Payment information. Please try again.',
