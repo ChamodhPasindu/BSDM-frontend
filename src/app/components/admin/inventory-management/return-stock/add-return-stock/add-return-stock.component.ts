@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { IResponse } from 'src/app/interfaces/IResponse';
@@ -24,10 +24,7 @@ import {
   templateUrl: './add-return-stock.component.html',
   styleUrls: ['./add-return-stock.component.scss'],
 })
-export class AddReturnStockComponent
-  extends ModalControlDirective
-  implements OnInit
-{
+export class AddReturnStockComponent extends ModalControlDirective {
   protected saleStockList: Record<string, string | number>[] = [];
   protected selectedSaleStockDetailsList: Record<string, string | number>[] =
     [];
@@ -40,13 +37,11 @@ export class AddReturnStockComponent
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly stockReturnService: StockReturnService
+    private readonly stockReturnService: StockReturnService,
   ) {
     super();
     this.createForm();
   }
-
-  ngOnInit(): void {}
 
   protected override resetState(): void {
     this.selectedProduct = null;
@@ -107,7 +102,7 @@ export class AddReturnStockComponent
 
   protected onSelectProduct(
     product: Record<string, string | number>,
-    index: number
+    index: number,
   ): void {
     this.openedIndex = index;
     this.selectedProduct = product;
@@ -166,7 +161,7 @@ export class AddReturnStockComponent
           productId: Number(item['productId']),
           quantityReturned: Number(item['returnedQuantity']),
         };
-      }
+      },
     );
 
     const payload: IReturnStock = {
@@ -214,7 +209,7 @@ export class AddReturnStockComponent
       const balanceQuantity = Number(item['balanceQuantity']);
 
       const existsInCart = this.cartItems.some(
-        (cart) => Number(cart['productId']) === productId
+        (cart) => Number(cart['productId']) === productId,
       );
 
       return !existsInCart && balanceQuantity !== 0;

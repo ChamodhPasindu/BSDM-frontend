@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ActionButton } from 'src/app/enums/ActionButton.enum';
 import { IResponse } from 'src/app/interfaces/IResponse';
@@ -21,7 +21,6 @@ import { alertError, errorMessageHandler } from 'src/app/utility/helper';
 })
 export class ViewReturnStockComponent
   extends ModalControlDirective
-  implements OnInit
 {
   private _returnStock: IReturnStockData | undefined;
   private _action: ActionButton;
@@ -50,8 +49,6 @@ export class ViewReturnStockComponent
   constructor(private readonly stockReturnService: StockReturnService) {
     super();
   }
-
-  ngOnInit(): void {}
 
   protected override resetState(): void {}
 

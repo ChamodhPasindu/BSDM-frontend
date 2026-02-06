@@ -19,10 +19,9 @@ export class AdminHeaderComponent extends HeaderComponent implements OnInit {
   protected isDarkMode: boolean = false;
   @Input() public sidebarId: string = 'sidebar';
 
-
   protected name: string;
   protected userRole: string;
-  protected lastLoggedInTime: string ;
+  protected lastLoggedInTime: string;
   protected profileImg: string = './assets/images/user-img.jpg';
 
   public newMessages = new Array(4);
@@ -75,12 +74,12 @@ export class AdminHeaderComponent extends HeaderComponent implements OnInit {
   constructor(
     private readonly router: Router,
     private readonly storageService: StorageService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
   ) {
     super();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.isDarkMode = localStorage.getItem('dark-theme') === '1';
     this.applyTheme();
     this.loadSessionData();
@@ -109,7 +108,7 @@ export class AdminHeaderComponent extends HeaderComponent implements OnInit {
               this.storageService.clearSession();
             });
         }
-      }
+      },
     );
   }
 

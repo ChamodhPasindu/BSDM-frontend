@@ -31,12 +31,18 @@ export class StockService {
     });
   }
 
-  public deleteStock(productId: number): Observable<IResponse> {
+  public deleteStock(
+    productId: number,
+    quantity: number,
+    reason: string,
+  ): Observable<IResponse> {
     return this.httpClient.delete<IResponse>(
       this.requestUrl + '/remove-stock',
       {
         body: {
           productId: productId,
+          quantity: quantity,
+          reason: reason,
         },
       },
     );

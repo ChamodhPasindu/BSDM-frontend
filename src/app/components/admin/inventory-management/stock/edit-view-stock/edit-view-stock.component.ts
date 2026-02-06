@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ActionButton } from 'src/app/enums/ActionButton.enum';
@@ -28,7 +28,6 @@ import {
 })
 export class EditViewStockComponent
   extends ModalControlDirective
-  implements OnInit
 {
   protected readonly ActionButton = ActionButton;
 
@@ -65,8 +64,6 @@ export class EditViewStockComponent
     super();
     this.createForm();
   }
-
-  ngOnInit(): void {}
 
   protected override resetState(): void {}
 

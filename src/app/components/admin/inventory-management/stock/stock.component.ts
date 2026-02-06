@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   alertError,
+  alertSuccess,
   datePickerToDate,
   errorMessageHandler,
 } from 'src/app/utility/helper';
@@ -21,6 +22,7 @@ import { AddStockComponent } from './add-stock/add-stock.component';
 import { EditViewStockComponent } from './edit-view-stock/edit-view-stock.component';
 import * as moment from 'moment';
 import { PdfExportService } from 'src/app/services/general/pdf-export.service';
+import Swal from 'sweetalert2';
 
 @UntilDestroy()
 @Component({
@@ -31,7 +33,8 @@ import { PdfExportService } from 'src/app/services/general/pdf-export.service';
 export class StockComponent implements OnInit {
   @ViewChild('editViewStockModal')
   private readonly editViewStockModal!: EditViewStockComponent;
-  @ViewChild('addStockModal') private readonly addStockModal!: AddStockComponent;
+  @ViewChild('addStockModal')
+  private readonly addStockModal!: AddStockComponent;
 
   protected readonly ActionButton = ActionButton;
   protected stockList: IStockData[];
@@ -190,41 +193,84 @@ export class StockComponent implements OnInit {
     return !!(inputValue || fromDate || toDate);
   }
 
-  protected onDeleteStock(): void {
-    // alertWarning(
-    //   {
-    //     title: RESPONSE_TITLES.WARNING,
-    //     text: RESPONSE_MESSAGES.DELETE_CONFIRMATION,
-    //   },
-    //   (result: SweetAlertResult<any>) => {
-    //     if (result.isConfirmed) {
-    //       this.stockService
-    //         .deleteProduct(id)
-    //         .pipe(untilDestroyed(this))
-    //         .subscribe({
-    //           next: (res: IResponse) => {
-    //             if (res.body.status === RSP_SUCCESS) {
-    //               this.loadProductTableData();
-    //               alertSuccess({
-    //                 title: RESPONSE_TITLES.DONE,
-    //                 text:
-    //                   res.body.message ||
-    //                   RESPONSE_MESSAGES.PRODUCT_DELETE_SUCCESS,
-    //               });
-    //             } else {
-    //               alertError({
-    //                 title: RESPONSE_TITLES.FAILED,
-    //                 text:
-    //                   res.body.message || RESPONSE_MESSAGES.PRODUCT_GET_FAILED,
-    //               });
-    //             }
-    //           },
-    //           error: (err: HttpErrorResponse) => {
-    //             errorMessageHandler(err);
-    //           },
-    //         });
-    //     }
-    //   }
-    // );
-  }
+  // protected onDeleteStock(product: IStockData): void {
+  //   Swal.fire({
+  //     title: RESPONSE_TITLES.WARNING,
+  //     html:
+  //       `<div class="text-start">
+  //         <label class="form-label fw-semibold" for="swal-qty">Quantity to remove</label>
+  //         <input id="swal-qty" type="number" min="1" max="${product.totalQuantity}" class="form-control mb-2" placeholder="Enter quantity" />
+  //         <small class="text-muted d-block mb-3">Max: ${product.totalQuantity}</small>
+  //         <label class="form-label fw-semibold" for="swal-reason">Reason</label>
+  //         <input id="swal-reason" type="text" class="form-control" placeholder="Enter reason" />
+  //       </div>`,
+  //     icon: 'warning',
+  //     showCancelButton: true,
+  //     confirmButtonText: 'Remove',
+  //     cancelButtonText: 'Cancel',
+  //     reverseButtons: true,
+  //     allowOutsideClick: false,
+  //     customClass: {
+  //       popup: 'coreui-popup',
+  //       confirmButton: 'btn btn-danger ms-2',
+  //       cancelButton: 'btn btn-secondary',
+  //     },
+  //     preConfirm: () => {
+  //       const qtyInput = document.getElementById('swal-qty') as HTMLInputElement;
+  //       const reasonInput = document.getElementById('swal-reason') as HTMLInputElement;
+
+  //       const quantity = Number(qtyInput?.value);
+  //       const reason = reasonInput?.value?.trim();
+
+  //       if (!quantity || isNaN(quantity) || quantity <= 0) {
+  //         Swal.showValidationMessage('Please enter a valid quantity.');
+  //         return;
+  //       }
+
+  //       if (quantity > product.totalQuantity) {
+  //         Swal.showValidationMessage(`Quantity cannot exceed ${product.totalQuantity}.`);
+  //         return;
+  //       }
+
+  //       if (!reason) {
+  //         Swal.showValidationMessage('Please enter a reason.');
+  //         return;
+  //       }
+
+  //       return { quantity, reason };
+  //     },
+  //   }).then((result) => {
+  //     if (!result.isConfirmed || !result.value) return;
+
+  //     const { quantity, reason } = result.value as {
+  //       quantity: number;
+  //       reason: string;
+  //     };
+
+  //     this.stockService
+  //       .deleteStock(product.productId, quantity, reason)
+  //       .pipe(untilDestroyed(this))
+  //       .subscribe({
+  //         next: (res: IResponse) => {
+  //           if (res.body.status === RSP_SUCCESS) {
+  //             this.loadStockTableData();
+  //             alertSuccess({
+  //               title: RESPONSE_TITLES.DONE,
+  //               text:
+  //                 res.body.message || RESPONSE_MESSAGES.STOCK_DELETE_SUCCESS,
+  //             });
+  //           } else {
+  //             alertError({
+  //               title: RESPONSE_TITLES.FAILED,
+  //               text:
+  //                 res.body.message || RESPONSE_MESSAGES.STOCK_DELETE_FAILED,
+  //             });
+  //           }
+  //         },
+  //         error: (err: HttpErrorResponse) => {
+  //           errorMessageHandler(err);
+  //         },
+  //       });
+  //   });
+  // }
 }

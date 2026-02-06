@@ -47,8 +47,6 @@ export class LoginComponent {
     this.createForm();
   }
 
-  ngOnInit(): void {}
-
   protected createForm(): void {
     this.loginForm = this.fb.group({
       username: [

@@ -9,7 +9,7 @@ export class ViewAuditComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit(): void {}
 
   @Input() audit: any;
   public visible = false;

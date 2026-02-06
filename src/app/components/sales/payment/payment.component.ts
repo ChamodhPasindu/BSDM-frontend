@@ -5,23 +5,26 @@ import { filter } from 'rxjs';
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
-  styleUrls: ['./payment.component.scss']
+  styleUrls: ['./payment.component.scss'],
 })
 export class PaymentComponent implements OnInit {
-  currentStep = 1;
+  protected currentStep: number = 1;
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
+  constructor(
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute,
+  ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     // Listen to route changes
     this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
+      .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
         this.updateStepBasedOnRoute();
       });
   }
 
-  updateStepBasedOnRoute() {
+  private updateStepBasedOnRoute(): void {
     const activeRoute = this.getActiveRoute(this.activatedRoute);
 
     // Decide step based on route path
@@ -42,12 +45,11 @@ export class PaymentComponent implements OnInit {
   }
 
   // Recursive function to get the deepest child route
-  getActiveRoute(route: ActivatedRoute): ActivatedRoute {
+  private getActiveRoute(route: ActivatedRoute): ActivatedRoute {
     if (route.firstChild) {
       return this.getActiveRoute(route.firstChild);
     } else {
       return route;
     }
   }
-
 }

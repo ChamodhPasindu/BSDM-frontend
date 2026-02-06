@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PaginationType } from 'src/app/enums/PaginationType.enum';
@@ -27,7 +27,7 @@ import {
   templateUrl: './add-stock.component.html',
   styleUrls: ['./add-stock.component.scss'],
 })
-export class AddStockComponent extends ModalControlDirective implements OnInit {
+export class AddStockComponent extends ModalControlDirective {
   protected readonly PaginationType = PaginationType;
   protected productList: IProductData[];
 
@@ -51,8 +51,6 @@ export class AddStockComponent extends ModalControlDirective implements OnInit {
     super();
     this.createForm();
   }
-
-  ngOnInit(): void {}
 
   private createForm(): void {
     this.productDetailForm = this.fb.group({

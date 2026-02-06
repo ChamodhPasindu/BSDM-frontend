@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { NgxBottomSheetService } from 'ngx-bottom-sheet';
 import { SalesQuickMenuBottomSheetComponent } from '../sales-quick-menu-bottom-sheet/sales-quick-menu-bottom-sheet.component';
+import { StorageService } from 'src/app/services/storage.service';
+import { SESSION_DATA } from 'src/app/utility/constants/session-data';
+import { alertWarning } from 'src/app/utility/helper';
 
 @Component({
   selector: 'app-sales-bottom-nav',
@@ -8,13 +11,30 @@ import { SalesQuickMenuBottomSheetComponent } from '../sales-quick-menu-bottom-s
   styleUrls: ['./sales-bottom-nav.component.scss'],
 })
 export class SalesBottomNavComponent {
-  constructor(private readonly bottomSheetService: NgxBottomSheetService) {}
+  protected isDayStarted: boolean = false;
 
-  protected toggleBottomSheet() {
-    this.bottomSheetService.open(SalesQuickMenuBottomSheetComponent, {
-      height: '210px',
-      showCloseButton: true,
-      backgroundColor: '#fff',
-    });
+  constructor(
+    private readonly bottomSheetService: NgxBottomSheetService,
+    private readonly storageService: StorageService,
+  ) {}
+
+  protected toggleBottomSheet(): void {
+    const isDayStarted =
+      this.storageService.get(SESSION_DATA.DAY_STATUS) === 'true';
+
+    if (isDayStarted) {
+      this.bottomSheetService.open(SalesQuickMenuBottomSheetComponent, {
+        height: '210px',
+        showCloseButton: true,
+        backgroundColor: '#fff',
+      });
+    } else {
+      alertWarning({
+        title: 'Day Not Started',
+        text: 'Please start your day to access the quick menu.',
+        confirmButtonText: 'Okay',
+        showCancelButton: false,
+      });
+    }
   }
 }

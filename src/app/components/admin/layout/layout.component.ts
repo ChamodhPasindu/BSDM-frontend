@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { navItems } from 'src/app/utility/common/_nav';
 
 @Component({
@@ -6,9 +6,6 @@ import { navItems } from 'src/app/utility/common/_nav';
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
 })
-export class LayoutComponent implements OnInit {
+export class LayoutComponent {
   public navItems = navItems;
-  constructor() {}
-
-  ngOnInit() {}
 }

@@ -145,6 +145,10 @@ export const RESPONSE_MESSAGES = {
   PAYMENT_DELETE_FAILED: 'Failed to remove Payment details. Please try again.',
   PAYMENT_DELETE_SUCCESS: 'Payment information has been removed successfully.',
   PAYMENT_EXPORT_FAILED: 'No payment data available to export.',
+
+  SALES_MAN_STATUS_SUCCESS: 'You have just started your work. Good luck!',
+  SALES_MAN_STATUS_GET_FAILED: 'Failed to load Salesman status. Please try again.',
+
 };
 
 export const RESPONSE_TITLES = {

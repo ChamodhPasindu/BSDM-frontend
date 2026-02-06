@@ -4,8 +4,7 @@ import { SECURE, getEndpoint } from 'src/app/utility/common/end-point';
 
 @Injectable()
 export class AlertService {
-  private requestUrl = `${getEndpoint(SECURE)}`;
+  private salesRequestUrl = `${getEndpoint(SECURE)}/sales-man`;
 
   constructor(private readonly httpClient: HttpClient) {}
-
 }

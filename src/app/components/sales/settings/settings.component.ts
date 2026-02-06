@@ -49,21 +49,21 @@ export class SettingsComponent implements OnInit {
 
   protected profileForm: FormGroup;
 
-  protected vehicleDetails:Record<string,string>;
-  protected otherDetails:Record<string,string>;
+  protected vehicleDetails: Record<string, string>;
+  protected otherDetails: Record<string, string>;
 
   constructor(
     private readonly fb: FormBuilder,
     private readonly router: Router,
     private readonly authService: AuthService,
     private readonly storageService: StorageService,
-    private readonly employeeService: EmployeeService
+    private readonly employeeService: EmployeeService,
   ) {
     this.activeTab = SettingsTab.PROFILE;
     this.createForm();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.isDarkMode = localStorage.getItem('dark-theme') === '1';
 
     this.employeeService
@@ -114,7 +114,7 @@ export class SettingsComponent implements OnInit {
               this.storageService.clearSession();
             });
         }
-      }
+      },
     );
   }
 

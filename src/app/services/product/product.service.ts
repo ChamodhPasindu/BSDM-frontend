@@ -8,7 +8,7 @@ import { IResponse } from 'src/app/interfaces/IResponse';
 import { SECURE, getEndpoint } from 'src/app/utility/common/end-point';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProductService {
   private adminRequestUrl = `${getEndpoint(SECURE)}/product`;
@@ -31,7 +31,7 @@ export class ProductService {
       this.adminRequestUrl + '/add-product',
       {
         ...payload,
-      }
+      },
     );
   }
 
@@ -40,7 +40,7 @@ export class ProductService {
       this.adminRequestUrl + '/edit-product',
       {
         ...payload,
-      }
+      },
     );
   }
 
@@ -51,7 +51,7 @@ export class ProductService {
         body: {
           productId: productId,
         },
-      }
+      },
     );
   }
 
@@ -59,7 +59,7 @@ export class ProductService {
     payload: IPagination,
     inputValue: string,
     fromDate?: string | null,
-    toDate?: string | null
+    toDate?: string | null,
   ): Observable<IResponse> {
     return this.httpClient.post<IResponse>(this.adminRequestUrl + '/list', {
       ...payload,
@@ -73,5 +73,12 @@ export class ProductService {
 
   public getSalesmanProductList(): Observable<IResponse> {
     return this.httpClient.get<IResponse>(this.salesRequestUrl + '/list');
+  }
+
+  public salesmanDayStart(): Observable<IResponse> {
+    return this.httpClient.put<IResponse>(
+      this.salesRequestUrl + '/day-start',
+      {},
+    );
   }
 }

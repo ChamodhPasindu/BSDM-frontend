@@ -6,6 +6,24 @@
   <img [src]="greetingImage" alt="Morning" width="80" class="rounded-3" />
 </div>
 
+<c-card *ngIf="!isDayStarted" class="mb-3 shadow-sm">
+  <c-card-body class="d-flex align-items-center justify-content-between">
+    <div>
+      <h6 class="fw-semibold mb-1">Start Day</h6>
+      <small class="text-muted">
+        {{ isDayStarted ? 'Day is active' : 'Day is not started' }}
+      </small>
+    </div>
+    <div class="form-check form-switch m-0">
+      <input class="form-check-input" type="checkbox" role="switch" id="startDaySwitch" [(ngModel)]="isDayStarted"
+        (ngModelChange)="toggleDayStatus($event)" />
+      <label class="form-check-label fw-semibold" for="startDaySwitch">
+        {{ isDayStarted ? 'On' : 'Off' }}
+      </label>
+    </div>
+  </c-card-body>
+</c-card>
+
 <div class="row mb-2">
   <div class="col">
     <c-card color="primary" textColor="white">

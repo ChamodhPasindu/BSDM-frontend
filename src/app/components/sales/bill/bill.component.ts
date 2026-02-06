@@ -10,12 +10,15 @@ import { filter } from 'rxjs';
 export class BillComponent implements OnInit {
   currentStep = 1;
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+  ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     // Listen to route changes
     this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
+      .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
         this.updateStepBasedOnRoute();
       });

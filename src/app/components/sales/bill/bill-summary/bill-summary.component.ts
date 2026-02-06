@@ -48,12 +48,12 @@ export class BillSummaryComponent
     private readonly routeService: RouteService,
     private readonly customerService: CustomerService,
     private readonly productService: ProductService,
-    private readonly saleService: SaleService
+    private readonly saleService: SaleService,
   ) {
     super(bottomSheetService);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.routeDetails = this.routeService.getSelectedRoute();
     this.customerDetails = this.customerService.getSelectedCustomer();
     this.productList = this.productService.getSelectedProductList();
@@ -63,7 +63,7 @@ export class BillSummaryComponent
   protected getTotalAmount(): number {
     return this.productList.reduce(
       (sum, p) => sum + (p.selectedQuantity! * p.selectedPrice || 0),
-      0
+      0,
     );
   }
 
@@ -114,10 +114,10 @@ export class BillSummaryComponent
                       height: '535px',
                       showCloseButton: true,
                       backgroundColor: '#fff',
-                    }
+                    },
                   );
                 }
-              }
+              },
             );
 
             this.bottomSheetService.close();

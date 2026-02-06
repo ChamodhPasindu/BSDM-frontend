@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { IResponse } from 'src/app/interfaces/IResponse';
 import { StockReturnService } from 'src/app/services/stock-return/stock-return.service';
@@ -23,7 +23,6 @@ import {
 })
 export class ReviewReturnStockComponent
   extends ModalControlDirective
-  implements OnInit
 {
   protected saleStockList: Record<string, string | number>[] = [];
   protected selectedSaleStockDetailsList: Record<string, string | number>[] =
@@ -33,8 +32,6 @@ export class ReviewReturnStockComponent
   constructor(private readonly stockReturnService: StockReturnService) {
     super();
   }
-
-  ngOnInit() {}
 
   protected override resetState(): void {}
 

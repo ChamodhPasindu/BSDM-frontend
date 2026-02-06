@@ -9,7 +9,7 @@ export class AlertViewComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() :void {}
 
   @Input() alert: any;
   public visible = false;
