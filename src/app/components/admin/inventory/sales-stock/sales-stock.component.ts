@@ -45,6 +45,14 @@ export class SalesStockComponent implements OnInit {
   protected searchForm: FormGroup;
   protected today = new Date();
 
+  protected widgetData: any;
+  protected periods: Record<string, 'TODAY' | 'WEEK' | 'MONTH'> = {
+    product: 'MONTH',
+    value: 'MONTH',
+    employee: 'MONTH',
+    vehicle: 'MONTH',
+  };
+
   constructor(
     private readonly fb: FormBuilder,
     private readonly saleStockService: SaleStockService,
@@ -127,12 +135,7 @@ export class SalesStockComponent implements OnInit {
       .subscribe({
         next: (res: IResponse) => {
           if (res.body.status === RSP_SUCCESS) {
-            // this.totalCount = res.body.content?.totalStockCount || 0;
-            // this.expiringCount =
-            //   res.body.content.stockExpiryStatusList?.find(
-            //     (x: Record<string, string>) =>
-            //       x['statusDescription'] === 'EXPIRING_SOON',
-            //   )?.count || 0;
+            this.widgetData = res.body.content;
           } else {
             alertWarning({
               title: RESPONSE_TITLES.FAILED,
@@ -146,6 +149,42 @@ export class SalesStockComponent implements OnInit {
           errorMessageHandler(err);
         },
       });
+  }
+
+  protected setPeriod(card: string, period: 'TODAY' | 'WEEK' | 'MONTH'): void {
+    this.periods[card] = period;
+  }
+
+  protected getParsedStockValue(): string | number {
+    const data = this.widgetData?.assignedValueCardList?.find(
+      (x: any) => x.period === this.periods['value'],
+    );
+    if (!data) return 0;
+    return `LKR ${data.minValue} - ${data.maxValue}`;
+  }
+
+  protected getEmployeeCount(): number {
+    return (
+      this.widgetData?.assignedEmployeeCountList?.find(
+        (x: any) => x.period === this.periods['employee'],
+      )?.employeeCount || 0
+    );
+  }
+
+  protected getProductCount(): number {
+    return (
+      this.widgetData?.assignedProductCountList?.find(
+        (x: any) => x.period === this.periods['product'],
+      )?.productCount || 0
+    );
+  }
+
+  protected getVehicleCount(): number {
+    return (
+      this.widgetData?.assignedVehicleCountList?.find(
+        (x: any) => x.period === this.periods['vehicle'],
+      )?.vehicleCount || 0
+    );
   }
 
   protected goToPage(page: number): void {

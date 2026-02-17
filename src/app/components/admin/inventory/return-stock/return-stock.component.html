@@ -2,23 +2,24 @@
 
 <c-row>
   <c-col>
-    <c-widget-stat-f [title]="'Total Return Stock'" class="mb-3" color="warning" padding value="100">
+    <c-widget-stat-f [title]="'Total Return Stock'" class="mb-3" color="warning" padding
+      [value]="getReturnProductCount()">
       <ng-template cTemplateId="widgetIconTemplate">
         <svg cIcon name="cilCart" size="xl" width="24"></svg>
       </ng-template>
       <ng-template cTemplateId="widgetFooterTemplate">
         <div class="d-flex justify-content-between align-items-center w-100">
-          <div class="text-secondary"> Today</div>
+          <div class="text-secondary"> {{ periods['returnStock'] === 'TODAY' ? 'Today' : periods['returnStock'] ===
+            'WEEK' ? 'This Week' : 'This Month' }}</div>
 
           <c-dropdown alignment="end" variant="btn-group">
             <button [caret]="false" cButton cDropdownToggle color="transparent" class="p-0 text-secondary">
               <svg cIcon name="cilOptions"></svg>
             </button>
             <div cDropdownMenu>
-              <a cDropdownItem>Today</a>
-              <a cDropdownItem>This Week</a>
-              <a cDropdownItem>This Month</a>
-              <a cDropdownItem>This Year</a>
+              <a cDropdownItem (click)="setPeriod('returnStock', 'TODAY')">Today</a>
+              <a cDropdownItem (click)="setPeriod('returnStock', 'WEEK')">This Week</a>
+              <a cDropdownItem (click)="setPeriod('returnStock', 'MONTH')">This Month</a>
             </div>
           </c-dropdown>
         </div>
@@ -27,23 +28,23 @@
   </c-col>
 
   <c-col>
-    <c-widget-stat-f [title]="'Return Stock Value'" class="mb-3" color="danger" padding value="50">
+    <c-widget-stat-f [title]="'Return Stock Value'" class="mb-3" color="danger" padding [value]="getReturnValue()">
       <ng-template cTemplateId="widgetIconTemplate">
         <svg cIcon name="cilMoney" size="xl" width="24"></svg>
       </ng-template>
       <ng-template cTemplateId="widgetFooterTemplate">
         <div class="d-flex justify-content-between align-items-center w-100">
-          <div class="text-secondary"> Today</div>
+          <div class="text-secondary"> {{ periods['value'] === 'TODAY' ? 'Today' : periods['value'] ===
+            'WEEK' ? 'This Week' : 'This Month' }}</div>
 
           <c-dropdown alignment="end" variant="btn-group">
             <button [caret]="false" cButton cDropdownToggle color="transparent" class="p-0 text-secondary">
               <svg cIcon name="cilOptions"></svg>
             </button>
             <div cDropdownMenu>
-              <a cDropdownItem>Today</a>
-              <a cDropdownItem>This Week</a>
-              <a cDropdownItem>This Month</a>
-              <a cDropdownItem>This Year</a>
+              <a cDropdownItem (click)="setPeriod('value', 'TODAY')">Today</a>
+              <a cDropdownItem (click)="setPeriod('value', 'WEEK')">This Week</a>
+              <a cDropdownItem (click)="setPeriod('value', 'MONTH')">This Month</a>
             </div>
           </c-dropdown>
         </div>
@@ -52,48 +53,24 @@
   </c-col>
 
   <c-col>
-    <c-widget-stat-f [title]="'Return Bring Employees'" class="mb-3" color="secondary" padding value="75">
+    <c-widget-stat-f [title]="'Return Bring Employees'" class="mb-3" color="secondary" padding
+      [value]="getReturnEmployeeCount()">
       <ng-template cTemplateId="widgetIconTemplate">
         <svg cIcon name="cilContact" size="xl" width="24"></svg>
       </ng-template>
       <ng-template cTemplateId="widgetFooterTemplate">
         <div class="d-flex justify-content-between align-items-center w-100">
-          <div class="text-secondary"> Today</div>
+          <div class="text-secondary"> {{ periods['employee'] === 'TODAY' ? 'Today' : periods['employee'] === 'WEEK' ?
+            'This Week' : 'This Month' }}</div>
 
           <c-dropdown alignment="end" variant="btn-group">
             <button [caret]="false" cButton cDropdownToggle color="transparent" class="p-0 text-secondary">
               <svg cIcon name="cilOptions"></svg>
             </button>
             <div cDropdownMenu>
-              <a cDropdownItem>Today</a>
-              <a cDropdownItem>This Week</a>
-              <a cDropdownItem>This Month</a>
-              <a cDropdownItem>This Year</a>
-            </div>
-          </c-dropdown>
-        </div>
-      </ng-template>
-    </c-widget-stat-f>
-  </c-col>
-
-  <c-col>
-    <c-widget-stat-f [title]="'Return Bring Vehicles'" class="mb-3" color="info" padding value="75">
-      <ng-template cTemplateId="widgetIconTemplate">
-        <svg cIcon name="cilTruck" size="xl" width="24"></svg>
-      </ng-template>
-      <ng-template cTemplateId="widgetFooterTemplate">
-        <div class="d-flex justify-content-between align-items-center w-100">
-          <div class="text-secondary"> Today</div>
-
-          <c-dropdown alignment="end" variant="btn-group">
-            <button [caret]="false" cButton cDropdownToggle color="transparent" class="p-0 text-secondary">
-              <svg cIcon name="cilOptions"></svg>
-            </button>
-            <div cDropdownMenu>
-              <a cDropdownItem>Today</a>
-              <a cDropdownItem>This Week</a>
-              <a cDropdownItem>This Month</a>
-              <a cDropdownItem>This Year</a>
+              <a cDropdownItem (click)="setPeriod('employee', 'TODAY')">Today</a>
+              <a cDropdownItem (click)="setPeriod('employee', 'WEEK')">This Week</a>
+              <a cDropdownItem (click)="setPeriod('employee', 'MONTH')">This Month</a>
             </div>
           </c-dropdown>
         </div>
@@ -123,7 +100,8 @@
       <c-col xs="auto" class="mb-2">
         <label cLabel for="datepicker">From Date</label>
         <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" formControlName="fromDate" />
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker
+            [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" formControlName="fromDate" />
           <span class="input-group-text bg-white">
             <svg cIcon name="cilCalendar" class="text-secondary"></svg>
           </span>
@@ -133,7 +111,8 @@
       <c-col xs="auto" class="mb-2">
         <label cLabel for="datepicker">To Date</label>
         <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" formControlName="toDate" />
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker
+            [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" formControlName="toDate" />
           <span class="input-group-text bg-white">
             <svg cIcon name="cilCalendar" class="text-secondary"></svg>
           </span>

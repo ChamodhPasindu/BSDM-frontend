@@ -54,13 +54,12 @@ export class ItemBatchComponent implements OnInit {
   protected batchCount: number = 0;
 
   protected totalItemCount: number = 0;
-  protected availableItemCount: number = 0;
+  protected activeItemCount: number = 0;
   protected deleteItemCount: number = 0;
 
   protected totalBatchCount: number = 0;
   protected expiredBatchCount: number = 0;
   protected freshBatchCount: number = 0;
-  protected deleteBatchCount: number = 0;
 
   protected searchItemForm: FormGroup;
   protected searchBatchForm: FormGroup;
@@ -211,14 +210,16 @@ export class ItemBatchComponent implements OnInit {
         next: (res: IResponse) => {
           if (res.body.status === RSP_SUCCESS) {
             this.totalItemCount = res.body.content?.totalItem || 0;
-            this.availableItemCount =
+            this.activeItemCount =
               res.body.content.itemStatusWiseCounts?.find(
-                (x: Record<string, string>) => x['statusCode'] === 'AVAILABLE',
+                (x: Record<string, string>) =>
+                  x['statusDescription'] === 'ACTIVE',
               )?.count || 0;
 
             this.deleteItemCount =
               res.body.content.itemStatusWiseCounts?.find(
-                (x: Record<string, string>) => x['statusCode'] === 'DELETE',
+                (x: Record<string, string>) =>
+                  x['statusDescription'] === 'DELETE',
               )?.count || 0;
 
             this.totalBatchCount = res.body.content?.totalBatch || 0;
@@ -231,11 +232,6 @@ export class ItemBatchComponent implements OnInit {
             this.freshBatchCount =
               res.body.content.batchStatusWiseCounts?.find(
                 (x: Record<string, string>) => x['statusCode'] === 'FRESH',
-              )?.count || 0;
-
-            this.deleteBatchCount =
-              res.body.content.batchStatusWiseCounts?.find(
-                (x: Record<string, string>) => x['statusCode'] === 'DELETE',
               )?.count || 0;
           } else {
             alertWarning({

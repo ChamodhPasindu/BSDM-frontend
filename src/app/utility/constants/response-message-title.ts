@@ -115,6 +115,8 @@ export const RESPONSE_MESSAGES = {
     'Failed to save Return Stock information. Please try again.',
   RETURN_STOCK_GET_FAILED:
     'Failed to load Return Stock details. Please try again.',
+  RETURN_STOCK_WIDGET_GET_FAILED:
+    'Failed to load Return Stock widget details. Please try again.',
   RETURN_STOCK_DELETE_FAILED:
     'Failed to remove Return Stock details. Please try again.',
   RETURN_STOCK_DELETE_SUCCESS:

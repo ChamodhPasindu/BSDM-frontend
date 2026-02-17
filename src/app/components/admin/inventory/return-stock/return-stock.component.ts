@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ViewReturnStockComponent } from './view-return-stock/view-return-stock.component';
 import {
   alertError,
+  alertWarning,
   datePickerToDate,
   errorMessageHandler,
 } from 'src/app/utility/helper';
@@ -36,7 +37,7 @@ export class ReturnStockComponent implements OnInit {
   private readonly addReturnStockModal!: AddReturnStockComponent;
   @ViewChild('reviewReturnStockModal')
   private readonly reviewReturnStockModal!: ReviewReturnStockComponent;
-  
+
   protected readonly ActionButton = ActionButton;
   protected returnStockList: IReturnStockData[];
 
@@ -57,6 +58,7 @@ export class ReturnStockComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadReturnStockTableData();
+    this.loadReturnStockWidgetData();
   }
 
   private createForm(): void {
@@ -73,6 +75,7 @@ export class ReturnStockComponent implements OnInit {
 
   protected onRefresh(): void {
     this.loadReturnStockTableData();
+    this.loadReturnStockWidgetData();
   }
 
   private loadReturnStockTableData(): void {
@@ -119,6 +122,64 @@ export class ReturnStockComponent implements OnInit {
           errorMessageHandler(err);
         },
       });
+  }
+
+  protected widgetData: any;
+  protected periods: Record<string, 'TODAY' | 'WEEK' | 'MONTH' | 'YEAR'> = {
+    returnStock: 'TODAY',
+    value: 'TODAY',
+    employee: 'TODAY',
+    vehicle: 'TODAY',
+  };
+
+  private loadReturnStockWidgetData(): void {
+    this.stockReturnService
+      .getReturnStockWidget()
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.widgetData = res.body.content;
+          } else {
+            alertWarning({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message || RESPONSE_MESSAGES.STOCK_WIDGET_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
+  }
+
+  protected setPeriod(card: string, period: 'TODAY' | 'WEEK' | 'MONTH'): void {
+    this.periods[card] = period;
+  }
+
+  protected getReturnValue(): string | number {
+    const data = this.widgetData?.returnValueCardList?.find(
+      (x: any) => x.period === this.periods['value'],
+    );
+    if (!data) return 0;
+    return `LKR ${data.minValue} - ${data.maxValue}`;
+  }
+
+  protected getReturnEmployeeCount(): number {
+    return (
+      this.widgetData?.returnEmployeeCountList?.find(
+        (x: any) => x.period === this.periods['employee'],
+      )?.employeeCount || 0
+    );
+  }
+
+  protected getReturnProductCount(): number {
+    return (
+      this.widgetData?.returnProductCountList?.find(
+        (x: any) => x.period === this.periods['returnStock'],
+      )?.productCount || 0
+    );
   }
 
   protected goToPage(page: number): void {

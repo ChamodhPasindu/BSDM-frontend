@@ -18,7 +18,7 @@ export class StockReturnService {
       this.adminRequestUrl + '/return/return-sales-stock',
       {
         ...payload,
-      }
+      },
     );
   }
 
@@ -26,7 +26,7 @@ export class StockReturnService {
     payload: IPagination,
     inputValue: string,
     fromDate?: string | null,
-    toDate?: string | null
+    toDate?: string | null,
   ): Observable<IResponse> {
     return this.httpClient.post<IResponse>(
       this.adminRequestUrl + '/stock/return/list',
@@ -35,7 +35,7 @@ export class StockReturnService {
         returnIdOrEmployeeOrLoadId: inputValue,
         fromDate: fromDate,
         toDate: toDate,
-      }
+      },
     );
   }
 
@@ -43,28 +43,28 @@ export class StockReturnService {
     return this.httpClient.post<IResponse>(
       this.adminRequestUrl + '/stock/return/details/list',
       {},
-      { params: { code: id } }
+      { params: { code: id } },
     );
   }
 
   public getReturnDropDownList(): Observable<IResponse> {
     return this.httpClient.get<IResponse>(
       this.adminRequestUrl + '/return/drop-down',
-      {}
+      {},
     );
   }
 
   public getReApprovedReturnDropDownList(): Observable<IResponse> {
     return this.httpClient.get<IResponse>(
       this.adminRequestUrl + '/return/pending',
-      {}
+      {},
     );
   }
 
   public getSaleStockDetailsById(id: string): Observable<IResponse> {
     return this.httpClient.get<IResponse>(
       this.adminRequestUrl + '/return/sales-status',
-      { params: { id: id } }
+      { params: { id: id } },
     );
   }
 
@@ -72,7 +72,14 @@ export class StockReturnService {
     return this.httpClient.post<IResponse>(
       this.adminRequestUrl + '/return/confirm',
       {},
-      { params: { loadId: id } }
+      { params: { loadId: id } },
+    );
+  }
+
+  public getReturnStockWidget(): Observable<IResponse> {
+    return this.httpClient.get<IResponse>(
+      this.adminRequestUrl + '/return/card-details',
+      {},
     );
   }
 
@@ -81,7 +88,7 @@ export class StockReturnService {
   public ReturnAllRemainingProduct(): Observable<IResponse> {
     return this.httpClient.put<IResponse>(
       this.salesRequestUrl + '/product/return',
-      {}
+      {},
     );
   }
 }
