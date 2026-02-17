@@ -3,7 +3,7 @@ import { ProductComponent } from './product/product.component';
 import { SalesStockComponent } from './sales-stock/sales-stock.component';
 import { StockComponent } from './stock/stock.component';
 import { ReturnStockComponent } from './return-stock/return-stock.component';
-import { InventoryManagementRoutingModule } from './inventory-management.routing.module';
+import { InventoryRoutingModule } from './inventory.routing.module';
 import { ItemBatchComponent } from './item-batch/item-batch.component';
 import {
   BadgeModule,
@@ -60,7 +60,7 @@ import { ReviewReturnStockComponent } from './return-stock/review-return-stock/r
     ReviewReturnStockComponent,
   ],
   imports: [
-    InventoryManagementRoutingModule,
+    InventoryRoutingModule,
     SharedModule,
     WidgetModule,
     DropdownModule,
@@ -88,4 +88,4 @@ import { ReviewReturnStockComponent } from './return-stock/review-return-stock/r
     StockReturnService,
   ],
 })
-export class InventoryManagementModule {}
+export class InventoryModule {}

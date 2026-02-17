@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ViewSaleStockComponent } from './view-sale-stock/view-sale-stock.component';
 import {
   alertError,
+  alertWarning,
   datePickerToDate,
   errorMessageHandler,
 } from 'src/app/utility/helper';
@@ -54,6 +55,7 @@ export class SalesStockComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadSaleStockTableData();
+    this.loadSalesStockWidgetData();
   }
 
   private createForm(): void {
@@ -70,6 +72,7 @@ export class SalesStockComponent implements OnInit {
 
   protected onRefresh(): void {
     this.loadSaleStockTableData();
+    this.loadSalesStockWidgetData();
   }
 
   private loadSaleStockTableData(): void {
@@ -108,6 +111,34 @@ export class SalesStockComponent implements OnInit {
             alertError({
               title: RESPONSE_TITLES.FAILED,
               text: res.body.message || RESPONSE_MESSAGES.SALE_STOCK_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
+  }
+
+  private loadSalesStockWidgetData(): void {
+    this.saleStockService
+      .getSaleStockWidget()
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            // this.totalCount = res.body.content?.totalStockCount || 0;
+            // this.expiringCount =
+            //   res.body.content.stockExpiryStatusList?.find(
+            //     (x: Record<string, string>) =>
+            //       x['statusDescription'] === 'EXPIRING_SOON',
+            //   )?.count || 0;
+          } else {
+            alertWarning({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message ||
+                RESPONSE_MESSAGES.SALE_STOCK_WIDGET_GET_FAILED,
             });
           }
         },

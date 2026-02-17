@@ -17,7 +17,7 @@ export class ItemService {
       this.requestUrl + '/add-product-name',
       {
         ...payload,
-      }
+      },
     );
   }
 
@@ -26,7 +26,7 @@ export class ItemService {
       this.requestUrl + '/edit-product-name',
       {
         ...payload,
-      }
+      },
     );
   }
 
@@ -37,7 +37,7 @@ export class ItemService {
         body: {
           nameId: itemId,
         },
-      }
+      },
     );
   }
 
@@ -45,7 +45,7 @@ export class ItemService {
     payload: Partial<IPagination>,
     inputValue?: string,
     fromDate?: string | null,
-    toDate?: string | null
+    toDate?: string | null,
   ): Observable<IResponse> {
     return this.httpClient.post<IResponse>(this.requestUrl + '/name/list', {
       ...payload,
@@ -53,5 +53,12 @@ export class ItemService {
       fromDate: fromDate,
       toDate: toDate,
     });
+  }
+
+  public getItemWidget(): Observable<IResponse> {
+    return this.httpClient.get<IResponse>(
+      this.requestUrl + '/card-details/item',
+      {},
+    );
   }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   alertError,
   alertSuccess,
+  alertWarning,
   datePickerToDate,
   errorMessageHandler,
 } from 'src/app/utility/helper';
@@ -43,6 +44,11 @@ export class StockComponent implements OnInit {
   protected pageSize: number = 5;
   protected count: number = 0;
 
+  protected totalCount: number = 0;
+  protected expiringCount: number = 0;
+  protected expiredCount: number = 0;
+  protected freshCount: number = 0;
+
   protected searchForm: FormGroup;
   protected today = new Date();
 
@@ -56,6 +62,7 @@ export class StockComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadStockTableData();
+    this.loadStockWidgetData();
   }
 
   private createForm(): void {
@@ -72,6 +79,7 @@ export class StockComponent implements OnInit {
 
   protected onRefresh(): void {
     this.loadStockTableData();
+    this.loadStockWidgetData();
   }
 
   private loadStockTableData(): void {
@@ -110,6 +118,46 @@ export class StockComponent implements OnInit {
             alertError({
               title: RESPONSE_TITLES.FAILED,
               text: res.body.message || RESPONSE_MESSAGES.STOCK_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
+  }
+
+  private loadStockWidgetData(): void {
+    this.stockService
+      .getStockWidget()
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.totalCount = res.body.content?.totalStockCount || 0;
+
+            this.expiringCount =
+              res.body.content.stockExpiryStatusList?.find(
+                (x: Record<string, string>) =>
+                  x['statusDescription'] === 'EXPIRING_SOON',
+              )?.count || 0;
+
+            this.expiredCount =
+              res.body.content.stockExpiryStatusList?.find(
+                (x: Record<string, string>) =>
+                  x['statusDescription'] === 'EXPIRED',
+              )?.count || 0;
+
+            this.freshCount =
+              res.body.content.stockExpiryStatusList?.find(
+                (x: Record<string, string>) =>
+                  x['statusDescription'] === 'FRESH',
+              )?.count || 0;
+          } else {
+            alertWarning({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message || RESPONSE_MESSAGES.STOCK_WIDGET_GET_FAILED,
             });
           }
         },

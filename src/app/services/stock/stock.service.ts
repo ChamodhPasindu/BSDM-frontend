@@ -83,4 +83,11 @@ export class StockService {
       toDate: toDate,
     });
   }
+
+  public getStockWidget(): Observable<IResponse> {
+    return this.httpClient.get<IResponse>(
+      this.requestUrl + '/card-details',
+      {},
+    );
+  }
 }

@@ -60,6 +60,8 @@ export const RESPONSE_MESSAGES = {
   ITEM_ADD_EDIT_SUCCESS: 'Item information has been saved successfully.',
   ITEM_ADD_EDIT_FAILED: 'Failed to save Item information. Please try again.',
   ITEM_GET_FAILED: 'Failed to load Item details. Please try again.',
+  ITEM_WIDGET_GET_FAILED:
+    'Failed to load item widget details. Please try again.',
   ITEM_DELETE_FAILED: 'Failed to remove Item details. Please try again.',
   ITEM_DELETE_SUCCESS: 'Item information has been removed successfully.',
   ITEM_EXPORT_FAILED: 'No item data available to export.',
@@ -77,6 +79,8 @@ export const RESPONSE_MESSAGES = {
   PRODUCT_ADD_EDIT_FAILED:
     'Failed to save Product information. Please try again.',
   PRODUCT_GET_FAILED: 'Failed to load Product details. Please try again.',
+  PRODUCT_WIDGET_GET_FAILED:
+    'Failed to load product widget details. Please try again.',
   PRODUCT_DELETE_FAILED: 'Failed to remove Product details. Please try again.',
   PRODUCT_DELETE_SUCCESS: 'Product information has been removed successfully.',
   PRODUCT_EXPORT_FAILED: 'No product data available to export.',
@@ -84,6 +88,8 @@ export const RESPONSE_MESSAGES = {
   STOCK_ADD_EDIT_SUCCESS: 'Stock information has been saved successfully.',
   STOCK_ADD_EDIT_FAILED: 'Failed to save Stock information. Please try again.',
   STOCK_GET_FAILED: 'Failed to load Stock details. Please try again.',
+  STOCK_WIDGET_GET_FAILED:
+    'Failed to load stock widget details. Please try again.',
   STOCK_DELETE_FAILED: 'Failed to remove Stock details. Please try again.',
   STOCK_DELETE_SUCCESS: 'Stock information has been removed successfully.',
   STOCK_EXPORT_FAILED: 'No stock data available to export.',
@@ -93,6 +99,8 @@ export const RESPONSE_MESSAGES = {
   SALE_STOCK_ADD_EDIT_FAILED:
     'Failed to save Sale Stock information. Please try again.',
   SALE_STOCK_GET_FAILED: 'Failed to load Sale Stock details. Please try again.',
+  SALE_STOCK_WIDGET_GET_FAILED:
+    'Failed to load Sale Stock widget details. Please try again.',
   SALE_STOCK_DELETE_FAILED:
     'Failed to remove Sale Stock details. Please try again.',
   SALE_STOCK_DELETE_SUCCESS:
@@ -147,8 +155,8 @@ export const RESPONSE_MESSAGES = {
   PAYMENT_EXPORT_FAILED: 'No payment data available to export.',
 
   SALES_MAN_STATUS_SUCCESS: 'You have just started your work. Good luck!',
-  SALES_MAN_STATUS_GET_FAILED: 'Failed to load Salesman status. Please try again.',
-
+  SALES_MAN_STATUS_GET_FAILED:
+    'Failed to load Salesman status. Please try again.',
 };
 
 export const RESPONSE_TITLES = {

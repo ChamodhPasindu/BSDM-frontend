@@ -53,6 +53,15 @@ export class ItemBatchComponent implements OnInit {
   protected itemCount: number = 0;
   protected batchCount: number = 0;
 
+  protected totalItemCount: number = 0;
+  protected availableItemCount: number = 0;
+  protected deleteItemCount: number = 0;
+
+  protected totalBatchCount: number = 0;
+  protected expiredBatchCount: number = 0;
+  protected freshBatchCount: number = 0;
+  protected deleteBatchCount: number = 0;
+
   protected searchItemForm: FormGroup;
   protected searchBatchForm: FormGroup;
   protected today = new Date();
@@ -69,6 +78,7 @@ export class ItemBatchComponent implements OnInit {
   ngOnInit(): void {
     this.loadItemTableData();
     this.loadBatchTableData();
+    this.loadItemBatchWidgetData();
   }
 
   private createForm(): void {
@@ -95,10 +105,12 @@ export class ItemBatchComponent implements OnInit {
 
   protected onItemRefresh(): void {
     this.loadItemTableData();
+    this.loadItemBatchWidgetData();
   }
 
   protected onBatchRefresh(): void {
     this.loadBatchTableData();
+    this.loadItemBatchWidgetData();
   }
 
   private loadBatchTableData(): void {
@@ -182,6 +194,54 @@ export class ItemBatchComponent implements OnInit {
             alertError({
               title: RESPONSE_TITLES.FAILED,
               text: res.body.message || RESPONSE_MESSAGES.ITEM_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
+  }
+
+  private loadItemBatchWidgetData(): void {
+    this.itemService
+      .getItemWidget()
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.totalItemCount = res.body.content?.totalItem || 0;
+            this.availableItemCount =
+              res.body.content.itemStatusWiseCounts?.find(
+                (x: Record<string, string>) => x['statusCode'] === 'AVAILABLE',
+              )?.count || 0;
+
+            this.deleteItemCount =
+              res.body.content.itemStatusWiseCounts?.find(
+                (x: Record<string, string>) => x['statusCode'] === 'DELETE',
+              )?.count || 0;
+
+            this.totalBatchCount = res.body.content?.totalBatch || 0;
+
+            this.expiredBatchCount =
+              res.body.content.batchStatusWiseCounts?.find(
+                (x: Record<string, string>) => x['statusCode'] === 'EXPIRED',
+              )?.count || 0;
+
+            this.freshBatchCount =
+              res.body.content.batchStatusWiseCounts?.find(
+                (x: Record<string, string>) => x['statusCode'] === 'FRESH',
+              )?.count || 0;
+
+            this.deleteBatchCount =
+              res.body.content.batchStatusWiseCounts?.find(
+                (x: Record<string, string>) => x['statusCode'] === 'DELETE',
+              )?.count || 0;
+          } else {
+            alertWarning({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message || RESPONSE_MESSAGES.ITEM_WIDGET_GET_FAILED,
             });
           }
         },
@@ -348,6 +408,7 @@ export class ItemBatchComponent implements OnInit {
               next: (res: IResponse) => {
                 if (res.body.status === RSP_SUCCESS) {
                   this.loadItemTableData();
+                  this.loadItemBatchWidgetData();
                   alertSuccess({
                     title: RESPONSE_TITLES.DONE,
                     text:
@@ -385,6 +446,7 @@ export class ItemBatchComponent implements OnInit {
               next: (res: IResponse) => {
                 if (res.body.status === RSP_SUCCESS) {
                   this.loadBatchTableData();
+                  this.loadItemBatchWidgetData();
                   alertSuccess({
                     title: RESPONSE_TITLES.DONE,
                     text:

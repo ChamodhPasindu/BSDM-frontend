@@ -25,11 +25,11 @@ import * as moment from 'moment';
 
 @UntilDestroy()
 @Component({
-  selector: 'app-employee-management',
-  templateUrl: './employee-management.component.html',
-  styleUrls: ['./employee-management.component.scss'],
+  selector: 'app-employee',
+  templateUrl: './employee.component.html',
+  styleUrls: ['./employee.component.scss'],
 })
-export class EmployeeManagementComponent implements OnInit {
+export class EmployeeComponent implements OnInit {
   @ViewChild('addEditViewEmployeeModal')
   private readonly addEditViewEmployeeModal!: AddEditViewEmployeeComponent;
 

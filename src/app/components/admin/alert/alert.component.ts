@@ -5,11 +5,11 @@ import { PaginationType } from 'src/app/enums/PaginationType.enum';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-alert-management',
-  templateUrl: './alert-management.component.html',
-  styleUrls: ['./alert-management.component.scss'],
+  selector: 'app-alert',
+  templateUrl: './alert.component.html',
+  styleUrls: ['./alert.component.scss'],
 })
-export class AlertManagementComponent implements OnInit {
+export class AlertComponent implements OnInit {
   @ViewChild('alertModal') protected alertModal!: AlertViewComponent;
 
   protected searchForm: FormGroup;

@@ -7,5 +7,5 @@ import { navItems } from 'src/app/utility/common/_nav';
   styleUrls: ['./layout.component.scss'],
 })
 export class LayoutComponent {
-  public navItems = navItems;
+  protected readonly navItems = navItems;
 }

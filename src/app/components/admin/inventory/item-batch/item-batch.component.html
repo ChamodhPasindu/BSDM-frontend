@@ -2,7 +2,7 @@
 
 <c-row>
   <c-col>
-    <c-widget-stat-f [title]="'Total Items'" class="mb-3" color="primary" padding value="100">
+    <c-widget-stat-f [title]="'Total Items'" class="mb-3" color="primary" padding [value]="totalItemCount">
       <ng-template cTemplateId="widgetIconTemplate">
         <svg cIcon name="cilList" size="xl" width="24"></svg>
       </ng-template>
@@ -10,7 +10,7 @@
   </c-col>
 
   <c-col>
-    <c-widget-stat-f [title]="'Active Items'" class="mb-3" color="success" padding value="50">
+    <c-widget-stat-f [title]="'Available Items'" class="mb-3" color="success" padding [value]="availableItemCount">
       <ng-template cTemplateId="widgetIconTemplate">
         <svg cIcon name="cilList" size="xl" width="24"></svg>
       </ng-template>
@@ -18,7 +18,7 @@
   </c-col>
 
   <c-col>
-    <c-widget-stat-f [title]="'Suspended Items'" class="mb-3" color="danger" padding value="75">
+    <c-widget-stat-f [title]="'Deleted Items'" class="mb-3" color="danger" padding [value]="deleteItemCount">
       <ng-template cTemplateId="widgetIconTemplate">
         <svg cIcon name="cilList" size="xl" width="24"></svg>
       </ng-template>
@@ -149,7 +149,7 @@
 
 <c-row>
   <c-col>
-    <c-widget-stat-f [title]="'Total Batches'" class="mb-3" color="primary" padding value="100">
+    <c-widget-stat-f [title]="'Total Batches'" class="mb-3" color="primary" padding [value]="totalBatchCount">
       <ng-template cTemplateId="widgetIconTemplate">
         <svg cIcon name="cilObjectGroup" size="xl" width="24"></svg>
       </ng-template>
@@ -157,7 +157,7 @@
   </c-col>
 
   <c-col>
-    <c-widget-stat-f [title]="'Active Batches'" class="mb-3" color="success" padding value="50">
+    <c-widget-stat-f [title]="'Fresh Batches'" class="mb-3" color="success" padding [value]="freshBatchCount">
       <ng-template cTemplateId="widgetIconTemplate">
         <svg cIcon name="cilObjectGroup" size="xl" width="24"></svg>
       </ng-template>
@@ -165,7 +165,15 @@
   </c-col>
 
   <c-col>
-    <c-widget-stat-f [title]="'Suspended Batches'" class="mb-3" color="danger" padding value="75">
+    <c-widget-stat-f [title]="'Expired Batches'" class="mb-3" color="warning" padding [value]="expiredBatchCount">
+      <ng-template cTemplateId="widgetIconTemplate">
+        <svg cIcon name="cilObjectGroup" size="xl" width="24"></svg>
+      </ng-template>
+    </c-widget-stat-f>
+  </c-col>
+
+  <c-col>
+    <c-widget-stat-f [title]="'Deleted Batches'" class="mb-3" color="danger" padding [value]="deleteBatchCount">
       <ng-template cTemplateId="widgetIconTemplate">
         <svg cIcon name="cilObjectGroup" size="xl" width="24"></svg>
       </ng-template>

@@ -41,6 +41,11 @@ export class ProductComponent implements OnInit {
   protected pageSize: number = 5;
   protected count: number = 0;
 
+  protected totalCount: number = 0;
+  protected expiringCount: number = 0;
+  protected expiredCount: number = 0;
+  protected freshCount: number = 0;
+
   protected searchForm: FormGroup;
 
   private today = new Date();
@@ -55,6 +60,7 @@ export class ProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadProductTableData();
+    this.loadProductWidgetData();
   }
 
   private createForm(): void {
@@ -71,6 +77,7 @@ export class ProductComponent implements OnInit {
 
   protected onRefresh(): void {
     this.loadProductTableData();
+    this.loadProductWidgetData();
   }
 
   private loadProductTableData(): void {
@@ -109,6 +116,46 @@ export class ProductComponent implements OnInit {
             alertError({
               title: RESPONSE_TITLES.FAILED,
               text: res.body.message || RESPONSE_MESSAGES.PRODUCT_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
+  }
+
+  private loadProductWidgetData(): void {
+    this.productService
+      .getProductWidget()
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.totalCount = res.body.content?.totalProductCount || 0;
+
+            this.expiringCount =
+              res.body.content.productExpiryStatusList.find(
+                (x: Record<string, string>) =>
+                  x['statusDescription'] === 'EXPIRING_SOON',
+              )?.count || 0;
+
+            this.expiredCount =
+              res.body.content.productExpiryStatusList.find(
+                (x: Record<string, string>) =>
+                  x['statusDescription'] === 'EXPIRED',
+              )?.count || 0;
+
+            this.freshCount =
+              res.body.content.productExpiryStatusList.find(
+                (x: Record<string, string>) =>
+                  x['statusDescription'] === 'FRESH',
+              )?.count || 0;
+          } else {
+            alertWarning({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message || RESPONSE_MESSAGES.PRODUCT_WIDGET_GET_FAILED,
             });
           }
         },
@@ -211,6 +258,7 @@ export class ProductComponent implements OnInit {
               next: (res: IResponse) => {
                 if (res.body.status === RSP_SUCCESS) {
                   this.loadProductTableData();
+                  this.loadProductWidgetData();
                   alertSuccess({
                     title: RESPONSE_TITLES.DONE,
                     text:

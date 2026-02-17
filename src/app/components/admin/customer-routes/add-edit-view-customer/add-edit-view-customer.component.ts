@@ -71,7 +71,7 @@ export class AddEditViewCustomerComponent
     private readonly fb: FormBuilder,
     private readonly routeService: RouteService,
     private readonly customerService: CustomerService,
-    private readonly generalService: GeneralService
+    private readonly generalService: GeneralService,
   ) {
     super();
     this.createForm();
@@ -81,7 +81,12 @@ export class AddEditViewCustomerComponent
     this.loadStatusList();
   }
 
-  protected override resetState(): void {}
+  protected override resetState(): void {
+    this.customerForm.reset();
+    this.customers.clear();
+    this.onAddCustomerForm();
+    this.selectedRoute = null;
+  }
 
   public loadData(): void {
     this.loadRouteListData();
@@ -161,7 +166,7 @@ export class AddEditViewCustomerComponent
 
     this.selectedRoute =
       this.routeList.find(
-        (x: IRouteData) => x.routeId === this.customer?.routeId
+        (x: IRouteData) => x.routeId === this.customer?.routeId,
       ) || null;
 
     const customersArray = this.customerForm.get('customers') as FormArray;

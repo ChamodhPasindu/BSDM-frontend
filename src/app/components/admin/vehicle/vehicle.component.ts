@@ -27,11 +27,11 @@ import * as moment from 'moment';
 
 @UntilDestroy()
 @Component({
-  selector: 'app-vehicle-management',
-  templateUrl: './vehicle-management.component.html',
-  styleUrls: ['./vehicle-management.component.scss'],
+  selector: 'app-vehicle',
+  templateUrl: './vehicle.component.html',
+  styleUrls: ['./vehicle.component.scss'],
 })
-export class VehicleManagementComponent implements OnInit {
+export class VehicleComponent implements OnInit {
   @ViewChild('addEditViewVehicleModal')
   private readonly addEditViewVehicleModal!: AddEditViewVehicleComponent;
 
@@ -200,7 +200,7 @@ export class VehicleManagementComponent implements OnInit {
       vehicle.vehicleNumber || '',
       vehicle.vehicleCode.split('-')[0] || '',
       vehicle.createdAt ? moment(vehicle.createdAt).format('YYYY-MM-DD') : '',
-      vehicle.statusDescription || ''
+      vehicle.statusDescription || '',
     ]);
 
     this.pdfExportService.exportToPdf({

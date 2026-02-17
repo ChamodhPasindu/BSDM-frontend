@@ -2,7 +2,7 @@
 
 <c-row>
   <c-col>
-    <c-widget-stat-f [title]="'Total Stocks'" class="mb-3" color="primary" padding value="100">
+    <c-widget-stat-f [title]="'Total Stocks'" class="mb-3" color="primary" padding [value]="totalCount">
       <ng-template cTemplateId="widgetIconTemplate">
         <svg cIcon name="cil3d" size="xl" width="24"></svg>
       </ng-template>
@@ -10,7 +10,7 @@
   </c-col>
 
   <c-col>
-    <c-widget-stat-f [title]="'Active Stocks'" class="mb-3" color="success" padding value="50">
+    <c-widget-stat-f [title]="'Fresh Stocks'" class="mb-3" color="success" padding [value]="freshCount">
       <ng-template cTemplateId="widgetIconTemplate">
         <svg cIcon name="cil3d" size="xl" width="24"></svg>
       </ng-template>
@@ -18,7 +18,15 @@
   </c-col>
 
   <c-col>
-    <c-widget-stat-f [title]="'Suspended Stocks'" class="mb-3" color="danger" padding value="75">
+    <c-widget-stat-f [title]="'Expiring Stocks'" class="mb-3" color="warning" padding [value]="expiringCount">
+      <ng-template cTemplateId="widgetIconTemplate">
+        <svg cIcon name="cil3d" size="xl" width="24"></svg>
+      </ng-template>
+    </c-widget-stat-f>
+  </c-col>
+
+  <c-col>
+    <c-widget-stat-f [title]="'Expired Stocks'" class="mb-3" color="danger" padding [value]="expiredCount">
       <ng-template cTemplateId="widgetIconTemplate">
         <svg cIcon name="cil3d" size="xl" width="24"></svg>
       </ng-template>
@@ -45,7 +53,8 @@
       <c-col xs="auto" class="mb-2">
         <label cLabel for="datepicker">From Date</label>
         <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" formControlName="fromDate" />
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker
+            [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" formControlName="fromDate" />
           <span class="input-group-text bg-white">
             <svg cIcon name="cilCalendar" class="text-secondary"></svg>
           </span>
@@ -55,7 +64,8 @@
       <c-col xs="auto" class="mb-2">
         <label cLabel for="datepicker">To Date</label>
         <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" formControlName="toDate" />
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker
+            [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" formControlName="toDate" />
           <span class="input-group-text bg-white">
             <svg cIcon name="cilCalendar" class="text-secondary"></svg>
           </span>
@@ -114,7 +124,7 @@
           <td class="text-center">
             {{product.salesQuantity | empty}}
           </td>
-           <td class="text-center">
+          <td class="text-center">
             {{product.lastUpdated | date:'mediumDate' | empty}}
           </td>
           <td class="text-center">

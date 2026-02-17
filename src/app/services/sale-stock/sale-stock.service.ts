@@ -17,7 +17,7 @@ export class SaleStockService {
       this.requestUrl + '/assign-sales-stock',
       {
         ...payload,
-      }
+      },
     );
   }
 
@@ -25,7 +25,7 @@ export class SaleStockService {
     payload: IPagination,
     inputValue: string,
     fromDate?: string | null,
-    toDate?: string | null
+    toDate?: string | null,
   ): Observable<IResponse> {
     return this.httpClient.post<IResponse>(this.requestUrl + '/sales/list', {
       ...payload,
@@ -39,7 +39,14 @@ export class SaleStockService {
     return this.httpClient.post<IResponse>(
       this.requestUrl + '/details/list',
       {},
-      { params: { code: id } }
+      { params: { code: id } },
+    );
+  }
+
+  public getSaleStockWidget(): Observable<IResponse> {
+    return this.httpClient.get<IResponse>(
+      this.requestUrl + '/card-details/assigned',
+      {},
     );
   }
 }

@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { EmployeeManagementComponent } from './employee-management/employee-management.component';
+import { EmployeeComponent } from './employee/employee.component';
 import { LayoutComponent } from './layout/layout.component';
 import { CustomerRoutesComponent } from './customer-routes/customer-routes.component';
-import { AlertManagementComponent } from './alert-management/alert-management.component';
-import { VehicleManagementComponent } from './vehicle-management/vehicle-management.component';
+import { AlertComponent } from './alert/alert.component';
+import { VehicleComponent } from './vehicle/vehicle.component';
 import { AuditTrailComponent } from './audit-trail/audit-trail.component';
 import { PaymentsComponent } from './payments/payments.component';
 import { SalesDeliveryTrackingComponent } from './sales-delivery-tracking/sales-delivery-tracking.component';
@@ -33,7 +33,7 @@ const routes: Routes = [
       },
       {
         path: 'employees',
-        component: EmployeeManagementComponent,
+        component: EmployeeComponent,
         data: {
           title: 'Employee',
         },
@@ -47,14 +47,14 @@ const routes: Routes = [
       },
       {
         path: 'vehicles',
-        component: VehicleManagementComponent,
+        component: VehicleComponent,
         data: {
           title: 'Vehicle',
         },
       },
       {
         path: 'alerts',
-        component: AlertManagementComponent,
+        component: AlertComponent,
         data: {
           title: 'Alert',
         },
@@ -83,8 +83,8 @@ const routes: Routes = [
       {
         path: 'inventory',
         loadChildren: () =>
-          import('./inventory-management/inventory-management.module').then(
-            (m) => m.InventoryManagementModule
+          import('./inventory/inventory.module').then(
+            (m) => m.InventoryModule
           ),
       },
       {

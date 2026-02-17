@@ -69,6 +69,13 @@ export class ProductService {
     });
   }
 
+  public getProductWidget(): Observable<IResponse> {
+    return this.httpClient.get<IResponse>(
+      this.adminRequestUrl + '/card-details',
+      {},
+    );
+  }
+
   // Salesman API
 
   public getSalesmanProductList(): Observable<IResponse> {
