@@ -11,7 +11,7 @@ import { CustomerRoutesComponent } from './customer-routes/customer-routes.compo
 import { VehicleComponent } from './vehicle/vehicle.component';
 import { AuditTrailComponent } from './audit-trail/audit-trail.component';
 import { PaymentsComponent } from './payments/payments.component';
-import { SalesDeliveryTrackingComponent } from './sales-delivery-tracking/sales-delivery-tracking.component';
+import { SalesDeliveryComponent } from './sales-delivery/sales-delivery.component';
 import {
   SidebarModule,
   AlertComponent as CoreUIAlertComponent,
@@ -41,8 +41,8 @@ import { AddEditViewVehicleComponent } from './vehicle/add-edit-view-vehicle/add
 import { AddEditViewCustomerComponent } from './customer-routes/add-edit-view-customer/add-edit-view-customer.component';
 import { AddEditViewRouteComponent } from './customer-routes/add-edit-view-route/add-edit-view-route.component';
 import { EditViewPaymentComponent } from './payments/edit-view-payment/edit-view-payment.component';
-import { ViewSaleComponent } from './sales-delivery-tracking/view-sale/view-sale.component';
-import { ViewSaleItemComponent } from './sales-delivery-tracking/view-sale-item/view-sale-item.component';
+import { ViewSaleComponent } from './sales-delivery/view-sale/view-sale.component';
+import { ViewSaleItemComponent } from './sales-delivery/view-sale-item/view-sale-item.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +60,7 @@ import { ViewSaleItemComponent } from './sales-delivery-tracking/view-sale-item/
     AuditTrailComponent,
     PaymentsComponent,
     EditViewPaymentComponent,
-    SalesDeliveryTrackingComponent,
+    SalesDeliveryComponent,
     ViewSaleComponent,
     ViewSaleItemComponent,
     ViewAuditComponent,

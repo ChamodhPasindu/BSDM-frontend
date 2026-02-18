@@ -2,48 +2,26 @@
 
 <c-row>
   <c-col>
-    <c-widget-stat-f [title]="'Bill Count'" class="mb-3" color="primary" padding value="100">
-      <ng-template cTemplateId="widgetIconTemplate">
-        <svg cIcon name="cilFile" size="xl" width="24"></svg>
-      </ng-template>
-      <ng-template cTemplateId="widgetFooterTemplate">
-        <div class="d-flex justify-content-between align-items-center w-100">
-          <div class="text-secondary"> Today</div>
-
-          <c-dropdown alignment="end" variant="btn-group">
-            <button [caret]="false" cButton cDropdownToggle color="transparent" class="p-0 text-secondary">
-              <svg cIcon name="cilOptions"></svg>
-            </button>
-            <div cDropdownMenu>
-              <a cDropdownItem>Today</a>
-              <a cDropdownItem>This Week</a>
-              <a cDropdownItem>This Month</a>
-              <a cDropdownItem>This Year</a>
-            </div>
-          </c-dropdown>
-        </div>
-      </ng-template>
-    </c-widget-stat-f>
-  </c-col>
-
-  <c-col>
-    <c-widget-stat-f [title]="'Total Payment Received'" class="mb-3" color="success" padding value="75">
+    <c-widget-stat-f [title]="'Full Payment'" class="mb-3" color="primary" padding
+      [value]="'LKR ' + (getFullPaymentReceived() | numberSeparate)">
       <ng-template cTemplateId="widgetIconTemplate">
         <svg cIcon name="cilMoney" size="xl" width="24"></svg>
       </ng-template>
       <ng-template cTemplateId="widgetFooterTemplate">
         <div class="d-flex justify-content-between align-items-center w-100">
-          <div class="text-secondary"> Today</div>
+          <div class="text-secondary"> {{ periods['fullPayment'] === 'TODAY' ? 'Today' : periods['fullPayment'] ===
+            'WEEK' ?
+            'This Week' : periods['fullPayment'] === 'MONTH' ? 'This Month' : 'This Year' }}</div>
 
           <c-dropdown alignment="end" variant="btn-group">
             <button [caret]="false" cButton cDropdownToggle color="transparent" class="p-0 text-secondary">
               <svg cIcon name="cilOptions"></svg>
             </button>
             <div cDropdownMenu>
-              <a cDropdownItem>Today</a>
-              <a cDropdownItem>This Week</a>
-              <a cDropdownItem>This Month</a>
-              <a cDropdownItem>This Year</a>
+              <a cDropdownItem (click)="setPeriod('fullPayment', 'TODAY')">Today</a>
+              <a cDropdownItem (click)="setPeriod('fullPayment', 'WEEK')">This Week</a>
+              <a cDropdownItem (click)="setPeriod('fullPayment', 'MONTH')">This Month</a>
+              <a cDropdownItem (click)="setPeriod('fullPayment', 'YEAR')">This Year</a>
             </div>
           </c-dropdown>
         </div>
@@ -52,23 +30,82 @@
   </c-col>
 
   <c-col>
-    <c-widget-stat-f [title]="'Pending total amount'" class="mb-3" color="warning" padding value="50">
+    <c-widget-stat-f [title]="'Partial Payment'" class="mb-3" color="success" padding
+      [value]="'LKR ' + (getPartalPaymentReceived() | numberSeparate)">
       <ng-template cTemplateId="widgetIconTemplate">
-        <svg cIcon name="cilClock" size="xl" width="24"></svg>
+        <svg cIcon name="cilMoney" size="xl" width="24"></svg>
       </ng-template>
       <ng-template cTemplateId="widgetFooterTemplate">
         <div class="d-flex justify-content-between align-items-center w-100">
-          <div class="text-secondary"> Today</div>
+          <div class="text-secondary"> {{ periods['partialPayment'] === 'TODAY' ? 'Today' : periods['partialPayment']
+            === 'WEEK' ?
+            'This Week' : periods['partialPayment'] === 'MONTH' ? 'This Month' : 'This Year' }}</div>
 
           <c-dropdown alignment="end" variant="btn-group">
             <button [caret]="false" cButton cDropdownToggle color="transparent" class="p-0 text-secondary">
               <svg cIcon name="cilOptions"></svg>
             </button>
             <div cDropdownMenu>
-              <a cDropdownItem>Today</a>
-              <a cDropdownItem>This Week</a>
-              <a cDropdownItem>This Month</a>
-              <a cDropdownItem>This Year</a>
+              <a cDropdownItem (click)="setPeriod('partialPayment', 'TODAY')">Today</a>
+              <a cDropdownItem (click)="setPeriod('partialPayment', 'WEEK')">This Week</a>
+              <a cDropdownItem (click)="setPeriod('partialPayment', 'MONTH')">This Month</a>
+              <a cDropdownItem (click)="setPeriod('partialPayment', 'YEAR')">This Year</a>
+            </div>
+          </c-dropdown>
+        </div>
+      </ng-template>
+    </c-widget-stat-f>
+  </c-col>
+
+  <c-col>
+    <c-widget-stat-f [title]="'Pending amount'" class="mb-3" color="warning" padding
+      [value]="'LKR ' + (getPendingTotalAmount() | numberSeparate)">
+      <ng-template cTemplateId="widgetIconTemplate">
+        <svg cIcon name="cilClock" size="xl" width="24"></svg>
+      </ng-template>
+      <ng-template cTemplateId="widgetFooterTemplate">
+        <div class="d-flex justify-content-between align-items-center w-100">
+          <div class="text-secondary"> {{ periods['pendingPayment'] === 'TODAY' ? 'Today' : periods['pendingPayment']
+            === 'WEEK' ?
+            'This Week' : periods['pendingPayment'] === 'MONTH' ? 'This Month' : 'This Year' }}</div>
+
+          <c-dropdown alignment="end" variant="btn-group">
+            <button [caret]="false" cButton cDropdownToggle color="transparent" class="p-0 text-secondary">
+              <svg cIcon name="cilOptions"></svg>
+            </button>
+            <div cDropdownMenu>
+              <a cDropdownItem (click)="setPeriod('pendingPayment', 'TODAY')">Today</a>
+              <a cDropdownItem (click)="setPeriod('pendingPayment', 'WEEK')">This Week</a>
+              <a cDropdownItem (click)="setPeriod('pendingPayment', 'MONTH')">This Month</a>
+              <a cDropdownItem (click)="setPeriod('pendingPayment', 'YEAR')">This Year</a>
+            </div>
+          </c-dropdown>
+        </div>
+      </ng-template>
+    </c-widget-stat-f>
+  </c-col>
+
+  <c-col>
+    <c-widget-stat-f [title]="'Discount'" class="mb-3" color="secondary" padding
+      [value]="'LKR ' + (getDiscountTotalAmount() | numberSeparate)">
+      <ng-template cTemplateId="widgetIconTemplate">
+        <svg cIcon name="cilTags" size="xl" width="24"></svg>
+      </ng-template>
+      <ng-template cTemplateId="widgetFooterTemplate">
+        <div class="d-flex justify-content-between align-items-center w-100">
+          <div class="text-secondary"> {{ periods['discount'] === 'TODAY' ? 'Today' : periods['discount']
+            === 'WEEK' ?
+            'This Week' : periods['discount'] === 'MONTH' ? 'This Month' : 'This Year' }}</div>
+
+          <c-dropdown alignment="end" variant="btn-group">
+            <button [caret]="false" cButton cDropdownToggle color="transparent" class="p-0 text-secondary">
+              <svg cIcon name="cilOptions"></svg>
+            </button>
+            <div cDropdownMenu>
+              <a cDropdownItem (click)="setPeriod('discount', 'TODAY')">Today</a>
+              <a cDropdownItem (click)="setPeriod('discount', 'WEEK')">This Week</a>
+              <a cDropdownItem (click)="setPeriod('discount', 'MONTH')">This Month</a>
+              <a cDropdownItem (click)="setPeriod('discount', 'YEAR')">This Year</a>
             </div>
           </c-dropdown>
         </div>
@@ -200,8 +237,10 @@
           </td>
           <td class="text-center">
             <div class="small text-medium-emphasis"> {{payment.paymentDate | date:'short'}} </div>
-            <c-badge *ngIf="payment.orderPaymentStatus === BillStatus.PARTIAL_PAYMENT" color="warning"> Partial Payment </c-badge>
-            <c-badge *ngIf="payment.orderPaymentStatus === BillStatus.FULL_PAYMENT" color="primary"> Full Payment </c-badge>
+            <c-badge *ngIf="payment.orderPaymentStatus === BillStatus.PARTIAL_PAYMENT" color="warning"> Partial Payment
+            </c-badge>
+            <c-badge *ngIf="payment.orderPaymentStatus === BillStatus.FULL_PAYMENT" color="primary"> Full Payment
+            </c-badge>
           </td>
           <td class="text-center">
             <!-- View -->

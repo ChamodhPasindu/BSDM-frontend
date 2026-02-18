@@ -2,23 +2,24 @@
 
 <c-row>
   <c-col>
-    <c-widget-stat-f [title]="'Total Sales'" class="mb-3" color="primary" padding value="100">
+    <c-widget-stat-f [title]="'Total Sales'" class="mb-3" color="primary" padding
+      [value]="'LKR ' + (getSalesValue() | numberSeparate)">
       <ng-template cTemplateId="widgetIconTemplate">
         <svg cIcon name="cilBalanceScale" size="xl" width="24"></svg>
       </ng-template>
       <ng-template cTemplateId="widgetFooterTemplate">
         <div class="d-flex justify-content-between align-items-center w-100">
-          <div class="text-secondary"> Today</div>
-
+          <div class="text-secondary"> {{ periods['sales'] === 'TODAY' ? 'Today' : periods['sales'] ===
+            'WEEK' ? 'This Week' : periods['sales'] === 'MONTH' ? 'This Month' : 'This Year' }}</div>
           <c-dropdown alignment="end" variant="btn-group">
             <button [caret]="false" cButton cDropdownToggle color="transparent" class="p-0 text-secondary">
               <svg cIcon name="cilOptions"></svg>
             </button>
             <div cDropdownMenu>
-              <a cDropdownItem>Today</a>
-              <a cDropdownItem>This Week</a>
-              <a cDropdownItem>This Month</a>
-              <a cDropdownItem>This Year</a>
+              <a cDropdownItem (click)="setPeriod('sales', 'TODAY')">Today</a>
+              <a cDropdownItem (click)="setPeriod('sales', 'WEEK')">This Week</a>
+              <a cDropdownItem (click)="setPeriod('sales', 'MONTH')">This Month</a>
+              <a cDropdownItem (click)="setPeriod('sales', 'YEAR')">This Year</a>
             </div>
           </c-dropdown>
         </div>
@@ -27,23 +28,27 @@
   </c-col>
 
   <c-col>
-    <c-widget-stat-f [title]="'Completed Deliveries'" class="mb-3" color="success" padding value="75">
+    <c-widget-stat-f [title]="'Completed Deliveries'" class="mb-3" color="success" padding
+      [value]="getDeliveryCount()  + ' | ' + (getDeliveryTotalValue() | currency:'LKR ') ">
       <ng-template cTemplateId="widgetIconTemplate">
         <svg cIcon name="cilTask" size="xl" width="24"></svg>
       </ng-template>
       <ng-template cTemplateId="widgetFooterTemplate">
         <div class="d-flex justify-content-between align-items-center w-100">
-          <div class="text-secondary"> Today</div>
+          <div class="text-secondary">
+            {{ periods['delivery'] === 'TODAY' ? 'Today' : periods['delivery'] ===
+            'WEEK' ? 'This Week' : periods['delivery'] === 'MONTH' ? 'This Month' : 'This Year' }}
+          </div>
 
           <c-dropdown alignment="end" variant="btn-group">
             <button [caret]="false" cButton cDropdownToggle color="transparent" class="p-0 text-secondary">
               <svg cIcon name="cilOptions"></svg>
             </button>
             <div cDropdownMenu>
-              <a cDropdownItem>Today</a>
-              <a cDropdownItem>This Week</a>
-              <a cDropdownItem>This Month</a>
-              <a cDropdownItem>This Year</a>
+              <a cDropdownItem (click)="setPeriod('delivery', 'TODAY')">Today</a>
+              <a cDropdownItem (click)="setPeriod('delivery', 'WEEK')">This Week</a>
+              <a cDropdownItem (click)="setPeriod('delivery', 'MONTH')">This Month</a>
+              <a cDropdownItem (click)="setPeriod('delivery', 'YEAR')">This Year</a>
             </div>
           </c-dropdown>
         </div>
@@ -52,48 +57,27 @@
   </c-col>
 
   <c-col>
-    <c-widget-stat-f [title]="'Pending Deliveries'" class="mb-3" color="warning" padding value="50">
+    <c-widget-stat-f [title]="'Pending Deliveries'" class="mb-3" color="warning" padding
+      [value]="getPendingDeliveryCount() + ' | ' + (getPendingDeliveryTotalValue() | currency:'LKR ')">
       <ng-template cTemplateId="widgetIconTemplate">
         <svg cIcon name="cilClock" size="xl" width="24"></svg>
       </ng-template>
       <ng-template cTemplateId="widgetFooterTemplate">
         <div class="d-flex justify-content-between align-items-center w-100">
-          <div class="text-secondary"> Today</div>
+          <div class="text-secondary">
+            {{ periods['pending'] === 'TODAY' ? 'Today' : periods['pending'] ===
+            'WEEK' ? 'This Week' : periods['pending'] === 'MONTH' ? 'This Month' : 'This Year' }}
+          </div>
 
           <c-dropdown alignment="end" variant="btn-group">
             <button [caret]="false" cButton cDropdownToggle color="transparent" class="p-0 text-secondary">
               <svg cIcon name="cilOptions"></svg>
             </button>
             <div cDropdownMenu>
-              <a cDropdownItem>Today</a>
-              <a cDropdownItem>This Week</a>
-              <a cDropdownItem>This Month</a>
-              <a cDropdownItem>This Year</a>
-            </div>
-          </c-dropdown>
-        </div>
-      </ng-template>
-    </c-widget-stat-f>
-  </c-col>
-
-  <c-col>
-    <c-widget-stat-f [title]="'Return Deliveries'" class="mb-3" color="danger" padding value="75">
-      <ng-template cTemplateId="widgetIconTemplate">
-        <svg cIcon name="cilActionUndo" size="xl" width="24"></svg>
-      </ng-template>
-      <ng-template cTemplateId="widgetFooterTemplate">
-        <div class="d-flex justify-content-between align-items-center w-100">
-          <div class="text-secondary"> Today</div>
-
-          <c-dropdown alignment="end" variant="btn-group">
-            <button [caret]="false" cButton cDropdownToggle color="transparent" class="p-0 text-secondary">
-              <svg cIcon name="cilOptions"></svg>
-            </button>
-            <div cDropdownMenu>
-              <a cDropdownItem>Today</a>
-              <a cDropdownItem>This Week</a>
-              <a cDropdownItem>This Month</a>
-              <a cDropdownItem>This Year</a>
+              <a cDropdownItem (click)="setPeriod('pending', 'TODAY')">Today</a>
+              <a cDropdownItem (click)="setPeriod('pending', 'WEEK')">This Week</a>
+              <a cDropdownItem (click)="setPeriod('pending', 'MONTH')">This Month</a>
+              <a cDropdownItem (click)="setPeriod('pending', 'YEAR')">This Year</a>
             </div>
           </c-dropdown>
         </div>

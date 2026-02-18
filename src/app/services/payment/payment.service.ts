@@ -56,17 +56,23 @@ export class PaymentService {
   }
 
   public adminSettlePayment(payload: IPaymentAdmin): Observable<IResponse> {
-    return this.httpClient.post<IResponse>(
-      this.adminRequestUrl + '/pay',
-      {
-        ...payload,
-      },
+    return this.httpClient.post<IResponse>(this.adminRequestUrl + '/pay', {
+      ...payload,
+    });
+  }
+
+  public getPaymentWidget(): Observable<IResponse> {
+    return this.httpClient.get<IResponse>(
+      this.adminRequestUrl + '/card-details',
+      {},
     );
   }
 
   // Salesman API
 
-  public salesmanSettlePayment(payload: IPaymentSalesman): Observable<IResponse> {
+  public salesmanSettlePayment(
+    payload: IPaymentSalesman,
+  ): Observable<IResponse> {
     return this.httpClient.post<IResponse>(
       this.salesRequestUrl + '/payment/pay',
       {

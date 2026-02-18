@@ -26,11 +26,11 @@ import * as moment from 'moment';
 
 @UntilDestroy()
 @Component({
-  selector: 'app-sales-delivery-tracking',
-  templateUrl: './sales-delivery-tracking.component.html',
-  styleUrls: ['./sales-delivery-tracking.component.scss'],
+  selector: 'app-sales-delivery',
+  templateUrl: './sales-delivery.component.html',
+  styleUrls: ['./sales-delivery.component.scss'],
 })
-export class SalesDeliveryTrackingComponent implements OnInit {
+export class SalesDeliveryComponent implements OnInit {
   @ViewChild('viewSaleModal')
   private readonly viewSaleModal!: ViewSaleComponent;
 
@@ -67,6 +67,13 @@ export class SalesDeliveryTrackingComponent implements OnInit {
   protected searchSaleItemForm: FormGroup;
 
   protected today = new Date();
+
+  protected widgetData: any;
+  protected periods: Record<string, 'TODAY' | 'WEEK' | 'MONTH' | 'YEAR'> = {
+    sales: 'TODAY',
+    delivery: 'TODAY',
+    pending: 'TODAY',
+  };
 
   constructor(
     private readonly fb: FormBuilder,
@@ -206,26 +213,7 @@ export class SalesDeliveryTrackingComponent implements OnInit {
       .subscribe({
         next: (res: IResponse) => {
           if (res.body.status === RSP_SUCCESS) {
-            // this.totalItemCount = res.body.content?.totalItem || 0;
-            // this.activeItemCount =
-            //   res.body.content.itemStatusWiseCounts?.find(
-            //     (x: Record<string, string>) =>
-            //       x['statusDescription'] === 'ACTIVE',
-            //   )?.count || 0;
-            // this.deleteItemCount =
-            //   res.body.content.itemStatusWiseCounts?.find(
-            //     (x: Record<string, string>) =>
-            //       x['statusDescription'] === 'DELETE',
-            //   )?.count || 0;
-            // this.totalBatchCount = res.body.content?.totalBatch || 0;
-            // this.expiredBatchCount =
-            //   res.body.content.batchStatusWiseCounts?.find(
-            //     (x: Record<string, string>) => x['statusCode'] === 'EXPIRED',
-            //   )?.count || 0;
-            // this.freshBatchCount =
-            //   res.body.content.batchStatusWiseCounts?.find(
-            //     (x: Record<string, string>) => x['statusCode'] === 'FRESH',
-            //   )?.count || 0;
+            this.widgetData = res.body.content;
           } else {
             alertError({
               title: RESPONSE_TITLES.FAILED,
@@ -239,6 +227,53 @@ export class SalesDeliveryTrackingComponent implements OnInit {
           errorMessageHandler(err);
         },
       });
+  }
+
+  protected setPeriod(
+    card: string,
+    period: 'TODAY' | 'WEEK' | 'MONTH' | 'YEAR',
+  ): void {
+    this.periods[card] = period;
+  }
+
+  protected getSalesValue(): string {
+    return (
+      this.widgetData?.salesValueSummary?.find(
+        (x: any) => x.period === this.periods['sales'],
+      )?.totalValue ?? 0
+    );
+  }
+
+  protected getDeliveryCount(): number {
+    return (
+      this.widgetData?.deliverySummary?.find(
+        (x: any) => x.period === this.periods['delivery'],
+      )?.count || 0
+    );
+  }
+
+  protected getDeliveryTotalValue(): number {
+    return (
+      this.widgetData?.deliverySummary?.find(
+        (x: any) => x.period === this.periods['delivery'],
+      )?.totalValue || 0
+    );
+  }
+
+  protected getPendingDeliveryCount(): number {
+    return (
+      this.widgetData?.pendingDeliverySummary?.find(
+        (x: any) => x.period === this.periods['pending'],
+      )?.count || 0
+    );
+  }
+
+  protected getPendingDeliveryTotalValue(): number {
+    return (
+      this.widgetData?.pendingDeliverySummary?.find(
+        (x: any) => x.period === this.periods['pending'],
+      )?.totalValue || 0
+    );
   }
 
   protected onSaleSubmit(): void {

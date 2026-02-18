@@ -54,6 +54,14 @@ export class PaymentsComponent implements OnInit {
 
   protected today = new Date();
 
+  protected widgetData: any;
+  protected periods: Record<string, 'TODAY' | 'WEEK' | 'MONTH' | 'YEAR'> = {
+    fullPayment: 'TODAY',
+    partialPayment: 'TODAY',
+    pendingPayment: 'TODAY',
+    discount: 'TODAY',
+  };
+
   constructor(
     private readonly fb: FormBuilder,
     private readonly paymentService: PaymentService,
@@ -64,6 +72,7 @@ export class PaymentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadPaymentTableData();
+    this.loadPaymentWidgetData();
   }
 
   private createForm(): void {
@@ -83,6 +92,7 @@ export class PaymentsComponent implements OnInit {
 
   protected onRefresh(): void {
     this.loadPaymentTableData();
+    this.loadPaymentWidgetData();
   }
 
   private loadPaymentTableData(): void {
@@ -138,6 +148,67 @@ export class PaymentsComponent implements OnInit {
           errorMessageHandler(err);
         },
       });
+  }
+
+  private loadPaymentWidgetData(): void {
+    this.paymentService
+      .getPaymentWidget()
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.widgetData = res.body.content;
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message || RESPONSE_MESSAGES.PAYMENT_WIDGET_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
+  }
+
+  protected setPeriod(
+    card: string,
+    period: 'TODAY' | 'WEEK' | 'MONTH' | 'YEAR',
+  ): void {
+    this.periods[card] = period;
+  }
+
+  protected getFullPaymentReceived(): number {
+    return (
+      this.widgetData?.fullPaymentSummary?.find(
+        (x: any) => x.timePeriod === this.periods['fullPayment'],
+      )?.totalAmount || 0
+    );
+  }
+
+  protected getPartalPaymentReceived(): number {
+    return (
+      this.widgetData?.partialPaymentSummary?.find(
+        (x: any) => x.timePeriod === this.periods['partialPayment'],
+      )?.totalAmount || 0
+    );
+  }
+
+  protected getPendingTotalAmount(): number {
+    return (
+      this.widgetData?.pendingPaymentSummary?.find(
+        (x: any) => x.timePeriod === this.periods['pendingPayment'],
+      )?.totalAmount || 0
+    );
+  }
+
+  protected getDiscountTotalAmount(): number {
+    return (
+      this.widgetData?.discountSummary?.find(
+        (x: any) => x.timePeriod === this.periods['discount'],
+      )?.totalAmount || 0
+    );
   }
 
   protected goToPage(page: number): void {

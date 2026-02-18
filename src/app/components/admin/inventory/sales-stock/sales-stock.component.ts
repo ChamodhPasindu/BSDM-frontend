@@ -47,10 +47,10 @@ export class SalesStockComponent implements OnInit {
 
   protected widgetData: any;
   protected periods: Record<string, 'TODAY' | 'WEEK' | 'MONTH'> = {
-    product: 'MONTH',
-    value: 'MONTH',
-    employee: 'MONTH',
-    vehicle: 'MONTH',
+    product: 'TODAY',
+    value: 'TODAY',
+    employee: 'TODAY',
+    vehicle: 'TODAY',
   };
 
   constructor(

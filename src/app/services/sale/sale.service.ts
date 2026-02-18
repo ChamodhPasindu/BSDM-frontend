@@ -34,25 +34,6 @@ export class SaleService {
     return this.saleCompleteData;
   }
 
-  public saleInit(customerId: number, routeId: number): Observable<IResponse> {
-    return this.httpClient.post<IResponse>(
-      this.salesRequestUrl + '/order/init',
-      {
-        customerId: customerId,
-        routeId: routeId,
-      },
-    );
-  }
-
-  public placeOrder(payload: ISale): Observable<IResponse> {
-    return this.httpClient.post<IResponse>(
-      this.salesRequestUrl + '/order/items',
-      {
-        ...payload,
-      },
-    );
-  }
-
   public getSaleList(
     payload: Partial<IPagination>,
     order?: string,
@@ -74,10 +55,9 @@ export class SaleService {
   }
 
   public getSaleById(id: number): Observable<IResponse> {
-    return this.httpClient.get<IResponse>(
-      this.adminRequestUrl + '/find',
-      { params: { orderId: id } },
-    );
+    return this.httpClient.get<IResponse>(this.adminRequestUrl + '/find', {
+      params: { orderId: id },
+    });
   }
 
   public getSaleItemList(
@@ -98,9 +78,36 @@ export class SaleService {
   }
 
   public getSaleItemById(id: number): Observable<IResponse> {
+    return this.httpClient.get<IResponse>(this.adminRequestUrl + '/item-find', {
+      params: { itemId: id },
+    });
+  }
+
+  public getSaleDeliveryWidget(): Observable<IResponse> {
     return this.httpClient.get<IResponse>(
-      this.adminRequestUrl + '/item-find',
-      { params: { itemId: id } },
+      this.adminRequestUrl + '/card-details',
+      {},
+    );
+  }
+
+  // Salesman API
+
+  public saleInit(customerId: number, routeId: number): Observable<IResponse> {
+    return this.httpClient.post<IResponse>(
+      this.salesRequestUrl + '/order/init',
+      {
+        customerId: customerId,
+        routeId: routeId,
+      },
+    );
+  }
+
+  public placeOrder(payload: ISale): Observable<IResponse> {
+    return this.httpClient.post<IResponse>(
+      this.salesRequestUrl + '/order/items',
+      {
+        ...payload,
+      },
     );
   }
 }

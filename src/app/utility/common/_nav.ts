@@ -69,7 +69,7 @@ export const navItems: INavData[] = [
   },
   {
     name: 'Sales & Delivery',
-    url: '/admin/post-login/sales-delivery-tracking',
+    url: '/admin/post-login/sales-delivery',
     iconComponent: { name: 'cil-chart-line' },
   },
   {

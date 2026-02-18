@@ -144,6 +144,8 @@ export const RESPONSE_MESSAGES = {
     'Failed to load the payment details. Please try again.',
 
   SALE_GET_FAILED: 'Failed to load Sale details. Please try again.',
+  SALE_DELIVERY_WIDGET_GET_FAILED:
+    'Failed to load Sale Delivery widget details. Please try again.',
   SALE_ITEM_GET_FAILED: 'Failed to load Sale Item details. Please try again.',
   SALE_EXPORT_FAILED: 'No sale data available to export.',
   SALE_ITEM_EXPORT_FAILED: 'No sale item data available to export.',
@@ -152,6 +154,8 @@ export const RESPONSE_MESSAGES = {
   PAYMENT_ADD_EDIT_FAILED:
     'Failed to save Payment information. Please try again.',
   PAYMENT_GET_FAILED: 'Failed to load Payment details. Please try again.',
+  PAYMENT_WIDGET_GET_FAILED:
+    'Failed to load Payment widget details. Please try again.',
   PAYMENT_DELETE_FAILED: 'Failed to remove Payment details. Please try again.',
   PAYMENT_DELETE_SUCCESS: 'Payment information has been removed successfully.',
   PAYMENT_EXPORT_FAILED: 'No payment data available to export.',

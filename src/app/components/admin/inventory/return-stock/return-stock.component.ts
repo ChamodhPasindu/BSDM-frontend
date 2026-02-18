@@ -48,6 +48,14 @@ export class ReturnStockComponent implements OnInit {
   protected searchForm: FormGroup;
   protected today = new Date();
 
+  protected widgetData: any;
+  protected periods: Record<string, 'TODAY' | 'WEEK' | 'MONTH' | 'YEAR'> = {
+    returnStock: 'TODAY',
+    value: 'TODAY',
+    employee: 'TODAY',
+    vehicle: 'TODAY',
+  };
+
   constructor(
     private readonly fb: FormBuilder,
     private readonly stockReturnService: StockReturnService,
@@ -123,14 +131,6 @@ export class ReturnStockComponent implements OnInit {
         },
       });
   }
-
-  protected widgetData: any;
-  protected periods: Record<string, 'TODAY' | 'WEEK' | 'MONTH' | 'YEAR'> = {
-    returnStock: 'TODAY',
-    value: 'TODAY',
-    employee: 'TODAY',
-    vehicle: 'TODAY',
-  };
 
   private loadReturnStockWidgetData(): void {
     this.stockReturnService

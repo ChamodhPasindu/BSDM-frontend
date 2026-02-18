@@ -9,7 +9,7 @@ import { AlertComponent } from './alert/alert.component';
 import { VehicleComponent } from './vehicle/vehicle.component';
 import { AuditTrailComponent } from './audit-trail/audit-trail.component';
 import { PaymentsComponent } from './payments/payments.component';
-import { SalesDeliveryTrackingComponent } from './sales-delivery-tracking/sales-delivery-tracking.component';
+import { SalesDeliveryComponent } from './sales-delivery/sales-delivery.component';
 import { SettingsComponent } from './settings/settings.component';
 import { adminAuthGuard } from 'src/app/utility/guards/auth.guard';
 
@@ -74,8 +74,8 @@ const routes: Routes = [
         },
       },
       {
-        path: 'sales-delivery-tracking',
-        component: SalesDeliveryTrackingComponent,
+        path: 'sales-delivery',
+        component: SalesDeliveryComponent,
         data: {
           title: 'Sales & Delivery',
         },
@@ -83,9 +83,7 @@ const routes: Routes = [
       {
         path: 'inventory',
         loadChildren: () =>
-          import('./inventory/inventory.module').then(
-            (m) => m.InventoryModule
-          ),
+          import('./inventory/inventory.module').then((m) => m.InventoryModule),
       },
       {
         path: 'settings',
