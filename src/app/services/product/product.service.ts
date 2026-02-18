@@ -12,7 +12,7 @@ import { SECURE, getEndpoint } from 'src/app/utility/common/end-point';
 })
 export class ProductService {
   private adminRequestUrl = `${getEndpoint(SECURE)}/product`;
-  private salesRequestUrl = `${getEndpoint(SECURE)}/sales-man/product`;
+  private salesRequestUrl = `${getEndpoint(SECURE)}/sales-man`;
 
   private selectedProductList: IProductData[] = [];
 
@@ -79,12 +79,21 @@ export class ProductService {
   // Salesman API
 
   public getSalesmanProductList(): Observable<IResponse> {
-    return this.httpClient.get<IResponse>(this.salesRequestUrl + '/list');
+    return this.httpClient.get<IResponse>(
+      this.salesRequestUrl + '/product/list',
+    );
+  }
+
+  public getSalesmanDayStatus(): Observable<IResponse> {
+    return this.httpClient.get<IResponse>(
+      this.salesRequestUrl + '/dashboard/day-status',
+      {},
+    );
   }
 
   public salesmanDayStart(): Observable<IResponse> {
     return this.httpClient.put<IResponse>(
-      this.salesRequestUrl + '/day-start',
+      this.salesRequestUrl + '/product/day-start',
       {},
     );
   }

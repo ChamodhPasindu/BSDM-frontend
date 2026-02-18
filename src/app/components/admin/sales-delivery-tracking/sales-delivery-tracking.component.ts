@@ -17,7 +17,6 @@ import {
 } from 'src/app/utility/constants/response-message-title';
 import {
   alertError,
-  alertWarning,
   datePickerToDate,
   errorMessageHandler,
 } from 'src/app/utility/helper';
@@ -80,6 +79,7 @@ export class SalesDeliveryTrackingComponent implements OnInit {
   ngOnInit(): void {
     this.loadSaleTableData();
     this.loadSaleItemTableData();
+    this.loadSaleDeliveryWidgetData();
   }
 
   private createForm(): void {
@@ -199,6 +199,48 @@ export class SalesDeliveryTrackingComponent implements OnInit {
       });
   }
 
+  private loadSaleDeliveryWidgetData(): void {
+    this.saleService
+      .getSaleDeliveryWidget()
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            // this.totalItemCount = res.body.content?.totalItem || 0;
+            // this.activeItemCount =
+            //   res.body.content.itemStatusWiseCounts?.find(
+            //     (x: Record<string, string>) =>
+            //       x['statusDescription'] === 'ACTIVE',
+            //   )?.count || 0;
+            // this.deleteItemCount =
+            //   res.body.content.itemStatusWiseCounts?.find(
+            //     (x: Record<string, string>) =>
+            //       x['statusDescription'] === 'DELETE',
+            //   )?.count || 0;
+            // this.totalBatchCount = res.body.content?.totalBatch || 0;
+            // this.expiredBatchCount =
+            //   res.body.content.batchStatusWiseCounts?.find(
+            //     (x: Record<string, string>) => x['statusCode'] === 'EXPIRED',
+            //   )?.count || 0;
+            // this.freshBatchCount =
+            //   res.body.content.batchStatusWiseCounts?.find(
+            //     (x: Record<string, string>) => x['statusCode'] === 'FRESH',
+            //   )?.count || 0;
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message ||
+                RESPONSE_MESSAGES.SALE_DELIVERY_WIDGET_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
+  }
+
   protected onSaleSubmit(): void {
     this.loadSaleTableData();
   }
@@ -209,10 +251,12 @@ export class SalesDeliveryTrackingComponent implements OnInit {
 
   protected onSaleRefresh(): void {
     this.loadSaleTableData();
+    this.loadSaleDeliveryWidgetData();
   }
 
   protected onSaleItemRefresh(): void {
     this.loadSaleItemTableData();
+    this.loadSaleDeliveryWidgetData();
   }
 
   protected goToSalePage(page: number): void {

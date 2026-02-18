@@ -18,6 +18,7 @@ import {
 import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
 import { StorageService } from 'src/app/services/storage.service';
 import { SESSION_DATA } from 'src/app/utility/constants/session-data';
+import { DayStatus } from 'src/app/enums/DayStatus.enum';
 
 @UntilDestroy()
 @Component({
@@ -26,12 +27,13 @@ import { SESSION_DATA } from 'src/app/utility/constants/session-data';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  protected readonly DayStatus = DayStatus;
+  protected dayStatus: DayStatus;
+
   protected greetingText: string;
   protected currentDateTime: string;
   protected greetingImage: string = 'assets/images/morning-greetings.png';
   protected intervalId: any;
-
-  protected isDayStarted: boolean = false;
 
   protected totalCollapseVisible: boolean = false;
   protected billCollapseVisible = false;
@@ -46,14 +48,36 @@ export class HomeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.isDayStarted =
-      this.storageService.get(SESSION_DATA.DAY_STATUS) === 'true';
-
     this.updateGreeting();
+    this.fetchDayStatus();
 
     this.intervalId = setInterval(() => {
       this.updateGreeting();
     }, 60000);
+  }
+
+  private fetchDayStatus(): void {
+    this.productService
+      .getSalesmanDayStatus()
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.dayStatus = res.body.content.dayStatusCode;
+            this.storageService.set(SESSION_DATA.DAY_STATUS, this.dayStatus);
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message ||
+                RESPONSE_MESSAGES.SALES_MAN_STATUS_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
   }
 
   private updateGreeting(): void {
@@ -92,7 +116,8 @@ export class HomeComponent implements OnInit, OnDestroy {
                 res.body.message ||
                 RESPONSE_MESSAGES.SALES_MAN_STATUS_GET_FAILED,
             });
-            this.storageService.set(SESSION_DATA.DAY_STATUS, String(event));
+            this.dayStatus = event ? DayStatus.IN_SELLING : DayStatus.LOADED;
+            this.storageService.set(SESSION_DATA.DAY_STATUS, this.dayStatus);
           } else {
             alertError({
               title: RESPONSE_TITLES.FAILED,

@@ -4,6 +4,7 @@ import { SalesQuickMenuBottomSheetComponent } from '../sales-quick-menu-bottom-s
 import { StorageService } from 'src/app/services/storage.service';
 import { SESSION_DATA } from 'src/app/utility/constants/session-data';
 import { alertWarning } from 'src/app/utility/helper';
+import { DayStatus } from 'src/app/enums/DayStatus.enum';
 
 @Component({
   selector: 'app-sales-bottom-nav',
@@ -19,10 +20,9 @@ export class SalesBottomNavComponent {
   ) {}
 
   protected toggleBottomSheet(): void {
-    const isDayStarted =
-      this.storageService.get(SESSION_DATA.DAY_STATUS) === 'true';
+    const dayStatus = this.storageService.get(SESSION_DATA.DAY_STATUS);
 
-    if (isDayStarted) {
+    if (dayStatus === DayStatus.IN_SELLING) {
       this.bottomSheetService.open(SalesQuickMenuBottomSheetComponent, {
         height: '210px',
         showCloseButton: true,
