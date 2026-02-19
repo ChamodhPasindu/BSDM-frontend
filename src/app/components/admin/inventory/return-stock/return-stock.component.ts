@@ -5,6 +5,7 @@ import {
   alertWarning,
   datePickerToDate,
   errorMessageHandler,
+  numberSeparate,
 } from 'src/app/utility/helper';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { StockReturnService } from 'src/app/services/stock-return/stock-return.service';
@@ -163,7 +164,9 @@ export class ReturnStockComponent implements OnInit {
       (x: any) => x.period === this.periods['value'],
     );
     if (!data) return 0;
-    return `LKR ${data.minValue} - ${data.maxValue}`;
+    return `LKR ${numberSeparate(data.minValue)} (Min) \nLKR ${numberSeparate(
+      data.maxValue,
+    )} (Max)`;
   }
 
   protected getReturnEmployeeCount(): number {

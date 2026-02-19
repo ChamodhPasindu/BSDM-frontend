@@ -219,7 +219,7 @@ export class ItemBatchComponent implements OnInit {
             this.deleteItemCount =
               res.body.content.itemStatusWiseCounts?.find(
                 (x: Record<string, string>) =>
-                  x['statusDescription'] === 'DELETE',
+                  x['statusDescription'] === 'DELETED',
               )?.count || 0;
 
             this.totalBatchCount = res.body.content?.totalBatch || 0;

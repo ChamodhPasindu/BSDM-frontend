@@ -16,6 +16,14 @@
     justify-content: end;
 }
 
-.default-dark-container{
+.default-dark-container {
     flex-direction: column !important;
+}
+
+
+::ng-deep .multi-line-widget {
+    .fs-6 {
+        white-space: pre-wrap;
+        line-height: 1.2;
+    }
 }

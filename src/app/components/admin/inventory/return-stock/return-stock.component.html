@@ -28,7 +28,8 @@
   </c-col>
 
   <c-col>
-    <c-widget-stat-f [title]="'Return Stock Value'" class="mb-3" color="danger" padding [value]="getReturnValue()">
+    <c-widget-stat-f [title]="'Return Stock Value'" class="mb-3  multi-line-widget" color="danger" padding
+      [value]="getReturnValue()">
       <ng-template cTemplateId="widgetIconTemplate">
         <svg cIcon name="cilMoney" size="xl" width="24"></svg>
       </ng-template>

@@ -5,6 +5,7 @@ import {
   alertWarning,
   datePickerToDate,
   errorMessageHandler,
+  numberSeparate,
 } from 'src/app/utility/helper';
 import { ActionButton } from 'src/app/enums/ActionButton.enum';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -160,7 +161,9 @@ export class SalesStockComponent implements OnInit {
       (x: any) => x.period === this.periods['value'],
     );
     if (!data) return 0;
-    return `LKR ${data.minValue} - ${data.maxValue}`;
+    return `LKR ${numberSeparate(data.minValue)} (Min) \nLKR ${numberSeparate(
+      data.maxValue,
+    )} (Max)`;
   }
 
   protected getEmployeeCount(): number {

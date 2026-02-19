@@ -12,10 +12,32 @@ import {
   RESPONSE_MESSAGES,
   RESPONSE_TITLES,
 } from './constants/response-message-title';
+import { CurrencyPipe } from '@angular/common';
+
+export const numberSeparate = (
+  value: number | string | undefined | null,
+): string => {
+  if (!value) {
+    return '0.00';
+  }
+
+  const val = value ? `${value}`.split('.') : ['0', '00'];
+
+  const whole = new CurrencyPipe('en').transform(
+    Number(val[0].replace(',', '')),
+    'USD',
+    '',
+    '1.0-0',
+  ) as string;
+
+  const decimals = val[1] ? `${val[1]}00`.slice(0, 2) : '00';
+
+  return `${whole}.${decimals}`;
+};
 
 export const alertSuccess = async (
   object: ISWALAlert,
-  callback?: (result: SweetAlertResult) => void
+  callback?: (result: SweetAlertResult) => void,
 ): Promise<void | SweetAlertResult<any>> => {
   const result = await Swal.fire({
     title: object.title,
@@ -39,7 +61,7 @@ export const alertSuccess = async (
 
 export const alertWarning = async (
   object: ISWALAlert,
-  callback?: (result: SweetAlertResult) => void
+  callback?: (result: SweetAlertResult) => void,
 ): Promise<void | SweetAlertResult<any>> => {
   const result = await Swal.fire({
     title: object.title,
@@ -63,7 +85,7 @@ export const alertWarning = async (
 
 export const alertError = async (
   object: ISWALAlert,
-  callback?: (result: SweetAlertResult) => void
+  callback?: (result: SweetAlertResult) => void,
 ): Promise<void | SweetAlertResult<any>> => {
   const result = await Swal.fire({
     title: object.title,
@@ -86,14 +108,14 @@ export const alertError = async (
 };
 
 export const dateToDatePicker = (
-  dateString: string | null | undefined
+  dateString: string | null | undefined,
 ): Date | null => {
   return dateString ? moment(dateString, 'YYYY-MM-DD').toDate() : null;
 };
 
 export const datePickerToDate = (
   date: Date | string | null | undefined,
-  format: string = 'YYYY-MM-DD'
+  format: string = 'YYYY-MM-DD',
 ): string => {
   if (!date) return '';
   return moment(date).format(format);
@@ -101,7 +123,7 @@ export const datePickerToDate = (
 
 export const errorMessageHandler = (
   error: HttpErrorResponse,
-  title?: string
+  title?: string,
 ) => {
   alertError({
     title: title || RESPONSE_TITLES.OOPS,
@@ -115,7 +137,7 @@ export const onValidate = (formGroup: FormGroup): boolean => {
 };
 
 export const passwordMatchValidator: ValidatorFn = (
-  group: AbstractControl
+  group: AbstractControl,
 ): ValidationErrors | null => {
   const password = group.get('password')?.value;
   const confirmPasswordControl = group.get('confirmPassword');

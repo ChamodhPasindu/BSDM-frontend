@@ -27,7 +27,7 @@
     }
 }
 
-.margin-0{
+.margin-0 {
     margin: 0;
 }
 
@@ -53,4 +53,11 @@
 .dual-btn {
     width: 100%;
     justify-content: end;
+}
+
+::ng-deep .multi-line-widget {
+    .fs-6 {
+        white-space: pre-wrap;
+        line-height: 1.2;
+    }
 }
