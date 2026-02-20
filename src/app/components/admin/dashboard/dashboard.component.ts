@@ -1,8 +1,21 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ChartConfiguration, ChartOptions } from 'chart.js';
+import { ChartOptions } from 'chart.js';
 import { DashboardChartsData, IChartProps } from './dashboard-charts-data';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import * as moment from 'moment';
+import { DashboardService } from 'src/app/services/dashboard/dashboard.service';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { IResponse } from 'src/app/interfaces/IResponse';
+import { HttpErrorResponse } from '@angular/common/http';
+import { alertError, errorMessageHandler } from 'src/app/utility/helper';
+import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
+import {
+  RESPONSE_MESSAGES,
+  RESPONSE_TITLES,
+} from 'src/app/utility/constants/response-message-title';
+import { IRecentTxn } from 'src/app/interfaces/IRecentTxn';
+import { EmptyPipe } from '../../../utility/pipe/empty.pipe';
+import { IRecentOrder } from 'src/app/interfaces/IRecentOrder';
 
 interface IUser {
   name: string;
@@ -18,66 +31,38 @@ interface IUser {
   color: string;
 }
 
+@UntilDestroy()
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit,OnDestroy {
+export class DashboardComponent implements OnInit, OnDestroy {
   protected greetingText: string;
   protected currentDateTime: string;
   protected intervalId: any;
 
-  barChartOptions: ChartOptions<'bar'> = {
-    responsive: true,
-    plugins: { legend: { display: true } },
-  };
-
-  barChartData: ChartConfiguration<'bar'>['data'] = {
-    labels: ['January', 'February', 'March', 'April', 'May'],
-    datasets: [
-      { label: 'Sales', data: [65, 59, 80, 81, 56] },
-      { label: 'Profit', data: [28, 48, 40, 19, 86] },
-    ],
-  };
-
-  pieChartOptions: ChartOptions<'pie'> = {
-    responsive: true,
-  };
-
-  pieChartData = {
-    labels: ['Download Sales', 'In-Store Sales', 'Mail Sales'],
-    datasets: [
-      {
-        data: [300, 500, 100],
-        backgroundColor: ['#2eb85c', '#f9b115', '#3399ff'],
-      },
-    ],
-  };
-
-  constructor(private chartsData: DashboardChartsData) {}
+  protected totalCards: Record<string, string> | null = null;
+  protected recentTransactionList: IRecentTxn[] = [];
+  protected recentOrderList: IRecentOrder[] = [];
 
   public mainChart: IChartProps = {};
-  public chart: Array<IChartProps> = [];
-  public trafficRadioGroup = new UntypedFormGroup({
-    trafficRadio: new UntypedFormControl('Month'),
-  });
+  public doughnutChart: IChartProps = {};
 
-  chartDoughnutData = {
-    labels: ['VueJs', 'EmberJs', 'ReactJs', 'Angular'],
-    datasets: [
-      {
-        backgroundColor: ['#2eb85c', '#e55353', '#f9b115', '#3399ff'],
-        data: [40, 20, 80, 10],
-      },
-    ],
-  };
+  protected trafficPeriod: string = 'month';
 
-  protected users: any[] = [];
-  protected pagedUsers: any[] = [];
+  protected doughnutPeriod: string = 'MONTH';
+  private bestSellingRawData: {
+    name: string;
+    periods: { period: string; count: number }[];
+  }[] = [];
 
-  protected currentPage = 1;
-  protected pageSize = 5;
+  private salesGrowthRawData: { label: string; amount: number }[] = [];
+
+  constructor(
+    private readonly dashboardService: DashboardService,
+    private readonly chartsData: DashboardChartsData,
+  ) {}
 
   ngOnInit(): void {
     this.updateGreeting();
@@ -88,15 +73,19 @@ export class DashboardComponent implements OnInit,OnDestroy {
 
     this.initCharts();
 
-    this.users = Array.from({ length: 10 }, (_, i) => ({
-      name: `User ${i + 1}`,
-      nic: `NIC${1000 + i}`,
-    }));
-
-    this.updatePagedUsers();
+    this.loadMainCardData();
+    this.loadRecentTransaction();
+    this.loadRecentOrders();
+    this.loadBestSellingProducts();
+    this.loadSalesGrowth();
   }
 
-  protected updateGreeting() {
+  private initCharts(): void {
+    this.mainChart = this.chartsData.mainChart;
+    this.doughnutChart = this.chartsData.doughnutChart;
+  }
+
+  private updateGreeting(): void {
     const now = moment();
     const hours = now.hour();
 
@@ -115,31 +104,165 @@ export class DashboardComponent implements OnInit,OnDestroy {
     this.currentDateTime = now.format('MMMM DD, YYYY | hh:mm A');
   }
 
-  protected goToPage(page: number): void {
-    this.currentPage = page;
-    this.updatePagedUsers();
+  private loadMainCardData(): void {
+    this.dashboardService
+      .getTotalCards()
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.totalCards = res.body.content;
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message ||
+                RESPONSE_MESSAGES.ADMIN_DASHBOARD_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
   }
 
-  protected onPageSizeChange(newSize: number): void {
-    this.pageSize = newSize;
-    this.currentPage = 1;
-    this.updatePagedUsers();
+  private loadRecentTransaction(): void {
+    this.dashboardService
+      .getRecentTransaction()
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.recentTransactionList = res.body.content?.recentTransactions;
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message ||
+                RESPONSE_MESSAGES.ADMIN_DASHBOARD_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
   }
 
-  protected updatePagedUsers(): void {
-    const start = (this.currentPage - 1) * this.pageSize;
-    const end = start + this.pageSize;
-    this.pagedUsers = this.users.slice(start, end);
+  private loadRecentOrders(): void {
+    this.dashboardService
+      .getRecentOrders()
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.recentOrderList = res.body.content?.recentOrders;
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message ||
+                RESPONSE_MESSAGES.ADMIN_DASHBOARD_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
   }
 
-  initCharts(): void {
-    this.mainChart = this.chartsData.mainChart;
+  private loadBestSellingProducts(): void {
+    this.dashboardService
+      .getBestSellingProducts()
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.bestSellingRawData =
+              res.body.content?.bestSellingProducts ?? [];
+            this.updateDoughnutChart();
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message ||
+                RESPONSE_MESSAGES.ADMIN_DASHBOARD_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
   }
 
-  setTrafficPeriod(value: string): void {
-    this.trafficRadioGroup.setValue({ trafficRadio: value });
-    this.chartsData.initMainChart(value);
-    this.initCharts();
+  private loadSalesGrowth(period: string = 'month'): void {
+    this.dashboardService
+      .getSalesGrowth(period)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.salesGrowthRawData = res.body.content?.salesGrowthData ?? [];
+            this.updateMainChart();
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message ||
+                RESPONSE_MESSAGES.ADMIN_DASHBOARD_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
+  }
+
+  private updateMainChart(): void {
+    const labels = this.salesGrowthRawData.map((d) => d.label);
+    const amounts = this.salesGrowthRawData.map((d) => d.amount);
+
+    this.mainChart.data = {
+      ...this.mainChart.data,
+      labels,
+      datasets: this.mainChart.data.datasets.map((ds: any, index: number) =>
+        index === 0 ? { ...ds, data: amounts } : ds,
+      ),
+    };
+  }
+
+  private updateDoughnutChart(): void {
+    const labels = this.bestSellingRawData.map((p) => p.name);
+    const data = this.bestSellingRawData.map(
+      (p) =>
+        p.periods.find((x) => x.period === this.doughnutPeriod)?.count ?? 0,
+    );
+    const backgroundColor = this.chartsData.generateColors(data.length);
+
+    this.doughnutChart.data = {
+      labels,
+      datasets: [
+        {
+          data,
+          backgroundColor,
+          borderWidth: 0,
+        },
+      ],
+    };
+  }
+
+  protected setTrafficPeriod(value: string): void {
+    this.trafficPeriod = value;
+    this.loadSalesGrowth(value);
+  }
+
+  protected setBestSellingPeriod(value: string): void {
+    this.doughnutPeriod = value;
+    this.updateDoughnutChart();
   }
 
   ngOnDestroy(): void {

@@ -158,7 +158,7 @@ export class SalesStockComponent implements OnInit {
 
   protected getParsedStockValue(): string | number {
     const data = this.widgetData?.assignedValueCardList?.find(
-      (x: any) => x.period === this.periods['value'],
+      (x: Record<string, string>) => x['period'] === this.periods['value'],
     );
     if (!data) return 0;
     return `LKR ${numberSeparate(data.minValue)} (Min) \nLKR ${numberSeparate(
@@ -169,7 +169,7 @@ export class SalesStockComponent implements OnInit {
   protected getEmployeeCount(): number {
     return (
       this.widgetData?.assignedEmployeeCountList?.find(
-        (x: any) => x.period === this.periods['employee'],
+        (x: Record<string, string>) => x['period'] === this.periods['employee'],
       )?.employeeCount || 0
     );
   }
@@ -177,7 +177,7 @@ export class SalesStockComponent implements OnInit {
   protected getProductCount(): number {
     return (
       this.widgetData?.assignedProductCountList?.find(
-        (x: any) => x.period === this.periods['product'],
+        (x: Record<string, string>) => x['period'] === this.periods['product'],
       )?.productCount || 0
     );
   }
@@ -185,7 +185,7 @@ export class SalesStockComponent implements OnInit {
   protected getVehicleCount(): number {
     return (
       this.widgetData?.assignedVehicleCountList?.find(
-        (x: any) => x.period === this.periods['vehicle'],
+        (x: Record<string, string>) => x['period'] === this.periods['vehicle'],
       )?.vehicleCount || 0
     );
   }

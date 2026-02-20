@@ -182,7 +182,8 @@ export class PaymentsComponent implements OnInit {
   protected getFullPaymentReceived(): number {
     return (
       this.widgetData?.fullPaymentSummary?.find(
-        (x: any) => x.timePeriod === this.periods['fullPayment'],
+        (x: Record<string, string>) =>
+          x['timePeriod'] === this.periods['fullPayment'],
       )?.totalAmount || 0
     );
   }
@@ -190,7 +191,8 @@ export class PaymentsComponent implements OnInit {
   protected getPartalPaymentReceived(): number {
     return (
       this.widgetData?.partialPaymentSummary?.find(
-        (x: any) => x.timePeriod === this.periods['partialPayment'],
+        (x: Record<string, string>) =>
+          x['timePeriod'] === this.periods['partialPayment'],
       )?.totalAmount || 0
     );
   }
@@ -198,7 +200,8 @@ export class PaymentsComponent implements OnInit {
   protected getPendingTotalAmount(): number {
     return (
       this.widgetData?.pendingPaymentSummary?.find(
-        (x: any) => x.timePeriod === this.periods['pendingPayment'],
+        (x: Record<string, string>) =>
+          x['timePeriod'] === this.periods['pendingPayment'],
       )?.totalAmount || 0
     );
   }
@@ -206,7 +209,8 @@ export class PaymentsComponent implements OnInit {
   protected getDiscountTotalAmount(): number {
     return (
       this.widgetData?.discountSummary?.find(
-        (x: any) => x.timePeriod === this.periods['discount'],
+        (x: Record<string, string>) =>
+          x['timePeriod'] === this.periods['discount'],
       )?.totalAmount || 0
     );
   }

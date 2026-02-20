@@ -239,7 +239,7 @@ export class SalesDeliveryComponent implements OnInit {
   protected getSalesValue(): string {
     return (
       this.widgetData?.salesValueSummary?.find(
-        (x: any) => x.period === this.periods['sales'],
+        (x: Record<string, string>) => x['period'] === this.periods['sales'],
       )?.totalValue ?? 0
     );
   }
@@ -247,7 +247,7 @@ export class SalesDeliveryComponent implements OnInit {
   protected getDeliveryCount(): number {
     return (
       this.widgetData?.deliverySummary?.find(
-        (x: any) => x.period === this.periods['delivery'],
+        (x: Record<string, string>) => x['period'] === this.periods['delivery'],
       )?.count || 0
     );
   }
@@ -255,7 +255,7 @@ export class SalesDeliveryComponent implements OnInit {
   protected getDeliveryTotalValue(): number {
     return (
       this.widgetData?.deliverySummary?.find(
-        (x: any) => x.period === this.periods['delivery'],
+        (x: Record<string, string>) => x['period'] === this.periods['delivery'],
       )?.totalValue || 0
     );
   }
@@ -263,7 +263,7 @@ export class SalesDeliveryComponent implements OnInit {
   protected getPendingDeliveryCount(): number {
     return (
       this.widgetData?.pendingDeliverySummary?.find(
-        (x: any) => x.period === this.periods['pending'],
+        (x: Record<string, string>) => x['period'] === this.periods['pending'],
       )?.count || 0
     );
   }

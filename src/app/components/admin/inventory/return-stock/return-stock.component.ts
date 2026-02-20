@@ -161,7 +161,7 @@ export class ReturnStockComponent implements OnInit {
 
   protected getReturnValue(): string | number {
     const data = this.widgetData?.returnValueCardList?.find(
-      (x: any) => x.period === this.periods['value'],
+      (x: Record<string, string>) => x['period'] === this.periods['value'],
     );
     if (!data) return 0;
     return `LKR ${numberSeparate(data.minValue)} (Min) \nLKR ${numberSeparate(
@@ -172,7 +172,7 @@ export class ReturnStockComponent implements OnInit {
   protected getReturnEmployeeCount(): number {
     return (
       this.widgetData?.returnEmployeeCountList?.find(
-        (x: any) => x.period === this.periods['employee'],
+        (x: Record<string, string>) => x['period'] === this.periods['employee'],
       )?.employeeCount || 0
     );
   }
@@ -180,7 +180,8 @@ export class ReturnStockComponent implements OnInit {
   protected getReturnProductCount(): number {
     return (
       this.widgetData?.returnProductCountList?.find(
-        (x: any) => x.period === this.periods['returnStock'],
+        (x: Record<string, string>) =>
+          x['period'] === this.periods['returnStock'],
       )?.productCount || 0
     );
   }

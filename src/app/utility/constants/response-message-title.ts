@@ -163,6 +163,9 @@ export const RESPONSE_MESSAGES = {
   SALES_MAN_STATUS_SUCCESS: 'You have just started your work. Good luck!',
   SALES_MAN_STATUS_GET_FAILED:
     'Failed to load Salesman status. Please try again.',
+
+  ADMIN_DASHBOARD_GET_FAILED:
+    'Failed to load dashboard information. Please try again.',
 };
 
 export const RESPONSE_TITLES = {
