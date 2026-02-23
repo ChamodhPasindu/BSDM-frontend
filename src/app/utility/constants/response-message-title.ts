@@ -160,6 +160,10 @@ export const RESPONSE_MESSAGES = {
   PAYMENT_DELETE_SUCCESS: 'Payment information has been removed successfully.',
   PAYMENT_EXPORT_FAILED: 'No payment data available to export.',
 
+  AUDIT_TRAIL_GET_FAILED:
+    'Failed to load audit trail details. Please try again.',
+  AUDIT_TRAIL_EXPORT_FAILED: 'No audit trail data available to export.',
+
   SALES_MAN_STATUS_SUCCESS: 'You have just started your work. Good luck!',
   SALES_MAN_STATUS_GET_FAILED:
     'Failed to load Salesman status. Please try again.',

@@ -44,6 +44,7 @@ import { EditViewPaymentComponent } from './payments/edit-view-payment/edit-view
 import { ViewSaleComponent } from './sales-delivery/view-sale/view-sale.component';
 import { ViewSaleItemComponent } from './sales-delivery/view-sale-item/view-sale-item.component';
 import { DashboardService } from 'src/app/services/dashboard/dashboard.service';
+import { AuditTrailService } from 'src/app/services/audit-trail/audit-trail.service';
 
 @NgModule({
   declarations: [
@@ -89,6 +90,11 @@ import { DashboardService } from 'src/app/services/dashboard/dashboard.service';
     BsDatepickerModule.forRoot(),
     NgSelectModule,
   ],
-  providers: [EmployeeService, VehicleService, DashboardService],
+  providers: [
+    EmployeeService,
+    VehicleService,
+    DashboardService,
+    AuditTrailService,
+  ],
 })
 export class AdminModule {}

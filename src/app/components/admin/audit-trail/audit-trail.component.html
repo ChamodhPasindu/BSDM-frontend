@@ -1,31 +1,5 @@
 <h6 cTextColor="secondary">OVERVIEW</h6>
 
-<c-row>
-  <c-col>
-    <c-widget-stat-f [title]="'Total Actions'" class="mb-3" color="primary" padding value="100">
-      <ng-template cTemplateId="widgetIconTemplate">
-        <svg cIcon name="cilBoltCircle" size="xl" width="24"></svg>
-      </ng-template>
-    </c-widget-stat-f>
-  </c-col>
-
-  <c-col>
-    <c-widget-stat-f [title]="'Unique Users'" class="mb-3" color="success" padding value="50">
-      <ng-template cTemplateId="widgetIconTemplate">
-        <svg cIcon name="cilFace" size="xl" width="24"></svg>
-      </ng-template>
-    </c-widget-stat-f>
-  </c-col>
-
-  <c-col>
-    <c-widget-stat-f [title]="'Flagged Events'" class="mb-3" color="danger" padding value="75">
-      <ng-template cTemplateId="widgetIconTemplate">
-        <svg cIcon name="cilBadge" size="xl" width="24"></svg>
-      </ng-template>
-    </c-widget-stat-f>
-  </c-col>
-</c-row>
-
 <c-card class="mb-4">
   <c-card-body>
     <c-row class="justify-content-between">
@@ -33,16 +7,29 @@
         <h4 class="card-title mb-4" id="employee-list">Audit Trail List</h4>
       </c-col>
     </c-row>
-    <form cRow class="align-items-end mb-4">
+    <form cRow class="align-items-end mb-4" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
       <c-col xs="auto" class="mb-2">
-        <label cLabel for="inputEmail4">Search Audit Trail</label>
-        <input cFormControl id="inputEmail4" type="email" />
+        <label cLabel for="inputPaymentValue">Search Username</label>
+        <input cFormControl id="inputPaymentValue" type="text" formControlName="username" />
+      </c-col>
+
+      <c-col xs="auto" class="mb-2">
+        <label cLabel for="inputCustomerValue">Search Action</label>
+        <input cFormControl id="inputCustomerValue" type="text" formControlName="action" />
+      </c-col>
+
+      <c-col xs="auto" class="mb-2">
+        <label cLabel for="status">Status</label>
+        <select cFormControl id="status" class="form-select" formControlName="status">
+          <option *ngFor="let status of statusList" [value]="status['code']">{{ status['description'] }}</option>
+        </select>
       </c-col>
 
       <c-col xs="auto" class="mb-2">
         <label cLabel for="datepicker">From Date</label>
         <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" />
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker
+            [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" formControlName="fromDate" />
           <span class="input-group-text bg-white">
             <svg cIcon name="cilCalendar" class="text-secondary"></svg>
           </span>
@@ -52,7 +39,8 @@
       <c-col xs="auto" class="mb-2">
         <label cLabel for="datepicker">To Date</label>
         <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" />
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker
+            [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" formControlName="toDate" />
           <span class="input-group-text bg-white">
             <svg cIcon name="cilCalendar" class="text-secondary"></svg>
           </span>
@@ -60,11 +48,16 @@
       </c-col>
 
       <c-col xs="auto" class="mb-2 d-flex align-items-center gap-2 flex-wrap">
-        <button cButton type="button" variant="outline" color="secondary">
+        <button cButton type="submit" variant="outline" color="secondary">
           <svg cIcon name="cilSearch" class="me-2"></svg>Search
         </button>
 
-        <button cButton type="button" variant="outline" color="info">
+        <button *ngIf="searchForm.dirty && searchForm.value && hasAnyValue()" cButton type="button" variant="outline"
+          color="danger" (click)="onClear()">
+          <svg cIcon name="cilX" class="me-2"></svg>Clear
+        </button>
+
+        <button cButton type="button" variant="outline" color="info" (click)="onExport()">
           <svg cIcon name="cilCloudDownload" class="me-2"></svg>Export
         </button>
       </c-col>
@@ -74,61 +67,53 @@
       <thead cTableColor="light">
         <tr>
           <th class="text-center">
-            Employee ID
+            ID
           </th>
-          <th>Name</th>
-          <th>NIC</th>
-          <th class="text-center">License</th>
+          <th>Username</th>
+          <th>Role</th>
+          <th class="text-center">Action</th>
+          <th class="text-center">Status</th>
+          <th class="text-center">Date</th>
           <th class="text-center">Action</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngIf="!pagedUsers || pagedUsers.length === 0">
-          <td colspan="6" class="text-center text-muted py-3">
+        <tr *ngIf="!auditList || auditList.length === 0">
+          <td colspan="7" class="text-center text-muted py-3">
             No data available
           </td>
         </tr>
-        <tr *ngFor="let user of pagedUsers; index as i">
+        <tr *ngFor="let audit of auditList; index as i">
           <td class="text-center">
-            EMP12
+            {{ audit.auditId | empty}}
           </td>
           <td>
-            <div>{{ user.name }}</div>
-            <div class="small text-medium-emphasis text-nowrap">
-              <span>
-                Route | Battaramulle
-              </span>
-            </div>
+            {{ audit.username | empty}}
           </td>
           <td>
-            Supun Perera
+            {{ audit.role | empty}}
           </td>
           <td class="text-center">
-            <div class="fw-semibold text-nowrap">LKR 12,500</div>
+            {{ audit.action | empty}}
+          </td>
+          <td class="text-center">
+            {{ audit.status | empty}}
+          </td>
+          <td class="text-center">
+            {{ audit.createdAt | date:'mediumDate' | empty}}
           </td>
           <td class="text-center">
             <!-- View -->
-            <button (click)="openAuditView()" cButton color="info" size="sm" variant="ghost" class="me-2" title="View">
+            <button (click)="openViewAuditModal(audit)" cButton color="info" size="sm" variant="ghost" class="me-2"
+              title="View">
               <svg cIcon name="cilCommand"></svg>
             </button>
-
-            <!-- Edit -->
-            <button cButton color="warning" size="sm" variant="ghost" class="me-2" title="Edit">
-              <svg cIcon name="cilPencil"></svg>
-            </button>
-
-            <!-- Delete -->
-            <button (click)="delete()" cButton color="danger" size="sm" variant="ghost" title="Delete">
-              <svg cIcon name="cilTrash"></svg>
-            </button>
           </td>
-
         </tr>
       </tbody>
     </table>
-    <app-paginator *ngIf="pagedUsers.length !== 0" [totalItems]="users.length" [(pageSize)]="pageSize"
-      [(currentPage)]="currentPage" (currentPageChange)="goToPage($event)"
-      (pageSizeChange)="onPageSizeChange($event)"></app-paginator>
+    <app-paginator *ngIf="count !== 0" [totalItems]="count" [(pageSize)]="pageSize" [(currentPage)]="currentPage"
+      (currentPageChange)="goToPage($event)" (pageSizeChange)="onPageSizeChange($event)"></app-paginator>
   </c-card-body>
 
 

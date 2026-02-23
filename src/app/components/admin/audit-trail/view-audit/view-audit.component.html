@@ -1,60 +1,60 @@
 <c-modal id="liveDemoModal" size="lg" alignment="center" class="modal-scrollable" [visible]="visible"
-  (visibleChange)="changeModalVisibility($event)">
+  (visibleChange)="onChangeModalVisibility($event)">
   <c-modal-header>
-    <h5 cModalTitle> Add New Employee</h5>
-    <button (click)="closeModal()" cButtonClose></button>
+    <h5 cModalTitle> View Audit</h5>
+    <button (click)="onCloseModal()" cButtonClose></button>
   </c-modal-header>
   <c-modal-body>
-    <form cForm class="row g-3">
-      <h6 class="mb-3">Personal Information</h6>
-      <c-col [md]="6">
-        <label cLabel for="inputEmail4">Email</label>
-        <input cFormControl id="inputEmail4" type="email" />
+    <c-row class="g-3" *ngIf="audit">
+      <c-col md="6">
+        <label class="text-medium-emphasis small d-block">Username</label>
+        <span class="fw-semibold">{{ audit.username | empty }}</span>
       </c-col>
-      <c-col [md]="6">
-        <label cLabel for="inputPassword4">Password</label>
-        <input cFormControl id="inputPassword4" type="password" />
+      <c-col md="6">
+        <label class="text-medium-emphasis small d-block">Role</label>
+        <span class="fw-semibold">{{ audit.role | empty }}</span>
       </c-col>
-      <c-col [xs]="12">
-        <label cLabel for="inputAddress">Address</label>
-        <input cFormControl id="inputAddress" placeholder="1234 Main St" />
+      <c-col md="6">
+        <label class="text-medium-emphasis small d-block">Action</label>
+        <span class="badge bg-primary">{{ audit.action | empty }}</span>
       </c-col>
-      <c-col [xs]="12">
-        <label cLabel for="inputAddress2">Address 2</label>
-        <input cFormControl id="inputAddress2" placeholder="Apartment, studio, or floor" />
+      <c-col md="6">
+        <label class="text-medium-emphasis small d-block">Status</label>
+        <span class="badge" [ngClass]="audit.status === 'SUCCESS' ? 'bg-success' : 'bg-danger'">
+          {{ audit.status | empty }}
+        </span>
       </c-col>
-      <c-col [md]="6">
-        <label cLabel for="inputCity">City</label>
-        <input cFormControl id="inputCity" />
+      <!-- <c-col md="6">
+        <label class="text-medium-emphasis small d-block">IP Address</label>
+        <code class="text-primary">{{ audit.ipAddress | empty }}</code>
+      </c-col> -->
+      <c-col md="6">
+        <label class="text-medium-emphasis small d-block">Created At</label>
+        <span class="fw-semibold">{{ audit.createdAt | date:'medium' | empty }}</span>
       </c-col>
-      <hr />
-      <h6 class="mb-3 mt-3">Employee Details</h6>
-      <c-col [md]="6">
-        <label cLabel for="inputEmail4">Email</label>
-        <input cFormControl id="inputEmail4" type="email" />
+      <c-col md="6">
+        <label class="text-medium-emphasis small d-block">Entity Name</label>
+        <span class="fw-semibold">{{ audit.entityName | empty }}</span>
       </c-col>
-      <c-col [md]="6">
-        <label cLabel for="inputPassword4">Password</label>
-        <input cFormControl id="inputPassword4" type="password" />
+      <c-col md="6">
+        <label class="text-medium-emphasis small d-block">Entity ID</label>
+        <span class="fw-semibold">{{ audit.entityId | empty }}</span>
       </c-col>
-      <c-col [xs]="12">
-        <label cLabel for="inputAddress">Address</label>
-        <input cFormControl id="inputAddress" placeholder="1234 Main St" />
+      <c-col xs="12">
+        <label class="text-medium-emphasis small d-block">User Agent</label>
+        <span class="small text-muted">{{ audit.userAgent | empty }}</span>
       </c-col>
-      <c-col [xs]="12">
-        <label cLabel for="inputAddress2">Address 2</label>
-        <input cFormControl id="inputAddress2" placeholder="Apartment, studio, or floor" />
+      <c-col xs="12">
+        <label class="text-medium-emphasis small d-block">Description</label>
+        <div class="p-2 border rounded bg-light">
+          {{ audit.description | empty }}
+        </div>
       </c-col>
-      <c-col [md]="6">
-        <label cLabel for="inputCity">City</label>
-        <input cFormControl id="inputCity" />
-      </c-col>
-    </form>
+    </c-row>
   </c-modal-body>
   <c-modal-footer>
-    <button (click)="closeModal()" cButton color="secondary">
+    <button (click)="onCloseModal()" cButton color="secondary">
       Close
     </button>
-    <button cButton color="primary">Add Employee</button>
   </c-modal-footer>
 </c-modal>

@@ -1,7 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ChartOptions } from 'chart.js';
 import { DashboardChartsData, IChartProps } from './dashboard-charts-data';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import * as moment from 'moment';
 import { DashboardService } from 'src/app/services/dashboard/dashboard.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -14,22 +12,7 @@ import {
   RESPONSE_TITLES,
 } from 'src/app/utility/constants/response-message-title';
 import { IRecentTxn } from 'src/app/interfaces/IRecentTxn';
-import { EmptyPipe } from '../../../utility/pipe/empty.pipe';
 import { IRecentOrder } from 'src/app/interfaces/IRecentOrder';
-
-interface IUser {
-  name: string;
-  state: string;
-  registered: string;
-  country: string;
-  usage: number;
-  period: string;
-  payment: string;
-  activity: string;
-  avatar: string;
-  status: string;
-  color: string;
-}
 
 @UntilDestroy()
 @Component({
@@ -50,8 +33,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public doughnutChart: IChartProps = {};
 
   protected trafficPeriod: string = 'month';
-
   protected doughnutPeriod: string = 'MONTH';
+
   private bestSellingRawData: {
     name: string;
     periods: { period: string; count: number }[];

@@ -1,24 +1,32 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { IAuditData } from 'src/app/interfaces/IAuditData';
+import { ModalControlDirective } from 'src/app/utility/directives/modal-control.directive';
 
 @Component({
   selector: 'app-view-audit',
   templateUrl: './view-audit.component.html',
-  styleUrls: ['./view-audit.component.scss']
+  styleUrls: ['./view-audit.component.scss'],
 })
-export class ViewAuditComponent implements OnInit {
+export class ViewAuditComponent
+  extends ModalControlDirective
+  implements OnInit
+{
+  private _audit: IAuditData | undefined;
 
-  constructor() {}
+  @Input()
+  public set audit(value: IAuditData | undefined) {
+    this._audit = value;
+  }
+
+  public get audit() {
+    return this._audit;
+  }
+
+  constructor() {
+    super();
+  }
+
+  protected override resetState(): void {}
 
   ngOnInit(): void {}
-
-  @Input() audit: any;
-  public visible = false;
-
-  protected closeModal(): void {
-    this.visible = !this.visible;
-  }
-
-  protected changeModalVisibility(event: boolean): void {
-    this.visible = event;
-  }
 }
