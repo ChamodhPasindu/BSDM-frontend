@@ -6,6 +6,7 @@ export interface IBatchData {
   usableDays: number;
   remainingQuantity: number;
   statusCode: string;
+  statusDescription: string;
   warehouseLocation: string;
   createdAt: string;
   createdByUserId: number;

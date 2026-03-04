@@ -24,6 +24,14 @@
             [searchable]="true" [clearable]="true" placeholder="Select a batch" formControlName="batchId"
             (change)="selectedBatch = $event" appValidate fieldName="Batch">
           </ng-select>
+          <div *ngIf="selectedBatch?.statusDescription === 'NEAREXPIRED'" class="mt-2">
+            <c-alert color="warning" variant="solid" class="d-flex align-items-center p-2 mb-0">
+              <svg cIcon name="cilWarning" class="me-2" size="sm"></svg>
+              <div style="font-size: 0.85rem;">
+                <strong>Note:</strong> This batch is approaching its expiry date.
+              </div>
+            </c-alert>
+          </div>
         </c-col>
 
         <!-- Item Details Card -->

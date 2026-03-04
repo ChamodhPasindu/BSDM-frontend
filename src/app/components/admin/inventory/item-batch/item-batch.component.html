@@ -240,12 +240,13 @@
           <th class="text-center">Quantity</th>
           <th class="text-center">Warehouse</th>
           <th class="text-center">Created Date</th>
+          <th class="text-center">status</th>
           <th class="text-center">Action</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngIf="!batchList || batchList.length === 0">
-          <td colspan="9" class="text-center text-muted py-3">
+          <td colspan="10" class="text-center text-muted py-3">
             No data available
           </td>
         </tr>
@@ -274,7 +275,14 @@
           <td class="text-center">
             {{batch.createdAt | date:'mediumDate' | empty}}
           </td>
-
+          <td class="text-center">
+            <c-badge *ngIf="batch.statusDescription === 'FRESH'" color="success">{{
+              batch.statusDescription | empty}}</c-badge>
+            <c-badge *ngIf="batch.statusDescription === 'NEAREXPIRED'" color="warning">{{
+              batch.statusDescription | empty}}</c-badge>
+            <c-badge *ngIf="batch.statusDescription === 'EXPIRED'" color="danger">{{
+              batch.statusDescription | empty}}</c-badge>
+          </td>
           <td class="text-center">
             <!-- View -->
             <button cButton color="info" size="sm" variant="ghost" class="me-2" title="View"

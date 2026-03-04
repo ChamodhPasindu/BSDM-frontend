@@ -316,13 +316,14 @@ export class ItemBatchComponent implements OnInit {
 
     const columns = [
       { header: 'ID', width: 0.06 },
-      { header: 'Batch Code', width: 0.14 },
-      { header: 'Manufacture Date', width: 0.18 },
-      { header: 'Expire Date', width: 0.16 },
-      { header: 'Usable Days', width: 0.1 },
-      { header: 'Quantity', width: 0.1 },
-      { header: 'Warehouse', width: 0.13 },
-      { header: 'Created Date', width: 0.13 },
+      { header: 'Batch Code', width: 0.13 },
+      { header: 'Manufacture Date', width: 0.16 },
+      { header: 'Expire Date', width: 0.14 },
+      { header: 'Usable Days', width: 0.09 },
+      { header: 'Quantity', width: 0.09 },
+      { header: 'Warehouse', width: 0.12 },
+      { header: 'Created Date', width: 0.11 },
+      { header: 'Status', width: 0.1 },
     ];
 
     const data = this.batchList.map((batch) => [
@@ -332,10 +333,11 @@ export class ItemBatchComponent implements OnInit {
         ? moment(batch.manufactureDate).format('YYYY-MM-DD')
         : '',
       batch.expiryDate ? moment(batch.expiryDate).format('YYYY-MM-DD') : '',
-      batch.usableDays || '',
-      batch.remainingQuantity || '',
+      batch.usableDays,
+      batch.remainingQuantity,
       batch.warehouseLocation || '',
       batch.createdAt ? moment(batch.createdAt).format('YYYY-MM-DD') : '',
+      batch.statusDescription || '',
     ]);
 
     this.pdfExportService.exportToPdf({

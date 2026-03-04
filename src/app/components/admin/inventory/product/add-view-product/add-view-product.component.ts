@@ -76,7 +76,7 @@ export class AddViewProductComponent
     super();
     this.createForm();
   }
-  
+
   ngOnInit(): void {
     this.loadData();
   }
@@ -107,7 +107,10 @@ export class AddViewProductComponent
       .subscribe({
         next: (res: IResponse) => {
           if (res.body.status === RSP_SUCCESS) {
-            this.batchList = res.body.content || [];
+            this.batchList =
+              res.body.content.filter(
+                (x: IBatchData) => x.statusDescription !== 'EXPIRED',
+              ) || [];
           } else {
             alertError({
               title: RESPONSE_TITLES.FAILED,
