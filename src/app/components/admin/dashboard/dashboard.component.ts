@@ -89,7 +89,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   private loadMainCardData(): void {
     this.dashboardService
-      .getTotalCards()
+      .getAdminTotalCards()
       .pipe(untilDestroyed(this))
       .subscribe({
         next: (res: IResponse) => {

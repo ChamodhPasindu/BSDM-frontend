@@ -170,6 +170,9 @@ export const RESPONSE_MESSAGES = {
 
   ADMIN_DASHBOARD_GET_FAILED:
     'Failed to load dashboard information. Please try again.',
+
+  SALES_MAN_DASHBOARD_GET_FAILED:
+    'Failed to load dashboard information. Please try again.',
 };
 
 export const RESPONSE_TITLES = {

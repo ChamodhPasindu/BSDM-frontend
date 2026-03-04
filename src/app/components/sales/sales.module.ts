@@ -35,6 +35,7 @@ import { NotificationComponent } from './notification/notification.component';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { StockReturnService } from 'src/app/services/stock-return/stock-return.service';
+import { DashboardService } from 'src/app/services/dashboard/dashboard.service';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,11 @@ import { StockReturnService } from 'src/app/services/stock-return/stock-return.s
     CollapseModule,
     AccordionModule,
   ],
-  providers: [AuthService, EmployeeService, StockReturnService],
+  providers: [
+    AuthService,
+    EmployeeService,
+    StockReturnService,
+    DashboardService,
+  ],
 })
 export class SalesModule {}
