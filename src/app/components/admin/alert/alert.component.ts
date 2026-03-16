@@ -1,124 +1,151 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AlertViewComponent } from './alert-view/alert-view.component';
-import { alertWarning, datePickerToDate } from 'src/app/utility/helper';
-import { PaginationType } from 'src/app/enums/PaginationType.enum';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  alertError,
+  datePickerToDate,
+  errorMessageHandler,
+} from 'src/app/utility/helper';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { IPagination } from 'src/app/interfaces/IPagination';
+import { AlertService } from 'src/app/services/alert/alert.service';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { IResponse } from 'src/app/interfaces/IResponse';
+import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
+import {
+  RESPONSE_MESSAGES,
+  RESPONSE_TITLES,
+} from 'src/app/utility/constants/response-message-title';
+import { HttpErrorResponse } from '@angular/common/http';
+import { INotificationData } from 'src/app/interfaces/INotificationData';
 
+@UntilDestroy()
 @Component({
   selector: 'app-alert',
   templateUrl: './alert.component.html',
   styleUrls: ['./alert.component.scss'],
 })
 export class AlertComponent implements OnInit {
-  @ViewChild('alertModal') protected alertModal!: AlertViewComponent;
+  @ViewChild('addAlertModal') protected addAlertModal!: AlertViewComponent;
 
-  protected searchForm: FormGroup;
-  protected today = new Date();
-
-  //temporary alert types
-  alertType = [
-    {
-      id: '1',
-      name: 'Info',
-    },
-    {
-      id: '2',
-      name: 'Warning',
-    },
-    {
-      id: '3',
-      name: 'Critical',
-    },
+  protected readonly statusList: Record<string, string>[] = [
+    { code: '', description: 'All' },
+    { code: 'true', description: 'Read' },
+    { code: 'false', description: 'Unread' },
   ];
 
-  constructor(private readonly fb: FormBuilder) {
+  protected notificationList: INotificationData[];
+
+  protected currentPage: number = 1;
+  protected pageSize: number = 5;
+  protected count: number = 0;
+
+  protected searchForm: FormGroup;
+
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly alertService: AlertService,
+  ) {
     this.createForm();
+  }
+
+  ngOnInit(): void {
+    this.loadAlertTableData();
   }
 
   protected createForm(): void {
     this.searchForm = this.fb.group({
-      content: [''],
-      type: [null],
-      fromDate: [this.today],
-      toDate: [this.today],
+      inputUsername: [''],
+      title: [''],
+      isRead: [''],
+      fromDate: [''],
+      toDate: [''],
     });
+  }
+
+  private loadAlertTableData(): void {
+    const { inputUsername, title, isRead, fromDate, toDate } =
+      this.searchForm.value;
+
+    let formattedFromDate = null;
+    let formattedToDate = null;
+    if (fromDate) {
+      formattedFromDate = datePickerToDate(fromDate);
+    }
+
+    if (toDate) {
+      formattedToDate = datePickerToDate(toDate);
+    }
+
+    const paginationRequest: IPagination = {
+      pageable: true,
+      page: this.currentPage - 1,
+      size: this.pageSize,
+    };
+
+    this.alertService
+      .getAdminNotificationList(
+        paginationRequest,
+        inputUsername || '',
+        isRead || null,
+        title || '',
+        formattedFromDate,
+        formattedToDate,
+      )
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.notificationList = res.body.content.content || [];
+            this.count = res.body.content.totalElements || 0;
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message || RESPONSE_MESSAGES.NOTIFICATION_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
+  }
+
+  protected openAddAlertView(): void {
+    this.addAlertModal.visible = true;
+    this.addAlertModal.loadData();
   }
 
   protected onSubmit(): void {
-    const { fromDate, toDate } = this.searchForm.value;
+    this.loadAlertTableData();
   }
 
-  protected onExport(): void {}
-
-  protected openAlertView(alert?: any): void {
-    this.alertModal.alert = alert;
-    this.alertModal.visible = true;
-  }
-
-  protected delete() {
-    alertWarning({
-      title: 'Confirm Delete',
-      text: 'message',
-    });
-  }
-
-  protected users: any[] = [];
-  protected pagedUsers: any[] = [];
-
-  protected currentPage = 1;
-  protected pageSize = 5;
-
-  sortColumn: string = '';
-  sortDirection: 'asc' | 'desc' = 'asc';
-
-  ngOnInit(): void {
-    // sample data
-    this.users = Array.from({ length: 35 }, (_, i) => ({
-      name: `User ${i + 1}`,
-      nic: `NIC${1000 + i}`,
-      license: `LKR ${12500 + i * 100}`,
-    }));
-
-    this.updatePagedUsers();
+  protected onRefresh(): void {
+    this.loadAlertTableData();
   }
 
   protected goToPage(page: number): void {
     this.currentPage = page;
-    this.updatePagedUsers();
+    this.loadAlertTableData();
   }
 
   protected onPageSizeChange(newSize: number): void {
     this.pageSize = newSize;
     this.currentPage = 1;
-    this.updatePagedUsers();
+    this.loadAlertTableData();
   }
 
-  protected sortBy(column: string): void {
-    if (this.sortColumn === column) {
-      // toggle direction
-      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
-    } else {
-      this.sortColumn = column;
-      this.sortDirection = 'asc';
-    }
-
-    this.users.sort((a, b) => {
-      const valueA = a[column];
-      const valueB = b[column];
-
-      if (valueA == null || valueB == null) return 0;
-
-      return this.sortDirection === 'asc'
-        ? valueA.toString().localeCompare(valueB.toString())
-        : valueB.toString().localeCompare(valueA.toString());
-    });
-
-    this.updatePagedUsers();
+  protected onClear(): void {
+    this.searchForm.reset();
+    this.loadAlertTableData();
   }
 
-  protected updatePagedUsers(): void {
-    const start = (this.currentPage - 1) * this.pageSize;
-    const end = start + this.pageSize;
-    this.pagedUsers = this.users.slice(start, end);
+  protected hasAnyValue(): boolean {
+    const { inputUsername, title, isRead, fromDate, toDate } =
+      this.searchForm.value;
+
+    return !!(inputUsername || title || isRead || fromDate || toDate);
   }
+
+  // protected onExport(): void {}
 }

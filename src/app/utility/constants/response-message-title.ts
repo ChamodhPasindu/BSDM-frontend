@@ -168,6 +168,13 @@ export const RESPONSE_MESSAGES = {
     'Failed to load audit trail details. Please try again.',
   AUDIT_TRAIL_EXPORT_FAILED: 'No audit trail data available to export.',
 
+  NOTIFICATION_GET_FAILED:
+    'Failed to load notification details. Please try again.',
+  NOTIFICATION_SEND_SUCCESS: 'Notification has been sent successfully.',
+  NOTIFICATION_SEND_FAILED: 'Failed to send notification. Please try again.',
+  NOTIFICATION_MARK_AS_READ_FAILED:
+    'Failed to mark notification as read. Please try again.',
+
   SALES_MAN_STATUS_SUCCESS: 'You have just started your work. Good luck!',
   SALES_MAN_STATUS_GET_FAILED:
     'Failed to load Salesman status. Please try again.',

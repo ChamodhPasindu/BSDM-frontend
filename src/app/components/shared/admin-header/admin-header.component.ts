@@ -1,12 +1,24 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ClassToggleService, HeaderComponent } from '@coreui/angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { UserRole } from 'src/app/enums/UserRole.enum';
+import { INotificationData } from 'src/app/interfaces/INotificationData';
+import { AlertService } from 'src/app/services/alert/alert.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { StorageService } from 'src/app/services/storage.service';
+import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
+import {
+  RESPONSE_MESSAGES,
+  RESPONSE_TITLES,
+} from 'src/app/utility/constants/response-message-title';
 import { SESSION_DATA } from 'src/app/utility/constants/session-data';
-import { alertWarning } from 'src/app/utility/helper';
+import {
+  alertError,
+  alertWarning,
+  errorMessageHandler,
+} from 'src/app/utility/helper';
 import { SweetAlertResult } from 'sweetalert2';
 
 @UntilDestroy()
@@ -24,57 +36,13 @@ export class AdminHeaderComponent extends HeaderComponent implements OnInit {
   protected lastLoggedInTime: string;
   protected profileImg: string = './assets/images/user-img.jpg';
 
-  public newMessages = new Array(4);
-  public newTasks = new Array(5);
-  public newNotifications = new Array(5);
-
-  messages = [
-    {
-      sender: 'Jessica Williams',
-      time: 'Just now',
-      subject: 'Urgent: System Maintenance Tonight',
-      preview:
-        "Attention team, we'll be conducting critical system maintenance tonight from 10 PM to 2 AM.",
-      avatar: './assets/images/user-img.jpg',
-      status: 'bg-success',
-      urgent: true,
-    },
-    {
-      sender: 'Richard Johnson',
-      time: '5 minutes ago',
-      subject: 'Project Update: Milestone Achieved',
-      preview:
-        'Kudos on hitting sales targets last quarter! New goals ahead...',
-      avatar: './assets/images/user-img.jpg',
-      status: 'bg-warning',
-      urgent: true,
-    },
-    {
-      sender: 'Angela Rodriguez',
-      time: '1:52 PM',
-      subject: 'Social Media Campaign Launch',
-      preview:
-        'Exciting news! Our new social media campaign goes live tomorrow.',
-      avatar: './assets/images/user-img.jpg',
-      status: 'bg-danger',
-      urgent: false,
-    },
-    {
-      sender: 'Jane Lewis',
-      time: '4:03 AM',
-      subject: 'Inventory Checkpoint',
-      preview:
-        "Team, it's time for our monthly inventory check. Let's nail it.",
-      avatar: './assets/images/user-img.jpg',
-      status: 'bg-info',
-      urgent: false,
-    },
-  ];
+  protected notificationList: INotificationData[];
 
   constructor(
     private readonly router: Router,
     private readonly storageService: StorageService,
     private readonly authService: AuthService,
+    private readonly alertService: AlertService,
   ) {
     super();
   }
@@ -83,6 +51,8 @@ export class AdminHeaderComponent extends HeaderComponent implements OnInit {
     this.isDarkMode = localStorage.getItem('dark-theme') === '1';
     this.applyTheme();
     this.loadSessionData();
+
+    this.loadAlertList();
   }
 
   private loadSessionData(): void {
@@ -124,5 +94,52 @@ export class AdminHeaderComponent extends HeaderComponent implements OnInit {
     } else {
       document.body.classList.remove('dark-theme');
     }
+  }
+
+  protected loadAlertList(): void {
+    this.alertService
+      .getNotificationList()
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.notificationList = res.body.content.notifications;
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message || RESPONSE_MESSAGES.NOTIFICATION_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
+  }
+
+  protected markAsRead(notification: INotificationData): void {
+    if (notification.isRead) return;
+
+    this.alertService
+      .markAsReadNotification(notification.id)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res) => {
+          if (res.body.status === RSP_SUCCESS) {
+            notification.isRead = true;
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message ||
+                RESPONSE_MESSAGES.NOTIFICATION_MARK_AS_READ_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
   }
 }

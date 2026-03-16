@@ -36,6 +36,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { StockReturnService } from 'src/app/services/stock-return/stock-return.service';
 import { DashboardService } from 'src/app/services/dashboard/dashboard.service';
+import { AlertService } from 'src/app/services/alert/alert.service';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { DashboardService } from 'src/app/services/dashboard/dashboard.service';
     EmployeeService,
     StockReturnService,
     DashboardService,
+    AlertService,
   ],
 })
 export class SalesModule {}

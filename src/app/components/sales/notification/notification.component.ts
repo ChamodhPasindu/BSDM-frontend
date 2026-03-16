@@ -1,45 +1,74 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { INotificationData } from 'src/app/interfaces/INotificationData';
+import { AlertService } from 'src/app/services/alert/alert.service';
+import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
+import {
+  RESPONSE_MESSAGES,
+  RESPONSE_TITLES,
+} from 'src/app/utility/constants/response-message-title';
+import { alertError, errorMessageHandler } from 'src/app/utility/helper';
 
+@UntilDestroy()
 @Component({
   selector: 'app-notification',
   templateUrl: './notification.component.html',
   styleUrls: ['./notification.component.scss'],
 })
 export class NotificationComponent implements OnInit {
-  constructor() {}
+  protected notificationList: INotificationData[];
 
-  ngOnInit(): void {}
+  constructor(private readonly alertService: AlertService) {}
 
-  notifications = [
-    {
-      title: 'Admin assigned new stocks to you',
-      time: new Date('2025-11-07T10:30:00'),
-      type: 'stock',
-      icon: 'cilGift',
-    },
-    {
-      title: 'Payment completed successfully (Bill #B003)',
-      time: new Date('2025-11-07T12:15:00'),
-      type: 'payment',
-      icon: 'cilCash',
-    },
-    {
-      title: 'Bill #B003 has been printed',
-      time: new Date('2025-11-07T12:20:00'),
-      type: 'print',
-      icon: 'cilPrint',
-    },
-    {
-      title: 'Returned remaining stock items to inventory',
-      time: new Date('2025-11-07T15:00:00'),
-      type: 'return',
-      icon: 'cilArrowCircleLeft',
-    },
-  ];
+  ngOnInit(): void {
+    this.loadAlertList();
+  }
 
-  clearAll() {
-    if (confirm('Are you sure you want to delete all notifications?')) {
-      this.notifications = [];
-    }
+  protected loadAlertList(): void {
+    this.alertService
+      .getNotificationList()
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.notificationList = res.body.content.notifications;
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message || RESPONSE_MESSAGES.NOTIFICATION_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
+  }
+
+  protected markAsRead(notification: INotificationData): void {
+    if (notification.isRead) return;
+
+    this.alertService
+      .markAsReadNotification(notification.id)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res) => {
+          if (res.body.status === RSP_SUCCESS) {
+            notification.isRead = true;
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message ||
+                RESPONSE_MESSAGES.NOTIFICATION_MARK_AS_READ_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
   }
 }

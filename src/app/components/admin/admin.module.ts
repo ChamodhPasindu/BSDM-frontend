@@ -45,6 +45,7 @@ import { ViewSaleComponent } from './sales-delivery/view-sale/view-sale.componen
 import { ViewSaleItemComponent } from './sales-delivery/view-sale-item/view-sale-item.component';
 import { DashboardService } from 'src/app/services/dashboard/dashboard.service';
 import { AuditTrailService } from 'src/app/services/audit-trail/audit-trail.service';
+import { AlertService } from 'src/app/services/alert/alert.service';
 
 @NgModule({
   declarations: [
@@ -95,6 +96,7 @@ import { AuditTrailService } from 'src/app/services/audit-trail/audit-trail.serv
     VehicleService,
     DashboardService,
     AuditTrailService,
+    AlertService,
   ],
 })
 export class AdminModule {}

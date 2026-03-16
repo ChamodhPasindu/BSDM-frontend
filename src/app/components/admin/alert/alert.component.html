@@ -1,31 +1,5 @@
 <h6 cTextColor="secondary">OVERVIEW</h6>
 
-<c-row>
-  <c-col>
-    <c-widget-stat-f [title]="'Total Alert'" class="mb-3" color="primary" padding value="100">
-      <ng-template cTemplateId="widgetIconTemplate">
-        <svg cIcon name="cilBellExclamation" size="xl" width="24"></svg>
-      </ng-template>
-    </c-widget-stat-f>
-  </c-col>
-
-  <c-col>
-    <c-widget-stat-f [title]="'Common Alert'" class="mb-3" color="success" padding value="50">
-      <ng-template cTemplateId="widgetIconTemplate">
-        <svg cIcon name="cilBell" size="xl" width="24"></svg>
-      </ng-template>
-    </c-widget-stat-f>
-  </c-col>
-
-  <c-col>
-    <c-widget-stat-f [title]="'Stock Alert'" class="mb-3" color="danger" padding value="75">
-      <ng-template cTemplateId="widgetIconTemplate">
-        <svg cIcon name="cilBell" size="xl" width="24"></svg>
-      </ng-template>
-    </c-widget-stat-f>
-  </c-col>
-</c-row>
-
 <c-card class="mb-4">
   <c-card-body>
     <c-row class="justify-content-between">
@@ -33,26 +7,34 @@
         <h4 class="card-title mb-4" id="employee-list">Alert List</h4>
       </c-col>
       <c-col xs="auto">
-        <button cButton type="button" (click)="openAlertView()">+ Add Alert</button>
+        <button cButton type="button" (click)="openAddAlertView()">+ Add Alert</button>
       </c-col>
     </c-row>
     <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" cRow class="align-items-end mb-4">
       <c-col xs="auto" class="mb-2">
-        <label cLabel for="inputEmail4">Search Alert</label>
-        <input cFormControl placeholder="Enter Alert" formControlName="content" />
+        <label cLabel for="inputEmail4">Search User</label>
+        <input cFormControl placeholder="Enter User" formControlName="inputUsername" />
+      </c-col>
+
+      <c-col xs="auto" class="mb-2">
+        <label cLabel for="inputEmail4">Search Title</label>
+        <input cFormControl placeholder="Enter Title" formControlName="title" />
       </c-col>
 
       <c-col xs="auto" class="mb-2">
         <label cLabel for="inputEmail4">Alert Type</label>
-        <ng-select cFormControl [searchable]="true" [clearable]="true" placeholder="Select Type" formControlName="type">
-          <ng-option *ngFor="let alert of alertType" [value]="alert.id"> {{ alert.name }}</ng-option>
+        <ng-select cFormControl [searchable]="true" [clearable]="true" placeholder="Select Status"
+          formControlName="isRead">
+          <ng-option *ngFor="let status of statusList" [value]="status?.['code']"> {{ status?.['description']
+            }}</ng-option>
         </ng-select>
       </c-col>
 
       <c-col xs="auto" class="mb-2">
         <label cLabel for="datepicker">From Date</label>
         <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" formControlName="fromDate" />
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker
+            [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" formControlName="fromDate" />
           <span class="input-group-text bg-white">
             <svg cIcon name="cilCalendar" class="text-secondary"></svg>
           </span>
@@ -62,7 +44,8 @@
       <c-col xs="auto" class="mb-2">
         <label cLabel for="datepicker">To Date</label>
         <div class="input-group">
-          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" formControlName="toDate" />
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker
+            [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" formControlName="toDate" />
           <span class="input-group-text bg-white">
             <svg cIcon name="cilCalendar" class="text-secondary"></svg>
           </span>
@@ -74,75 +57,68 @@
           <svg cIcon name="cilSearch" class="me-2"></svg>Search
         </button>
 
-        <button cButton type="button" variant="outline" color="info" (click)="onExport()">
-          <svg cIcon name="cilCloudDownload" class="me-2"></svg>Export
+        <button *ngIf="searchForm.dirty && searchForm.value && hasAnyValue()" cButton type="button" variant="outline"
+          color="danger" (click)="onClear()">
+          <svg cIcon name="cilX" class="me-2"></svg>Clear
         </button>
+
+        <!-- <button cButton type="button" variant="outline" color="info" (click)="onExport()">
+          <svg cIcon name="cilCloudDownload" class="me-2"></svg>Export
+        </button> -->
       </c-col>
     </form>
 
     <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
       <thead cTableColor="light">
         <tr>
-          <th class="text-center" (click)="sortBy('id')" style="cursor: pointer;">
-            Employee ID
-            <svg *ngIf="sortColumn === 'id'" cIcon [name]="sortDirection === 'asc' ? 'cilArrowTop' : 'cilArrowBottom'"
-              class="ms-1"></svg>
+          <th class="text-center">
+            ID
           </th>
-          <th (click)="sortBy('name')" style="cursor: pointer;">
-            Name
-            <svg *ngIf="sortColumn === 'name'" cIcon [name]="sortDirection === 'asc' ? 'cilArrowTop' : 'cilArrowBottom'"
-              class="ms-1"></svg>
+          <th>
+            Title
           </th>
-          <th (click)="sortBy('nic')" style="cursor: pointer;">
-            NIC
-            <svg *ngIf="sortColumn === 'nic'" cIcon [name]="sortDirection === 'asc' ? 'cilArrowTop' : 'cilArrowBottom'"
-              class="ms-1"></svg>
-          </th>
-          <th class="text-center" (click)="sortBy('license')" style="cursor: pointer;">
-            License
-            <svg *ngIf="sortColumn === 'license'" cIcon
-              [name]="sortDirection === 'asc' ? 'cilArrowTop' : 'cilArrowBottom'" class="ms-1"></svg>
-          </th>
-          <th class="text-center">Action</th>
+          <th>Message</th>
+          <th class="text-center">Is Read</th>
+          <th class="text-center">Created Date</th>
+          <th class="text-center">Sender Name</th>
+          <th class="text-center">Recipient Name</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngIf="!pagedUsers || pagedUsers.length === 0">
-          <td colspan="6" class="text-center text-muted py-3">No data available</td>
+        <tr *ngIf="!notificationList || notificationList.length === 0">
+          <td colspan="7" class="text-center text-muted py-3">
+            No data available
+          </td>
         </tr>
-
-        <tr *ngFor="let user of pagedUsers; index as i">
-          <td class="text-center">EMP{{ i + 1 }}</td>
+        <tr *ngFor="let notification of notificationList; index as i">
+          <td class="text-center">
+            {{notification.id | empty}}
+          </td>
           <td>
-            <div>{{ user.name }}</div>
-            <div class="small text-medium-emphasis text-nowrap">
-              Route | Battaramulla
-            </div>
+            {{notification.title | empty}}
           </td>
-          <td>{{ user.nic }}</td>
-          <td class="text-center">
-            <div class="fw-semibold text-nowrap">LKR 12,500</div>
+          <td>
+            {{notification.message | empty}}
           </td>
           <td class="text-center">
-            <button cButton color="info" size="sm" variant="ghost" class="me-2" title="View">
-              <svg cIcon name="cilCommand"></svg>
-            </button>
-            <button cButton color="warning" size="sm" variant="ghost" class="me-2" title="Edit">
-              <svg cIcon name="cilPencil"></svg>
-            </button>
-            <button (click)="delete()" cButton color="danger" size="sm" variant="ghost" title="Delete">
-              <svg cIcon name="cilTrash"></svg>
-            </button>
+            {{notification.isRead | empty}}
+          </td>
+          <td class="text-center">
+            {{notification.createdAt | date:'mediumDate' | empty}}
+          </td>
+          <td class="text-center">
+            {{notification.senderName | empty}}
+          </td>
+          <td class="text-center">
+            {{notification.recipientName | empty}}
           </td>
         </tr>
       </tbody>
     </table>
-
-    <app-paginator *ngIf="pagedUsers.length !== 0" [totalItems]="users.length" [(pageSize)]="pageSize"
-      [(currentPage)]="currentPage" (currentPageChange)="goToPage($event)"
-      (pageSizeChange)="onPageSizeChange($event)"></app-paginator>
+    <app-paginator *ngIf="count !== 0" [totalItems]="count" [(pageSize)]="pageSize" [(currentPage)]="currentPage"
+      (currentPageChange)="goToPage($event)" (pageSizeChange)="onPageSizeChange($event)"></app-paginator>
   </c-card-body>
 </c-card>
 
 
-<app-alert-view #alertModal></app-alert-view>
+<app-alert-view (tableRefresh)="onRefresh()" #addAlertModal></app-alert-view>

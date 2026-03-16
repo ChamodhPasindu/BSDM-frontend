@@ -1,60 +1,49 @@
 <c-modal id="liveDemoModal" size="lg" alignment="center" class="modal-scrollable" [visible]="visible"
-  (visibleChange)="changeModalVisibility($event)">
-  <c-modal-header>
-    <h5 cModalTitle> Add New Alert</h5>
-    <button (click)="closeModal()" cButtonClose></button>
-  </c-modal-header>
-  <c-modal-body>
-    <form cForm class="row g-3">
-      <h6 class="mb-3">Personal Information</h6>
-      <c-col [md]="6">
-        <label cLabel for="inputEmail4">Email</label>
-        <input cFormControl id="inputEmail4" type="email" />
-      </c-col>
-      <c-col [md]="6">
-        <label cLabel for="inputPassword4">Password</label>
-        <input cFormControl id="inputPassword4" type="password" />
-      </c-col>
-      <c-col [xs]="12">
-        <label cLabel for="inputAddress">Address</label>
-        <input cFormControl id="inputAddress" placeholder="1234 Main St" />
-      </c-col>
-      <c-col [xs]="12">
-        <label cLabel for="inputAddress2">Address 2</label>
-        <input cFormControl id="inputAddress2" placeholder="Apartment, studio, or floor" />
-      </c-col>
-      <c-col [md]="6">
-        <label cLabel for="inputCity">City</label>
-        <input cFormControl id="inputCity" />
-      </c-col>
-      <hr />
-      <h6 class="mb-3 mt-3">Employee Details</h6>
-      <c-col [md]="6">
-        <label cLabel for="inputEmail4">Email</label>
-        <input cFormControl id="inputEmail4" type="email" />
-      </c-col>
-      <c-col [md]="6">
-        <label cLabel for="inputPassword4">Password</label>
-        <input cFormControl id="inputPassword4" type="password" />
-      </c-col>
-      <c-col [xs]="12">
-        <label cLabel for="inputAddress">Address</label>
-        <input cFormControl id="inputAddress" placeholder="1234 Main St" />
-      </c-col>
-      <c-col [xs]="12">
-        <label cLabel for="inputAddress2">Address 2</label>
-        <input cFormControl id="inputAddress2" placeholder="Apartment, studio, or floor" />
-      </c-col>
-      <c-col [md]="6">
-        <label cLabel for="inputCity">City</label>
-        <input cFormControl id="inputCity" />
-      </c-col>
-    </form>
-  </c-modal-body>
-  <c-modal-footer>
-    <button (click)="closeModal()" cButton color="secondary">
-      Close
-    </button>
-    <button cButton color="primary">Add Alert</button>
-  </c-modal-footer>
+  (visibleChange)="onChangeModalVisibility($event)">
+  <form [formGroup]="alertForm" (ngSubmit)="onSubmit()">
+    <c-modal-header>
+      <h5 cModalTitle>Add New Alert</h5>
+      <button (click)="onCloseModal()" cButtonClose></button>
+    </c-modal-header>
+    <c-modal-body>
+      <c-row class="g-3">
+        <c-col md="6">
+          <label cLabel for="recipientUserId">Recipient Employee</label>
+          <select cFormControl id="recipientUserId" class="form-select" formControlName="recipientUserId" appValidate
+            fieldName="Recipient Employee">
+            <option value="" disabled selected>Select an Employee</option>
+            <option *ngFor="let employee of employeeList" [value]="employee.userId">{{ employee.name }}</option>
+          </select>
+        </c-col>
+
+        <c-col md="6">
+          <label cLabel for="alertType">Alert Type</label>
+          <select cFormControl id="alertType" class="form-select" formControlName="priority" appValidate
+            fieldName="Alert Type">
+            <option value="" disabled selected>Select an Alert Type</option>
+            <option *ngFor="let alertType of alertTypeList" [value]="alertType['code']">{{ alertType['description'] }}
+            </option>
+          </select>
+        </c-col>
+
+        <c-col xs="12">
+          <label cLabel for="title">Title</label>
+          <input cFormControl id="title" formControlName="title" placeholder="Enter alert title" appValidate
+            fieldName="Title" />
+        </c-col>
+
+        <c-col xs="12">
+          <label cLabel for="message">Message</label>
+          <textarea cFormControl id="message" rows="4" formControlName="message" placeholder="Enter alert message"
+            appValidate fieldName="Message"></textarea>
+        </c-col>
+      </c-row>
+    </c-modal-body>
+    <c-modal-footer>
+      <button type="button" (click)="onCloseModal()" cButton color="secondary">
+        Close
+      </button>
+      <button type="submit" cButton color="primary">Send Alert</button>
+    </c-modal-footer>
+  </form>
 </c-modal>

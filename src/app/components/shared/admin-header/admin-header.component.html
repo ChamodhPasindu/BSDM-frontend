@@ -149,36 +149,47 @@
     <c-dropdown variant="nav-item" alignment="end">
         <button cDropdownToggle cButton color="" [caret]="false" cDropdownToggle class="py-0">
             <svg cIcon name="cilBell" size="lg" class="text-body"></svg>
-            <c-badge color="danger" position="top-end" shape="rounded-pill">{{ messages.length }}</c-badge>
+            <c-badge color="danger" position="top-end" shape="rounded-pill">{{ notificationList?.length }}</c-badge>
         </button>
         <div cDropdownMenu class="pt-0 ">
             <li>
-                <h6 cDropdownHeader class="bg-light fw-semibold py-2">You have {{ messages.length }} messages</h6>
+                <h6 cDropdownHeader class="bg-light fw-semibold py-2">You have {{ notificationList?.length }} messages
+                </h6>
             </li>
 
             <li class="notification-panel">
-                <a *ngFor="let msg of messages" cDropdownItem href="#" class="dropdown-item">
-                    <div class="d-flex">
-                        <c-avatar class="flex-shrink-0 my-3 me-3" [src]="msg.avatar" size="md">
-                            <span class="avatar-status" [ngClass]="msg.status"></span>
-                        </c-avatar>
+                <a *ngFor="let notification of notificationList" cDropdownItem href="javascript:void(0)"
+                    class="dropdown-item" [ngClass]="{'bg-light': notification.isRead}"
+                    (click)="markAsRead(notification)">
+                    <div class="d-flex w-100" [ngClass]="{'text-muted': notification.isRead}">
+                        <div class="icon-circle flex-shrink-0 my-3 me-3 position-relative" [ngClass]="{
+                            'bg-success-subtle text-danger': notification.priority === 'HIGH',
+                            'bg-primary-subtle text-warning': notification.priority === 'MEDIUM',
+                            'bg-warning-subtle text-success': notification.priority === 'LOW'
+                        }">
+                            <svg cIcon name="cil-bolt-circle" size="xl"></svg>
+                            <span *ngIf="!notification.isRead"
+                                class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
+                                <span class="visually-hidden">Unread messages</span>
+                            </span>
+                        </div>
 
-                        <div class="message text-wrap">
+                        <div class="message text-wrap flex-grow-1 my-3">
                             <div class="d-flex justify-content-between small text-body-secondary mt-1">
-                                <div>{{ msg.sender }}</div>
-                                <div>{{ msg.time }}</div>
+                                <div>{{ notification.senderUserName | empty }}</div>
+                                <div>{{ notification.createdAt | date: 'short' }}</div>
                             </div>
                             <div class="fw-semibold">
-                                <span *ngIf="msg.urgent" class="text-danger me-1">!</span>{{ msg.subject }}
+                                {{ notification.title | empty }}
                             </div>
-                            <div class="small text-body-secondary">{{ msg.preview }}</div>
+                            <div class="small text-body-secondary">{{ notification.message | empty }}</div>
                         </div>
                     </div>
                 </a>
             </li>
 
             <hr cDropdownDivider />
-            <a cDropdownItem class="dropdown-item text-center fw-semibold" href="#">
+            <a cDropdownItem class="dropdown-item text-center fw-semibold" routerLink="/admin/post-login/alerts">
                 View all messages
             </a>
         </div>
