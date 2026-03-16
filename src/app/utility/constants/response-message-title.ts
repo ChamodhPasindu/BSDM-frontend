@@ -160,6 +160,10 @@ export const RESPONSE_MESSAGES = {
   PAYMENT_DELETE_SUCCESS: 'Payment information has been removed successfully.',
   PAYMENT_EXPORT_FAILED: 'No payment data available to export.',
 
+  ROUTE_SUMMARY_GET_FAILED: 'Failed to load route summary. Please try again.',
+  SALESMAN_SUMMARY_GET_FAILED:
+    'Failed to load salesman summary. Please try again.',
+
   AUDIT_TRAIL_GET_FAILED:
     'Failed to load audit trail details. Please try again.',
   AUDIT_TRAIL_EXPORT_FAILED: 'No audit trail data available to export.',
@@ -174,8 +178,9 @@ export const RESPONSE_MESSAGES = {
   SALES_MAN_DASHBOARD_GET_FAILED:
     'Failed to load dashboard information. Please try again.',
 
-  PASSWORD_UPDATE_SUCCESS: 'Password updated successfully.',
-  PASSWORD_UPDATE_FAILED: 'Failed to update password. Please try again.',
+  SALES_MAN_PASSWORD_UPDATE_SUCCESS: 'Password updated successfully.',
+  SALES_MAN_PASSWORD_UPDATE_FAILED:
+    'Failed to update password. Please try again.',
 };
 
 export const RESPONSE_TITLES = {

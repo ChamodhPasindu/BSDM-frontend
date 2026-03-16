@@ -268,43 +268,7 @@
   </c-card-body>
 </c-card>
 
-<c-card class="mb-4">
-  <c-card-body>
-    <c-row>
-      <c-col sm="5">
-        <h4 class="card-title mb-0">Revenue Growth Overview</h4>
-        <div class="small text-medium-emphasis">2025 - 2024</div>
-      </c-col>
-    </c-row>
-    <c-chart [height]="300" type="line" [data]="chartLineData" [options]="chartOptions"></c-chart>
-  </c-card-body>
-</c-card>
-
 <c-row>
-  <c-col xs="12" lg="6">
-    <c-card class="mb-4">
-      <c-card-header>
-        User-wise Collection
-      </c-card-header>
-      <c-col class="mt-4 d-flex justify-content-end" m="7">
-        <form>
-          <c-button-group class="float-end me-3" role="group">
-            <input class="btn-check" type="radio" value="Day" />
-            <label cButton cFormCheckLabel color="secondary" variant="outline">Day</label>
-
-            <input class="btn-check" type="radio" value="Month" />
-            <label cButton cFormCheckLabel color="secondary" variant="outline">Month</label>
-
-            <input class="btn-check" type="radio" value="Year" />
-            <label cButton cFormCheckLabel color="secondary" variant="outline">Year</label>
-          </c-button-group>
-        </form>
-      </c-col>
-      <c-card-body>
-        <c-chart [height]="300" type="bar" [options]="chartOptions" [data]="chartBarData"></c-chart>
-      </c-card-body>
-    </c-card>
-  </c-col>
   <c-col xs="12" lg="6">
     <c-card class="mb-4">
       <c-card-header>
@@ -313,24 +277,33 @@
       <c-col class="mt-4 d-flex justify-content-end" m="7">
         <form>
           <c-button-group class="float-end me-3" role="group">
-            <input class="btn-check" type="radio" value="Day" />
-            <label cButton cFormCheckLabel color="secondary" variant="outline">Day</label>
+            <input class="btn-check" type="radio" value="DAY" id="empDay" name="empPeriod"
+              [(ngModel)]="employeeChartPeriod" (ngModelChange)="updateEmployeePieChart()" />
+            <label cButton cFormCheckLabel color="secondary" variant="outline" for="empDay">Day</label>
 
-            <input class="btn-check" type="radio" value="Month" />
-            <label cButton cFormCheckLabel color="secondary" variant="outline">Month</label>
+            <input class="btn-check" type="radio" value="WEEK" id="empWeek" name="empPeriod"
+              [(ngModel)]="employeeChartPeriod" (ngModelChange)="updateEmployeePieChart()" />
+            <label cButton cFormCheckLabel color="secondary" variant="outline" for="empWeek">Week</label>
 
-            <input class="btn-check" type="radio" value="Year" />
-            <label cButton cFormCheckLabel color="secondary" variant="outline">Year</label>
+            <input class="btn-check" type="radio" value="MONTH" id="empMonth" name="empPeriod"
+              [(ngModel)]="employeeChartPeriod" (ngModelChange)="updateEmployeePieChart()" />
+            <label cButton cFormCheckLabel color="secondary" variant="outline" for="empMonth">Month</label>
+
+            <input class="btn-check" type="radio" value="YEAR" id="empYear" name="empPeriod"
+              [(ngModel)]="employeeChartPeriod" (ngModelChange)="updateEmployeePieChart()" />
+            <label cButton cFormCheckLabel color="secondary" variant="outline" for="empYear">Year</label>
           </c-button-group>
         </form>
       </c-col>
       <c-card-body>
-        <c-chart [height]="300" type="bar" [options]="chartOptions" [data]="chartBarData"></c-chart>
+        <c-chart *ngIf="employeePieChartData.datasets.length" [height]="300" type="pie" [options]="chartOptions"
+          [data]="employeePieChartData"></c-chart>
+        <div *ngIf="!employeePieChartData.datasets.length" class="text-center text-muted p-5">No data available for the
+          selected period</div>
       </c-card-body>
     </c-card>
   </c-col>
-</c-row>
-<c-row>
+
   <c-col xs="12" lg="6">
     <c-card class="mb-4">
       <c-card-header>
@@ -339,43 +312,29 @@
       <c-col class="mt-4 d-flex justify-content-end" m="7">
         <form>
           <c-button-group class="float-end me-3" role="group">
-            <input class="btn-check" type="radio" value="Day" />
-            <label cButton cFormCheckLabel color="secondary" variant="outline">Day</label>
+            <input class="btn-check" type="radio" value="DAY" id="routeDay" name="routePeriod"
+              [(ngModel)]="routeChartPeriod" (ngModelChange)="updateRoutePieChart()" />
+            <label cButton cFormCheckLabel color="secondary" variant="outline" for="routeDay">Day</label>
 
-            <input class="btn-check" type="radio" value="Month" />
-            <label cButton cFormCheckLabel color="secondary" variant="outline">Month</label>
+            <input class="btn-check" type="radio" value="WEEK" id="routeWeek" name="routePeriod"
+              [(ngModel)]="routeChartPeriod" (ngModelChange)="updateRoutePieChart()" />
+            <label cButton cFormCheckLabel color="secondary" variant="outline" for="routeWeek">Week</label>
 
-            <input class="btn-check" type="radio" value="Year" />
-            <label cButton cFormCheckLabel color="secondary" variant="outline">Year</label>
+            <input class="btn-check" type="radio" value="MONTH" id="routeMonth" name="routePeriod"
+              [(ngModel)]="routeChartPeriod" (ngModelChange)="updateRoutePieChart()" />
+            <label cButton cFormCheckLabel color="secondary" variant="outline" for="routeMonth">Month</label>
+
+            <input class="btn-check" type="radio" value="YEAR" id="routeYear" name="routePeriod"
+              [(ngModel)]="routeChartPeriod" (ngModelChange)="updateRoutePieChart()" />
+            <label cButton cFormCheckLabel color="secondary" variant="outline" for="routeYear">Year</label>
           </c-button-group>
         </form>
       </c-col>
       <c-card-body>
-        <c-chart [height]="300" type="bar" [options]="chartOptions" [data]="chartBarData"></c-chart>
-      </c-card-body>
-    </c-card>
-  </c-col>
-  <c-col xs="12" lg="6">
-    <c-card class="mb-4">
-      <c-card-header>
-        Collection by Payment Mode
-      </c-card-header>
-      <c-col class="mt-4 d-flex justify-content-end" m="7">
-        <form>
-          <c-button-group class="float-end me-3" role="group">
-            <input class="btn-check" type="radio" value="Day" />
-            <label cButton cFormCheckLabel color="secondary" variant="outline">Day</label>
-
-            <input class="btn-check" type="radio" value="Month" />
-            <label cButton cFormCheckLabel color="secondary" variant="outline">Month</label>
-
-            <input class="btn-check" type="radio" value="Year" />
-            <label cButton cFormCheckLabel color="secondary" variant="outline">Year</label>
-          </c-button-group>
-        </form>
-      </c-col>
-      <c-card-body>
-        <c-chart [height]="300" type="pie" [options]="chartOptions" [data]="chartPieData"></c-chart>
+        <c-chart *ngIf="routePieChartData.datasets.length" [height]="300" type="pie" [options]="chartOptions"
+          [data]="routePieChartData"></c-chart>
+        <div *ngIf="!routePieChartData.datasets.length" class="text-center text-muted p-5">No data available for the
+          selected period</div>
       </c-card-body>
     </c-card>
   </c-col>

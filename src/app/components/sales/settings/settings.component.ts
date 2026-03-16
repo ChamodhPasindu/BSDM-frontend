@@ -179,7 +179,8 @@ export class SettingsComponent implements OnInit {
             alertSuccess({
               title: RESPONSE_TITLES.SUCCESS,
               text:
-                res.body.message || RESPONSE_MESSAGES.PASSWORD_UPDATE_SUCCESS,
+                res.body.message ||
+                RESPONSE_MESSAGES.SALES_MAN_PASSWORD_UPDATE_SUCCESS,
             });
             this.passwordForm.reset();
             this.activeTab = SettingsTab.PROFILE;
@@ -187,7 +188,8 @@ export class SettingsComponent implements OnInit {
             alertError({
               title: RESPONSE_TITLES.FAILED,
               text:
-                res.body.message || RESPONSE_MESSAGES.PASSWORD_UPDATE_FAILED,
+                res.body.message ||
+                RESPONSE_MESSAGES.SALES_MAN_PASSWORD_UPDATE_FAILED,
             });
           }
         },

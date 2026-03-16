@@ -3,6 +3,7 @@ import {
   alertError,
   datePickerToDate,
   errorMessageHandler,
+  numberSeparate,
 } from 'src/app/utility/helper';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { PaymentService } from 'src/app/services/payment/payment.service';
@@ -62,17 +63,42 @@ export class PaymentsComponent implements OnInit {
     discount: 'TODAY',
   };
 
+  protected routeSummaryChartData: any[] = [];
+  protected salesmanSummaryChartData: any[] = [];
+
+  protected routeChartPeriod: 'DAY' | 'WEEK' | 'MONTH' | 'YEAR' = 'MONTH';
+  protected employeeChartPeriod: 'DAY' | 'WEEK' | 'MONTH' | 'YEAR' = 'MONTH';
+
+  protected routePieChartData: any = { labels: [], datasets: [] };
+  protected employeePieChartData: any = { labels: [], datasets: [] };
+
+  protected chartOptions: any = {
+    maintainAspectRatio: false,
+    responsive: true,
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: function (context: any) {
+            let label = context.label || '';
+            if (label) {
+              label += ': ';
+            }
+            if (context.parsed !== null) {
+              label += 'LKR ' + numberSeparate(context.parsed);
+            }
+            return label;
+          },
+        },
+      },
+    },
+  };
+
   constructor(
     private readonly fb: FormBuilder,
     private readonly paymentService: PaymentService,
     private readonly pdfExportService: PdfExportService,
   ) {
     this.createForm();
-  }
-
-  ngOnInit(): void {
-    this.loadPaymentTableData();
-    this.loadPaymentWidgetData();
   }
 
   private createForm(): void {
@@ -84,6 +110,63 @@ export class PaymentsComponent implements OnInit {
       fromDate: [this.today],
       toDate: [this.today],
     });
+  }
+
+  ngOnInit(): void {
+    this.loadPaymentTableData();
+    this.loadPaymentWidgetData();
+
+    this.loadRouteSummaryChartData();
+    this.loadSalesmanSummaryChartData();
+  }
+
+  private loadRouteSummaryChartData(): void {
+    this.paymentService
+      .getRouteSummary()
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.routeSummaryChartData =
+              res.body.content?.routeTotalBillAmount || [];
+            this.updateRoutePieChart();
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message || RESPONSE_MESSAGES.ROUTE_SUMMARY_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
+  }
+
+  private loadSalesmanSummaryChartData(): void {
+    this.paymentService
+      .getSalesmanSummary()
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.salesmanSummaryChartData =
+              res.body.content?.employeeTotalBillAmount || [];
+            this.updateEmployeePieChart();
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message ||
+                RESPONSE_MESSAGES.SALESMAN_SUMMARY_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
   }
 
   protected onSubmit(): void {
@@ -309,87 +392,69 @@ export class PaymentsComponent implements OnInit {
     );
   }
 
-  months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
+  private generateColors(count: number): string[] {
+    const colors: string[] = [];
+    for (let i = 0; i < count; i++) {
+      const r = Math.floor(Math.random() * 200 + 55);
+      const g = Math.floor(Math.random() * 200 + 55);
+      const b = Math.floor(Math.random() * 200 + 55);
+      colors.push(`rgb(${r}, ${g}, ${b})`);
+    }
+    return colors;
+  }
 
-  chartOptions = {
-    maintainAspectRatio: false,
-    responsive: true,
-  };
+  protected updateRoutePieChart(): void {
+    const labels: string[] = [];
+    const data: number[] = [];
 
-  chartLineData = {
-    labels: [...this.months].slice(0, 7),
-    datasets: [
-      {
-        label: 'My First dataset',
-        backgroundColor: 'rgba(220, 220, 220, 0.2)',
-        borderColor: 'rgba(220, 220, 220, 1)',
-        pointBackgroundColor: 'rgba(220, 220, 220, 1)',
-        pointBorderColor: '#fff',
-        data: [
-          this.randomData,
-          this.randomData,
-          this.randomData,
-          this.randomData,
-          this.randomData,
-          this.randomData,
-          this.randomData,
-        ],
-      },
-      {
-        label: 'My Second dataset',
-        backgroundColor: 'rgba(151, 187, 205, 0.2)',
-        borderColor: 'rgba(151, 187, 205, 1)',
-        pointBackgroundColor: 'rgba(151, 187, 205, 1)',
-        pointBorderColor: '#fff',
-        data: [
-          this.randomData,
-          this.randomData,
-          this.randomData,
-          this.randomData,
-          this.randomData,
-          this.randomData,
-          this.randomData,
-        ],
-      },
-    ],
-  };
+    this.routeSummaryChartData.forEach((routeData: any) => {
+      const matchingSale = routeData.sales?.find(
+        (s: any) => s.period === this.routeChartPeriod,
+      );
+      const amount = matchingSale ? matchingSale.totalAmount : 0;
+      labels.push(routeData.routeName || 'Unknown Route');
+      data.push(amount);
+    });
 
-  chartBarData = {
-    labels: [...this.months].slice(0, 7),
-    datasets: [
-      {
-        label: 'GitHub Commits',
-        backgroundColor: '#f87979',
-        data: [40, 20, 12, 39, 17, 42, 79],
-      },
-    ],
-  };
+    const colors = this.generateColors(data.length);
 
-  chartPieData = {
-    labels: ['Red', 'Green', 'Yellow'],
-    datasets: [
-      {
-        data: [300, 50, 100],
-        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-        hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-      },
-    ],
-  };
+    this.routePieChartData = {
+      labels: labels,
+      datasets: [
+        {
+          data: data,
+          backgroundColor: colors,
+          hoverBackgroundColor: colors,
+        },
+      ],
+    };
+  }
 
-  get randomData() {
-    return Math.round(Math.random() * 100);
+  protected updateEmployeePieChart(): void {
+    const labels: string[] = [];
+    const data: number[] = [];
+
+    this.salesmanSummaryChartData.forEach((employeeData: any) => {
+      const matchingSale = employeeData.sales?.find(
+        (s: any) => s.period === this.employeeChartPeriod,
+      );
+
+      const amount = matchingSale ? matchingSale.totalAmount : 0;
+      labels.push(employeeData.salesManName || 'Unknown Employee');
+      data.push(amount);
+    });
+
+    const colors = this.generateColors(data.length);
+
+    this.employeePieChartData = {
+      labels: labels,
+      datasets: [
+        {
+          data: data,
+          backgroundColor: colors,
+          hoverBackgroundColor: colors,
+        },
+      ],
+    };
   }
 }

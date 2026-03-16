@@ -68,6 +68,20 @@ export class PaymentService {
     );
   }
 
+  public getRouteSummary(): Observable<IResponse> {
+    return this.httpClient.get<IResponse>(
+      this.adminRequestUrl + '/route/summary',
+      {},
+    );
+  }
+
+  public getSalesmanSummary(): Observable<IResponse> {
+    return this.httpClient.get<IResponse>(
+      this.adminRequestUrl + '/salesman/summary',
+      {},
+    );
+  }
+
   // Salesman API
 
   public salesmanSettlePayment(
