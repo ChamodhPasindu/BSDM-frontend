@@ -13,6 +13,7 @@ import {
 } from 'src/app/utility/constants/response-message-title';
 import { IRecentTxn } from 'src/app/interfaces/IRecentTxn';
 import { IRecentOrder } from 'src/app/interfaces/IRecentOrder';
+import { IPendingCard } from 'src/app/interfaces/IPendingCard';
 
 @UntilDestroy()
 @Component({
@@ -28,6 +29,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   protected totalCards: Record<string, string> | null = null;
   protected recentTransactionList: IRecentTxn[] = [];
   protected recentOrderList: IRecentOrder[] = [];
+  protected pendingCardData: IPendingCard | null = null;
 
   public mainChart: IChartProps = {};
   public doughnutChart: IChartProps = {};
@@ -57,6 +59,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.initCharts();
 
     this.loadMainCardData();
+    this.loadPendingCardData();
     this.loadRecentTransaction();
     this.loadRecentOrders();
     this.loadBestSellingProducts();
@@ -95,6 +98,29 @@ export class DashboardComponent implements OnInit, OnDestroy {
         next: (res: IResponse) => {
           if (res.body.status === RSP_SUCCESS) {
             this.totalCards = res.body.content;
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message ||
+                RESPONSE_MESSAGES.ADMIN_DASHBOARD_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
+  }
+
+  private loadPendingCardData(): void {
+    this.dashboardService
+      .getPeningCard()
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.pendingCardData = res.body.content;
           } else {
             alertError({
               title: RESPONSE_TITLES.FAILED,

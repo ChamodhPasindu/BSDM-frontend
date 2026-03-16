@@ -5,7 +5,6 @@
   </c-card-body>
 </c-card>
 
-
 <c-row>
   <c-col xl="3" md="6" sm="6">
     <c-widget-stat-f [title]="'Employees'" class="mb-3" color="primary" padding
@@ -163,88 +162,180 @@
 
     <c-row>
       <c-col xl="3" md="6" sm="6">
-        <c-widget-stat-b [title]="'Daily Revenue'" class="mb-4" value="1,125">
+        <c-widget-stat-b [title]="'Today Biggest'" class="mb-4"
+          value="{{ (pendingCardData?.biggestOrderToday?.['orderAmount'] || 0) | currency:'LKR ' }}">
           <c-progress class="my-2" thin>
-            <c-progress-bar [value]="89.9" color="success"></c-progress-bar>
+            <c-progress-bar [value]="100" color="success"></c-progress-bar>
           </c-progress>
+          <div class="small mt-3">
+            <div class="d-flex justify-content-between text-medium-emphasis mb-1">
+              <span>Customer:</span>
+              <span class="fw-semibold text-dark text-truncate ms-2" style="max-width: 65%;"
+                title="{{ pendingCardData?.biggestOrderToday?.['customerName'] || '-' }}">{{
+                pendingCardData?.biggestOrderToday?.['customerName'] || '-' }}</span>
+            </div>
+            <div class="d-flex justify-content-between text-medium-emphasis mb-1">
+              <span>Shop:</span>
+              <span class="fw-semibold text-dark text-truncate ms-2" style="max-width: 65%;"
+                title="{{ pendingCardData?.biggestOrderToday?.['shopName'] || '-' }}">{{
+                pendingCardData?.biggestOrderToday?.['shopName'] || '-' }}</span>
+            </div>
+            <div class="d-flex justify-content-between text-medium-emphasis">
+              <span>Salesman:</span>
+              <span class="fw-semibold text-dark text-truncate ms-2" style="max-width: 65%;"
+                title="{{ pendingCardData?.biggestOrderToday?.['salesManName'] || '-' }}">{{
+                pendingCardData?.biggestOrderToday?.['salesManName'] || '-' }}</span>
+            </div>
+          </div>
         </c-widget-stat-b>
       </c-col>
       <c-col xl="3" md="6" sm="6">
-        <c-widget-stat-b [title]="'Weekly Revenue'" class="mb-4" value="9,567">
+        <c-widget-stat-b [title]="'Weekly Biggest'" class="mb-4"
+          value="{{ pendingCardData?.biggestOrderWeek?.['orderAmount'] || 0 | currency:'LKR ' }}">
           <c-progress class="my-2" thin>
-            <c-progress-bar [value]="89.9" color="info"></c-progress-bar>
+            <c-progress-bar [value]="100" color="info"></c-progress-bar>
           </c-progress>
+          <div class="small mt-3">
+            <div class="d-flex justify-content-between text-medium-emphasis mb-1">
+              <span>Customer:</span>
+              <span class="fw-semibold text-dark text-truncate ms-2" style="max-width: 65%;"
+                title="{{ pendingCardData?.biggestOrderWeek?.['customerName'] || '-' }}">{{
+                pendingCardData?.biggestOrderWeek?.['customerName'] || '-' }}</span>
+            </div>
+            <div class="d-flex justify-content-between text-medium-emphasis mb-1">
+              <span>Shop:</span>
+              <span class="fw-semibold text-dark text-truncate ms-2" style="max-width: 65%;"
+                title="{{ pendingCardData?.biggestOrderWeek?.['shopName'] || '-' }}">{{
+                pendingCardData?.biggestOrderWeek?.['shopName'] || '-' }}</span>
+            </div>
+            <div class="d-flex justify-content-between text-medium-emphasis">
+              <span>Salesman:</span>
+              <span class="fw-semibold text-dark text-truncate ms-2" style="max-width: 65%;"
+                title="{{ pendingCardData?.biggestOrderWeek?.['salesManName'] || '-' }}">{{
+                pendingCardData?.biggestOrderWeek?.['salesManName'] || '-' }}</span>
+            </div>
+          </div>
         </c-widget-stat-b>
       </c-col>
       <c-col xl="3" md="6" sm="6">
-        <c-widget-stat-b [title]="'Monthly Revenue'" class="mb-4" value="15,097">
+        <c-widget-stat-b [title]="'Monthly Biggest'" class="mb-4"
+          value="{{ (pendingCardData?.biggestOrderMonth?.['orderAmount'] || 0) | currency:'LKR ' }}">
           <c-progress class="my-2" thin>
-            <c-progress-bar [value]="89.9" color="warning"></c-progress-bar>
+            <c-progress-bar [value]="100" color="warning"></c-progress-bar>
           </c-progress>
+          <div class="small mt-3">
+            <div class="d-flex justify-content-between text-medium-emphasis mb-1">
+              <span>Customer:</span>
+              <span class="fw-semibold text-dark text-truncate ms-2" style="max-width: 65%;"
+                title="{{ pendingCardData?.biggestOrderMonth?.['customerName'] || '-' }}">{{
+                pendingCardData?.biggestOrderMonth?.['customerName'] || '-' }}</span>
+            </div>
+            <div class="d-flex justify-content-between text-medium-emphasis mb-1">
+              <span>Shop:</span>
+              <span class="fw-semibold text-dark text-truncate ms-2" style="max-width: 65%;"
+                title="{{ pendingCardData?.biggestOrderMonth?.['shopName'] || '-' }}">{{
+                pendingCardData?.biggestOrderMonth?.['shopName'] || '-' }}</span>
+            </div>
+            <div class="d-flex justify-content-between text-medium-emphasis">
+              <span>Salesman:</span>
+              <span class="fw-semibold text-dark text-truncate ms-2" style="max-width: 65%;"
+                title="{{ pendingCardData?.biggestOrderMonth?.['salesManName'] || '-' }}">{{
+                pendingCardData?.biggestOrderMonth?.['salesManName'] || '-' }}</span>
+            </div>
+          </div>
         </c-widget-stat-b>
       </c-col>
       <c-col xl="3" md="6" sm="6">
-        <c-widget-stat-b [title]="'Annually Revenue'" class="mb-4" value="102,000">
+        <c-widget-stat-b [title]="'Annually Biggest'" class="mb-4"
+          value="{{ (pendingCardData?.biggestOrderYear?.['orderAmount'] || 0) | currency:'LKR ' }}">
           <c-progress class="my-2" thin>
-            <c-progress-bar [value]="89.9" color="primary"></c-progress-bar>
+            <c-progress-bar [value]="100" color="primary"></c-progress-bar>
           </c-progress>
+          <div class="small mt-3">
+            <div class="d-flex justify-content-between text-medium-emphasis mb-1">
+              <span>Customer:</span>
+              <span class="fw-semibold text-dark text-truncate ms-2" style="max-width: 65%;"
+                title="{{ pendingCardData?.biggestOrderYear?.['customerName'] || '-' }}">{{
+                pendingCardData?.biggestOrderYear?.['customerName'] || '-' }}</span>
+            </div>
+            <div class="d-flex justify-content-between text-medium-emphasis mb-1">
+              <span>Shop:</span>
+              <span class="fw-semibold text-dark text-truncate ms-2" style="max-width: 65%;"
+                title="{{ pendingCardData?.biggestOrderYear?.['shopName'] || '-' }}">{{
+                pendingCardData?.biggestOrderYear?.['shopName'] || '-' }}</span>
+            </div>
+            <div class="d-flex justify-content-between text-medium-emphasis">
+              <span>Salesman:</span>
+              <span class="fw-semibold text-dark text-truncate ms-2" style="max-width: 65%;"
+                title="{{ pendingCardData?.biggestOrderYear?.['salesManName'] || '-' }}">{{
+                pendingCardData?.biggestOrderYear?.['salesManName'] || '-' }}</span>
+            </div>
+          </div>
         </c-widget-stat-b>
       </c-col>
     </c-row>
+
+
   </c-col>
   <c-col xl="4" lg="12" sm="12">
     <c-row>
       <c-col>
-        <c-widget-stat-c [title]="'Pending Orders'" class="mb-4" color="warning" inverse value="5">
+        <c-widget-stat-c [title]="'Pending Orders'" class="mb-4" color="warning" inverse
+          value="{{ pendingCardData?.pendingPaymentSummary?.['pendingCount'] || 0 }}">
           <ng-template cTemplateId="widgetIconTemplate">
             <svg cIcon height="36" name="cilClock"></svg>
           </ng-template>
           <ng-template cTemplateId="widgetProgressTemplate">
             <c-progress class="mt-3 mb-0" thin white>
-              <c-progress-bar [value]="75"></c-progress-bar>
+              <c-progress-bar [value]="100"></c-progress-bar>
             </c-progress>
           </ng-template>
         </c-widget-stat-c>
       </c-col>
       <c-col>
-        <c-widget-stat-c [title]="'Pending Bill Amount'" class="mb-4" color="danger" inverse value="56,000">
+        <c-widget-stat-c [title]="'Pending Bill Amount'" class="mb-4" color="danger" inverse
+          value="{{ (pendingCardData?.pendingPaymentSummary?.['pendingAmount'] || 0) | currency:'LKR ' }}">
           <ng-template cTemplateId="widgetIconTemplate">
             <svg cIcon height="36" name="cilClipboard"></svg>
           </ng-template>
           <ng-template cTemplateId="widgetProgressTemplate">
             <c-progress class="mt-3 mb-0" thin white>
-              <c-progress-bar [value]="75"></c-progress-bar>
+              <c-progress-bar [value]="100"></c-progress-bar>
             </c-progress>
           </ng-template>
         </c-widget-stat-c>
       </c-col>
     </c-row>
+
     <c-row>
       <c-col>
-        <c-widget-stat-c [title]="'Completed Orders'" class="mb-4" color="info" inverse value="87,500">
+        <c-widget-stat-c [title]="'Completed Orders'" class="mb-4" color="info" inverse
+          value="{{ pendingCardData?.pendingPaymentSummary?.['fullCount'] || 0 }}">
           <ng-template cTemplateId="widgetIconTemplate">
             <svg cIcon height="36" name="cilCheckCircle"></svg>
           </ng-template>
           <ng-template cTemplateId="widgetProgressTemplate">
             <c-progress class="mt-3 mb-0" thin white>
-              <c-progress-bar [value]="75"></c-progress-bar>
+              <c-progress-bar [value]="100"></c-progress-bar>
             </c-progress>
           </ng-template>
         </c-widget-stat-c>
       </c-col>
       <c-col>
-        <c-widget-stat-c [title]="'Paid Bill Amount'" class="mb-4" color="success" inverse value="110,000">
+        <c-widget-stat-c [title]="'Paid Bill Amount'" class="mb-4" color="success" inverse
+          value="{{ (pendingCardData?.pendingPaymentSummary?.['fullAmount'] || 0) | currency:'LKR ' }}">
           <ng-template cTemplateId="widgetIconTemplate">
             <svg cIcon height="36" name="cilCash"></svg>
           </ng-template>
           <ng-template cTemplateId="widgetProgressTemplate">
             <c-progress class="mt-3 mb-0" thin white>
-              <c-progress-bar [value]="75"></c-progress-bar>
+              <c-progress-bar [value]="100"></c-progress-bar>
             </c-progress>
           </ng-template>
         </c-widget-stat-c>
       </c-col>
     </c-row>
+
     <c-row>
       <c-col>
         <c-card class="mb-4">
@@ -326,6 +417,8 @@
             <c-badge *ngIf="recentOrder.status === 'Completed'" color="success">{{ recentOrder.status | empty
               }}</c-badge>
             <c-badge *ngIf="recentOrder.status === 'Delivered'" color="primary">{{ recentOrder.status | empty
+              }}</c-badge>
+            <c-badge *ngIf="recentOrder.status === 'Draft'" color="danger">{{ recentOrder.status | empty
               }}</c-badge>
           </td>
         </tr>

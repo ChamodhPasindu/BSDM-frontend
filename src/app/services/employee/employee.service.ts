@@ -75,4 +75,17 @@ export class EmployeeService {
       {},
     );
   }
+
+  public updatePassword(
+    newPassword: string,
+    oldPassword: string,
+  ): Observable<IResponse> {
+    return this.httpClient.post<IResponse>(
+      this.requestUrl + '/sales-man/profile/change/password',
+      {
+        newPassword: newPassword,
+        oldPassword: oldPassword,
+      },
+    );
+  }
 }

@@ -173,6 +173,9 @@ export const RESPONSE_MESSAGES = {
 
   SALES_MAN_DASHBOARD_GET_FAILED:
     'Failed to load dashboard information. Please try again.',
+
+  PASSWORD_UPDATE_SUCCESS: 'Password updated successfully.',
+  PASSWORD_UPDATE_FAILED: 'Failed to update password. Please try again.',
 };
 
 export const RESPONSE_TITLES = {

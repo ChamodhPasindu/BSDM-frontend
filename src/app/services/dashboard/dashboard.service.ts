@@ -41,6 +41,14 @@ export class DashboardService {
     });
   }
 
+  public getPeningCard(): Observable<IResponse> {
+    return this.httpClient.get<IResponse>(
+      this.adminRequestUrl + '/pending-card',
+    );
+  }
+
+  // Salesman API
+
   public getSalesmanTotalCards(): Observable<IResponse> {
     return this.httpClient.get<IResponse>(
       this.salesRequestUrl + '/card-details',

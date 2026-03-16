@@ -13,6 +13,8 @@ import {
   RESPONSE_TITLES,
 } from 'src/app/utility/constants/response-message-title';
 import {
+  PASSWORD_MAX_LENGTH,
+  PASSWORD_MIN_LENGTH,
   REGEX_EMAIL,
   REGEX_MOBILE,
   REGEX_NAME,
@@ -20,8 +22,11 @@ import {
 } from 'src/app/utility/constants/validation';
 import {
   alertError,
+  alertSuccess,
   alertWarning,
   errorMessageHandler,
+  onValidate,
+  passwordMatchValidator,
 } from 'src/app/utility/helper';
 import { SweetAlertResult } from 'sweetalert2';
 
@@ -48,6 +53,7 @@ export class SettingsComponent implements OnInit {
   protected profileImg: string = './assets/images/user-img.jpg';
 
   protected profileForm: FormGroup;
+  protected passwordForm: FormGroup;
 
   protected vehicleDetails: Record<string, string>;
   protected otherDetails: Record<string, string>;
@@ -60,7 +66,8 @@ export class SettingsComponent implements OnInit {
     private readonly employeeService: EmployeeService,
   ) {
     this.activeTab = SettingsTab.PROFILE;
-    this.createForm();
+    this.createProfileForm();
+    this.createPasswordForm();
   }
 
   ngOnInit(): void {
@@ -89,13 +96,40 @@ export class SettingsComponent implements OnInit {
       });
   }
 
-  private createForm(): void {
+  private createProfileForm(): void {
     this.profileForm = this.fb.group({
       fullName: ['', [Validators.required, Validators.pattern(REGEX_NAME)]],
       email: ['', [Validators.required, Validators.pattern(REGEX_EMAIL)]],
       nic: ['', [Validators.required, Validators.pattern(REGEX_NIC)]],
       mobile: ['', [Validators.required, Validators.pattern(REGEX_MOBILE)]],
     });
+  }
+
+  private createPasswordForm(): void {
+    this.passwordForm = this.fb.group(
+      {
+        currentPassword: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(PASSWORD_MIN_LENGTH),
+            Validators.maxLength(PASSWORD_MAX_LENGTH),
+          ],
+        ],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(PASSWORD_MIN_LENGTH),
+            Validators.maxLength(PASSWORD_MAX_LENGTH),
+          ],
+        ],
+        confirmPassword: ['', Validators.required],
+      },
+      {
+        validators: passwordMatchValidator,
+      },
+    );
   }
 
   protected onLogOut(): void {
@@ -118,13 +152,8 @@ export class SettingsComponent implements OnInit {
     );
   }
 
-  password = { current: '', new: '', confirm: '' };
-
-  protected onProfileSubmit(): void {}
-
-  protected saveChanges(): void {
+  protected onProfileSubmit(): void {
     this.isEditing = false;
-    alert('Profile updated successfully!');
   }
 
   protected onImageChange(event: any): void {
@@ -136,13 +165,36 @@ export class SettingsComponent implements OnInit {
     }
   }
 
-  protected changePassword(): void {
-    if (this.password.new !== this.password.confirm) {
-      alert('Passwords do not match!');
-      return;
-    }
-    alert('Password updated successfully!');
-    this.password = { current: '', new: '', confirm: '' };
+  protected onPasswordSubmit(): void {
+    const { password, currentPassword } = this.passwordForm.value;
+
+    if (!onValidate(this.passwordForm)) return;
+
+    this.employeeService
+      .updatePassword(password, currentPassword)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            alertSuccess({
+              title: RESPONSE_TITLES.SUCCESS,
+              text:
+                res.body.message || RESPONSE_MESSAGES.PASSWORD_UPDATE_SUCCESS,
+            });
+            this.passwordForm.reset();
+            this.activeTab = SettingsTab.PROFILE;
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message || RESPONSE_MESSAGES.PASSWORD_UPDATE_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
   }
 
   protected enableEdit(): void {
