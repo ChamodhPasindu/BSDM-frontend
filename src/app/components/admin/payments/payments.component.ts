@@ -311,7 +311,7 @@ export class PaymentsComponent implements OnInit {
 
   protected openEditViewPaymentModal(
     action: ActionButton,
-    payment?: any,
+    payment?: IPaymentData,
   ): void {
     this.editViewPaymentModal.action = action;
     this.editViewPaymentModal.payment = payment;

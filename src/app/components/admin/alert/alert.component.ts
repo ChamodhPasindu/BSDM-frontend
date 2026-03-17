@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AlertViewComponent } from './alert-view/alert-view.component';
 import {
   alertError,
+  alertSuccess,
+  alertWarning,
   datePickerToDate,
   errorMessageHandler,
 } from 'src/app/utility/helper';
@@ -17,6 +19,7 @@ import {
 } from 'src/app/utility/constants/response-message-title';
 import { HttpErrorResponse } from '@angular/common/http';
 import { INotificationData } from 'src/app/interfaces/INotificationData';
+import { SweetAlertResult } from 'sweetalert2';
 
 @UntilDestroy()
 @Component({
@@ -109,6 +112,45 @@ export class AlertComponent implements OnInit {
           errorMessageHandler(err);
         },
       });
+  }
+
+  protected onDeleteNotification(id: number): void {
+    alertWarning(
+      {
+        title: RESPONSE_TITLES.WARNING,
+        text: RESPONSE_MESSAGES.DELETE_CONFIRMATION,
+      },
+      (result: SweetAlertResult<any>) => {
+        if (result.isConfirmed) {
+          this.alertService
+            .deleteSingleNotification(id)
+            .pipe(untilDestroyed(this))
+            .subscribe({
+              next: (res) => {
+                if (res.body.status === RSP_SUCCESS) {
+                  alertSuccess({
+                    title: RESPONSE_TITLES.SUCCESS,
+                    text:
+                      res.body.message ||
+                      RESPONSE_MESSAGES.NOTIFICATION_DELETE_SUCCESS,
+                  });
+                  this.loadAlertTableData();
+                } else {
+                  alertError({
+                    title: RESPONSE_TITLES.FAILED,
+                    text:
+                      res.body.message ||
+                      RESPONSE_MESSAGES.NOTIFICATION_DELETE_FAILED,
+                  });
+                }
+              },
+              error: (err: HttpErrorResponse) => {
+                errorMessageHandler(err);
+              },
+            });
+        }
+      },
+    );
   }
 
   protected openAddAlertView(): void {

@@ -82,11 +82,12 @@
           <th class="text-center">Created Date</th>
           <th class="text-center">Sender Name</th>
           <th class="text-center">Recipient Name</th>
+          <th class="text-center">Action</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngIf="!notificationList || notificationList.length === 0">
-          <td colspan="7" class="text-center text-muted py-3">
+          <td colspan="8" class="text-center text-muted py-3">
             No data available
           </td>
         </tr>
@@ -111,6 +112,13 @@
           </td>
           <td class="text-center">
             {{notification.recipientName | empty}}
+          </td>
+          <td class="text-center">
+            <!-- Delete -->
+            <button cButton color="danger" size="sm" variant="ghost" title="Delete"
+              (click)="onDeleteNotification(notification.id)">
+              <svg cIcon name="cilTrash"></svg>
+            </button>
           </td>
         </tr>
       </tbody>

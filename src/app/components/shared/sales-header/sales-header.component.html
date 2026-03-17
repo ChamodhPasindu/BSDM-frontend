@@ -20,10 +20,11 @@
 
 
   <c-dropdown alignment="end">
-    <button routerLink="/sales/post-login/notification" cDropdownToggle cButton color="transparent" class="position-relative p-0 border-0 bg-transparent"
-      aria-label="Notifications">
+    <button routerLink="/sales/post-login/notification" cDropdownToggle cButton color="transparent"
+      class="position-relative p-0 border-0 bg-transparent" aria-label="Notifications">
       <svg cIcon name="cilBell" size="lg" class="text-dark"></svg>
-      <span class="position-absolute top-0 end-0 translate-middle badge rounded-pill bg-danger">3</span>
+      <span class="position-absolute top-0 end-0 translate-middle badge rounded-pill bg-danger">{{ notificationCount
+        }}</span>
     </button>
 
     <!-- <div cDropdownMenu class="pt-0 ">

@@ -1,23 +1,55 @@
 <!-- Header -->
 <div class="d-flex justify-content-between align-items-center mb-3">
-  <h6 class="fw-semibold mb-0">Notifications</h6>
-  <!-- <button cButton color="danger" variant="outline" size="sm" (click)="clearAll()"
-    [disabled]="notifications.length === 0">
+  <div class="d-flex align-items-center gap-2">
+    <input
+      class="form-check-input mt-0"
+      type="checkbox"
+      id="selectAllNotifications"
+      [checked]="isAllSelected"
+      [disabled]="!notificationList?.length"
+      (change)="toggleSelectAll($event)"
+    />
+    <h6 class="fw-semibold mb-0">Notifications</h6>
+  </div>
+  <button
+    cButton
+    color="danger"
+    variant="outline"
+    size="sm"
+    [disabled]="selectedIds.size === 0"
+    (click)="deleteSelected()"
+  >
     <svg cIcon name="cilTrash" class="me-1"></svg>
-    Delete All
-  </button> -->
+    Delete ({{ selectedIds.size }})
+  </button>
 </div>
 
 <!-- Notification List -->
 <div class="d-flex flex-column gap-2">
-  <c-card *ngFor="let note of notificationList" class="shadow-sm notification-card mb-2"
-    [ngClass]="{'bg-light': note.isRead}" (click)="markAsRead(note)" style="cursor: pointer;">
+  <c-card
+    *ngFor="let note of notificationList"
+    class="shadow-sm notification-card mb-2"
+    [ngClass]="{'bg-light': note.isRead}"
+    style="cursor: pointer;"
+  >
     <c-card-body class="d-flex align-items-center py-2 card-body" [ngClass]="{'text-muted': note.isRead}">
+
+      <!-- Checkbox -->
+      <div class="me-2" (click)="$event.stopPropagation()">
+        <input
+          class="form-check-input mt-0"
+          type="checkbox"
+          [checked]="selectedIds.has(note.id)"
+          (change)="toggleSelect(note.id)"
+        />
+      </div>
+
+      <!-- Icon -->
       <div class="icon-circle me-3 position-relative" [ngClass]="{
               'bg-success-subtle text-danger': note.priority === 'HIGH',
               'bg-primary-subtle text-warning': note.priority === 'MEDIUM',
               'bg-warning-subtle text-success': note.priority === 'LOW',
-            }">
+            }" (click)="markAsRead(note)">
         <svg cIcon name="cil-bolt-circle" size="xl"></svg>
         <span *ngIf="!note.isRead"
           class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
@@ -25,7 +57,8 @@
         </span>
       </div>
 
-      <div class="flex-grow-1">
+      <!-- Content -->
+      <div class="flex-grow-1" (click)="markAsRead(note)">
         <div class="fw-semibold">{{ note.title | empty}}</div>
         <div class="fw-normal">{{ note.message | empty}}</div>
         <small class="text-muted">{{ note.createdAt | date: 'short' }}</small>

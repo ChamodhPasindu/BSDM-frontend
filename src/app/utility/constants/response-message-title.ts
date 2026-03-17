@@ -188,6 +188,10 @@ export const RESPONSE_MESSAGES = {
   SALES_MAN_PASSWORD_UPDATE_SUCCESS: 'Password updated successfully.',
   SALES_MAN_PASSWORD_UPDATE_FAILED:
     'Failed to update password. Please try again.',
+
+  NOTIFICATION_DELETE_SUCCESS: 'Notification has been deleted successfully.',
+  NOTIFICATION_DELETE_FAILED:
+    'Failed to delete notification. Please try again.',
 };
 
 export const RESPONSE_TITLES = {

@@ -37,6 +37,7 @@ export class AdminHeaderComponent extends HeaderComponent implements OnInit {
   protected profileImg: string = './assets/images/user-img.jpg';
 
   protected notificationList: INotificationData[];
+  protected notificationCount: number = 0;
 
   constructor(
     private readonly router: Router,
@@ -53,6 +54,7 @@ export class AdminHeaderComponent extends HeaderComponent implements OnInit {
     this.loadSessionData();
 
     this.loadAlertList();
+    this.fetchUnreadNotificationCount();
   }
 
   private loadSessionData(): void {
@@ -103,7 +105,29 @@ export class AdminHeaderComponent extends HeaderComponent implements OnInit {
       .subscribe({
         next: (res) => {
           if (res.body.status === RSP_SUCCESS) {
-            this.notificationList = res.body.content.notifications;
+            this.notificationList = res.body.content.notifications.slice(0, 10);
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message || RESPONSE_MESSAGES.NOTIFICATION_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
+  }
+
+  protected fetchUnreadNotificationCount(): void {
+    this.alertService
+      .getUnreadNotificationCount()
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.notificationCount = res.body.content.unreadCount;
           } else {
             alertError({
               title: RESPONSE_TITLES.FAILED,

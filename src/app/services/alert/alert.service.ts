@@ -40,11 +40,34 @@ export class AlertService {
     return this.httpClient.get<IResponse>(this.requestUrl, {});
   }
 
+  public getUnreadNotificationCount(): Observable<IResponse> {
+    return this.httpClient.get<IResponse>(
+      this.requestUrl + '/unread-count',
+      {},
+    );
+  }
+
   public markAsReadNotification(id: number): Observable<IResponse> {
     return this.httpClient.put<IResponse>(
       this.requestUrl + '/read',
       {},
       { params: { id: id } },
     );
+  }
+
+  public deleteMultipleNotification(
+    notificationList: string[],
+  ): Observable<IResponse> {
+    return this.httpClient.delete<IResponse>(this.requestUrl, {
+      body: {
+        notificationIds: notificationList,
+      },
+    });
+  }
+
+  public deleteSingleNotification(id: number): Observable<IResponse> {
+    return this.httpClient.delete<IResponse>(this.requestUrl + '/', {
+      params: { id: id },
+    });
   }
 }
