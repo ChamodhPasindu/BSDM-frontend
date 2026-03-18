@@ -52,7 +52,7 @@ export class SelectBillComponent implements OnInit {
     private readonly routeService: RouteService,
     private readonly customerService: CustomerService,
     private readonly saleService: SaleService,
-    private readonly paymentService: PaymentService
+    private readonly paymentService: PaymentService,
   ) {}
 
   ngOnInit(): void {
@@ -87,7 +87,7 @@ export class SelectBillComponent implements OnInit {
         this.customerDetails?.customerId!,
         this.routeDetails?.routeId!,
         from,
-        to
+        to,
       )
       .pipe(untilDestroyed(this))
       .subscribe({
@@ -95,7 +95,7 @@ export class SelectBillComponent implements OnInit {
           if (res.body.status === RSP_SUCCESS) {
             const filtered = res.body.content.filter(
               (x: IBillData) =>
-                x.paymentType === null || x.paymentType === 'ORDER'
+                x.paymentType === null || x.paymentType === 'ORDER',
             );
 
             const uniqueBillsMap = new Map<number, IBillData>();
@@ -110,10 +110,10 @@ export class SelectBillComponent implements OnInit {
 
             this.filteredBillList = this.billList;
           } else {
-            alertError({
-              title: RESPONSE_TITLES.FAILED,
-              text: res.body.message || RESPONSE_MESSAGES.ORDER_BILL_GET_FAILED,
-            });
+            // alertError({
+            //   title: RESPONSE_TITLES.FAILED,
+            //   text: res.body.message || RESPONSE_MESSAGES.ORDER_BILL_GET_FAILED,
+            // });
             this.billList = [];
             this.filteredBillList = [];
           }
@@ -148,7 +148,7 @@ export class SelectBillComponent implements OnInit {
 
     if (bill.paymentStatus === BillStatus.PENDING) {
       this.bottomSheetService.open(SalesPayNowBottomSheetComponent, {
-        height: '535px',
+        height: 'top',
         showCloseButton: true,
         backgroundColor: '#fff',
       });

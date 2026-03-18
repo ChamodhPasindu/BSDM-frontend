@@ -1,96 +1,97 @@
 <div #bottomSheetContainer 
-     class="bottom-sheet-wrapper"
+     class="bottom-sheet-container d-flex flex-column h-100"
      (touchstart)="onTouchStart($event)"
      (touchmove)="onTouchMove($event)"
      (touchend)="onTouchEnd($event)">
+  
   <div class="bottom-sheet-handle"
        (touchstart)="onTouchStart($event)"
        (touchmove)="onTouchMove($event)"
        (touchend)="onTouchEnd($event)"></div>
-  <div class="card border-0 p-3">
 
-  <!-- Customer + Bill Info -->
-  <div class="d-flex align-items-start mb-3">
-    <c-avatar color="primary" textColor="white" class="me-3">
-      {{ customerDetails?.customerName?.charAt(0) | empty}}
-    </c-avatar>
-    <div class="flex-fill">
-      <div class="fw-semibold">{{ customerDetails?.customerName | empty}}</div>
-      <small class="text-muted d-block">{{ customerDetails?.shopName | empty}}</small>
-      <small class="text-muted d-block">{{ customerDetails?.address | empty}}</small>
-      <!-- <small class="text-danger fw-semibold d-block">Previous Overdue: {{ customerDetails?.overdue | currency:'LKR '}}</small> -->
+  <div class="bottom-sheet-content flex-fill overflow-auto p-3">
+    <!-- Customer + Bill Info -->
+    <div class="d-flex align-items-start mb-3">
+      <c-avatar color="primary" textColor="white" class="me-3">
+        {{ customerDetails?.customerName?.charAt(0) | empty}}
+      </c-avatar>
+      <div class="flex-fill">
+        <div class="fw-semibold">{{ customerDetails?.customerName | empty}}</div>
+        <small class="text-muted d-block">{{ customerDetails?.shopName | empty}}</small>
+        <small class="text-muted d-block">{{ customerDetails?.address | empty}}</small>
+      </div>
+    </div>
+
+    <!-- Bill Info -->
+    <div class="bg-light rounded-3 p-2 mb-3">
+      <div class="d-flex justify-content-between small mb-1">
+        <span class="text-muted">Bill ID</span>
+        <span class="fw-semibold">{{ saleCompleteData?.['orderReferenceNumber'] | empty }}</span>
+      </div>
+
+      <div class="d-flex justify-content-between small mb-1">
+        <span class="text-muted">Bill Date</span>
+        <span class="fw-semibold">
+          {{ (saleCompleteData?.['orderDate'] || today) | date:'mediumDate' }}
+        </span>
+      </div>
+
+      <div class="d-flex justify-content-between small mb-1">
+        <span class="text-muted">Bill Amount</span>
+        <span class="fw-semibold">
+          {{ saleCompleteData?.['orderTotalAmount'] | currency:'LKR ' }}
+        </span>
+      </div>
+
+      <!-- Overdue -->
+      <div *ngIf="customerDetails?.overdue" class="d-flex justify-content-between small mb-1 text-danger">
+        <span>Overdue Amount</span>
+        <span class="fw-semibold">
+          {{ customerDetails?.overdue | currency:'LKR ' }}
+        </span>
+      </div>
+
+      <!-- Total Payable -->
+      <div *ngIf="customerDetails?.overdue" class="d-flex justify-content-between small border-top pt-1 mt-1">
+        <span class="fw-semibold">Total Payable</span>
+        <span class="fw-bold text-dark">
+          {{ getGrandTotalAmount() | currency:'LKR ' }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Payment Section -->
+    <h6 class="fw-bold mb-2">Payment Details</h6>
+
+    <div class="mb-2">
+      <label class="form-label small text-muted mb-1">Enter Payment Amount</label>
+      <input type="number" class="form-control" [(ngModel)]="paymentAmount" (input)="checkPaymentType()"
+        placeholder="Enter amount">
+    </div>
+
+    <div *ngIf="paymentStatus" class="mb-1">
+      <div class="alert py-2 small text-center rounded-3" [ngClass]="{
+          'alert-success': paymentStatus === 'Full Payment',
+          'alert-warning': paymentStatus === 'Partial Payment',
+          'alert-danger': paymentStatus.includes('Minimum') || paymentStatus.includes('exceeds')
+        }">
+        {{ paymentStatus }}
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label small text-muted mb-1">Note</label>
+      <textarea class="form-control" rows="2" [(ngModel)]="note" placeholder="Enter any note..."
+        maxlength="50"></textarea>
     </div>
   </div>
 
-  <!-- Bill Info -->
-  <div class="bg-light rounded-3 p-2 mb-3">
-
-    <div class="d-flex justify-content-between small mb-1">
-      <span class="text-muted">Bill ID</span>
-      <span class="fw-semibold">{{ saleCompleteData?.['orderReferenceNumber'] | empty }}</span>
-    </div>
-
-    <div class="d-flex justify-content-between small mb-1">
-      <span class="text-muted">Bill Date</span>
-      <span class="fw-semibold">
-        {{ (saleCompleteData?.['orderDate'] || today) | date:'mediumDate' }}
-      </span>
-    </div>
-
-    <div class="d-flex justify-content-between small mb-1">
-      <span class="text-muted">Bill Amount</span>
-      <span class="fw-semibold">
-        {{ saleCompleteData?.['orderTotalAmount'] | currency:'LKR ' }}
-      </span>
-    </div>
-
-    <!-- Overdue -->
-    <div *ngIf="customerDetails?.overdue" class="d-flex justify-content-between small mb-1 text-danger">
-      <span>Overdue Amount</span>
-      <span class="fw-semibold">
-        {{ customerDetails?.overdue | currency:'LKR ' }}
-      </span>
-    </div>
-
-    <!-- Total Payable -->
-    <div *ngIf="customerDetails?.overdue" class="d-flex justify-content-between small border-top pt-1 mt-1">
-      <span class="fw-semibold">Total Payable</span>
-      <span class="fw-bold text-dark">
-        {{ getGrandTotalAmount() | currency:'LKR ' }}
-      </span>
-    </div>
-
+  <!-- Footer / Action Button -->
+  <div class="bottom-sheet-footer p-3 border-top">
+    <button class="btn btn-primary w-100 py-2 fw-semibold rounded-3"
+      [disabled]="paymentStatus !== 'Full Payment' && paymentStatus !== 'Partial Payment'" (click)="markAsSettled()">
+      Mark as Settled
+    </button>
   </div>
 
-
-  <!-- Payment Section -->
-  <h6 class="fw-bold mb-2">Payment Details</h6>
-
-  <div class="mb-2">
-    <label class="form-label small text-muted mb-1">Enter Payment Amount</label>
-    <input type="number" class="form-control" [(ngModel)]="paymentAmount" (input)="checkPaymentType()"
-      placeholder="Enter amount">
-  </div>
-
-  <div *ngIf="paymentStatus" class="mb-1">
-    <div class="alert py-2 small text-center rounded-3" [ngClass]="{
-        'alert-success': paymentStatus === 'Full Payment',
-        'alert-warning': paymentStatus === 'Partial Payment',
-        'alert-danger': paymentStatus.includes('Minimum') || paymentStatus.includes('exceeds')
-      }">
-      {{ paymentStatus }}
-    </div>
-  </div>
-
-  <div class="mb-3">
-    <label class="form-label small text-muted mb-1">Note</label>
-    <textarea class="form-control" rows="2" [(ngModel)]="note" placeholder="Enter any note..."
-      maxlength="50"></textarea>
-  </div>
-
-  <button class="btn btn-primary w-100 py-2 fw-semibold rounded-3"
-    [disabled]="paymentStatus !== 'Full Payment' && paymentStatus !== 'Partial Payment'" (click)="markAsSettled()">
-    Mark as Settled
-  </button>
-</div>
 </div>

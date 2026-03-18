@@ -7,25 +7,21 @@
 //   pointer-events: auto;
 // }
 
-// // Bottom sheet wrapper for swipe gesture handling
-// .bottom-sheet-wrapper {
-//   display: flex;
-//   flex-direction: column;
-//   touch-action: auto; // Allow touch events
-//   user-select: none;
-//   width: 100%;
-//   max-width: 100%;
-//   pointer-events: auto;
-// }
-
-// // Card container - ensure it moves with the wrapper
-// .card {
-//   margin: 0;
-//   flex-grow: 1;
-//   background-color: white;
-//   width: 100%;
-//   pointer-events: auto;
-// }
+// Bottom sheet container for swipe gesture handling
+.bottom-sheet-container {
+  display: flex;
+  flex-direction: column;
+  touch-action: auto; // Allow touch events
+  user-select: none;
+  width: 100%;
+  max-width: 100%;
+  pointer-events: auto;
+  background-color: white;
+  height: 100%;
+  border-top-left-radius: 1.5rem;
+  border-top-right-radius: 1.5rem;
+  overflow: hidden;
+}
 
 // Handle for drag indication
 .bottom-sheet-handle {
@@ -36,7 +32,7 @@
   margin: 8px auto 12px;
   cursor: grab;
   flex-shrink: 0;
-  
+
   &:active {
     cursor: grabbing;
   }
