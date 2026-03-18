@@ -1,6 +1,19 @@
 <div class="overlay-loader" [hidden]="!isLoading">
-  <div class="spinner">
-    <div class="spinner-border text-primary" role="status">
+  <div class="loader-container">
+    <div class="bakery-loader">
+      <div class="aroma-waves">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="toaster">
+        <div class="toaster-top"></div>
+        <div class="toaster-body">
+          <div class="toaster-handle"></div>
+        </div>
+        <div class="toast"></div>
+      </div>
     </div>
+    <div class="loading-text">Baking something delicious...</div>
   </div>
 </div>

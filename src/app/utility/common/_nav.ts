@@ -92,9 +92,9 @@ export const navItems: INavData[] = [
     url: '/admin/post-login/alerts',
     iconComponent: { name: 'cil-bell' },
   },
-  {
-    name: 'Settings',
-    url: '/admin/post-login/settings',
-    iconComponent: { name: 'cil-settings' },
-  },
+  // {
+  //   name: 'Settings',
+  //   url: '/admin/post-login/settings',
+  //   iconComponent: { name: 'cil-settings' },
+  // },
 ];
