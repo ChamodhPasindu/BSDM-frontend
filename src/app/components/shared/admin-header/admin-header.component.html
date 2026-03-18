@@ -146,27 +146,44 @@
 </ng-template>
 
 <ng-template #notificationDropdown>
-    <c-dropdown variant="nav-item" alignment="end">
+    <c-dropdown variant="nav-item" alignment="end" autoClose="outside">
         <button cDropdownToggle cButton color="" [caret]="false" cDropdownToggle class="py-0">
             <svg cIcon name="cilBell" size="lg" class="text-body"></svg>
             <c-badge color="danger" position="top-end" shape="rounded-pill">{{ notificationCount }}</c-badge>
         </button>
         <div cDropdownMenu class="pt-0 ">
             <li>
-                <h6 cDropdownHeader class="bg-light fw-semibold py-2">You have {{ notificationCount }} messages
-                </h6>
+                <div class="bg-light fw-semibold py-2 px-3 d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center gap-2">
+                        <input class="form-check-input mt-0" type="checkbox" id="adminSelectAllNotifications"
+                            [checked]="isAllSelected" [disabled]="!notificationList?.length"
+                            (change)="toggleSelectAll($event)" />
+                        <span>You have {{ notificationCount }} messages</span>
+                    </div>
+                    <button cButton color="danger" variant="outline" size="sm" [disabled]="selectedIds.size === 0"
+                        (click)="deleteSelected()">
+                        <svg cIcon name="cilTrash" class="me-1"></svg>
+                        Delete ({{ selectedIds.size }})
+                    </button>
+                </div>
             </li>
 
             <li class="notification-panel">
-                <a *ngFor="let notification of notificationList" cDropdownItem href="javascript:void(0)"
-                    class="dropdown-item" [ngClass]="{'bg-light': notification.isRead}"
-                    (click)="markAsRead(notification)">
+                <a *ngFor="let notification of notificationList" cDropdownItem routerLink="/admin/post-login/alerts"
+                    class="dropdown-item" [ngClass]="{'bg-light': notification.isRead}">
                     <div class="d-flex w-100" [ngClass]="{'text-muted': notification.isRead}">
+
+                        <!-- Checkbox -->
+                        <div class="d-flex align-items-center me-2" (click)="$event.stopPropagation()">
+                            <input class="form-check-input mt-0" type="checkbox"
+                                [checked]="selectedIds.has(notification.id)" (change)="toggleSelect(notification.id)" />
+                        </div>
+
                         <div class="icon-circle flex-shrink-0 my-3 me-3 position-relative" [ngClass]="{
                             'bg-success-subtle text-danger': notification.priority === 'HIGH',
                             'bg-primary-subtle text-warning': notification.priority === 'MEDIUM',
                             'bg-warning-subtle text-success': notification.priority === 'LOW'
-                        }">
+                        }" (click)="markAsRead(notification)">
                             <svg cIcon name="cil-bolt-circle" size="xl"></svg>
                             <span *ngIf="!notification.isRead"
                                 class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
@@ -174,7 +191,7 @@
                             </span>
                         </div>
 
-                        <div class="message text-wrap flex-grow-1 my-3">
+                        <div class="message text-wrap flex-grow-1 my-3" (click)="markAsRead(notification)">
                             <div class="d-flex justify-content-between small text-body-secondary mt-1">
                                 <div>{{ notification.senderUserName | empty }}</div>
                                 <div>{{ notification.createdAt | date: 'short' }}</div>

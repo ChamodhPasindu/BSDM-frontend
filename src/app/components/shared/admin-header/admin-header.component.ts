@@ -1,9 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { ClassToggleService, HeaderComponent } from '@coreui/angular';
+import { NavigationEnd, Router } from '@angular/router';
+import { HeaderComponent } from '@coreui/angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { UserRole } from 'src/app/enums/UserRole.enum';
+import { filter, startWith } from 'rxjs';
 import { INotificationData } from 'src/app/interfaces/INotificationData';
 import { AlertService } from 'src/app/services/alert/alert.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -16,6 +16,7 @@ import {
 import { SESSION_DATA } from 'src/app/utility/constants/session-data';
 import {
   alertError,
+  alertSuccess,
   alertWarning,
   errorMessageHandler,
 } from 'src/app/utility/helper';
@@ -36,8 +37,9 @@ export class AdminHeaderComponent extends HeaderComponent implements OnInit {
   protected lastLoggedInTime: string;
   protected profileImg: string = './assets/images/user-img.jpg';
 
-  protected notificationList: INotificationData[];
+  protected notificationList: INotificationData[] = [];
   protected notificationCount: number = 0;
+  protected selectedIds: Set<number> = new Set();
 
   constructor(
     private readonly router: Router,
@@ -54,7 +56,17 @@ export class AdminHeaderComponent extends HeaderComponent implements OnInit {
     this.loadSessionData();
 
     this.loadAlertList();
-    this.fetchUnreadNotificationCount();
+
+    this.router.events
+      .pipe(
+        filter(
+          (event): event is NavigationEnd => event instanceof NavigationEnd,
+        ),
+        startWith(null),
+      )
+      .subscribe(() => {
+        this.fetchUnreadNotificationCount();
+      });
   }
 
   private loadSessionData(): void {
@@ -106,11 +118,69 @@ export class AdminHeaderComponent extends HeaderComponent implements OnInit {
         next: (res) => {
           if (res.body.status === RSP_SUCCESS) {
             this.notificationList = res.body.content.notifications.slice(0, 10);
+            this.selectedIds.clear();
           } else {
             alertError({
               title: RESPONSE_TITLES.FAILED,
               text:
                 res.body.message || RESPONSE_MESSAGES.NOTIFICATION_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
+  }
+
+  protected get isAllSelected(): boolean {
+    return (
+      this.notificationList?.length > 0 &&
+      this.notificationList.every((n) => this.selectedIds.has(n.id))
+    );
+  }
+
+  protected toggleSelectAll(event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    if (checked) {
+      this.notificationList.forEach((n) => this.selectedIds.add(n.id));
+    } else {
+      this.selectedIds.clear();
+    }
+  }
+
+  protected toggleSelect(id: number): void {
+    if (this.selectedIds.has(id)) {
+      this.selectedIds.delete(id);
+    } else {
+      this.selectedIds.add(id);
+    }
+  }
+
+  protected deleteSelected(): void {
+    if (this.selectedIds.size === 0) return;
+
+    const ids = Array.from(this.selectedIds).map((id) => id.toString());
+
+    this.alertService
+      .deleteMultipleNotification(ids)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res) => {
+          if (res.body.status === RSP_SUCCESS) {
+            alertSuccess({
+              title: RESPONSE_TITLES.SUCCESS,
+              text:
+                res.body.message ||
+                RESPONSE_MESSAGES.NOTIFICATION_DELETE_SUCCESS,
+            });
+            this.loadAlertList();
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message ||
+                RESPONSE_MESSAGES.NOTIFICATION_DELETE_FAILED,
             });
           }
         },

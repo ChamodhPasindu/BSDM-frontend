@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { filter } from 'rxjs';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter, startWith } from 'rxjs';
 import { Location } from '@angular/common';
 import { StorageService } from 'src/app/services/storage.service';
 import { SESSION_DATA } from 'src/app/utility/constants/session-data';
@@ -37,21 +37,22 @@ export class SalesHeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.name = `Hi, ${this.storageService.get(SESSION_DATA.NAME)}`;
-    this.updateHeader(this.router.url);
-    this.fetchUnreadNotificationCount();
 
     this.router.events
       .pipe(
         filter(
           (event): event is NavigationEnd => event instanceof NavigationEnd,
         ),
+        startWith(null),
       )
-      .subscribe((event) => {
-        this.updateHeader(event.urlAfterRedirects);
+      .subscribe(() => {
+        this.updateHeader(this.router.url);
       });
   }
 
   protected updateHeader(url: string): void {
+    this.fetchUnreadNotificationCount();
+
     if (url.includes('/sales/post-login/product')) {
       this.pageTitle = 'Products';
       this.isSubPage = true;

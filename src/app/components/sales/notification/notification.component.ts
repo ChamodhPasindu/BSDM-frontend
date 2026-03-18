@@ -21,7 +21,7 @@ import {
   styleUrls: ['./notification.component.scss'],
 })
 export class NotificationComponent implements OnInit {
-  protected notificationList: INotificationData[];
+  protected notificationList: INotificationData[] = [];
   protected selectedIds: Set<number> = new Set();
 
   constructor(private readonly alertService: AlertService) {}

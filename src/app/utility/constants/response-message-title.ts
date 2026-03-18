@@ -174,6 +174,7 @@ export const RESPONSE_MESSAGES = {
   NOTIFICATION_SEND_FAILED: 'Failed to send notification. Please try again.',
   NOTIFICATION_MARK_AS_READ_FAILED:
     'Failed to mark notification as read. Please try again.',
+  NOTIFICATION_EXPORT_FAILED: 'No notification data available to export.',
 
   SALES_MAN_STATUS_SUCCESS: 'You have just started your work. Good luck!',
   SALES_MAN_STATUS_GET_FAILED:

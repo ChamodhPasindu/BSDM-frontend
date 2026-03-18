@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import * as moment from 'moment';
 import { AlertViewComponent } from './alert-view/alert-view.component';
 import {
   alertError,
@@ -10,6 +11,7 @@ import {
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { IPagination } from 'src/app/interfaces/IPagination';
 import { AlertService } from 'src/app/services/alert/alert.service';
+import { PdfExportService } from 'src/app/services/general/pdf-export.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { IResponse } from 'src/app/interfaces/IResponse';
 import { RSP_SUCCESS } from 'src/app/utility/constants/response-code';
@@ -47,6 +49,7 @@ export class AlertComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly alertService: AlertService,
+    private readonly pdfExportService: PdfExportService,
   ) {
     this.createForm();
   }
@@ -189,5 +192,43 @@ export class AlertComponent implements OnInit {
     return !!(inputUsername || title || isRead || fromDate || toDate);
   }
 
-  // protected onExport(): void {}
+  protected onExport(): void {
+    if (!this.notificationList || this.notificationList.length === 0) {
+      alertError({
+        title: RESPONSE_TITLES.FAILED,
+        text: RESPONSE_MESSAGES.NOTIFICATION_EXPORT_FAILED,
+      });
+      return;
+    }
+
+    const columns = [
+      { header: 'ID', width: 0.05 },
+      { header: 'Sender', width: 0.15 },
+      { header: 'Title', width: 0.2 },
+      { header: 'Message', width: 0.3 },
+      { header: 'Receiver', width: 0.1 },
+      { header: 'Status', width: 0.1 },
+      { header: 'Date', width: 0.1 },
+    ];
+
+    const data = this.notificationList.map((n) => [
+      n.id.toString(),
+      n.senderName || '',
+      n.title || '',
+      n.message || '',
+      n.recipientName || '',
+      n.isRead ? 'Read' : 'Unread',
+      n.createdAt ? moment(n.createdAt).format('YYYY-MM-DD HH:mm') : '',
+    ]);
+
+    this.pdfExportService.exportToPdf({
+      title: 'Notifications Report',
+      columns: columns,
+      data: data,
+      filename: `Notifications_Report_${moment().format('YYYY-MM-DD_HH-mm-ss')}.pdf`,
+      companyName: 'Visco Bakehouse Sales Delivery Monitoring System',
+      mobileNumber: '+94 (0) 123 456 789',
+      orientation: 'landscape',
+    });
+  }
 }
