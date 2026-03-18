@@ -28,6 +28,13 @@ export class SalesBottomNavComponent {
         showCloseButton: true,
         backgroundColor: '#fff',
       });
+    } else if (dayStatus === DayStatus.RETURNED) {
+      alertWarning({
+        title: 'Day Returned',
+        text: 'Your stock has been returned. Tomorrow you can start your day.',
+        confirmButtonText: 'Okay',
+        showCancelButton: false,
+      });
     } else {
       alertWarning({
         title: 'Day Not Started',
