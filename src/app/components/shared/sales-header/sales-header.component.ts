@@ -51,7 +51,11 @@ export class SalesHeaderComponent implements OnInit {
   }
 
   protected updateHeader(url: string): void {
-    this.fetchUnreadNotificationCount();
+    if (this.shouldFetchNotificationCount(url)) {
+      this.fetchUnreadNotificationCount();
+    } else {
+      this.notificationCount = 0;
+    }
 
     if (url.includes('/sales/post-login/product')) {
       this.pageTitle = 'Products';
@@ -78,6 +82,11 @@ export class SalesHeaderComponent implements OnInit {
       this.pageTitle = this.name;
       this.isSubPage = false;
     }
+  }
+
+  private shouldFetchNotificationCount(url: string): boolean {
+    const hasAccessToken = !!this.storageService.get(SESSION_DATA.ACCESS_TOKEN);
+    return hasAccessToken && url.includes('/sales/post-login');
   }
 
   protected fetchUnreadNotificationCount(): void {

@@ -1,6 +1,6 @@
 export const environment = {
-    host: 'localhost',
-    port: '8080',
+    host: 'viscobakehouse.lk/api',
+    port: '',
     version: 'V1.00.02',
     production: false,
   };

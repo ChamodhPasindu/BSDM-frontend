@@ -88,8 +88,8 @@ export class AdminHeaderComponent extends HeaderComponent implements OnInit {
             .logout()
             .pipe(untilDestroyed(this))
             .subscribe(() => {
-              this.router.navigate(['admin']);
               this.storageService.clearSession();
+              this.router.navigate(['admin']);
             });
         }
       },
@@ -111,6 +111,12 @@ export class AdminHeaderComponent extends HeaderComponent implements OnInit {
   }
 
   protected loadAlertList(): void {
+    if (!this.shouldFetchNotifications(this.router.url)) {
+      this.notificationList = [];
+      this.selectedIds.clear();
+      return;
+    }
+
     this.alertService
       .getNotificationList()
       .pipe(untilDestroyed(this))
@@ -191,6 +197,11 @@ export class AdminHeaderComponent extends HeaderComponent implements OnInit {
   }
 
   protected fetchUnreadNotificationCount(): void {
+    if (!this.shouldFetchNotifications(this.router.url)) {
+      this.notificationCount = 0;
+      return;
+    }
+
     this.alertService
       .getUnreadNotificationCount()
       .pipe(untilDestroyed(this))
@@ -210,6 +221,11 @@ export class AdminHeaderComponent extends HeaderComponent implements OnInit {
           errorMessageHandler(err);
         },
       });
+  }
+
+  private shouldFetchNotifications(url: string): boolean {
+    const hasAccessToken = !!this.storageService.get(SESSION_DATA.ACCESS_TOKEN);
+    return hasAccessToken && url.includes('/admin/post-login');
   }
 
   protected markAsRead(notification: INotificationData): void {

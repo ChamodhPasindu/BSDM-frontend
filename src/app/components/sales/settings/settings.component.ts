@@ -144,8 +144,8 @@ export class SettingsComponent implements OnInit {
             .logout()
             .pipe(untilDestroyed(this))
             .subscribe(() => {
-              this.router.navigate(['sales']);
               this.storageService.clearSession();
+              this.router.navigate(['sales']);
             });
         }
       },
