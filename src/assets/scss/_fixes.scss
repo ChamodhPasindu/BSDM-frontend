@@ -28,3 +28,16 @@ c-pagination {
   display: flex;
   flex-wrap: wrap;
 }
+
+.avatar-fit-circle {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+
+.avatar-fit-circle img,
+.avatar-fit-circle .avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}

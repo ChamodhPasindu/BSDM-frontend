@@ -113,7 +113,7 @@
         </tr>
         <tr *ngFor="let employee of employeeList; index as i">
           <td class="text-center">
-            <c-avatar class="rounded-circle border border-2 border-secondary avatar avatar-md"
+            <c-avatar class="avatar-fit-circle rounded-circle border border-2 border-secondary avatar avatar-md"
               [src]="employee?.profileImageBase64 ?? './assets/images/customer-logo.png'"></c-avatar>
           </td>
           <td class="text-center">

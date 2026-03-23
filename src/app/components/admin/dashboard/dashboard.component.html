@@ -129,7 +129,7 @@
                 <tr *ngFor="let recentTransaction of recentTransactionList; index as i">
                   <td class="text-center">
                     <c-avatar size="md" [src]="recentTransaction.base64ProfilePicture"
-                      class="rounded-circle"></c-avatar>
+                      class="avatar-fit-circle rounded-circle"></c-avatar>
                   </td>
                   <td>
                     <div>{{ recentTransaction.employeeName | empty}}</div>
