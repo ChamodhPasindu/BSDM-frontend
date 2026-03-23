@@ -22,6 +22,7 @@ import {
 import { HttpErrorResponse } from '@angular/common/http';
 import { INotificationData } from 'src/app/interfaces/INotificationData';
 import { SweetAlertResult } from 'sweetalert2';
+import { AlertStatus } from 'src/app/utility/constants/other-constant';
 
 @UntilDestroy()
 @Component({
@@ -32,11 +33,7 @@ import { SweetAlertResult } from 'sweetalert2';
 export class AlertComponent implements OnInit {
   @ViewChild('addAlertModal') protected addAlertModal!: AlertViewComponent;
 
-  protected readonly statusList: Record<string, string>[] = [
-    { code: '', description: 'All' },
-    { code: 'true', description: 'Read' },
-    { code: 'false', description: 'Unread' },
-  ];
+  protected readonly statusList: Record<string, string>[] = AlertStatus;
 
   protected notificationList: INotificationData[];
 

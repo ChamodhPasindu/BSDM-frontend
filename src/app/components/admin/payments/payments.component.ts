@@ -22,6 +22,7 @@ import { ActionButton } from 'src/app/enums/ActionButton.enum';
 import { BillStatus } from 'src/app/enums/BillStatus.enum';
 import * as moment from 'moment';
 import { PdfExportService } from 'src/app/services/general/pdf-export.service';
+import { PaymentStatus } from 'src/app/utility/constants/other-constant';
 
 const DATA_COUNT = 5;
 const NUMBER_CFG = { count: DATA_COUNT, min: 0, max: 100 };
@@ -38,11 +39,7 @@ export class PaymentsComponent implements OnInit {
 
   protected readonly BillStatus = BillStatus;
 
-  protected readonly statusList: Record<string, string>[] = [
-    { code: 'ALL', description: 'All' },
-    { code: 'PARTIAL_PAYMENT', description: 'Partial payment' },
-    { code: 'FULL_PAYMENT', description: 'Full Payment' },
-  ];
+  protected readonly statusList: Record<string, string>[] = PaymentStatus;
 
   protected readonly ActionButton = ActionButton;
   protected paymentList: IPaymentData[];

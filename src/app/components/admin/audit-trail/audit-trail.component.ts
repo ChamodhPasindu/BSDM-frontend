@@ -19,6 +19,7 @@ import {
   RESPONSE_TITLES,
 } from 'src/app/utility/constants/response-message-title';
 import { IAuditData } from 'src/app/interfaces/IAuditData';
+import { AuditStatus } from 'src/app/utility/constants/other-constant';
 
 @UntilDestroy()
 @Component({
@@ -29,14 +30,7 @@ import { IAuditData } from 'src/app/interfaces/IAuditData';
 export class AuditTrailComponent implements OnInit {
   @ViewChild('auditModal') protected auditModal!: ViewAuditComponent;
 
-  protected readonly statusList: {
-    code: string | null;
-    description: string;
-  }[] = [
-    { code: null, description: 'All' },
-    { code: 'SUCCESS', description: 'Success' },
-    { code: 'FAILED', description: 'Failed' },
-  ];
+  protected readonly statusList: Record<string, string>[] = AuditStatus;
 
   protected auditList: IAuditData[];
 
@@ -58,7 +52,7 @@ export class AuditTrailComponent implements OnInit {
     this.searchForm = this.fb.group({
       username: [''],
       action: [''],
-      status: [null],
+      status: [''],
       fromDate: [moment().subtract(1, 'month').toDate()],
       toDate: [new Date()],
     });
@@ -93,7 +87,7 @@ export class AuditTrailComponent implements OnInit {
         paginationRequest,
         username,
         action,
-        status,
+        status || null,
         formattedFromDate,
         formattedToDate,
       )

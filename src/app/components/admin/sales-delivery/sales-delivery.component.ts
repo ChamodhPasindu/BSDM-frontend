@@ -23,6 +23,7 @@ import {
 import { ViewSaleComponent } from './view-sale/view-sale.component';
 import { ViewSaleItemComponent } from './view-sale-item/view-sale-item.component';
 import * as moment from 'moment';
+import { SalesStatus } from 'src/app/utility/constants/other-constant';
 
 @UntilDestroy()
 @Component({
@@ -37,15 +38,7 @@ export class SalesDeliveryComponent implements OnInit {
   @ViewChild('viewSaleItemModal')
   private readonly viewSaleItemModal!: ViewSaleItemComponent;
 
-  protected readonly statusList: Record<string, string>[] = [
-    { code: 'ALL', description: 'All' },
-    { code: 'DRAFT', description: 'Draft' },
-    { code: 'IN_PROGRESS', description: 'In Progress' },
-    { code: 'COMPLETED', description: 'Completed' },
-    { code: 'CANCELLED', description: 'Cancelled' },
-    { code: 'EXPIRED', description: 'Expired' },
-    { code: 'DELIVERED', description: 'Delivered' },
-  ];
+  protected readonly statusList: Record<string, string>[] = SalesStatus;
 
   protected readonly BillStatus = BillStatus;
 
