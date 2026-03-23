@@ -37,6 +37,7 @@ export class AddEditViewBatchComponent
   implements OnInit
 {
   protected readonly ActionButton = ActionButton;
+  protected minExpiryDate: Date;
 
   private _batch: IBatchData | undefined;
   private _action: ActionButton;
@@ -70,18 +71,23 @@ export class AddEditViewBatchComponent
     private readonly generalService: GeneralService
   ) {
     super();
+    this.minExpiryDate = new Date();
     this.createForm();
   }
 
   ngOnInit(): void {
     this.loadData();
     this.batchForm.get('manufactureDate')?.valueChanges.subscribe(() => {
+      this.syncExpiryDateConstraints();
       this.calculateUsableDays();
     });
 
     this.batchForm.get('expiryDate')?.valueChanges.subscribe(() => {
+      this.syncExpiryDateConstraints();
       this.calculateUsableDays();
     });
+
+    this.syncExpiryDateConstraints();
   }
   
   protected override resetState(): void {}
@@ -132,6 +138,23 @@ export class AddEditViewBatchComponent
     }
   }
 
+  private syncExpiryDateConstraints(): void {
+    const manufacture = this.batchForm.get('manufactureDate')?.value;
+    const expiryControl = this.batchForm.get('expiryDate');
+
+    if (!manufacture || !expiryControl) {
+      this.minExpiryDate = new Date();
+      return;
+    }
+
+    this.minExpiryDate = new Date(manufacture);
+    const expiry = expiryControl.value;
+
+    if (expiry && moment(expiry).isBefore(moment(manufacture), 'day')) {
+      expiryControl.setValue(manufacture);
+    }
+  }
+
   private updateForm(): void {
     if (!this.action) return;
 
@@ -147,6 +170,7 @@ export class AddEditViewBatchComponent
 
     if (this.action === ActionButton.ADD) {
       this.batchForm.enable();
+      this.batchForm.get('manufactureDate')?.setValue(new Date());
       this.generateBatchCode();
     }
 

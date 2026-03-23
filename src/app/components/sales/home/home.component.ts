@@ -242,7 +242,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                 res.body.message ||
                 RESPONSE_MESSAGES.SALES_MAN_STATUS_GET_FAILED,
             });
-            this.dayStatus = event ? DayStatus.IN_SELLING : DayStatus.LOADED;
+            this.dayStatus = event ? DayStatus.IN_SELLING_SALEMANLOAD : DayStatus.LOADED_SALEMANLOAD;
             this.storageService.set(SESSION_DATA.DAY_STATUS, this.dayStatus);
           } else {
             alertError({

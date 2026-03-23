@@ -51,7 +51,6 @@ export class AddEditViewCustomerComponent
   @Input()
   public set customer(value: ICustomerData | undefined) {
     this._customer = value;
-    this.updateForm();
   }
 
   public get customer() {
@@ -120,6 +119,7 @@ export class AddEditViewCustomerComponent
         next: (res: IResponse) => {
           if (res.body.status === RSP_SUCCESS) {
             this.routeList = res.body.content || [];
+            this.updateForm();
           } else {
             alertError({
               title: RESPONSE_TITLES.FAILED,
@@ -165,7 +165,7 @@ export class AddEditViewCustomerComponent
     this.customerForm.get('routeId')?.setValue(this.customer?.routeId);
 
     this.selectedRoute =
-      this.routeList.find(
+      this.routeList?.find(
         (x: IRouteData) => x.routeId === this.customer?.routeId,
       ) || null;
 

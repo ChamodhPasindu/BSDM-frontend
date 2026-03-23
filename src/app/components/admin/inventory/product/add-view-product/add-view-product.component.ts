@@ -109,7 +109,7 @@ export class AddViewProductComponent
           if (res.body.status === RSP_SUCCESS) {
             this.batchList =
               res.body.content.filter(
-                (x: IBatchData) => x.statusDescription !== 'EXPIRED',
+                (x: IBatchData) => x.statusDescription !== 'EXPIRED_BATCH',
               ) || [];
           } else {
             alertError({

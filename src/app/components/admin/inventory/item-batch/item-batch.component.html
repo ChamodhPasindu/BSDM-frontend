@@ -276,11 +276,11 @@
             {{batch.createdAt | date:'mediumDate' | empty}}
           </td>
           <td class="text-center">
-            <c-badge *ngIf="batch.statusDescription === 'FRESH'" color="success">{{
+            <c-badge *ngIf="batch.statusDescription === 'FRESH_BATCH'" color="success">{{
               batch.statusDescription | empty}}</c-badge>
-            <c-badge *ngIf="batch.statusDescription === 'NEAREXPIRED'" color="warning">{{
+            <c-badge *ngIf="batch.statusDescription === 'NEAREXPIRED_BATCH'" color="warning">{{
               batch.statusDescription | empty}}</c-badge>
-            <c-badge *ngIf="batch.statusDescription === 'EXPIRED'" color="danger">{{
+            <c-badge *ngIf="batch.statusDescription === 'EXPIRED_BATCH'" color="danger">{{
               batch.statusDescription | empty}}</c-badge>
           </td>
           <td class="text-center">

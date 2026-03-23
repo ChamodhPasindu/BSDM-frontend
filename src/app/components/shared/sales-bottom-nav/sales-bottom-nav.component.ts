@@ -22,13 +22,13 @@ export class SalesBottomNavComponent {
   protected toggleBottomSheet(): void {
     const dayStatus = this.storageService.get(SESSION_DATA.DAY_STATUS);
 
-    if (dayStatus === DayStatus.IN_SELLING) {
+    if (dayStatus === DayStatus.IN_SELLING_SALEMANLOAD) {
       this.bottomSheetService.open(SalesQuickMenuBottomSheetComponent, {
         height: '210px',
         showCloseButton: true,
         backgroundColor: '#fff',
       });
-    } else if (dayStatus === DayStatus.RETURNED) {
+    } else if (dayStatus === DayStatus.RETURNED_SALEMANLOAD) {
       alertWarning({
         title: 'Day Returned',
         text: 'Your stock has been returned. Tomorrow you can start your day.',
