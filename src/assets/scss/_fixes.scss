@@ -41,3 +41,11 @@ c-pagination {
   object-fit: cover;
   object-position: center;
 }
+
+// Compact alert for status indicators
+.alert-compact {
+  padding: 0.35rem 0.65rem !important;
+  margin-bottom: 0 !important;
+  font-size: 0.8125rem !important;
+  border: none !important;
+}

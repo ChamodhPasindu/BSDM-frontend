@@ -208,7 +208,9 @@
             <c-badge *ngIf="sale.paymentStatus === BillStatus.FULL_PAYMENT" color="primary"> Full Payment </c-badge>
           </td>
           <td class="text-center">
-            <div>{{ sale.statusDescription | empty}}</div>
+            <c-alert color="info" class="alert-compact">
+              {{ sale.statusDescription | empty}}
+            </c-alert>
           </td>
           <td class="text-center">
             <!-- View -->

@@ -17,7 +17,7 @@
     </c-widget-stat-f>
   </c-col>
 
-   <c-col>
+  <c-col>
     <c-widget-stat-f [title]="'Deactivated'" class="mb-3" color="warning" padding [value]="deactivateCount">
       <ng-template cTemplateId="widgetIconTemplate">
         <svg cIcon name="cilUser" size="xl" width="24"></svg>
@@ -102,12 +102,13 @@
           <th class="text-center">Mobile</th>
           <th class="text-center">Role</th>
           <th class="text-center">Created Date</th>
+          <th class="text-center">Status</th>
           <th class="text-center">Action</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngIf="!employeeList || employeeList.length === 0">
-          <td colspan="8" class="text-center text-muted py-3">
+          <td colspan="9" class="text-center text-muted py-3">
             No data available
           </td>
         </tr>
@@ -138,6 +139,11 @@
           </td>
           <td class="text-center">
             {{employee.createdDate | date:'mediumDate' | empty}}
+          </td>
+          <td class="text-center">
+            <c-alert color="info" class="alert-compact">
+              {{employee.statusDescription | empty}}
+            </c-alert>
           </td>
           <td class="text-center">
             <!-- View -->

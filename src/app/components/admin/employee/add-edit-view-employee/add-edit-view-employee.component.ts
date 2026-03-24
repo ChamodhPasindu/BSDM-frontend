@@ -5,6 +5,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Observable, forkJoin, switchMap } from 'rxjs';
 import { ActionButton } from 'src/app/enums/ActionButton.enum';
 import { CommonCode } from 'src/app/enums/CommonCode.enum';
+import { UserRole } from 'src/app/enums/UserRole.enum';
 import { IEmployee } from 'src/app/interfaces/IEmployee';
 import { IEmployeeData } from 'src/app/interfaces/IEmployeeData';
 import { IResponse } from 'src/app/interfaces/IResponse';
@@ -180,6 +181,11 @@ private updateForm(): void {
     this.employeeForm.enable();
     this.enablePasswordUpdate = false;
     this.onTogglePasswordUpdate();
+
+    if(this.employee?.roleCode === UserRole.SUPERADMIN){
+      this.employeeForm.get('role')?.disable();
+      this.employeeForm.get('status')?.disable();
+    }
   }
 
   if (this.action === ActionButton.ADD) {

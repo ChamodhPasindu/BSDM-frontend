@@ -196,7 +196,9 @@
             {{saleStock.createdAt | date:'mediumDate' | empty}}
           </td>
           <td class="text-center">
-            {{saleStock.statusDescription | empty}}
+            <c-alert color="info" class="alert-compact">
+              {{saleStock.statusDescription | empty}}
+            </c-alert>
           </td>
           <td class="text-center">
             <!-- View -->

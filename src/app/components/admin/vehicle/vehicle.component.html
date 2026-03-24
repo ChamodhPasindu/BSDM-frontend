@@ -123,7 +123,9 @@
             {{vehicle.createdAt | date:'mediumDate' | empty}}
           </td>
           <td class="text-center">
-            {{vehicle.statusDescription | empty}}
+            <c-alert color="info" class="alert-compact">
+              {{vehicle.statusDescription | empty}}
+            </c-alert>
           </td>
           <td class="text-center">
             <!-- View -->

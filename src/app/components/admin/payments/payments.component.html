@@ -233,7 +233,9 @@
             {{ payment.paidAmount | numberSeparate}}
           </td>
           <td class="text-center">
-            {{ payment.paymentType | empty}}
+            <c-alert color="info" class="alert-compact">
+              {{ payment.paymentType | empty}}
+            </c-alert>
           </td>
           <td class="text-center">
             <div class="small text-medium-emphasis"> {{payment.paymentDate | date:'short'}} </div>

@@ -123,7 +123,9 @@
             {{route.createdAt | date:'mediumDate' | empty}}
           </td>
           <td class="text-center">
-            {{route.statusDescription | empty}}
+            <c-alert color="info" class="alert-compact">
+              {{route.statusDescription | empty}}
+            </c-alert>
           </td>
           <td class="text-center">
             <!-- View -->
@@ -294,7 +296,9 @@
             {{customer.addedDate | date:'mediumDate' | empty}}
           </td>
           <td class="text-center">
-            {{customer.statusDescription | empty}}
+            <c-alert color="info" class="alert-compact">
+              {{customer.statusDescription | empty}}
+            </c-alert>
           </td>
           <td class="text-center">
             <!-- View -->

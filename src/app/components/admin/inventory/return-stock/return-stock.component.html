@@ -185,7 +185,9 @@
             {{returnStock.createdAt | date:'mediumDate' | empty}}
           </td>
           <td class="text-center">
-            {{returnStock.statusDescription | empty}}
+            <c-alert color="info" class="alert-compact">
+              {{returnStock.statusDescription | empty}}
+            </c-alert>
           </td>
           <td class="text-center">
             <!-- View -->

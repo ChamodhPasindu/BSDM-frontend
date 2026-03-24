@@ -97,7 +97,9 @@
             {{ audit.action | empty}}
           </td>
           <td class="text-center">
-            {{ audit.status | empty}}
+             <c-alert color="info" class="alert-compact">
+              {{ audit.status | empty}}
+            </c-alert>
           </td>
           <td class="text-center">
             {{ audit.createdAt | date:'mediumDate' | empty}}
