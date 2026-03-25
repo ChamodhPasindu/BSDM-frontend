@@ -28,21 +28,3 @@
     font-weight: 700;
     color: var(--cui-body-color, #2f353a);
 }
-
-.contribution-form {
-    row-gap: 0.5rem;
-}
-
-.contribution-search-col {
-    min-height: 58px;
-}
-
-@media (max-width: 575.98px) {
-    .contribution-form {
-        margin-bottom: 1rem;
-    }
-
-    .contribution-search-col {
-        min-height: auto;
-    }
-}

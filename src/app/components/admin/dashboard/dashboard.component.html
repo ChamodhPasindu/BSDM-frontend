@@ -280,8 +280,8 @@
   <c-col xl="4" lg="12" sm="12">
     <c-row>
       <c-col>
-        <c-widget-stat-c [title]="'Pending Orders'" class="mb-4" color="warning" inverse
-          value="{{ pendingCardData?.pendingPaymentSummary?.['pendingCount'] || 0 }}">
+        <c-widget-stat-c [title]="'Partial Orders'" class="mb-4" color="warning" inverse
+          value="{{ pendingCardData?.pendingPaymentSummary?.['partialCount'] || 0 }}">
           <ng-template cTemplateId="widgetIconTemplate">
             <svg cIcon height="36" name="cilClock"></svg>
           </ng-template>
@@ -293,8 +293,8 @@
         </c-widget-stat-c>
       </c-col>
       <c-col>
-        <c-widget-stat-c [title]="'Pending Bill Amount'" class="mb-4" color="danger" inverse
-          value="{{ (pendingCardData?.pendingPaymentSummary?.['pendingAmount'] || 0) | currency:'LKR ' }}">
+        <c-widget-stat-c [title]="'Partial Balance Amount'" class="mb-4" color="danger" inverse
+          value="{{ (pendingCardData?.pendingPaymentSummary?.['partialBalanceAmount'] || 0) | currency:'LKR ' }}">
           <ng-template cTemplateId="widgetIconTemplate">
             <svg cIcon height="36" name="cilClipboard"></svg>
           </ng-template>
