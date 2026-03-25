@@ -7,10 +7,7 @@ import { ModalControlDirective } from 'src/app/utility/directives/modal-control.
   templateUrl: './view-audit.component.html',
   styleUrls: ['./view-audit.component.scss'],
 })
-export class ViewAuditComponent
-  extends ModalControlDirective
-  implements OnInit
-{
+export class ViewAuditComponent extends ModalControlDirective {
   private _audit: IAuditData | undefined;
 
   @Input()
@@ -27,6 +24,4 @@ export class ViewAuditComponent
   }
 
   protected override resetState(): void {}
-
-  ngOnInit(): void {}
 }

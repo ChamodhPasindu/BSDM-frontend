@@ -12,3 +12,37 @@
     height: 280px !important;
     width: 280px !important;
 }
+
+.contribution-stat-card {
+    border: 1px solid var(--cui-border-color, #d8dbe0);
+}
+
+.contribution-stat-title {
+    color: var(--cui-secondary-color, #768192);
+    font-size: 0.875rem;
+    margin-bottom: 0.35rem;
+}
+
+.contribution-stat-value {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--cui-body-color, #2f353a);
+}
+
+.contribution-form {
+    row-gap: 0.5rem;
+}
+
+.contribution-search-col {
+    min-height: 58px;
+}
+
+@media (max-width: 575.98px) {
+    .contribution-form {
+        margin-bottom: 1rem;
+    }
+
+    .contribution-search-col {
+        min-height: auto;
+    }
+}

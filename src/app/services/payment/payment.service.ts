@@ -82,6 +82,21 @@ export class PaymentService {
     );
   }
 
+  public getSalesmanContribution(
+    id: number,
+    from: string,
+    to: string,
+  ): Observable<IResponse> {
+    return this.httpClient.post<IResponse>(
+      this.adminRequestUrl + '/salesman/order/summary',
+      {
+        employeeId: id,
+        fromDate: from,
+        toDate: to,
+      },
+    );
+  }
+
   // Salesman API
 
   public salesmanSettlePayment(

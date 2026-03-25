@@ -23,6 +23,10 @@ import { BillStatus } from 'src/app/enums/BillStatus.enum';
 import * as moment from 'moment';
 import { PdfExportService } from 'src/app/services/general/pdf-export.service';
 import { PaymentStatus } from 'src/app/utility/constants/other-constant';
+import { EmployeeService } from 'src/app/services/employee/employee.service';
+import { IEmployeeData } from 'src/app/interfaces/IEmployeeData';
+import { UserRole } from 'src/app/enums/UserRole.enum';
+import { ISalesmanContribution } from 'src/app/interfaces/ISalesmanContribution';
 
 const DATA_COUNT = 5;
 const NUMBER_CFG = { count: DATA_COUNT, min: 0, max: 100 };
@@ -38,10 +42,10 @@ export class PaymentsComponent implements OnInit {
   private readonly editViewPaymentModal!: EditViewPaymentComponent;
 
   protected readonly BillStatus = BillStatus;
+  protected readonly ActionButton = ActionButton;
 
   protected readonly statusList: Record<string, string>[] = PaymentStatus;
 
-  protected readonly ActionButton = ActionButton;
   protected paymentList: IPaymentData[];
 
   protected currentPage: number = 1;
@@ -49,6 +53,11 @@ export class PaymentsComponent implements OnInit {
   protected count: number = 0;
 
   protected searchForm: FormGroup;
+  protected contributionForm: FormGroup;
+
+  protected driverList: IEmployeeData[];
+  protected contributionData: ISalesmanContribution | null = null;
+  protected contributionSearched: boolean = false;
 
   protected today = new Date();
 
@@ -94,8 +103,10 @@ export class PaymentsComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly paymentService: PaymentService,
     private readonly pdfExportService: PdfExportService,
+    private readonly employeeService: EmployeeService,
   ) {
     this.createForm();
+    this.createContributionForm();
   }
 
   private createForm(): void {
@@ -109,12 +120,86 @@ export class PaymentsComponent implements OnInit {
     });
   }
 
+  private createContributionForm(): void {
+    this.contributionForm = this.fb.group({
+      employeeId: [null],
+      fromDate: [this.today],
+      toDate: [this.today],
+    });
+  }
+
   ngOnInit(): void {
     this.loadPaymentTableData();
     this.loadPaymentWidgetData();
 
     this.loadRouteSummaryChartData();
     this.loadSalesmanSummaryChartData();
+
+    this.loadDriverListData();
+  }
+
+  private loadDriverListData(): void {
+    this.employeeService
+      .getEmployeeList({ pageable: false })
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          if (res.body.status === RSP_SUCCESS) {
+            this.driverList =
+              res.body.content.filter(
+                (x: IEmployeeData) => x.roleCode === UserRole.SALESMAN,
+              ) || [];
+          } else {
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text: res.body.message || RESPONSE_MESSAGES.EMPLOYEE_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          errorMessageHandler(err);
+        },
+      });
+  }
+
+  protected onContributionSearch(): void {
+    const { employeeId, fromDate, toDate } = this.contributionForm.value;
+
+    if (!employeeId) {
+      alertError({
+        title: RESPONSE_TITLES.FAILED,
+        text: 'Please select a driver.',
+      });
+      return;
+    }
+
+    const formattedFromDate = fromDate ? datePickerToDate(fromDate) : '';
+    const formattedToDate = toDate ? datePickerToDate(toDate) : '';
+
+    this.paymentService
+      .getSalesmanContribution(employeeId, formattedFromDate, formattedToDate)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: IResponse) => {
+          this.contributionSearched = true;
+          if (res.body.status === RSP_SUCCESS) {
+            this.contributionData = res.body.content || null;
+          } else {
+            this.contributionData = null;
+            alertError({
+              title: RESPONSE_TITLES.FAILED,
+              text:
+                res.body.message ||
+                RESPONSE_MESSAGES.SALESMAN_SUMMARY_GET_FAILED,
+            });
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          this.contributionData = null;
+          this.contributionSearched = true;
+          errorMessageHandler(err);
+        },
+      });
   }
 
   private loadRouteSummaryChartData(): void {
@@ -360,7 +445,7 @@ export class PaymentsComponent implements OnInit {
     });
   }
 
-  protected onClear(): void {
+  protected onSearchFormClear(): void {
     this.searchForm.reset({
       status: 'ALL',
       fromDate: this.today,
@@ -369,7 +454,23 @@ export class PaymentsComponent implements OnInit {
     this.loadPaymentTableData();
   }
 
-  protected hasAnyValue(): boolean {
+  protected onContributionFormClear(): void {
+    this.contributionForm.reset({
+      employeeId: null,
+      fromDate: this.today,
+      toDate: this.today,
+    });
+    this.contributionSearched = false;
+    this.contributionData = null;
+  }
+
+  protected hasAnyContributionFormValue(): boolean {
+    const { employeeId, fromDate, toDate } = this.contributionForm.value;
+
+    return !!(employeeId || fromDate || toDate);
+  }
+
+  protected hasAnySearchFormValue(): boolean {
     const {
       inputPaymentValue,
       inputCustomerValue,

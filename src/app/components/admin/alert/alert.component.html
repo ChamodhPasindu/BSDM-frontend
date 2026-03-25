@@ -72,14 +72,14 @@
           <th class="text-center">
             ID
           </th>
+          <th>Sender Name</th>
+          <th>Recipient Name</th>
           <th>
             Title
           </th>
           <th>Message</th>
           <th class="text-center">Is Read</th>
           <th class="text-center">Created Date</th>
-          <th class="text-center">Sender Name</th>
-          <th class="text-center">Recipient Name</th>
           <th class="text-center">Action</th>
         </tr>
       </thead>
@@ -94,6 +94,12 @@
             {{notification.id | empty}}
           </td>
           <td>
+            {{notification.senderName | empty}}
+          </td>
+          <td>
+            {{notification.recipientName | empty}}
+          </td>
+          <td>
             {{notification.title | empty}}
           </td>
           <td>
@@ -104,12 +110,6 @@
           </td>
           <td class="text-center">
             {{notification.createdAt | date:'mediumDate' | empty}}
-          </td>
-          <td class="text-center">
-            {{notification.senderName | empty}}
-          </td>
-          <td class="text-center">
-            {{notification.recipientName | empty}}
           </td>
           <td class="text-center">
             <!-- Delete -->

@@ -116,6 +116,126 @@
 
 <c-card class="mb-4">
   <c-card-body>
+    <h4 class="card-title mb-4">Salesman Contribution</h4>
+
+    <form cRow class="align-items-end mb-4" [formGroup]="contributionForm" (ngSubmit)="onContributionSearch()">
+      <c-col sm="6" lg="3" class="mb-2">
+        <label cLabel for="contributionEmployeeId">Driver</label>
+        <ng-select cFormControl id="contributionEmployeeId" [items]="driverList" bindLabel="name" bindValue="userId"
+          [searchable]="true" [clearable]="true" placeholder="Select a driver" formControlName="employeeId">
+        </ng-select>
+      </c-col>
+
+      <c-col sm="6" lg="3" class="mb-2">
+        <label cLabel for="contributionFromDate">From Date</label>
+        <div class="input-group">
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker
+            [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" formControlName="fromDate" />
+          <span class="input-group-text bg-white">
+            <svg cIcon name="cilCalendar" class="text-secondary"></svg>
+          </span>
+        </div>
+      </c-col>
+
+      <c-col sm="6" lg="3" class="mb-2">
+        <label cLabel for="contributionToDate">To Date</label>
+        <div class="input-group">
+          <input type="text" placeholder="Choose a date" class="form-control" bsDatepicker
+            [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }" formControlName="toDate" />
+          <span class="input-group-text bg-white">
+            <svg cIcon name="cilCalendar" class="text-secondary"></svg>
+          </span>
+        </div>
+      </c-col>
+
+      <c-col sm="6" lg="3" class="mb-2 d-flex align-items-center gap-2 flex-wrap">
+        <button cButton type="submit" variant="outline" color="secondary">
+          <svg cIcon name="cilSearch" class="me-2"></svg>Search
+        </button>
+        <button *ngIf="contributionForm.dirty && contributionForm.value && hasAnyContributionFormValue()" cButton
+          type="button" variant="outline" color="danger" (click)="onContributionFormClear()">
+          <svg cIcon name="cilX" class="me-2"></svg>Clear
+        </button>
+      </c-col>
+    </form>
+
+    <div *ngIf="contributionSearched">
+      <c-row>
+        <c-col sm="6" lg="3" class="mb-3">
+          <c-card class="h-100 contribution-stat-card">
+            <c-card-body>
+              <div class="contribution-stat-title">Min Value</div>
+              <div class="contribution-stat-value">LKR {{ (contributionData?.valueSummaryDTO?.['minValue'] || 0) |
+                numberSeparate }}</div>
+            </c-card-body>
+          </c-card>
+        </c-col>
+
+        <c-col sm="6" lg="3" class="mb-3">
+          <c-card class="h-100 contribution-stat-card">
+            <c-card-body>
+              <div class="contribution-stat-title">Max Value</div>
+              <div class="contribution-stat-value">LKR {{ (contributionData?.valueSummaryDTO?.['maxValue'] || 0) |
+                numberSeparate }}</div>
+            </c-card-body>
+          </c-card>
+        </c-col>
+
+        <c-col sm="6" lg="3" class="mb-3">
+          <c-card class="h-100 contribution-stat-card">
+            <c-card-body>
+              <div class="contribution-stat-title">Order Count</div>
+              <div class="contribution-stat-value">{{ contributionData?.summarySalesManDTO?.['orderCount'] || 0 }}</div>
+            </c-card-body>
+          </c-card>
+        </c-col>
+
+        <c-col sm="6" lg="3" class="mb-3">
+          <c-card class="h-100 contribution-stat-card">
+            <c-card-body>
+              <div class="contribution-stat-title">Total Amount</div>
+              <div class="contribution-stat-value">LKR {{ (contributionData?.summarySalesManDTO?.['totalAmount'] || 0) |
+                numberSeparate }}</div>
+            </c-card-body>
+          </c-card>
+        </c-col>
+
+        <c-col sm="6" lg="4" class="mb-3">
+          <c-card class="h-100 contribution-stat-card">
+            <c-card-body>
+              <div class="contribution-stat-title">Paid Amount</div>
+              <div class="contribution-stat-value">LKR {{ (contributionData?.summarySalesManDTO?.['totalPaidAmount'] || 0) |
+                numberSeparate }}</div>
+            </c-card-body>
+          </c-card>
+        </c-col>
+
+        <c-col sm="6" lg="4" class="mb-3">
+          <c-card class="h-100 contribution-stat-card">
+            <c-card-body>
+              <div class="contribution-stat-title">Balance Amount</div>
+              <div class="contribution-stat-value">LKR {{ (contributionData?.summarySalesManDTO?.['totalBalanceAmount'] ||
+                0) | numberSeparate }}</div>
+            </c-card-body>
+          </c-card>
+        </c-col>
+
+        <c-col sm="12" lg="4" class="mb-3">
+          <c-card class="h-100 contribution-stat-card">
+            <c-card-body>
+              <div class="contribution-stat-title">Total Discount</div>
+              <div class="contribution-stat-value">LKR {{ (contributionData?.summarySalesManDTO?.['totalDiscount'] || 0) |
+                numberSeparate }}</div>
+            </c-card-body>
+          </c-card>
+        </c-col>
+      </c-row>
+    </div>
+  </c-card-body>
+</c-card>
+
+<c-card class="mb-4">
+  <c-card-body>
     <c-row class="justify-content-between">
       <c-col sm="5">
         <h4 class="card-title mb-4" id="employee-list">Payments</h4>
@@ -188,8 +308,8 @@
           <svg cIcon name="cilSearch" class="me-2"></svg>Search
         </button>
 
-        <button *ngIf="searchForm.dirty && searchForm.value && hasAnyValue()" cButton type="button" variant="outline"
-          color="danger" (click)="onClear()">
+        <button *ngIf="searchForm.dirty && searchForm.value && hasAnySearchFormValue()" cButton type="button"
+          variant="outline" color="danger" (click)="onSearchFormClear()">
           <svg cIcon name="cilX" class="me-2"></svg>Clear
         </button>
 
