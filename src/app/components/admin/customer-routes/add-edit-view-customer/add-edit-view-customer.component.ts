@@ -118,7 +118,7 @@ export class AddEditViewCustomerComponent
       .subscribe({
         next: (res: IResponse) => {
           if (res.body.status === RSP_SUCCESS) {
-            this.routeList = res.body.content || [];
+            this.routeList = res.body.content.filter((route: IRouteData) => route.statusDescription === 'ACTIVE_ROUTES' ) || [];
             this.updateForm();
           } else {
             alertError({

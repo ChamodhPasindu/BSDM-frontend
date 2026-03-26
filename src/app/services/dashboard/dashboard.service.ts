@@ -41,7 +41,7 @@ export class DashboardService {
     });
   }
 
-  public getPeningCard(): Observable<IResponse> {
+  public getPendingCard(): Observable<IResponse> {
     return this.httpClient.get<IResponse>(
       this.adminRequestUrl + '/pending-card',
     );

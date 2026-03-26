@@ -70,7 +70,6 @@ export class SelectBillComponent implements OnInit {
       .pipe(untilDestroyed(this))
       .subscribe((res) => {
         if (res?.action === 'pay-now' || res?.action === 'payment-summary') {
-          console.log(res.action);
           this.loadBillList();
         }
       });

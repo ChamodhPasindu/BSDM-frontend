@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-sales-empty-data',
@@ -7,5 +7,4 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class SalesEmptyDataComponent {
   @Input() name: string;
-  constructor() {}
 }

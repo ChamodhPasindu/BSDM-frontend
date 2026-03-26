@@ -122,7 +122,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   private loadPendingCardData(): void {
     this.dashboardService
-      .getPeningCard()
+      .getPendingCard()
       .pipe(untilDestroyed(this))
       .subscribe({
         next: (res: IResponse) => {

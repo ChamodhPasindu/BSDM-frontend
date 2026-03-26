@@ -89,6 +89,11 @@ export class Interceptor implements HttpInterceptor {
           return this.handle403Error(request, next);
         }
 
+        if (error.status === 401) {
+            this.storageService.clearSession();
+            this.router.navigate(['/login']);
+          }
+
         let message = RESPONSE_MESSAGES.COMMON_ERROR_DES;
 
         if (error.error?.message) {
@@ -97,11 +102,6 @@ export class Interceptor implements HttpInterceptor {
           message =
             RESPONSE_MESSAGES.HTTP_ERROR[error.status] ||
             RESPONSE_MESSAGES.COMMON_ERROR_DES;
-
-          if (error.status === 401) {
-            this.storageService.clearSession();
-            this.router.navigate(['/login']);
-          }
         }
 
         const errorWithMessage = {

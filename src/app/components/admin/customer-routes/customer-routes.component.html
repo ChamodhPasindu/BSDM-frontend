@@ -123,8 +123,14 @@
             {{route.createdAt | date:'mediumDate' | empty}}
           </td>
           <td class="text-center">
-            <c-alert color="info" class="alert-compact">
-              {{route.statusDescription | empty}}
+            <c-alert *ngIf="route.statusDescription === 'ACTIVE_ROUTES'" color="info" class="alert-compact">
+              Active
+            </c-alert>
+            <c-alert *ngIf="route.statusDescription === 'DEACTIVE_ROUTES'" color="info" class="alert-compact">
+              Deactivated
+            </c-alert>
+            <c-alert *ngIf="route.statusDescription === 'DELETED_ROUTES'" color="info" class="alert-compact">
+              Deleted
             </c-alert>
           </td>
           <td class="text-center">

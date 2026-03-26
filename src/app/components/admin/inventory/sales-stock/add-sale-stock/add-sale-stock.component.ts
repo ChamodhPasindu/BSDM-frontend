@@ -162,7 +162,7 @@ export class AddSaleStockComponent extends ModalControlDirective {
       .subscribe({
         next: (res: IResponse) => {
           if (res.body.status === RSP_SUCCESS) {
-            this.routeList = res.body.content || [];
+            this.routeList = res.body.content.filter((route: IRouteData) => route.statusDescription === 'ACTIVE_ROUTES' ) || [];
           } else {
             alertError({
               title: RESPONSE_TITLES.FAILED,
