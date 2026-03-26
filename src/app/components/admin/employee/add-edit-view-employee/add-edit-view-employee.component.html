@@ -50,7 +50,9 @@
             <option *ngFor="let status of statusList" [value]="status['code']">{{ status['description'] }}</option>
           </select>
         </c-col>
-        <ng-container *ngIf="action !== ActionButton.VIEW">
+
+        <ng-container
+          *ngIf="(action === ActionButton.EDIT && userRole === UserRoles.SUPERADMIN) || (action === ActionButton.ADD && userRole !== UserRoles.SALESMAN)">
           <hr />
 
           <h6 class="mb-3 mt-3">Setup Account Credentials</h6>
@@ -94,7 +96,6 @@
             </div>
           </c-col>
         </ng-container>
-
 
       </c-row>
     </c-modal-body>

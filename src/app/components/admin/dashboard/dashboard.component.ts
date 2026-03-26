@@ -14,6 +14,9 @@ import {
 import { IRecentTxn } from 'src/app/interfaces/IRecentTxn';
 import { IRecentOrder } from 'src/app/interfaces/IRecentOrder';
 import { IPendingCard } from 'src/app/interfaces/IPendingCard';
+import { StorageService } from 'src/app/services/storage.service';
+import { SESSION_DATA } from 'src/app/utility/constants/session-data';
+import { UserRole } from 'src/app/enums/UserRole.enum';
 
 @UntilDestroy()
 @Component({
@@ -22,6 +25,9 @@ import { IPendingCard } from 'src/app/interfaces/IPendingCard';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+  protected readonly UserRoles = UserRole;
+  protected readonly userRole = this.storageService.get(SESSION_DATA.ROLE)!;
+
   protected greetingText: string;
   protected currentDateTime: string;
   protected intervalId: any;
@@ -47,6 +53,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   constructor(
     private readonly dashboardService: DashboardService,
     private readonly chartsData: DashboardChartsData,
+    private readonly storageService: StorageService,
   ) {}
 
   ngOnInit(): void {

@@ -71,7 +71,7 @@
   </c-col>
 </c-row>
 
-<c-card class="mb-4">
+<c-card *ngIf="userRole === UserRoles.SUPERADMIN" class="mb-4">
   <c-card-body>
     <c-row>
       <c-col sm="5">
@@ -160,7 +160,7 @@
       </c-col>
     </c-row>
 
-    <c-row>
+    <c-row *ngIf="userRole === UserRoles.SUPERADMIN">
       <c-col xl="3" md="6" sm="6">
         <c-widget-stat-b [title]="'Today Biggest'" class="mb-4"
           value="{{ (pendingCardData?.biggestOrderToday?.['orderAmount'] || 0) | currency:'LKR ' }}">

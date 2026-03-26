@@ -147,13 +147,15 @@
           </td>
           <td class="text-center">
             <!-- View -->
-            <button cButton color="info" size="sm" variant="ghost" class="me-2" title="View"
+            <button [disabled]="userRole === UserRoles.ADMIN && employee.roleCode === UserRoles.SUPERADMIN" cButton
+              color="info" size="sm" variant="ghost" class="me-2" title="View"
               (click)="openAddEditViewEmployeeModal(ActionButton.VIEW,employee)">
               <svg cIcon name="cilCommand"></svg>
             </button>
 
             <!-- Edit -->
-            <button cButton color="warning" size="sm" variant="ghost" class="me-2" title="Edit"
+            <button [disabled]="userRole === UserRoles.ADMIN && employee.roleCode === UserRoles.SUPERADMIN" cButton
+              color="warning" size="sm" variant="ghost" class="me-2" title="Edit"
               (click)="openAddEditViewEmployeeModal(ActionButton.EDIT,employee)">
               <svg cIcon name="cilPencil"></svg>
             </button>

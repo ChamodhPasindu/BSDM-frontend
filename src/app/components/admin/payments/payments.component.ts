@@ -27,9 +27,8 @@ import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { IEmployeeData } from 'src/app/interfaces/IEmployeeData';
 import { UserRole } from 'src/app/enums/UserRole.enum';
 import { ISalesmanContribution } from 'src/app/interfaces/ISalesmanContribution';
-
-const DATA_COUNT = 5;
-const NUMBER_CFG = { count: DATA_COUNT, min: 0, max: 100 };
+import { SESSION_DATA } from 'src/app/utility/constants/session-data';
+import { StorageService } from 'src/app/services/storage.service';
 
 @UntilDestroy()
 @Component({
@@ -40,6 +39,9 @@ const NUMBER_CFG = { count: DATA_COUNT, min: 0, max: 100 };
 export class PaymentsComponent implements OnInit {
   @ViewChild('editViewPaymentModal')
   private readonly editViewPaymentModal!: EditViewPaymentComponent;
+
+  protected readonly UserRoles = UserRole;
+  protected readonly userRole = this.storageService.get(SESSION_DATA.ROLE)!;
 
   protected readonly BillStatus = BillStatus;
   protected readonly ActionButton = ActionButton;
@@ -104,6 +106,7 @@ export class PaymentsComponent implements OnInit {
     private readonly paymentService: PaymentService,
     private readonly pdfExportService: PdfExportService,
     private readonly employeeService: EmployeeService,
+    private readonly storageService: StorageService,
   ) {
     this.createForm();
     this.createContributionForm();

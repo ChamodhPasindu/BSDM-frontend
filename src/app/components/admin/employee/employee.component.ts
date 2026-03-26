@@ -22,6 +22,8 @@ import { AddEditViewEmployeeComponent } from './add-edit-view-employee/add-edit-
 import { UserRole } from 'src/app/enums/UserRole.enum';
 import { PdfExportService } from 'src/app/services/general/pdf-export.service';
 import * as moment from 'moment';
+import { StorageService } from 'src/app/services/storage.service';
+import { SESSION_DATA } from 'src/app/utility/constants/session-data';
 
 @UntilDestroy()
 @Component({
@@ -32,6 +34,9 @@ import * as moment from 'moment';
 export class EmployeeComponent implements OnInit {
   @ViewChild('addEditViewEmployeeModal')
   private readonly addEditViewEmployeeModal!: AddEditViewEmployeeComponent;
+
+  protected readonly UserRoles = UserRole;
+  protected readonly userRole = this.storageService.get(SESSION_DATA.ROLE)!;
 
   protected readonly ActionButton = ActionButton;
   protected employeeList: IEmployeeData[];
@@ -51,6 +56,7 @@ export class EmployeeComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly employeeService: EmployeeService,
     private readonly pdfExportService: PdfExportService,
+    private readonly storageService: StorageService,
   ) {
     this.createForm();
   }

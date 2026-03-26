@@ -204,7 +204,8 @@
           <c-card class="h-100 contribution-stat-card">
             <c-card-body>
               <div class="contribution-stat-title">Paid Amount</div>
-              <div class="contribution-stat-value">LKR {{ (contributionData?.summarySalesManDTO?.['totalPaidAmount'] || 0) |
+              <div class="contribution-stat-value">LKR {{ (contributionData?.summarySalesManDTO?.['totalPaidAmount'] ||
+                0) |
                 numberSeparate }}</div>
             </c-card-body>
           </c-card>
@@ -214,7 +215,8 @@
           <c-card class="h-100 contribution-stat-card">
             <c-card-body>
               <div class="contribution-stat-title">Balance Amount</div>
-              <div class="contribution-stat-value">LKR {{ (contributionData?.summarySalesManDTO?.['totalBalanceAmount'] ||
+              <div class="contribution-stat-value">LKR {{ (contributionData?.summarySalesManDTO?.['totalBalanceAmount']
+                ||
                 0) | numberSeparate }}</div>
             </c-card-body>
           </c-card>
@@ -224,7 +226,8 @@
           <c-card class="h-100 contribution-stat-card">
             <c-card-body>
               <div class="contribution-stat-title">Total Discount</div>
-              <div class="contribution-stat-value">LKR {{ (contributionData?.summarySalesManDTO?.['totalDiscount'] || 0) |
+              <div class="contribution-stat-value">LKR {{ (contributionData?.summarySalesManDTO?.['totalDiscount'] || 0)
+                |
                 numberSeparate }}</div>
             </c-card-body>
           </c-card>
@@ -234,7 +237,7 @@
   </c-card-body>
 </c-card>
 
-<c-card class="mb-4">
+<c-card *ngIf="userRole === UserRoles.SUPERADMIN" class="mb-4">
   <c-card-body>
     <c-row class="justify-content-between">
       <c-col sm="5">
@@ -390,7 +393,7 @@
   </c-card-body>
 </c-card>
 
-<c-row>
+<c-row *ngIf="userRole === UserRoles.SUPERADMIN">
   <c-col xs="12" lg="6">
     <c-card class="mb-4">
       <c-card-header>
