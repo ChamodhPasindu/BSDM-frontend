@@ -134,7 +134,7 @@ import {
   cilPhone,
   cilGlobeAlt,
   cilWarning,
-  cilInfo
+  cilInfo,
 } from '@coreui/icons';
 
 export const iconSubset = {

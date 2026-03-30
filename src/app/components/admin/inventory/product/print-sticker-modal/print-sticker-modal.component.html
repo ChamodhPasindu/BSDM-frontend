@@ -1,0 +1,35 @@
+<c-modal id="printStickerModal" size="sm" alignment="center" [visible]="visible"
+    (visibleChange)="onChangeModalVisibility($event)" backdrop="static" keyboard="false">
+    <c-modal-header>
+        <h5 cModalTitle>Print Product Stickers</h5>
+        <button (click)="onCloseModal()" cButtonClose></button>
+    </c-modal-header>
+
+    <c-modal-body>
+        <form [formGroup]="stickerForm">
+            <div class="mb-3">
+                <label cLabel for="quantityInput">How many stickers do you want to print?</label>
+                <input cFormControl id="quantityInput" type="number" formControlName="quantity" min="1"
+                    placeholder="Enter quantity" />
+                <small class="form-text text-muted d-block mt-1">
+                    <strong>Note:</strong> Each A4 page contains 72 extra-small stickers (12 rows x 6 columns) with no
+                    gaps.
+                </small>
+            </div>
+
+            <div *ngIf="product" class="alert alert-info" role="alert">
+                <strong>Product:</strong> {{ product.productName }}<br />
+                <strong>Batch Code:</strong> {{ product.batchCode }}
+            </div>
+        </form>
+    </c-modal-body>
+
+    <c-modal-footer>
+        <button type="button" (click)="onCloseModal()" cButton color="secondary">
+            Cancel
+        </button>
+        <button type="button" (click)="onPrint()" cButton color="primary" [disabled]=" stickerForm.invalid">
+            Print Stickers
+        </button>
+    </c-modal-footer>
+</c-modal>

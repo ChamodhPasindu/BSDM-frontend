@@ -1,0 +1,48 @@
+// Print Sticker Modal Styles
+.modal-header {
+  border-bottom: 1px solid #e3e6f0;
+}
+
+.modal-body {
+  padding: 1.5rem;
+
+  label {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  input[type='number'] {
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    &[type='number'] {
+      -moz-appearance: textfield;
+    }
+  }
+}
+
+.alert {
+  border-radius: 0.25rem;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+
+  strong {
+    font-weight: 600;
+  }
+}
+
+.text-danger {
+  color: #dc3545;
+}
+
+.text-muted {
+  color: #6c757d;
+}
+
+.form-text {
+  display: block;
+  margin-top: 0.25rem;
+}

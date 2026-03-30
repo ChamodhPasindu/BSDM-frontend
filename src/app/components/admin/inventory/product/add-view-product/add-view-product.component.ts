@@ -44,6 +44,9 @@ export class AddViewProductComponent
   protected itemList: IItemData[];
   protected batchList: IBatchData[];
 
+  protected allBatchList: IBatchData[];
+  protected filteredBatchList: IBatchData[];
+
   protected selectedItem: IItemData | null;
   protected selectedBatch: IBatchData | null;
 
@@ -107,7 +110,8 @@ export class AddViewProductComponent
       .subscribe({
         next: (res: IResponse) => {
           if (res.body.status === RSP_SUCCESS) {
-            this.batchList =
+            this.allBatchList = res.body.content;
+            this.filteredBatchList =
               res.body.content.filter(
                 (x: IBatchData) => x.statusDescription !== 'EXPIRED_BATCH',
               ) || [];
@@ -150,8 +154,10 @@ export class AddViewProductComponent
 
     this.selectedItem = null;
     this.selectedBatch = null;
+    this.batchList = this.filteredBatchList;
 
     if (this.action === ActionButton.VIEW) {
+      this.batchList = this.allBatchList;
       this.patchValue();
       this.productForm.disable();
     }

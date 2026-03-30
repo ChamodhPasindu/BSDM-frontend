@@ -11,7 +11,7 @@
           <label cLabel for="recipientUserId">Recipient Employee</label>
           <select cFormControl id="recipientUserId" class="form-select" formControlName="recipientUserId" appValidate
             fieldName="Recipient Employee">
-            <option value="" disabled selected>Select an Employee</option>
+            <option value=null disabled selected>Select an Employee</option>
             <option *ngFor="let employee of employeeList" [value]="employee.userId">{{ employee.name }}</option>
           </select>
         </c-col>
@@ -20,7 +20,7 @@
           <label cLabel for="alertType">Alert Type</label>
           <select cFormControl id="alertType" class="form-select" formControlName="priority" appValidate
             fieldName="Alert Type">
-            <option value="" disabled selected>Select an Alert Type</option>
+            <option value=null disabled selected>Select an Alert Type</option>
             <option *ngFor="let alertType of alertTypeList" [value]="alertType['code']">{{ alertType['description'] }}
             </option>
           </select>

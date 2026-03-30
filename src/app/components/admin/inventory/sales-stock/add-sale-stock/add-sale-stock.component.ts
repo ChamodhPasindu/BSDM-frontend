@@ -78,7 +78,7 @@ export class AddSaleStockComponent extends ModalControlDirective {
     private readonly saleStockService: SaleStockService,
     private readonly employeeService: EmployeeService,
     private readonly vehicleService: VehicleService,
-    private readonly routeService: RouteService
+    private readonly routeService: RouteService,
   ) {
     super();
     this.createForm();
@@ -89,6 +89,7 @@ export class AddSaleStockComponent extends ModalControlDirective {
     this.selectedDriver = null;
     this.selectedVehicle = null;
     this.cartItems = [];
+    this.setDefaultLoadDate();
   }
 
   public loadData(): void {
@@ -106,8 +107,15 @@ export class AddSaleStockComponent extends ModalControlDirective {
       routes: [null, Validators.required],
       quantity: ['', Validators.required],
     });
-    this.saleStockForm.get('loadDate')?.disable();
+    this.setDefaultLoadDate();
     this.setForm(this.saleStockForm);
+  }
+
+  private setDefaultLoadDate(): void {
+    const loadDateControl = this.saleStockForm.get('loadDate');
+    loadDateControl?.enable({ emitEvent: false });
+    loadDateControl?.setValue(moment().toDate(), { emitEvent: false });
+    loadDateControl?.disable({ emitEvent: false });
   }
 
   private loadDriverListData(): void {
@@ -119,7 +127,7 @@ export class AddSaleStockComponent extends ModalControlDirective {
           if (res.body.status === RSP_SUCCESS) {
             this.driverList =
               res.body.content.filter(
-                (x: IEmployeeData) => x.roleCode === UserRole.SALESMAN
+                (x: IEmployeeData) => x.roleCode === UserRole.SALESMAN,
               ) || [];
           } else {
             alertError({
@@ -162,7 +170,11 @@ export class AddSaleStockComponent extends ModalControlDirective {
       .subscribe({
         next: (res: IResponse) => {
           if (res.body.status === RSP_SUCCESS) {
-            this.routeList = res.body.content.filter((route: IRouteData) => route.statusDescription === 'ACTIVE_ROUTES' ) || [];
+            this.routeList =
+              res.body.content.filter(
+                (route: IRouteData) =>
+                  route.statusDescription === 'ACTIVE_ROUTES',
+              ) || [];
           } else {
             alertError({
               title: RESPONSE_TITLES.FAILED,
@@ -275,7 +287,7 @@ export class AddSaleStockComponent extends ModalControlDirective {
     });
 
     const routeList: number[] = routes.map(
-      (route: Record<string, number>) => route['routeId']
+      (route: Record<string, number>) => route['routeId'],
     );
 
     const payload: ISaleStock = {

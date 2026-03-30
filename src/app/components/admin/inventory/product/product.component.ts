@@ -21,6 +21,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { SweetAlertResult } from 'sweetalert2';
 import { IProductData } from 'src/app/interfaces/IProductData';
 import { AddViewProductComponent } from './add-view-product/add-view-product.component';
+import { PrintStickerModalComponent } from './print-sticker-modal/print-sticker-modal.component';
 import * as moment from 'moment';
 import { PdfExportService } from 'src/app/services/general/pdf-export.service';
 
@@ -33,6 +34,9 @@ import { PdfExportService } from 'src/app/services/general/pdf-export.service';
 export class ProductComponent implements OnInit {
   @ViewChild('addViewProductModal')
   private readonly addViewProductModal!: AddViewProductComponent;
+
+  @ViewChild('printStickerModal')
+  private readonly printStickerModal!: PrintStickerModalComponent;
 
   protected readonly ActionButton = ActionButton;
   protected productList: IProductData[];
@@ -281,5 +285,10 @@ export class ProductComponent implements OnInit {
         }
       },
     );
+  }
+
+  protected onPrintBatch(product: IProductData): void {
+    this.printStickerModal.product = product;
+    this.printStickerModal.visible = true;
   }
 }

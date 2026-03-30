@@ -37,6 +37,7 @@ import { AddReturnStockComponent } from './return-stock/add-return-stock/add-ret
 import { AddEditViewItemComponent } from './item-batch/add-edit-view-item/add-edit-view-item.component';
 import { AddEditViewBatchComponent } from './item-batch/add-edit-view-batch/add-edit-view-batch.component';
 import { AddViewProductComponent } from './product/add-view-product/add-view-product.component';
+import { PrintStickerModalComponent } from './product/print-sticker-modal/print-sticker-modal.component';
 import { AddStockComponent } from './stock/add-stock/add-stock.component';
 import { EditViewStockComponent } from './stock/edit-view-stock/edit-view-stock.component';
 import { ReviewReturnStockComponent } from './return-stock/review-return-stock/review-return-stock.component';
@@ -45,6 +46,7 @@ import { ReviewReturnStockComponent } from './return-stock/review-return-stock/r
   declarations: [
     ProductComponent,
     AddViewProductComponent,
+    PrintStickerModalComponent,
     SalesStockComponent,
     StockComponent,
     AddStockComponent,

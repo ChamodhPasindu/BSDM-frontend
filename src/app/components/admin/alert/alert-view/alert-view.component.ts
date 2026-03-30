@@ -55,8 +55,8 @@ export class AlertViewComponent
 
   private createForm(): void {
     this.alertForm = this.fb.group({
-      recipientUserId: ['', [Validators.required]],
-      priority: ['', [Validators.required]],
+      recipientUserId: [null, [Validators.required]],
+      priority: [null, [Validators.required]],
       message: ['', [Validators.required]],
       title: ['', [Validators.required]],
     });

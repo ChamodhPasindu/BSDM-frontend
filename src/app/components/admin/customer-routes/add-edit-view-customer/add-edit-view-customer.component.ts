@@ -44,6 +44,10 @@ export class AddEditViewCustomerComponent
   protected customerForm: FormGroup;
 
   protected routeList: IRouteData[];
+
+  protected allRouteList: IRouteData[];
+  protected filteredRouteList: IRouteData[];
+
   protected selectedRoute: IRouteData | null = null;
 
   protected statusList: Record<string, string | number>[];
@@ -118,7 +122,12 @@ export class AddEditViewCustomerComponent
       .subscribe({
         next: (res: IResponse) => {
           if (res.body.status === RSP_SUCCESS) {
-            this.routeList = res.body.content.filter((route: IRouteData) => route.statusDescription === 'ACTIVE_ROUTES' ) || [];
+            this.filteredRouteList =
+              res.body.content.filter(
+                (route: IRouteData) =>
+                  route.statusDescription === 'ACTIVE_ROUTES',
+              ) || [];
+            this.allRouteList = res.body.content || [];
             this.updateForm();
           } else {
             alertError({
@@ -145,8 +154,10 @@ export class AddEditViewCustomerComponent
     if (!this.action) return;
 
     this.selectedRoute = null;
+    this.routeList = this.filteredRouteList;
 
     if (this.action === ActionButton.VIEW) {
+      this.routeList = this.allRouteList;
       this.patchValue();
       this.customerForm.disable();
     }

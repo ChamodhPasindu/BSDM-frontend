@@ -202,10 +202,10 @@
             </button>
 
             <!-- Edit -->
-            <!-- <button cButton color="warning" size="sm" variant="ghost" class="me-2" title="Edit"
-              (click)="openProductView(ActionButton.EDIT,product)">
-              <svg cIcon name="cilPencil"></svg>
-            </button> -->
+            <button cButton color="warning" size="sm" variant="ghost" class="me-2" title="Edit"
+              (click)="onPrintBatch(product)">
+              <svg cIcon name="cilPrint"></svg>
+            </button>
 
             <!-- Delete -->
             <button (click)="onDeleteProduct(product.productId)" cButton color="danger" size="sm" variant="ghost"
@@ -225,3 +225,4 @@
 
 
 <app-add-view-product (tableRefresh)="onRefresh()" #addViewProductModal></app-add-view-product>
+<app-print-sticker-modal #printStickerModal></app-print-sticker-modal>
