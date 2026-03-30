@@ -58,7 +58,7 @@ export class ViewReturnStockComponent
 
   private loadReturnStockDetails(): void {
     this.stockReturnService
-      .getReturnStockDetailsById(this.returnStock?.loadId!)
+      .getReturnStockDetailsById(this.returnStock?.returnId!)
       .pipe(untilDestroyed(this))
       .subscribe({
         next: (res: IResponse) => {
