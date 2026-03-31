@@ -11,6 +11,7 @@
       <c-col>
         <label cLabel for="assignStock">Select Return Stock</label>
         <ng-select cFormControl name="assignStock" [items]="saleStockList" bindLabel="description" bindValue="code"
+          [(ngModel)]="selectedLoadCode" [ngModelOptions]="{ standalone: true }"
           [searchable]="true" [clearable]="true" placeholder="Search or select stock"
           (change)="onReturnStockChange($event)">
         </ng-select>

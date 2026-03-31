@@ -21,19 +21,23 @@ import {
   templateUrl: './review-return-stock.component.html',
   styleUrls: ['./review-return-stock.component.scss'],
 })
-export class ReviewReturnStockComponent
-  extends ModalControlDirective
-{
+export class ReviewReturnStockComponent extends ModalControlDirective {
   protected saleStockList: Record<string, string | number>[] = [];
   protected selectedSaleStockDetailsList: Record<string, string | number>[] =
     [];
+  protected selectedLoadCode: string | null = null;
   protected loadId: string;
 
   constructor(private readonly stockReturnService: StockReturnService) {
     super();
   }
 
-  protected override resetState(): void {}
+  protected override resetState(): void {
+    this.saleStockList = [];
+    this.selectedSaleStockDetailsList = [];
+    this.selectedLoadCode = null;
+    this.loadId = '';
+  }
 
   public loadData(): void {
     this.loadReturnStockList();
@@ -59,19 +63,24 @@ export class ReviewReturnStockComponent
       });
   }
 
-  protected onReturnStockChange(event: Record<string, string>) {
-    if (!event) {
+  protected onReturnStockChange(event: Record<string, string> | string | null): void {
+    const code = typeof event === 'string' ? event : event?.['code'];
+
+    if (!code) {
       this.selectedSaleStockDetailsList = [];
+      this.selectedLoadCode = null;
+      this.loadId = '';
       return;
     }
 
     this.stockReturnService
-      .getSaleStockDetailsById(event['code'])
+      .getSaleStockDetailsById(code)
       .pipe(untilDestroyed(this))
       .subscribe({
         next: (res: IResponse) => {
           if (res.body.status === RSP_SUCCESS) {
-            this.loadId = event['code'] as string;
+            this.selectedLoadCode = code;
+            this.loadId = code;
             this.selectedSaleStockDetailsList = res.body.content;
           } else {
             alertError({
