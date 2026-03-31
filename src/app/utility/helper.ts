@@ -107,6 +107,16 @@ export const alertError = async (
   }
 };
 
+export const alertNotification = async (
+  object: ISWALAlert,
+): Promise<void | SweetAlertResult<any>> => {
+  Swal.fire({
+    title: object.title,
+    text: object.text,
+    confirmButtonText: 'Close',
+  });
+};
+
 export const dateToDatePicker = (
   dateString: string | null | undefined,
 ): Date | null => {

@@ -71,7 +71,7 @@ export class SettingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isDarkMode = localStorage.getItem('dark-theme') === '1';
+    this.isDarkMode = this.getInitialThemeMode();
 
     this.employeeService
       .getProfileDetails()
@@ -210,5 +210,19 @@ export class SettingsComponent implements OnInit {
   protected toggleDarkMode(): void {
     document.body.classList.toggle('dark-theme', this.isDarkMode);
     localStorage.setItem('dark-theme', this.isDarkMode ? '1' : '0');
+  }
+
+  private getInitialThemeMode(): boolean {
+    const savedTheme = localStorage.getItem('dark-theme');
+
+    if (savedTheme === '1') {
+      return true;
+    }
+
+    if (savedTheme === '0') {
+      return false;
+    }
+
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
   }
 }

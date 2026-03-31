@@ -38,11 +38,25 @@ export class AppComponent {
   }
 
   protected handleTheme(): void {
-    const isDarkMode = localStorage.getItem('dark-theme') === '1';
+    const isDarkMode = this.getInitialThemeMode();
 
     if (isDarkMode) {
       document.body.classList.add('dark-theme');
     }
+  }
+
+  private getInitialThemeMode(): boolean {
+    const savedTheme = localStorage.getItem('dark-theme');
+
+    if (savedTheme === '1') {
+      return true;
+    }
+
+    if (savedTheme === '0') {
+      return false;
+    }
+
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
   }
 
   protected handleConnection(): void {

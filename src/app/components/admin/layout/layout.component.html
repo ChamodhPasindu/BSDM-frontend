@@ -4,7 +4,8 @@
   class="d-print-none sidebar sidebar-fixed"
   colorScheme="dark"
   id="sidebar"
-  visible
+  [visible]="sidebarVisible"
+  (visibleChange)="onSidebarVisibleChange($event)"
 >
   <c-sidebar-brand
     [brandFull]="{

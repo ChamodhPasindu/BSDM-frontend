@@ -10,6 +10,7 @@ import {
 } from 'src/app/utility/constants/response-message-title';
 import {
   alertError,
+  alertNotification,
   alertSuccess,
   errorMessageHandler,
 } from 'src/app/utility/helper';
@@ -54,6 +55,11 @@ export class NotificationComponent implements OnInit {
   }
 
   protected markAsRead(notification: INotificationData): void {
+    alertNotification({
+      title: notification.title,
+      text: notification.message,
+    });
+
     if (notification.isRead) return;
 
     this.alertService

@@ -51,7 +51,7 @@ export class AdminHeaderComponent extends HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isDarkMode = localStorage.getItem('dark-theme') === '1';
+    this.isDarkMode = this.getInitialThemeMode();
     this.applyTheme();
     this.loadSessionData();
 
@@ -100,6 +100,20 @@ export class AdminHeaderComponent extends HeaderComponent implements OnInit {
     this.isDarkMode = dark;
     localStorage.setItem('dark-theme', dark ? '1' : '0');
     this.applyTheme();
+  }
+
+  private getInitialThemeMode(): boolean {
+    const savedTheme = localStorage.getItem('dark-theme');
+
+    if (savedTheme === '1') {
+      return true;
+    }
+
+    if (savedTheme === '0') {
+      return false;
+    }
+
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
   }
 
   private applyTheme(): void {
