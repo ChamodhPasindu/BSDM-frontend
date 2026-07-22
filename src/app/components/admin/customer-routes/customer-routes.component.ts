@@ -169,19 +169,19 @@ export class CustomerRoutesComponent implements OnInit {
             this.activeRouteCount =
               res.body.content.routeDashboardResponseDTO.statusWiseCounts.find(
                 (x: Record<string, string>) =>
-                  x['statusCode'] === 'ACTIVE',
+                  x['statusCode'] === 'ACTIVE_ROUTES',
               )?.count || 0;
 
             this.deactivateRouteCount =
               res.body.content.routeDashboardResponseDTO.statusWiseCounts.find(
                 (x: Record<string, string>) =>
-                  x['statusCode'] === 'DEACTIVE',
+                  x['statusCode'] === 'DEACTIVE_ROUTES',
               )?.count || 0;
 
             this.suspendRouteCount =
               res.body.content.routeDashboardResponseDTO.statusWiseCounts.find(
                 (x: Record<string, string>) =>
-                  x['statusCode'] === 'DELETED',
+                  x['statusCode'] === 'DELETED_ROUTES',
               )?.count || 0;
 
             // customer widget data
@@ -190,17 +190,17 @@ export class CustomerRoutesComponent implements OnInit {
 
             this.activeCustomerCount =
               res.body.content.customerDashboardResponseDTO.statusWiseCounts.find(
-                (x: Record<string, string>) => x['statusCode'] === 'ACTIVE',
+                (x: Record<string, string>) => x['statusCode'] === 'ACTIVE_CUSTOMER',
               )?.count || 0;
 
             this.deactivateCustomerCount =
               res.body.content.customerDashboardResponseDTO.statusWiseCounts.find(
-                (x: Record<string, string>) => x['statusCode'] === 'DEACTIVE',
+                (x: Record<string, string>) => x['statusCode'] === 'HOLD_CUSTOMER',
               )?.count || 0;
 
             this.suspendCustomerCount =
               res.body.content.customerDashboardResponseDTO.statusWiseCounts.find(
-                (x: Record<string, string>) => x['statusCode'] === 'DELETED',
+                (x: Record<string, string>) => x['statusCode'] === 'REMOVED_CUSTOMER',
               )?.count || 0;
           } else {
             alertWarning({

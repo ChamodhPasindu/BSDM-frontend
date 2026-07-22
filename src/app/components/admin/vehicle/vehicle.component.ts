@@ -89,15 +89,15 @@ export class VehicleComponent implements OnInit {
             this.totalCount = res.body.content.totalVehicles;
             this.activeCount =
               res.body.content.statusWiseCounts.find(
-                (x: Record<string, string>) => x['statusCode'] === 'ACTIVE',
+                (x: Record<string, string>) => x['statusCode'] === 'ACTIVE_VEHICLE',
               )?.count || 0;
             this.deactivateCount =
               res.body.content.statusWiseCounts.find(
-                (x: Record<string, string>) => x['statusCode'] === 'DEACTIVE',
+                (x: Record<string, string>) => x['statusCode'] === 'DEACTIVE_VEHICLE',
               )?.count || 0;
             this.suspendCount =
               res.body.content.statusWiseCounts.find(
-                (x: Record<string, string>) => x['statusCode'] === 'DELETED',
+                (x: Record<string, string>) => x['statusCode'] === 'DELETED_VEHICLE',
               )?.count || 0;
           } else {
             alertWarning({

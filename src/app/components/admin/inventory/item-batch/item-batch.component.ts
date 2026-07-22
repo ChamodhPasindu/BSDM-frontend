@@ -213,13 +213,13 @@ export class ItemBatchComponent implements OnInit {
             this.activeItemCount =
               res.body.content.itemStatusWiseCounts?.find(
                 (x: Record<string, string>) =>
-                  x['statusDescription'] === 'ACTIVE',
+                  x['statusDescription'] === 'ACTIVE_ITEMNAME',
               )?.count || 0;
 
             this.deleteItemCount =
               res.body.content.itemStatusWiseCounts?.find(
                 (x: Record<string, string>) =>
-                  x['statusDescription'] === 'DELETED',
+                  x['statusDescription'] === 'DELETED_ITEMNAME',
               )?.count || 0;
 
             this.totalBatchCount = res.body.content?.totalBatch || 0;
